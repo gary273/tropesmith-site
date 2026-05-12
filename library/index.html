@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Library — Tropesmith</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="https://tropesmith.com/wp-content/uploads/2026/05/logo-icon-512.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=optional" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css" />
+<script defer src="../assets/site.js"></script>
+</head>
+<body>
+
+<header class="nav-shell">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" />
+    </a>
+    <nav class="nav-links">
+      <a href="/how-it-works/">How it works</a>
+      <a href="/library/" style="color: var(--ts-violet-dk, #6D28D9); font-weight: 600;">My library</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="#" id="signout-link" style="color: var(--ts-mauve, #5b4a59);">Sign out</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Loading state -->
+  <section id="library-loading" class="lib-section">
+    <div class="lib-loading">
+      <div class="lib-spinner"></div>
+      <p>Loading your library…</p>
+    </div>
+  </section>
+
+  <!-- Not-authed state (only shows if cookie missing/invalid) -->
+  <section id="library-unauth" class="lib-section" style="display: none;">
+    <div class="lib-card lib-card-centered">
+      <h1 class="lib-title">Sign in to view your library</h1>
+      <p class="lib-lede">You need to be signed in to see your Maps and credits.</p>
+      <a href="/login/" class="lib-cta">Sign in →</a>
+    </div>
+  </section>
+
+  <!-- Main library state -->
+  <section id="library-main" class="lib-section" style="display: none;">
+
+    <!-- Header card with greeting + credit balance + buy more CTA -->
+    <div class="lib-header-card">
+      <div class="lib-header-text">
+        <div class="lib-eyebrow">Your Tropesmith library</div>
+        <h1 class="lib-greeting" id="lib-greeting">Welcome back</h1>
+        <p class="lib-stats" id="lib-stats">—</p>
+      </div>
+      <div class="lib-header-actions">
+        <a href="/intake/" class="lib-cta-primary" id="lib-build-cta">Build a new Map</a>
+        <a href="/pricing/" class="lib-cta-secondary">Buy credits</a>
+      </div>
+    </div>
+
+    <!-- In-progress section (only shown if any) -->
+    <div id="lib-progress-section" class="lib-block" style="display: none;">
+      <h2 class="lib-block-title">In progress</h2>
+      <div id="lib-progress-list"></div>
+    </div>
+
+    <!-- Delivered maps -->
+    <div class="lib-block">
+      <h2 class="lib-block-title">Your Maps</h2>
+      <div id="lib-maps-list">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<footer class="footer-shell">
+  <div class="footer-inner">
+    <div class="footer-brand">Tropesmith</div>
+    <div class="footer-tag">Market intelligence for romance authors.</div>
+    <div class="footer-links">
+      <a href="/how-it-works/">How it works</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/sample/">Sample Map</a>
+      <a href="mailto:hello@tropesmith.com">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+.lib-section { padding: 40px 24px 80px; max-width: 960px; margin: 0 auto; }
+.lib-loading { text-align: center; padding: 80px 0; color: var(--ts-mauve, #5b4a59); font-family: 'Inter', sans-serif; }
+.lib-spinner {
+  width: 32px; height: 32px;
+  border: 3px solid rgba(139,92,246,0.18);
+  border-top-color: var(--ts-violet, #8B5CF6);
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  animation: lib-spin 0.8s linear infinite;
+}
+@keyframes lib-spin { to { transform: rotate(360deg); } }
+
+.lib-card-centered { max-width: 480px; margin: 60px auto; text-align: center; padding: 40px; }
+
+.lib-header-card {
+  background: var(--ts-cream-soft, #FFFEFB);
+  border: 1px solid rgba(16,18,47,0.08);
+  border-radius: 16px;
+  padding: 32px 36px;
+  margin-bottom: 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  flex-wrap: wrap;
+}
+.lib-header-text { flex: 1; min-width: 240px; }
+.lib-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ts-violet, #8B5CF6); margin-bottom: 8px;
+}
+.lib-greeting {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 28px; font-weight: 700; line-height: 1.15;
+  color: var(--ts-ink, #10122F);
+  margin: 0 0 8px; letter-spacing: -0.015em;
+}
+.lib-stats {
+  font-size: 15px; line-height: 1.5;
+  color: var(--ts-mauve, #5b4a59);
+  margin: 0;
+}
+.lib-stats strong { color: var(--ts-ink, #10122F); font-weight: 600; }
+.lib-header-actions { display: flex; flex-direction: column; gap: 8px; min-width: 180px; }
+.lib-cta-primary {
+  display: inline-block;
+  padding: 12px 22px;
+  background: linear-gradient(135deg, var(--ts-violet, #8B5CF6), var(--ts-coral, #FF6B7A));
+  color: white;
+  text-decoration: none;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
+  text-align: center;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.lib-cta-primary:hover { transform: translateY(-1px); }
+.lib-cta-primary.disabled {
+  background: rgba(16,18,47,0.12);
+  color: rgba(16,18,47,0.4);
+  pointer-events: none;
+}
+.lib-cta-secondary {
+  display: inline-block;
+  padding: 12px 22px;
+  background: transparent;
+  color: var(--ts-violet-dk, #6D28D9);
+  text-decoration: none;
+  border: 1px solid rgba(139,92,246,0.4);
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 600;
+  text-align: center;
+  transition: background 0.15s ease;
+}
+.lib-cta-secondary:hover { background: rgba(139,92,246,0.06); }
+
+.lib-block { margin-bottom: 40px; }
+.lib-block-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--ts-ink, #10122F);
+  margin: 0 0 16px; letter-spacing: -0.01em;
+}
+
+.lib-map-card {
+  display: block;
+  background: var(--ts-cream-soft, #FFFEFB);
+  border: 1px solid rgba(16,18,47,0.08);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.lib-map-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(139,92,246,0.4);
+}
+.lib-map-card.in-progress {
+  background: rgba(139,92,246,0.04);
+  border-style: dashed;
+  cursor: default;
+}
+.lib-map-card.in-progress:hover { transform: none; border-color: rgba(16,18,47,0.08); }
+.lib-map-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.lib-map-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--ts-ink, #10122F);
+  margin: 0 0 4px;
+}
+.lib-map-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 0.04em;
+  color: var(--ts-mauve, #5b4a59);
+}
+.lib-map-status {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px; font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.lib-map-status.status-delivered { background: #E1F5EE; color: #0F6E56; }
+.lib-map-status.status-pending { background: #FAEEDA; color: #854F0B; }
+.lib-map-status.status-failed { background: #FFF1F3; color: #993C1D; }
+.lib-map-tier {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px; font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(139,92,246,0.1);
+  color: var(--ts-violet-dk, #6D28D9);
+}
+
+.lib-empty {
+  text-align: center;
+  padding: 48px 24px;
+  background: var(--ts-cream-soft, #FFFEFB);
+  border: 1px dashed rgba(16,18,47,0.16);
+  border-radius: 12px;
+  color: var(--ts-mauve, #5b4a59);
+  font-size: 15px;
+}
+.lib-empty a { color: var(--ts-violet-dk, #6D28D9); text-decoration: none; font-weight: 600; }
+.lib-empty a:hover { text-decoration: underline; }
+
+@media (max-width: 600px) {
+  .lib-header-card { flex-direction: column; align-items: stretch; }
+  .lib-header-actions { width: 100%; }
+}
+</style>
+
+<script>
+(function() {
+  var SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+
+  var loadingEl = document.getElementById('library-loading');
+  var unauthEl = document.getElementById('library-unauth');
+  var mainEl = document.getElementById('library-main');
+
+  function show(el) {
+    loadingEl.style.display = 'none';
+    unauthEl.style.display = 'none';
+    mainEl.style.display = 'none';
+    el.style.display = 'block';
+  }
+
+  function escapeHtml(s) {
+    if (!s) return '';
+    return String(s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    try {
+      return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch { return ''; }
+  }
+
+  function prettySubgenre(s) {
+    if (!s) return '';
+    var parts = s.split('.').slice(1);
+    if (parts.length === 0) return '';
+    return parts.map(function(p) { return p.charAt(0).toUpperCase() + p.slice(1).replace(/_/g, ' '); }).join(' — ');
+  }
+
+  async function loadLibrary() {
+    try {
+      // 1. /me
+      var meResp = await fetch(SUPABASE_URL + '/functions/v1/library/me', {
+        credentials: 'include'
+      });
+      if (meResp.status === 401) { show(unauthEl); return; }
+      if (!meResp.ok) { show(unauthEl); return; }
+      var me = await meResp.json();
+
+      // 2. /maps
+      var mapsResp = await fetch(SUPABASE_URL + '/functions/v1/library/maps', {
+        credentials: 'include'
+      });
+      var mapsData = mapsResp.ok ? await mapsResp.json() : { maps: [] };
+      var maps = mapsData.maps || [];
+
+      // Render header
+      var balance = me.credit_balance || 0;
+      var deliveredCount = me.delivered_map_count || 0;
+      document.getElementById('lib-greeting').textContent = 'Hi ' + (me.email.split('@')[0] || 'there');
+
+      var mapText = deliveredCount === 1 ? '1 Map' : deliveredCount + ' Maps';
+      var creditText = balance === 1 ? '1 credit' : balance + ' credits';
+      document.getElementById('lib-stats').innerHTML =
+        'You have <strong>' + mapText + '</strong> and <strong>' + creditText + '</strong> left.';
+
+      // Disable build-new CTA if no credits
+      var buildCta = document.getElementById('lib-build-cta');
+      if (balance <= 0) {
+        buildCta.classList.add('disabled');
+        buildCta.textContent = 'Buy a credit to build';
+        buildCta.href = '/pricing/';
+      }
+
+      // Split maps into in-progress vs delivered/failed
+      var inProgress = maps.filter(function(m) {
+        return m.status === 'queued' || m.status === 'synthesising' || m.status === 'rendering';
+      });
+      var ready = maps.filter(function(m) {
+        return m.status === 'delivered' || m.status === 'failed';
+      });
+
+      // Render in-progress
+      if (inProgress.length > 0) {
+        var progressSection = document.getElementById('lib-progress-section');
+        progressSection.style.display = 'block';
+        var progressList = document.getElementById('lib-progress-list');
+        progressList.innerHTML = inProgress.map(function(m) {
+          return '<div class="lib-map-card in-progress">' +
+            '<div class="lib-map-head">' +
+              '<div>' +
+                '<h3 class="lib-map-title">' + escapeHtml(m.title) + '</h3>' +
+                '<div class="lib-map-meta">' + escapeHtml(prettySubgenre(m.subgenre)) + ' · started ' + formatDate(m.created_at) + '</div>' +
+              '</div>' +
+              '<span class="lib-map-status status-pending">' + escapeHtml(m.status) + '…</span>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+      }
+
+      // Render delivered/failed
+      var mapsList = document.getElementById('lib-maps-list');
+      if (ready.length === 0) {
+        mapsList.innerHTML = '<div class="lib-empty">' +
+          'No Maps yet. <a href="/intake/">Build your first Map →</a>' +
+        '</div>';
+      } else {
+        mapsList.innerHTML = ready.map(function(m) {
+          var statusClass = m.status === 'delivered' ? 'status-delivered' : 'status-failed';
+          var statusLabel = m.status === 'delivered' ? 'Ready' : 'Failed';
+          var tierLabel = m.tier === 'paid' ? 'Paid' : 'Free demo';
+
+          if (m.status === 'delivered' && m.html_url) {
+            return '<a href="' + escapeHtml(m.html_url) + '" class="lib-map-card">' +
+              '<div class="lib-map-head">' +
+                '<div>' +
+                  '<h3 class="lib-map-title">' + escapeHtml(m.title) + '</h3>' +
+                  '<div class="lib-map-meta">' + escapeHtml(prettySubgenre(m.subgenre)) + ' · delivered ' + formatDate(m.delivered_at) + ' · <span class="lib-map-tier">' + tierLabel + '</span></div>' +
+                '</div>' +
+                '<span class="lib-map-status ' + statusClass + '">' + statusLabel + '</span>' +
+              '</div>' +
+            '</a>';
+          } else {
+            return '<div class="lib-map-card">' +
+              '<div class="lib-map-head">' +
+                '<div>' +
+                  '<h3 class="lib-map-title">' + escapeHtml(m.title) + '</h3>' +
+                  '<div class="lib-map-meta">' + escapeHtml(prettySubgenre(m.subgenre)) + ' · ' + formatDate(m.created_at) + '</div>' +
+                '</div>' +
+                '<span class="lib-map-status ' + statusClass + '">' + statusLabel + '</span>' +
+              '</div>' +
+            '</div>';
+          }
+        }).join('');
+      }
+
+      show(mainEl);
+    } catch (err) {
+      console.error('library load failed:', err);
+      show(unauthEl);
+    }
+  }
+
+  // Sign out handler
+  document.getElementById('signout-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    fetch(SUPABASE_URL + '/functions/v1/library/signout', {
+      method: 'POST',
+      credentials: 'include'
+    }).finally(function() {
+      window.location.href = '/';
+    });
+  });
+
+  loadLibrary();
+})();
+</script>
+
+</body>
+</html>

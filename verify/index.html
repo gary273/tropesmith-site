@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signing you in… — Tropesmith</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="https://tropesmith.com/wp-content/uploads/2026/05/logo-icon-512.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=optional" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+
+<main style="padding: 80px 24px; min-height: 60vh; display: flex; align-items: center; justify-content: center;">
+  <div style="max-width: 480px; text-align: center;">
+    <img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" style="height: 50px; margin: 0 auto 32px; display: block;" />
+
+    <div id="verify-state-loading">
+      <div class="verify-spinner"></div>
+      <h1 class="verify-title">Signing you in…</h1>
+      <p class="verify-lede">Verifying your link.</p>
+    </div>
+
+    <div id="verify-state-success" style="display: none;">
+      <h1 class="verify-title">Signed in</h1>
+      <p class="verify-lede">Redirecting to your library…</p>
+    </div>
+
+    <div id="verify-state-error" style="display: none;">
+      <h1 class="verify-title">Sign-in link not valid</h1>
+      <p id="verify-error-msg" class="verify-lede">This link may have expired or been used already.</p>
+      <a href="/login/" class="verify-cta">Request a new link →</a>
+    </div>
+  </div>
+</main>
+
+<style>
+.verify-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 26px; font-weight: 700;
+  color: var(--ts-ink, #10122F);
+  margin: 0 0 12px; letter-spacing: -0.015em;
+}
+.verify-lede {
+  font-size: 15px; line-height: 1.6;
+  color: var(--ts-mauve, #5b4a59);
+  margin: 0 0 24px;
+}
+.verify-cta {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--ts-violet, #8B5CF6), var(--ts-coral, #FF6B7A));
+  color: white;
+  text-decoration: none;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 600;
+}
+.verify-spinner {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(139,92,246,0.18);
+  border-top-color: var(--ts-violet, #8B5CF6);
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
+<script>
+(function() {
+  var SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+
+  var params = new URLSearchParams(window.location.search);
+  var token = params.get('token');
+  var next = params.get('next') || '/library/';
+
+  // Only allow same-origin redirects
+  if (!next.startsWith('/')) next = '/library/';
+
+  var loadingEl = document.getElementById('verify-state-loading');
+  var successEl = document.getElementById('verify-state-success');
+  var errorEl = document.getElementById('verify-state-error');
+  var errorMsg = document.getElementById('verify-error-msg');
+
+  function showError(msg) {
+    loadingEl.style.display = 'none';
+    errorEl.style.display = 'block';
+    if (msg) errorMsg.textContent = msg;
+  }
+
+  if (!token || !/^[a-f0-9]{64}$/.test(token)) {
+    showError('This link is invalid or malformed.');
+    return;
+  }
+
+  fetch(SUPABASE_URL + '/functions/v1/auth-verify-magic-link', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token: token })
+  })
+    .then(function(resp) {
+      return resp.json().then(function(data) { return { ok: resp.ok, data: data }; });
+    })
+    .then(function(r) {
+      if (r.ok) {
+        loadingEl.style.display = 'none';
+        successEl.style.display = 'block';
+        setTimeout(function() { window.location.href = next; }, 600);
+      } else {
+        showError(r.data.error || 'Sign-in failed. Please request a new link.');
+      }
+    })
+    .catch(function() {
+      showError('Network error. Please try again.');
+    });
+})();
+</script>
+
+</body>
+</html>
