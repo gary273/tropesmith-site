@@ -339,5 +339,320 @@
   </div>
 </footer>
 
+<!--
+  ============================================================
+  TROPESMITH — Corpus Section · HOMEPAGE variant ("The proof")
+  ============================================================
+  Drop into: index.html
+  Position : between hero and pricing CTA
+  Angle    : Lead with the half-billion play headline.
+  ============================================================
+-->
+<section class="tsm-corpus" aria-labelledby="tsm-corpus-heading-home">
+  <div class="tsm-corpus-shell">
+
+    <div class="tsm-corpus-eyebrow">
+      <span class="tsm-corpus-eyebrow-dot"></span>
+      What we read so you don't have to
+    </div>
+
+    <h2 id="tsm-corpus-heading-home" class="tsm-corpus-heading">
+      Built on <em>534 million</em> BookTok plays. <br/>
+      No competitor reads what readers <em>actually</em> engage with.
+    </h2>
+
+    <p class="tsm-corpus-sub">
+      Most "trope intelligence" tools recycle 2022 bestseller lists. Tropesmith ingests live BookTok virality, Goodreads reader shelves, Amazon supply, and Reddit asks &mdash; weighted by what readers are reaching for <em>this month</em>.
+    </p>
+
+    <div class="tsm-corpus-grid">
+
+      <div class="tsm-corpus-card tsm-corpus-card--booktok">
+        <div class="tsm-corpus-card-label">BookTok virality</div>
+        <div class="tsm-corpus-card-stat" data-target="534831529" data-format="abbreviated">0</div>
+        <div class="tsm-corpus-card-unit">plays observed</div>
+        <div class="tsm-corpus-card-meta">
+          <span>31 hashtags tracked</span>
+          <span aria-hidden="true">·</span>
+          <span>910 viral videos parsed</span>
+        </div>
+      </div>
+
+      <div class="tsm-corpus-card tsm-corpus-card--goodreads">
+        <div class="tsm-corpus-card-label">Goodreads readers</div>
+        <div class="tsm-corpus-card-stat" data-target="7849" data-format="comma">0</div>
+        <div class="tsm-corpus-card-unit">shelf signals</div>
+        <div class="tsm-corpus-card-meta">
+          <span>6,711 reviews mined</span>
+          <span aria-hidden="true">·</span>
+          <span>216 books deep-tagged</span>
+        </div>
+      </div>
+
+      <div class="tsm-corpus-card tsm-corpus-card--amazon">
+        <div class="tsm-corpus-card-label">Amazon bestsellers</div>
+        <div class="tsm-corpus-card-stat" data-target="1036" data-format="comma">0</div>
+        <div class="tsm-corpus-card-unit">books analyzed</div>
+        <div class="tsm-corpus-card-meta">
+          <span>12,784 tropes extracted</span>
+          <span aria-hidden="true">·</span>
+          <span>Kindle + print</span>
+        </div>
+      </div>
+
+      <div class="tsm-corpus-card tsm-corpus-card--reddit">
+        <div class="tsm-corpus-card-label">Direct reader asks</div>
+        <div class="tsm-corpus-card-stat" data-target="7390" data-format="comma">0</div>
+        <div class="tsm-corpus-card-unit">demand signals</div>
+        <div class="tsm-corpus-card-meta">
+          <span>BookTok + Reddit + Goodreads</span>
+          <span aria-hidden="true">·</span>
+          <span>Structured by Claude</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tsm-corpus-hashtag-row" aria-label="Top BookTok hashtags by total plays">
+      <div class="tsm-corpus-hashtag-label">What's hot this month on BookTok</div>
+      <div class="tsm-corpus-hashtag-track">
+        <span class="tsm-hashtag"><span class="tsm-hashtag-name">#darkromance</span> <span class="tsm-hashtag-plays">127M plays</span></span>
+        <span class="tsm-hashtag"><span class="tsm-hashtag-name">#bridgerton</span> <span class="tsm-hashtag-plays">61M plays</span></span>
+        <span class="tsm-hashtag"><span class="tsm-hashtag-name">#romancetok</span> <span class="tsm-hashtag-plays">45M plays</span></span>
+        <span class="tsm-hashtag"><span class="tsm-hashtag-name">#icebreaker</span> <span class="tsm-hashtag-plays">38M plays</span></span>
+        <span class="tsm-hashtag"><span class="tsm-hashtag-name">#romancebooks</span> <span class="tsm-hashtag-plays">35M plays</span></span>
+        <span class="tsm-hashtag"><span class="tsm-hashtag-name">#acotar</span> <span class="tsm-hashtag-plays">14M plays</span></span>
+        <span class="tsm-hashtag"><span class="tsm-hashtag-name">#darkromancebooks</span> <span class="tsm-hashtag-plays">10M plays</span></span>
+        <span class="tsm-hashtag"><span class="tsm-hashtag-name">#workplaceromance</span> <span class="tsm-hashtag-plays">7M plays</span></span>
+        <span class="tsm-hashtag"><span class="tsm-hashtag-name">#romantasy</span> <span class="tsm-hashtag-plays">7M plays</span></span>
+      </div>
+    </div>
+
+    <div class="tsm-corpus-mechanism">
+      <div class="tsm-corpus-mechanism-tag">The mechanism</div>
+      <p>
+        Our recommendation engine weights <strong>BookTok signals highest</strong> &mdash; a viral video carrying millions of plays is the strongest social-proof signal in the corpus. Reddit asks come second (explicit reader requests). Goodreads reviews come third (single-reader praise). Then we cross-reference what's <em>over-supplied</em> on Amazon to find the gap. That's what your Map reflects.
+      </p>
+    </div>
+
+    <p class="tsm-corpus-footnote">
+      Data refreshed monthly. Numbers above current as of <time datetime="2026-05-12">12 May 2026</time>.
+    </p>
+
+  </div>
+</section>
+
+<style>
+  .tsm-corpus {
+    background: linear-gradient(180deg, #10122F 0%, #1a1f4f 100%);
+    color: #FFF9F3;
+    padding: 96px 24px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Fraunces', Georgia, serif;
+  }
+  .tsm-corpus::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .tsm-corpus::after {
+    content: '';
+    position: absolute;
+    bottom: -300px;
+    right: -100px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,107,122,0.10) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .tsm-corpus-shell { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
+  .tsm-corpus-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: #FF6B7A; margin-bottom: 24px;
+  }
+  .tsm-corpus-eyebrow-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #FF6B7A;
+    box-shadow: 0 0 12px rgba(255,107,122,0.7);
+    animation: tsmPulse 2s ease-in-out infinite;
+  }
+  @keyframes tsmPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  .tsm-corpus-heading {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(32px, 5vw, 56px); font-weight: 700;
+    line-height: 1.08; letter-spacing: -0.02em;
+    margin: 0 0 24px; color: #FFF9F3;
+  }
+  .tsm-corpus-heading em {
+    font-style: italic;
+    background: linear-gradient(135deg, #8B5CF6 0%, #FF6B7A 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+  .tsm-corpus-sub {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 18px; line-height: 1.6;
+    color: rgba(255,249,243,0.75);
+    max-width: 720px; margin: 0 0 56px;
+  }
+  .tsm-corpus-sub em { font-style: italic; color: #FF6B7A; font-weight: 600; }
+  .tsm-corpus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px; margin-bottom: 48px;
+  }
+  .tsm-corpus-card {
+    padding: 28px 24px; border-radius: 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    position: relative; overflow: hidden;
+  }
+  .tsm-corpus-card:hover { transform: translateY(-4px); border-color: rgba(139,92,246,0.4); }
+  .tsm-corpus-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  .tsm-corpus-card--booktok   { --accent: #FF6B7A; }
+  .tsm-corpus-card--goodreads { --accent: #8B5CF6; }
+  .tsm-corpus-card--amazon    { --accent: #FFB84D; }
+  .tsm-corpus-card--reddit    { --accent: #4DD0E1; }
+  .tsm-corpus-card-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 14px; font-weight: 500;
+  }
+  .tsm-corpus-card-stat {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(36px, 4vw, 48px); font-weight: 700;
+    line-height: 1; letter-spacing: -0.02em;
+    color: #FFF9F3; margin-bottom: 6px;
+    font-feature-settings: "tnum"; font-variant-numeric: tabular-nums;
+  }
+  .tsm-corpus-card-unit {
+    font-family: 'Fraunces', Georgia, serif; font-size: 14px;
+    color: rgba(255,249,243,0.7); margin-bottom: 16px; font-style: italic;
+  }
+  .tsm-corpus-card-meta {
+    font-family: 'Inter', sans-serif; font-size: 11.5px;
+    color: rgba(255,249,243,0.5);
+    display: flex; flex-wrap: wrap; gap: 6px; line-height: 1.5;
+  }
+  .tsm-corpus-hashtag-row { margin-bottom: 56px; }
+  .tsm-corpus-hashtag-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(255,249,243,0.4); margin-bottom: 16px; text-align: center;
+  }
+  .tsm-corpus-hashtag-track {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+  }
+  .tsm-hashtag {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px; background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,107,122,0.2); border-radius: 999px;
+    font-family: 'Inter', sans-serif; font-size: 13px;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .tsm-hashtag:hover { transform: translateY(-2px); background: rgba(255,107,122,0.12); }
+  .tsm-hashtag-name { color: #FF6B7A; font-weight: 600; }
+  .tsm-hashtag-plays {
+    color: rgba(255,249,243,0.55);
+    font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
+  }
+  .tsm-corpus-mechanism {
+    padding: 32px 32px; background: rgba(255,255,255,0.03);
+    border-left: 3px solid #FF6B7A;
+    border-radius: 0 12px 12px 0; margin-bottom: 32px;
+  }
+  .tsm-corpus-mechanism-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: #FF6B7A; margin-bottom: 12px;
+  }
+  .tsm-corpus-mechanism p {
+    font-family: 'Fraunces', Georgia, serif; font-size: 16px;
+    line-height: 1.65; color: rgba(255,249,243,0.85); margin: 0;
+  }
+  .tsm-corpus-mechanism strong { color: #FFF9F3; font-weight: 700; }
+  .tsm-corpus-mechanism em { color: #FF6B7A; font-style: italic; }
+  .tsm-corpus-footnote {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: rgba(255,249,243,0.35); text-align: center;
+    margin: 0; letter-spacing: 0.04em;
+  }
+  @media (max-width: 640px) {
+    .tsm-corpus { padding: 64px 18px; }
+    .tsm-corpus-card { padding: 22px 18px; }
+    .tsm-corpus-mechanism { padding: 24px 22px; }
+    .tsm-corpus-heading { font-size: 32px; }
+    .tsm-corpus-sub { font-size: 16px; margin-bottom: 40px; }
+    .tsm-corpus-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 420px) {
+    .tsm-corpus-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+(function() {
+  function formatNumber(n, mode) {
+    if (mode === 'abbreviated') {
+      if (n >= 1000000000) return (n / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+      if (n >= 1000000)    return Math.round(n / 1000000) + 'M';
+      if (n >= 1000)       return Math.round(n / 1000) + 'K';
+      return n.toString();
+    }
+    return n.toLocaleString('en-US');
+  }
+  function animateStat(el) {
+    var target = parseInt(el.dataset.target, 10);
+    var mode = el.dataset.format || 'comma';
+    var duration = 1800;
+    var start = performance.now();
+    function frame(now) {
+      var elapsed = now - start;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var current = Math.floor(target * eased);
+      el.textContent = formatNumber(current, mode);
+      if (progress < 1) requestAnimationFrame(frame);
+      else el.textContent = formatNumber(target, mode);
+    }
+    requestAnimationFrame(frame);
+  }
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          entry.target.dataset.animated = '1';
+          animateStat(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('.tsm-corpus-card-stat').forEach(function(el) {
+      observer.observe(el);
+    });
+  } else {
+    document.querySelectorAll('.tsm-corpus-card-stat').forEach(function(el) {
+      var target = parseInt(el.dataset.target, 10);
+      var mode = el.dataset.format || 'comma';
+      el.textContent = formatNumber(target, mode);
+    });
+  }
+})();
+</script>
 </body>
 </html>
