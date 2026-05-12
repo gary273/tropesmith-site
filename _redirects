@@ -1,0 +1,9 @@
+# Cloudflare Pages redirects
+
+https://www.tropesmith.com/* https://tropesmith.com/:splat 301
+
+/blog/* / 301
+/wp-admin /  301
+
+/home / 301
+/index.html / 301
