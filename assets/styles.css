@@ -29,8 +29,8 @@
 
   --ts-wrap: 1320px;
   --ts-pad-x: 32px;
-  --ts-section-pad: 84px;
-  --ts-section-pad-tight: 60px;
+  --ts-section-pad: 56px;
+  --ts-section-pad-tight: 40px;
   --ts-hero-text-fr: 1.15;
   --ts-hero-map-fr: 1;
   --ts-hero-gap: 64px;
@@ -176,9 +176,9 @@ h1,h2,h3,h4,h5,h6{ font-family: var(--ts-serif); font-weight: 600; letter-spacin
   transition: border-color .2s ease, background .2s ease;
 }
 .nav-shell.scrolled{ border-bottom-color: var(--ts-rule); }
-.nav{ display:flex; align-items:center; justify-content:space-between; gap: 20px; height: 72px; }
+.nav{ display:flex; align-items:center; justify-content:space-between; gap: 20px; height: 84px; }
 .brand{ display:inline-flex; align-items:center; gap:9px; font-family: var(--ts-serif); font-weight: 700; font-size: 17px; letter-spacing: -.01em; color: var(--ts-ink); }
-.brand-logo{ height: 52px; width: auto; display: block; }
+.brand-logo{ height: 60px; width: auto; display: block; }
 .foot .brand-logo{ filter: brightness(0) invert(1); opacity: .92; }
 .brand-mark{
   width: 24px; height: 24px; border-radius: 6px;
@@ -206,7 +206,7 @@ h1,h2,h3,h4,h5,h6{ font-family: var(--ts-serif); font-weight: 600; letter-spacin
 
 /* ── hero ─────────────────────────────────────────────────── */
 .hero{
-  padding: 56px 0 80px;
+  padding: 40px 0 56px;
   position: relative; overflow: hidden;
 }
 .hero::before{
@@ -343,10 +343,10 @@ h1,h2,h3,h4,h5,h6{ font-family: var(--ts-serif); font-weight: 600; letter-spacin
   display:grid; grid-template-columns: repeat(3, 1fr);
   border-top: 1px solid var(--ts-rule-on-ink);
   border-bottom: 1px solid var(--ts-rule-on-ink);
-  margin-top: 40px;
+  margin-top: 28px;
 }
 .signal{
-  padding: 26px 26px 28px;
+  padding: 20px 22px 22px;
   border-right: 1px solid var(--ts-rule-on-ink);
 }
 .signal:last-child{ border-right: 0; }
@@ -427,7 +427,7 @@ h1,h2,h3,h4,h5,h6{ font-family: var(--ts-serif); font-weight: 600; letter-spacin
 @media (max-width: 720px){ .stats{ grid-template-columns: repeat(2, 1fr); } .stat:nth-child(2){ border-right: 0; } .stat:nth-child(1), .stat:nth-child(2){ border-bottom: 1px solid var(--ts-rule-on-ink); } }
 
 .pullquote{
-  margin-top: 40px;
+  margin-top: 28px;
   display:grid; grid-template-columns: 0.5fr 2.5fr; gap: 28px; align-items: start;
 }
 .pullquote .pq-mark{
