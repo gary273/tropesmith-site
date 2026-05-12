@@ -50,8 +50,15 @@
     </aside>
 
     <form class="form-card" id="intake-form" novalidate>
+      <div id="tsm-auth-banner" style="display:none;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.18);border-radius:10px;padding:12px 16px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <span style="color:var(--ts-ink);font-size:0.95rem">Signed in as <b id="tsm-auth-email"></b></span>
+        <span style="display:flex;gap:14px;align-items:center">
+          <a href="../library/index.html" style="color:var(--ts-grad-start);font-size:0.9rem;text-decoration:none;font-weight:600">My library</a>
+          <a href="#" id="tsm-signout-link" style="color:var(--ts-ink-soft);font-size:0.9rem;text-decoration:underline">Sign out</a>
+        </span>
+      </div>
 
-      <fieldset class="fset">
+      <fieldset class="fset" id="tsm-about-you">
         <legend>About you</legend>
         <div class="row2">
           <div class="field">
@@ -208,6 +215,46 @@
       msg.classList.add('err');
     });
   });
+})();
+</script>
+
+<script>
+(function () {
+  const SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+  const banner = document.getElementById('tsm-auth-banner');
+  const emailSpan = document.getElementById('tsm-auth-email');
+  const aboutYou = document.getElementById('tsm-about-you');
+  const emailInput = document.getElementById('email');
+  const displayNameInput = document.getElementById('display_name');
+  const signoutLink = document.getElementById('tsm-signout-link');
+
+  fetch(SUPABASE_URL + '/functions/v1/library/me', { credentials: 'include' })
+    .then(resp => resp.ok ? resp.json() : null)
+    .then(data => {
+      if (!data || !data.ok) return;
+      // Logged-in state
+      emailSpan.textContent = data.email;
+      banner.style.display = 'flex';
+      // Hide the "About you" fieldset entirely
+      if (aboutYou) aboutYou.style.display = 'none';
+      // Pre-fill the hidden email field so the form submits correctly
+      if (emailInput) {
+        emailInput.value = data.email;
+        emailInput.required = false;
+      }
+      if (displayNameInput) displayNameInput.required = false;
+    })
+    .catch(() => { /* anonymous - no change */ });
+
+  if (signoutLink) {
+    signoutLink.addEventListener('click', e => {
+      e.preventDefault();
+      fetch(SUPABASE_URL + '/functions/v1/library/signout', {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      }).finally(() => { window.location.reload(); });
+    });
+  }
 })();
 </script>
 </body>
