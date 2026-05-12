@@ -33,7 +33,11 @@
 
 <section class="section page-head">
   <div class="wrap">
-    <span class="eyebrow">Pricing · Credits never expire</span>
+    <div id="tsm-pricing-auth" style="display:none;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.18);border-radius:10px;padding:10px 16px;margin-bottom:18px;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <span style="color:var(--ts-ink);font-size:0.92rem">Signed in as <b id="tsm-pricing-email"></b> &middot; <span style="color:var(--ts-ink-soft)">credits will be added to your library instantly</span></span>
+        <a href="../library/index.html" style="color:var(--ts-grad-start);font-size:0.85rem;text-decoration:none;font-weight:600">My library &rarr;</a>
+      </div>
+      <span class="eyebrow">Pricing · Credits never expire</span>
     <h1 class="h-display">Your <span class="grad-text">first Map</span> is free.</h1>
     <p class="lede lg" style="margin-top:14px">No card needed. After that, pay per book — or buy a credit pack and bring the per-Map price down. Mix subgenres across Maps. Credits never expire.</p>
   </div>
@@ -136,11 +140,29 @@
 </div></footer>
 
 <script>
+// tsm-pricing-auth: detect signed-in user, expose email for one-click checkout
+window.TSM_SESSION_EMAIL = null;
+(function () {
+  const SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+  fetch(SUPABASE_URL + '/functions/v1/library/me', { credentials: 'include' })
+    .then(resp => resp.ok ? resp.json() : null)
+    .then(data => {
+      if (!data || !data.ok) return;
+      window.TSM_SESSION_EMAIL = data.email;
+      const banner = document.getElementById('tsm-pricing-auth');
+      const emailEl = document.getElementById('tsm-pricing-email');
+      if (emailEl) emailEl.textContent = data.email;
+      if (banner) banner.style.display = 'flex';
+    })
+    .catch(() => { /* anonymous - no change */ });
+})();
+</script>
+<script>
 (function () {
   document.querySelectorAll('[data-buy]').forEach(btn => {
     btn.addEventListener('click', () => {
       if (window.Tropesmith && typeof Tropesmith.buyProduct === 'function') {
-        Tropesmith.buyProduct(btn.dataset.buy, { onError: function(err){ alert('Sorry — we could not start checkout. Please try again, or email support@tropesmith.com.'); console.error(err); } });
+        Tropesmith.buyProduct(btn.dataset.buy, { email: window.TSM_SESSION_EMAIL || undefined, onError: function(err){ alert('Sorry — we could not start checkout. Please try again, or email support@tropesmith.com.'); console.error(err); } });
       } else {
         console.warn('Tropesmith module not loaded — /assets/tropesmith.js missing.');
         alert('Checkout is temporarily unavailable. Please try again in a moment.');
