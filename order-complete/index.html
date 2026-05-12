@@ -10,26 +10,70 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=optional" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css" />
-<script src="/assets/tropesmith.js"></script>
-<script defer src="../assets/site.js"></script>
+
+<style>
+  .oc-card { background:#fff; border:1px solid rgba(26,18,8,0.1); border-radius:16px; padding:48px 40px; max-width:640px; margin:0 auto; text-align:center; }
+  .oc-tick { width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg, #22a06b, #1c7a52); margin:0 auto 24px; display:flex; align-items:center; justify-content:center; }
+  .oc-tick svg { width:32px; height:32px; }
+  .oc-eyebrow { font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ts-grad-start); margin-bottom:14px; display:block; }
+  .oc-h { font-family:var(--ts-serif); font-size:2.2rem; font-weight:700; color:var(--ts-ink); margin:0 0 14px 0; line-height:1.15; }
+  .oc-body { color:var(--ts-ink-soft); font-size:1.05rem; line-height:1.55; margin:0 0 28px 0; }
+  .oc-body b { color:var(--ts-ink); }
+  .oc-actions { display:flex; flex-direction:column; gap:12px; align-items:center; margin-top:24px; }
+  .oc-secondary { color:var(--ts-ink-soft); font-size:0.95rem; text-decoration:none; }
+  .oc-secondary:hover { color:var(--ts-grad-start); }
+  .oc-resend-status { color:var(--ts-ink-soft); font-size:0.9rem; min-height:1.2em; margin-top:8px; }
+  .oc-credits-pill { display:inline-block; padding:6px 14px; border-radius:999px; background:rgba(124,58,237,0.1); color:var(--ts-grad-start); font-size:0.92rem; font-weight:600; margin-bottom:6px; }
+</style>
 </head>
 <body>
 
 <div class="nav-shell"><div class="wrap nav">
   <a class="brand" href="../index.html"><img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
-  <div class="nav-cta"><a class="btn btn-link" href="../login/index.html">Sign in</a></div>
+  <div class="nav-cta" id="oc-nav-cta">
+    <a class="btn btn-link" href="../login/index.html">Sign in</a>
+  </div>
 </div></div>
 
-<section class="section" style="padding-top:80px">
+<section class="section" style="padding-top:64px;padding-bottom:64px">
   <div class="wrap">
-    <div class="status-card">
-      <div class="status-pulse" aria-hidden="true">
+    <div class="oc-card">
+
+      <div class="oc-tick" aria-hidden="true">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 7" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
       </div>
-      <span class="label">Order complete</span>
-      <h2>Payment received.</h2>
-      <p class="copy" style="margin: 8px auto 0; max-width: 44ch; font-size: 15px;">Your credits are on your account. Taking you to the brief in <span id="countdown">4</span>s — or jump straight in below.</p>
-      <p style="margin-top:18px"><a class="btn btn-primary" id="continue-btn" href="../intake/index.html">Build my first Map now <span class="arrow">→</span></a></p>
+
+      <!-- Both states share the same shell; JS swaps the inner content -->
+      <div id="oc-loading">
+        <span class="oc-eyebrow">Confirming order</span>
+        <h1 class="oc-h">Just a moment…</h1>
+      </div>
+
+      <div id="oc-signed-in" style="display:none">
+        <div id="oc-credits-line"></div>
+        <span class="oc-eyebrow">Order complete</span>
+        <h1 class="oc-h">Thanks, <span class="grad-text" id="oc-name" style="font-style:italic">there</span>.</h1>
+        <p class="oc-body" id="oc-signed-in-body">Your credits are in your library. Build your next Map now, or jump in later.</p>
+        <div class="oc-actions">
+          <a class="btn btn-primary btn-lg" href="../intake/index.html" id="oc-build-now">Build my next Map <span class="arrow">→</span></a>
+          <a class="oc-secondary" href="../library/index.html">View my library &rarr;</a>
+        </div>
+      </div>
+
+      <div id="oc-anonymous" style="display:none">
+        <span class="oc-eyebrow">Payment received</span>
+        <h1 class="oc-h">Check your <span class="grad-text" style="font-style:italic">inbox</span>.</h1>
+        <p class="oc-body">
+          We've sent a sign-in link to <b id="oc-email-display">your email</b> so you can access your library and Maps anytime. No password needed.
+        </p>
+        <p class="oc-body" style="margin-top:-12px;font-size:0.95rem">In the meantime, you can start building your first Map right now — we'll attach it to your library automatically.</p>
+        <div class="oc-actions">
+          <a class="btn btn-primary btn-lg" href="../intake/index.html">Build my first Map <span class="arrow">→</span></a>
+          <a href="#" id="oc-resend-link" class="oc-secondary">Didn't get the email? Resend</a>
+          <span class="oc-resend-status" id="oc-resend-status"></span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -50,17 +94,89 @@
 
 <script>
 (function () {
-  const params = new URLSearchParams(location.search);
-  const session = params.get('session_id') || '';
-  const target = '../intake/index.html' + (session ? '?from_session=' + encodeURIComponent(session) : '');
-  document.getElementById('continue-btn').href = target;
-  let n = 4;
-  const cd = document.getElementById('countdown');
-  const t = setInterval(() => {
-    n--; if (cd) cd.textContent = String(n);
-    if (n <= 0) { clearInterval(t); location.href = target; }
-  }, 1000);
+  const SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+  document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
+
+  const loadingEl = document.getElementById('oc-loading');
+  const signedInEl = document.getElementById('oc-signed-in');
+  const anonymousEl = document.getElementById('oc-anonymous');
+  const nameEl = document.getElementById('oc-name');
+  const creditsLine = document.getElementById('oc-credits-line');
+  const emailDisplay = document.getElementById('oc-email-display');
+  const navCta = document.getElementById('oc-nav-cta');
+  const resendLink = document.getElementById('oc-resend-link');
+  const resendStatus = document.getElementById('oc-resend-status');
+
+  function nameFromEmail(email) {
+    const local = (email || '').split('@')[0] || 'there';
+    return local.charAt(0).toUpperCase() + local.slice(1);
+  }
+
+  // Check session to decide which state to show.
+  // If signed in: show "Thanks, <name>" + go to library.
+  // If anonymous: show "Check your inbox" with resend option.
+  fetch(SUPABASE_URL + '/functions/v1/library/me', { credentials: 'include' })
+    .then(resp => resp.ok ? resp.json() : null)
+    .then(data => {
+      loadingEl.style.display = 'none';
+      if (data && data.ok) {
+        // Signed-in path
+        const name = nameFromEmail(data.email);
+        nameEl.textContent = name;
+        const credits = data.credit_balance || 0;
+        if (credits > 0) {
+          creditsLine.innerHTML = '<span class="oc-credits-pill">' + credits + ' ' + (credits === 1 ? 'credit' : 'credits') + ' in your library</span>';
+        }
+        signedInEl.style.display = 'block';
+        // Update nav to show "Sign out" + "My library"
+        navCta.innerHTML = '<a class="btn btn-link" href="../library/index.html" style="margin-right:12px">My library</a>';
+      } else {
+        // Anonymous path — they just bought, magic link sent by webhook
+        // Try to get email from URL (Stripe session) if available
+        anonymousEl.style.display = 'block';
+        // We don't have the email client-side unless we look up the Stripe session.
+        // Keep it generic but functional.
+        emailDisplay.textContent = 'your email';
+      }
+    })
+    .catch(() => {
+      // Treat as anonymous on any error
+      loadingEl.style.display = 'none';
+      anonymousEl.style.display = 'block';
+      emailDisplay.textContent = 'your email';
+    });
+
+  // Resend handler: prompts for email, fires auth-request-magic-link
+  if (resendLink) {
+    resendLink.addEventListener('click', e => {
+      e.preventDefault();
+      const email = prompt('What email did you use at checkout?');
+      if (!email || email.indexOf('@') < 1) return;
+      resendStatus.textContent = 'Sending…';
+      resendStatus.style.color = 'var(--ts-ink-soft)';
+      fetch(SUPABASE_URL + '/functions/v1/auth-request-magic-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim().toLowerCase(), source: 'resend_post_purchase' })
+      })
+        .then(resp => resp.json())
+        .then(data => {
+          if (data && data.ok) {
+            resendStatus.textContent = '✓ Sent. Check your inbox.';
+            resendStatus.style.color = '#1c7a52';
+          } else {
+            resendStatus.textContent = data.error || 'Could not send. Please try again.';
+            resendStatus.style.color = '#c0392b';
+          }
+        })
+        .catch(() => {
+          resendStatus.textContent = 'Network error. Please try again.';
+          resendStatus.style.color = '#c0392b';
+        });
+    });
+  }
 })();
 </script>
+
 </body>
 </html>
