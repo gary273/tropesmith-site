@@ -14,199 +14,117 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=optional" rel="stylesheet">
 
 <link rel="stylesheet" href="../assets/styles.css" />
-<script defer src="../assets/site.js"></script>
 </head>
 <body>
 
-<!-- Reuse top nav from index.html -->
-<header class="nav-shell">
-  <div class="nav-inner">
-    <a href="/" class="nav-brand">
-      <img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" />
-    </a>
-    <nav class="nav-links">
-      <a href="/how-it-works/">How it works</a>
-      <a href="/sample/">Sample Map</a>
-      <a href="/pricing/">Pricing</a>
-      <a href="/login/" class="nav-cta-secondary">Sign in</a>
-      <a href="/intake/" class="nav-cta">Get your free Map</a>
-    </nav>
+<div class="nav-shell"><div class="wrap nav">
+  <a class="brand" href="../index.html"><img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+  <nav class="nav-links">
+    <a href="../how-it-works/index.html">How it works</a>
+    <a href="../sample/index.html">Sample Maps</a>
+    <a href="../pricing/index.html">Pricing</a>
+  </nav>
+  <div class="nav-cta">
+    <a class="btn btn-primary btn-sm" href="../intake/index.html">Get your free Map <span class="arrow">→</span></a>
   </div>
-</header>
+</div></div>
 
-<main>
-  <section class="auth-section">
-    <div class="auth-card">
-      <div class="auth-eyebrow">Sign in</div>
-      <h1 class="auth-title">Welcome back</h1>
-      <p class="auth-lede">Enter your email and we'll send a one-time sign-in link. No password needed.</p>
+<section class="section page-head">
+  <div class="wrap">
+    <span class="eyebrow">Sign in</span>
+    <h1 class="h-display">Welcome <span class="grad-text">back.</span></h1>
+    <p class="lede lg" style="margin-top:14px">Enter your email and we'll send a one-time sign-in link. No password needed.</p>
+  </div>
+</section>
 
-      <form id="login-form" class="auth-form" novalidate>
-        <label for="email" class="auth-label">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          autocomplete="email"
-          inputmode="email"
-          required
-          placeholder="you@example.com"
-          class="auth-input"
-        />
-        <button type="submit" id="submit-btn" class="auth-submit">Send sign-in link</button>
-        <div id="form-message" class="auth-message" role="status" aria-live="polite"></div>
-      </form>
-
-      <p class="auth-footnote">
-        Don't have an account yet? <a href="/intake/">Get your free Map →</a>
+<section class="section" style="padding-top:0">
+  <div class="wrap" style="max-width:520px">
+    <div class="form-card">
+      <div id="login-form-wrap">
+        <label for="email-input" style="display:block;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--ts-ink);margin-bottom:8px">Email</label>
+        <input type="email" id="email-input" placeholder="you@example.com" autocomplete="email" required
+          style="width:100%;padding:14px 16px;border:1px solid rgba(26,18,8,0.15);border-radius:10px;font:inherit;font-size:1rem;background:#fff;color:var(--ts-ink);box-sizing:border-box;margin-bottom:18px" />
+        <button id="submit-btn" class="btn btn-primary btn-lg" style="width:100%;justify-content:center">
+          Send sign-in link <span class="arrow">→</span>
+        </button>
+        <p id="msg" style="margin-top:18px;font-size:0.95rem;min-height:1.5em"></p>
+      </div>
+      <div id="success-state" style="display:none;text-align:center;padding:20px 0">
+        <div style="font-size:2.5rem;margin-bottom:8px">✓</div>
+        <h3 style="font-family:var(--ts-serif);font-size:1.5rem;margin:0 0 12px 0;color:var(--ts-ink)">Check your inbox</h3>
+        <p style="color:var(--ts-ink-soft);margin:0">The sign-in link expires in 30 minutes.</p>
+      </div>
+      <p style="text-align:center;color:var(--ts-ink-soft);font-size:0.95rem;margin:24px 0 0 0">
+        Don't have an account yet? <a href="../intake/index.html" style="color:var(--ts-grad-start);text-decoration:none;font-weight:600">Get your free Map →</a>
       </p>
     </div>
-  </section>
-</main>
-
-<footer class="footer-shell">
-  <div class="footer-inner">
-    <div class="footer-brand">Tropesmith</div>
-    <div class="footer-tag">Market intelligence for romance authors.</div>
-    <div class="footer-links">
-      <a href="/how-it-works/">How it works</a>
-      <a href="/pricing/">Pricing</a>
-      <a href="/sample/">Sample Map</a>
-      <a href="mailto:hello@tropesmith.com">Contact</a>
-    </div>
   </div>
-</footer>
+</section>
 
-<style>
-.auth-section { padding: 56px 24px 80px; min-height: 60vh; }
-.auth-card {
-  max-width: 480px; margin: 0 auto;
-  background: var(--ts-cream-soft, #FFFEFB);
-  border: 1px solid rgba(16,18,47,0.08);
-  border-radius: 16px;
-  padding: 40px 36px;
-}
-.auth-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--ts-violet, #8B5CF6); margin-bottom: 12px;
-}
-.auth-title {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 28px; font-weight: 700; line-height: 1.15;
-  color: var(--ts-ink, #10122F);
-  margin: 0 0 12px; letter-spacing: -0.015em;
-}
-.auth-lede {
-  font-size: 15px; line-height: 1.6;
-  color: var(--ts-mauve, #5b4a59);
-  margin: 0 0 28px;
-}
-.auth-form { display: flex; flex-direction: column; gap: 8px; }
-.auth-label {
-  font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--ts-mauve, #5b4a59);
-  margin-bottom: 4px;
-}
-.auth-input {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 16px;
-  padding: 12px 14px;
-  border: 1px solid rgba(16,18,47,0.16);
-  border-radius: 8px;
-  background: white;
-  color: var(--ts-ink, #10122F);
-  transition: border-color 0.15s ease;
-}
-.auth-input:focus {
-  outline: none;
-  border-color: var(--ts-violet, #8B5CF6);
-  box-shadow: 0 0 0 3px rgba(139,92,246,0.12);
-}
-.auth-submit {
-  margin-top: 12px;
-  padding: 12px 24px;
-  background: linear-gradient(135deg, var(--ts-violet, #8B5CF6), var(--ts-coral, #FF6B7A));
-  color: white;
-  border: none;
-  border-radius: 999px;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
-  cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-}
-.auth-submit:hover:not(:disabled) { transform: translateY(-1px); }
-.auth-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-.auth-message {
-  font-family: 'Inter', sans-serif;
-  font-size: 13.5px; line-height: 1.5;
-  margin-top: 12px;
-  min-height: 20px;
-}
-.auth-message.success { color: #0F6E56; }
-.auth-message.error { color: #993C1D; }
-.auth-footnote {
-  font-family: 'Inter', sans-serif;
-  font-size: 13px; color: var(--ts-mauve-soft, #A39395);
-  margin: 24px 0 0;
-  text-align: center;
-}
-.auth-footnote a { color: var(--ts-violet-dk, #6D28D9); text-decoration: none; }
-.auth-footnote a:hover { text-decoration: underline; }
-</style>
+<footer class="foot"><div class="wrap">
+  <div class="foot-grid">
+    <div><a class="brand" href="../index.html" style="color:var(--ts-cream)"><img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+      <p class="foot-blurb"><b>Market intelligence for romance authors.</b> We read the market so you can write the book.</p></div>
+    <div><h6>Product</h6><a href="../how-it-works/index.html">How it works</a><a href="../sample/index.html">Sample Maps</a><a href="../pricing/index.html">Pricing</a><a href="../intake/index.html">Get your Map</a></div>
+    <div><h6>Company</h6><a href="mailto:support@tropesmith.com">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+    <div><h6>Coming soon</h6><a href="#">Trope Pulse · monthly</a></div>
+  </div>
+  <div class="wrap foot-bar" style="padding-left:0;padding-right:0">
+    <span>© <span data-year>2026</span> Tropesmith. All rights reserved.</span>
+    <span>Data refreshed monthly · For indie romance</span>
+  </div>
+</div></footer>
 
 <script>
-(function() {
-  var SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+(function () {
+  const SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+  document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
 
-  var form = document.getElementById('login-form');
-  var emailInput = document.getElementById('email');
-  var submitBtn = document.getElementById('submit-btn');
-  var message = document.getElementById('form-message');
+  const emailInput = document.getElementById('email-input');
+  const submitBtn = document.getElementById('submit-btn');
+  const msgEl = document.getElementById('msg');
+  const formWrap = document.getElementById('login-form-wrap');
+  const successState = document.getElementById('success-state');
 
-  form.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    var email = emailInput.value.trim();
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      message.className = 'auth-message error';
-      message.textContent = 'Please enter a valid email address.';
+  function setMsg(text, color) {
+    msgEl.textContent = text;
+    msgEl.style.color = color || 'var(--ts-ink-soft)';
+  }
+
+  async function submit() {
+    const email = (emailInput.value || '').trim();
+    if (!email || email.indexOf('@') < 1) {
+      setMsg('Please enter a valid email address.', '#c0392b');
       return;
     }
-
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending…';
-    message.className = 'auth-message';
-    message.textContent = '';
+    submitBtn.style.opacity = '0.6';
+    setMsg('Sending…');
 
     try {
-      var resp = await fetch(SUPABASE_URL + '/functions/v1/auth-request-magic-link', {
+      const resp = await fetch(SUPABASE_URL + '/functions/v1/auth-request-magic-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, source: 'login_form', redirect_to: '/library' })
+        body: JSON.stringify({ email: email, source: 'login_page' })
       });
-      var data = await resp.json();
-
-      if (resp.ok) {
-        message.className = 'auth-message success';
-        message.textContent = '✓ Check your inbox. The sign-in link expires in 30 minutes.';
-        form.querySelector('label').style.display = 'none';
-        emailInput.style.display = 'none';
-        submitBtn.style.display = 'none';
+      const data = await resp.json();
+      if (resp.ok && data.ok) {
+        formWrap.style.display = 'none';
+        successState.style.display = 'block';
       } else {
-        message.className = 'auth-message error';
-        message.textContent = data.error || 'Something went wrong. Try again in a moment.';
+        setMsg(data.error || 'Could not send sign-in link. Please try again.', '#c0392b');
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Send sign-in link';
+        submitBtn.style.opacity = '1';
       }
-    } catch (err) {
-      message.className = 'auth-message error';
-      message.textContent = 'Network error. Check your connection and try again.';
+    } catch (e) {
+      setMsg('Network error. Please check your connection and try again.', '#c0392b');
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Send sign-in link';
+      submitBtn.style.opacity = '1';
     }
-  });
+  }
+
+  submitBtn.addEventListener('click', submit);
+  emailInput.addEventListener('keydown', e => { if (e.key === 'Enter') submit(); });
 })();
 </script>
 

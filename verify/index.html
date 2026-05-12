@@ -5,95 +5,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Signing you in… — Tropesmith</title>
 <meta name="robots" content="noindex, nofollow">
+
 <link rel="icon" type="image/png" href="https://tropesmith.com/wp-content/uploads/2026/05/logo-icon-512.png" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=optional" rel="stylesheet">
+
 <link rel="stylesheet" href="../assets/styles.css" />
+
+<style>
+  .verify-shell { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+  .verify-card { max-width: 460px; text-align: center; }
+  .verify-logo { margin: 0 auto 28px; }
+  .verify-logo img { display: block; margin: 0 auto; height: 60px; width: auto; }
+  .verify-h { font-family: var(--ts-serif); font-size: 2rem; font-weight: 700; color: var(--ts-ink); margin: 0 0 12px 0; line-height: 1.15; }
+  .verify-sub { color: var(--ts-ink-soft); font-size: 1rem; margin: 0 0 24px 0; }
+  .spinner { width: 36px; height: 36px; border: 3px solid rgba(26,18,8,0.12); border-top-color: var(--ts-grad-start); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 24px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ok-tick { font-size: 2.5rem; color: #22a06b; margin-bottom: 16px; }
+</style>
 </head>
 <body>
 
-<main style="padding: 80px 24px; min-height: 60vh; display: flex; align-items: center; justify-content: center;">
-  <div style="max-width: 480px; text-align: center;">
-    <img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" style="height: 50px; margin: 0 auto 32px; display: block;" />
-
-    <div id="verify-state-loading">
-      <div class="verify-spinner"></div>
-      <h1 class="verify-title">Signing you in…</h1>
-      <p class="verify-lede">Verifying your link.</p>
+<div class="verify-shell">
+  <div class="verify-card">
+    <div class="verify-logo">
+      <a href="../index.html"><img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" /></a>
     </div>
 
-    <div id="verify-state-success" style="display: none;">
-      <h1 class="verify-title">Signed in</h1>
-      <p class="verify-lede">Redirecting to your library…</p>
+    <div id="loading-state">
+      <div class="spinner"></div>
+      <h1 class="verify-h">Signing you in…</h1>
+      <p class="verify-sub">Just a moment.</p>
     </div>
 
-    <div id="verify-state-error" style="display: none;">
-      <h1 class="verify-title">Sign-in link not valid</h1>
-      <p id="verify-error-msg" class="verify-lede">This link may have expired or been used already.</p>
-      <a href="/login/" class="verify-cta">Request a new link →</a>
+    <div id="success-state" style="display:none">
+      <div class="ok-tick">✓</div>
+      <h1 class="verify-h">Welcome back</h1>
+      <p class="verify-sub">Redirecting to your library…</p>
+    </div>
+
+    <div id="error-state" style="display:none">
+      <h1 class="verify-h">Sign-in link not valid</h1>
+      <p class="verify-sub" id="error-msg">Network error. Please try again.</p>
+      <a href="../login/index.html" class="btn btn-primary btn-lg" style="margin-top:8px">Request a new link <span class="arrow">→</span></a>
     </div>
   </div>
-</main>
-
-<style>
-.verify-title {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 26px; font-weight: 700;
-  color: var(--ts-ink, #10122F);
-  margin: 0 0 12px; letter-spacing: -0.015em;
-}
-.verify-lede {
-  font-size: 15px; line-height: 1.6;
-  color: var(--ts-mauve, #5b4a59);
-  margin: 0 0 24px;
-}
-.verify-cta {
-  display: inline-block;
-  margin-top: 16px;
-  padding: 12px 24px;
-  background: linear-gradient(135deg, var(--ts-violet, #8B5CF6), var(--ts-coral, #FF6B7A));
-  color: white;
-  text-decoration: none;
-  border-radius: 999px;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px; font-weight: 600;
-}
-.verify-spinner {
-  width: 36px; height: 36px;
-  border: 3px solid rgba(139,92,246,0.18);
-  border-top-color: var(--ts-violet, #8B5CF6);
-  border-radius: 50%;
-  margin: 0 auto 20px;
-  animation: spin 0.8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-</style>
+</div>
 
 <script>
-(function() {
-  var SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+(function () {
+  const SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+  const params = new URLSearchParams(window.location.search);
+  const token = (params.get('token') || '').trim();
+  const next = params.get('next') || '/library/';
 
-  var params = new URLSearchParams(window.location.search);
-  var token = params.get('token');
-  var next = params.get('next') || '/library/';
-
-  // Only allow same-origin redirects
-  if (!next.startsWith('/')) next = '/library/';
-
-  var loadingEl = document.getElementById('verify-state-loading');
-  var successEl = document.getElementById('verify-state-success');
-  var errorEl = document.getElementById('verify-state-error');
-  var errorMsg = document.getElementById('verify-error-msg');
+  const loadingEl = document.getElementById('loading-state');
+  const successEl = document.getElementById('success-state');
+  const errorEl = document.getElementById('error-state');
+  const errorMsg = document.getElementById('error-msg');
 
   function showError(msg) {
     loadingEl.style.display = 'none';
+    errorMsg.textContent = msg;
     errorEl.style.display = 'block';
-    if (msg) errorMsg.textContent = msg;
   }
 
-  if (!token || !/^[a-f0-9]{64}$/.test(token)) {
-    showError('This link is invalid or malformed.');
+  if (!token) {
+    showError('Sign-in link is missing or invalid. Please request a new one.');
     return;
   }
 
@@ -103,19 +83,17 @@
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token: token })
   })
-    .then(function(resp) {
-      return resp.json().then(function(data) { return { ok: resp.ok, data: data }; });
-    })
-    .then(function(r) {
+    .then(resp => resp.json().then(data => ({ ok: resp.ok, data: data })))
+    .then(r => {
       if (r.ok) {
         loadingEl.style.display = 'none';
         successEl.style.display = 'block';
-        setTimeout(function() { window.location.href = next; }, 600);
+        setTimeout(() => { window.location.href = next; }, 600);
       } else {
         showError(r.data.error || 'Sign-in failed. Please request a new link.');
       }
     })
-    .catch(function() {
+    .catch(() => {
       showError('Network error. Please try again.');
     });
 })();
