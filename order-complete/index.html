@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Payment received — Tropesmith</title>
+<meta name="robots" content="noindex" />
+<link rel="icon" type="image/png" href="https://tropesmith.com/wp-content/uploads/2026/05/logo-icon-512.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+Pro:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css" />
+<script src="/assets/tropesmith.js"></script>
+<script defer src="../assets/site.js"></script>
+</head>
+<body>
+
+<div class="nav-shell"><div class="wrap nav">
+  <a class="brand" href="../index.html"><img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+</div></div>
+
+<section class="section" style="padding-top:80px">
+  <div class="wrap">
+    <div class="status-card">
+      <div class="status-pulse" aria-hidden="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 7" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      </div>
+      <span class="label">Order complete</span>
+      <h2>Payment received.</h2>
+      <p class="copy" style="margin: 8px auto 0; max-width: 44ch; font-size: 15px;">Your credits are on your account. Taking you to the brief in <span id="countdown">4</span>s — or jump straight in below.</p>
+      <p style="margin-top:18px"><a class="btn btn-primary" id="continue-btn" href="../intake/index.html">Build my first Map now <span class="arrow">→</span></a></p>
+    </div>
+  </div>
+</section>
+
+<footer class="foot"><div class="wrap">
+  <div class="foot-grid">
+    <div><a class="brand" href="../index.html" style="color:var(--ts-cream)"><img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+      <p class="foot-blurb"><b>Market intelligence for romance authors.</b> We read the market so you can write the book.</p></div>
+    <div><h6>Product</h6><a href="../how-it-works/index.html">How it works</a><a href="../sample/index.html">Sample Maps</a><a href="../pricing/index.html">Pricing</a><a href="../intake/index.html">Get your Map</a></div>
+    <div><h6>Company</h6><a href="mailto:support@tropesmith.com">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+    <div><h6>Coming soon</h6><a href="#">Trope Pulse · monthly</a></div>
+  </div>
+  <div class="wrap foot-bar" style="padding-left:0;padding-right:0">
+    <span>© <span data-year>2026</span> Tropesmith. All rights reserved.</span>
+    <span>Data refreshed monthly · For indie romance</span>
+  </div>
+</div></footer>
+
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  const session = params.get('session_id') || '';
+  const target = '../intake/index.html' + (session ? '?from_session=' + encodeURIComponent(session) : '');
+  document.getElementById('continue-btn').href = target;
+  let n = 4;
+  const cd = document.getElementById('countdown');
+  const t = setInterval(() => {
+    n--; if (cd) cd.textContent = String(n);
+    if (n <= 0) { clearInterval(t); location.href = target; }
+  }, 1000);
+})();
+</script>
+</body>
+</html>

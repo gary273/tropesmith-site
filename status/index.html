@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Building your Map — Tropesmith</title>
+<meta name="robots" content="noindex" />
+<link rel="icon" type="image/png" href="https://tropesmith.com/wp-content/uploads/2026/05/logo-icon-512.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+Pro:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css" />
+<script src="/assets/tropesmith.js"></script>
+<script defer src="../assets/site.js"></script>
+</head>
+<body>
+
+<div class="nav-shell"><div class="wrap nav">
+  <a class="brand" href="../index.html"><img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+  <div class="nav-cta"><a class="btn btn-sm" href="../sample/index.html">See a real Map</a></div>
+</div></div>
+
+<section class="section" style="padding-top:64px">
+  <div class="wrap">
+
+    <div class="status-card" id="status-card">
+      <div class="status-pulse" aria-hidden="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h8" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <span class="label">Status</span>
+      <h2 id="status-title">Reading the market…</h2>
+      <div class="status-text" id="status-text">Connecting…</div>
+      <div class="status-bar" id="status-bar"></div>
+      <div class="elapsed" id="elapsed">Elapsed 0s · typical ~2 min</div>
+      <p class="copy" style="margin: 18px auto 0; max-width: 44ch; font-size: 14.5px;">You can leave this tab open — we'll redirect you the moment your Map is ready. Or close it and check your email; the Map link arrives there too.</p>
+    </div>
+
+    <div id="error-card" class="status-card" style="display:none">
+      <h2>Something went wrong building your Map.</h2>
+      <p class="copy" style="margin: 10px auto;">This is rare. Drop us a line and we'll rebuild it ourselves — usually within the hour.</p>
+      <p><a class="btn btn-primary" href="mailto:support@tropesmith.com?subject=Map%20build%20failed">Email support <span class="arrow">→</span></a></p>
+    </div>
+
+  </div>
+</section>
+
+<footer class="foot"><div class="wrap">
+  <div class="foot-grid">
+    <div><a class="brand" href="../index.html" style="color:var(--ts-cream)"><img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+      <p class="foot-blurb"><b>Market intelligence for romance authors.</b> We read the market so you can write the book.</p></div>
+    <div><h6>Product</h6><a href="../how-it-works/index.html">How it works</a><a href="../sample/index.html">Sample Maps</a><a href="../pricing/index.html">Pricing</a><a href="../intake/index.html">Get your Map</a></div>
+    <div><h6>Company</h6><a href="mailto:support@tropesmith.com">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+    <div><h6>Coming soon</h6><a href="#">Trope Pulse · monthly</a></div>
+  </div>
+  <div class="wrap foot-bar" style="padding-left:0;padding-right:0">
+    <span>© <span data-year>2026</span> Tropesmith. All rights reserved.</span>
+    <span>Data refreshed monthly · For indie romance</span>
+  </div>
+</div></footer>
+
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  const mapId = params.get('map_id');
+  const card = document.getElementById('status-card');
+  const errCard = document.getElementById('error-card');
+  const titleEl = document.getElementById('status-title');
+  const statusText = document.getElementById('status-text');
+  const elapsedEl = document.getElementById('elapsed');
+
+  if (!mapId) {
+    titleEl.textContent = 'No Map ID found';
+    statusText.textContent = 'Missing parameter';
+    document.getElementById('status-bar').style.display = 'none';
+    return;
+  }
+
+  if (!(window.Tropesmith && typeof Tropesmith.pollMapStatus === 'function')) {
+    console.warn('Tropesmith module not loaded — /assets/tropesmith.js missing.');
+    statusText.textContent = 'Connection unavailable';
+    return;
+  }
+
+  Tropesmith.pollMapStatus(mapId, {
+    onUpdate: function(state){
+      const status = state && state.status;
+      const elapsed = (state && state.elapsed_seconds) || 0;
+      if (status === 'ready' && state.map_url) {
+        titleEl.textContent = 'Your Map is ready.';
+        statusText.textContent = 'Opening your Map…';
+        setTimeout(function(){ location.href = state.map_url; }, 600);
+        return;
+      }
+      if (status === 'failed') {
+        card.style.display = 'none';
+        errCard.style.display = '';
+        return;
+      }
+      const labels = {
+        pending:  ['Reading the market…', 'Your brief is in line · typical wait under a minute'],
+        building: ['Reading the market…', 'Three signals running in parallel']
+      };
+      const pair = labels[status] || labels.pending;
+      titleEl.textContent = pair[0];
+      statusText.textContent = pair[1];
+      elapsedEl.textContent = 'Elapsed ' + Math.floor(elapsed) + 's · typical ~2 min';
+    }
+  });
+})();
+</script>
+</body>
+</html>

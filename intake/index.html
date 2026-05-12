@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Get your Map — Tropesmith</title>
+<meta name="description" content="A short brief and Tropesmith builds your Map in about two minutes." />
+<link rel="icon" type="image/png" href="https://tropesmith.com/wp-content/uploads/2026/05/logo-icon-512.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+Pro:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/styles.css" />
+<script src="/assets/tropesmith.js"></script>
+<script defer src="../assets/site.js"></script>
+</head>
+<body>
+
+<div class="nav-shell"><div class="wrap nav">
+  <a class="brand" href="../index.html"><img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+  <nav class="nav-links">
+    <a href="../how-it-works/index.html">How it works</a>
+    <a href="../sample/index.html">Sample Maps</a>
+    <a href="../pricing/index.html">Pricing</a>
+  </nav>
+  <div class="nav-cta">
+    <a class="btn btn-sm" href="../sample/index.html">See a real Map</a>
+  </div>
+</div></div>
+
+<section class="section page-head">
+  <div class="wrap">
+    <span class="eyebrow">Your brief · ~60 seconds</span>
+    <h1 class="h-display">Tell us the <span class="grad-text">book</span>.</h1>
+    <p class="lede lg" style="margin-top:14px">The shorter and truer, the better. We'll build the Map and email you when it's ready (about two minutes).</p>
+  </div>
+</section>
+
+<section class="section tight" style="padding-top:0">
+  <div class="wrap form-shell">
+
+    <aside class="lhs">
+      <span class="label">What you'll get</span>
+      <h3 class="h-sub" style="margin:10px 0">A market verdict you can act on this week.</h3>
+      <p class="lede sm">Five to seven ranked trope recommendations · comp titles with study notes · FMC + MMC archetypes · setting, title, vocabulary direction · gaps · risks · next actions.</p>
+      <div class="hero-capacity" style="margin-top:18px">
+        <span class="pulse"></span>
+        <span>Current queue ~2 min · refreshed monthly</span>
+      </div>
+      <p class="micro" style="margin-top:14px">No card needed. Your brief stays private — we never share or sell it.</p>
+    </aside>
+
+    <form class="form-card" id="intake-form" novalidate>
+
+      <fieldset class="fset">
+        <legend>About you</legend>
+        <div class="row2">
+          <div class="field">
+            <label for="email">Email <span class="req">*</span></label>
+            <input class="input" type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email"/>
+          </div>
+          <div class="field">
+            <label for="display_name">Name <span class="micro" style="font-weight:400">(optional)</span></label>
+            <input class="input" type="text" id="display_name" name="display_name" placeholder="What should we call you?" autocomplete="name"/>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="fset">
+        <legend>The book</legend>
+        <div class="row2">
+          <div class="field">
+            <label for="subgenre">Subgenre <span class="req">*</span></label>
+            <select class="select" id="subgenre" name="subgenre" required>
+              <option value="">Choose…</option>
+              <option value="contemporary-general">Contemporary (general)</option>
+              <option value="small-town">Small-town</option>
+              <option value="sports">Sports</option>
+              <option value="billionaire">Billionaire</option>
+              <option value="dark-romance">Dark romance</option>
+              <option value="romantasy">Romantasy</option>
+              <option value="romantic-fantasy">Romantic fantasy</option>
+              <option value="paranormal-romance">Paranormal romance</option>
+              <option value="demons-devils">Demons / devils</option>
+              <option value="romantic-suspense">Romantic suspense</option>
+              <option value="clean-wholesome">Clean / wholesome</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="heat_level">Heat level <span class="req">*</span></label>
+            <select class="select" id="heat_level" name="heat_level" required>
+              <option value="">Choose…</option>
+              <option value="sweet">Sweet</option>
+              <option value="steamy">Steamy</option>
+              <option value="spicy">Spicy</option>
+              <option value="explicit">Explicit</option>
+              <option value="dark">Dark</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="format">Format <span class="req">*</span></label>
+            <select class="select" id="format" name="format" required>
+              <option value="">Choose…</option>
+              <option value="standalone">Standalone</option>
+              <option value="duology">Duology</option>
+              <option value="trilogy">Trilogy</option>
+              <option value="4-book">4-book series</option>
+              <option value="5-book">5-book series</option>
+              <option value="6plus">6+ book series</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="series_name">Series name <span class="micro" style="font-weight:400">(optional)</span></label>
+            <input class="input" type="text" id="series_name" name="series_name" placeholder="If you have one in mind"/>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="fset">
+        <legend>Comp titles</legend>
+        <div class="field">
+          <label for="comp_titles">Books you'd love to sit alongside <span class="micro" style="font-weight:400">(optional · one per line)</span></label>
+          <textarea class="textarea" id="comp_titles" name="comp_titles" rows="4" placeholder="It Happened One Summer&#10;The Hating Game"></textarea>
+          <p class="help">Author optional. We'll use these as a starting point — and tell you which to lean into and which to step away from.</p>
+        </div>
+      </fieldset>
+
+      <fieldset class="fset">
+        <legend>One more thing</legend>
+        <label class="chk">
+          <input type="checkbox" id="newsletter_opt_in" name="newsletter_opt_in"/>
+          <span>Email me when <b>Trope Pulse</b> launches — the monthly state-of-the-genre report ($9/mo). No other newsletter, no spam.</span>
+        </label>
+      </fieldset>
+
+      <div class="form-foot">
+        <p class="form-msg" id="form-msg">First Map free · no card · we never sell your brief</p>
+        <button class="btn btn-primary btn-lg" type="submit" id="submit-btn">Build my Map <span class="arrow">→</span></button>
+      </div>
+
+    </form>
+
+  </div>
+</section>
+
+<footer class="foot"><div class="wrap">
+  <div class="foot-grid">
+    <div><a class="brand" href="../index.html" style="color:var(--ts-cream)"><img src="https://tropesmith.com/wp-content/uploads/2026/05/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+      <p class="foot-blurb"><b>Market intelligence for romance authors.</b> We read the market so you can write the book.</p></div>
+    <div><h6>Product</h6><a href="../how-it-works/index.html">How it works</a><a href="../sample/index.html">Sample Maps</a><a href="../pricing/index.html">Pricing</a><a href="index.html">Get your Map</a></div>
+    <div><h6>Company</h6><a href="mailto:support@tropesmith.com">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+    <div><h6>Coming soon</h6><a href="#">Trope Pulse · monthly</a></div>
+  </div>
+  <div class="wrap foot-bar" style="padding-left:0;padding-right:0">
+    <span>© <span data-year>2026</span> Tropesmith. All rights reserved.</span>
+    <span>Data refreshed monthly · For indie romance</span>
+  </div>
+</div></footer>
+
+<script>
+(function(){
+  const form = document.getElementById('intake-form');
+  const msg  = document.getElementById('form-msg');
+  const btn  = document.getElementById('submit-btn');
+
+  const params = new URLSearchParams(location.search);
+  const fromSession = params.get('from_session') || '';
+  if (fromSession) {
+    msg.textContent = 'Payment received — your credits are attached to this email. Build your first Map below.';
+    msg.style.color = 'var(--ts-violet-dk)';
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!(window.Tropesmith && typeof Tropesmith.submitIntake === 'function')) {
+      console.warn('Tropesmith module not loaded — /assets/tropesmith.js missing.');
+      msg.textContent = 'Submission is temporarily unavailable. Please try again in a moment.';
+      msg.classList.add('err');
+      return;
+    }
+    const payload = {
+      email: form.email.value.trim(),
+      display_name: form.display_name.value.trim() || undefined,
+      subgenre: form.subgenre.value,
+      heat_level: form.heat_level.value,
+      format: form.format.value,
+      series_name: form.series_name.value.trim() || undefined,
+      comp_titles: form.comp_titles.value.trim() || undefined,
+      newsletter_opt_in: form.newsletter_opt_in.checked
+    };
+    if (fromSession) payload.from_session = fromSession;
+    if (!payload.email || !payload.subgenre || !payload.heat_level || !payload.format) {
+      msg.textContent = 'Please fill in the required fields.'; msg.classList.add('err'); return;
+    }
+    btn.disabled = true; const origLabel = btn.innerHTML; btn.innerHTML = 'Submitting…';
+    msg.textContent = 'Sending your brief…'; msg.classList.remove('err');
+    Tropesmith.submitIntake(payload).then(function(res){
+      if (res && res.ok && res.map_id) {
+        location.href = '/status/?map_id=' + encodeURIComponent(res.map_id);
+      } else {
+        throw new Error((res && res.error) || 'Submit failed');
+      }
+    }).catch(function(err){
+      console.error(err);
+      btn.disabled = false; btn.innerHTML = origLabel;
+      msg.textContent = 'Something went wrong. Please try again, or email support@tropesmith.com.';
+      msg.classList.add('err');
+    });
+  });
+})();
+</script>
+</body>
+</html>
