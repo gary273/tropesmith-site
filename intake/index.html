@@ -254,5 +254,75 @@
   }
 })();
 </script>
+<!--
+  ============================================================
+  TROPESMITH — Dynamic subgenre loader
+  ============================================================
+  Replaces the hardcoded <option> tags inside #subgenre on /intake/
+  with options fetched live from the list-subgenres edge function.
+
+  Single source of truth: ref_subgenres table in Supabase.
+  Add a row → 5 minutes later (CDN cache) it shows up here.
+  Set status='sunset' → it disappears.
+
+  Failure mode: if the fetch fails for any reason, the form falls back
+  to the existing hardcoded list so the page never breaks.
+  ============================================================
+-->
+<script>
+(function() {
+  var API_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/list-subgenres?genre=romance';
+
+  // Wait until the DOM has the subgenre <select>. If page uses defer/late-load,
+  // run on DOMContentLoaded; if it's already past that, run immediately.
+  function ready(fn) {
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+
+  ready(function() {
+    var select = document.getElementById('subgenre');
+    if (!select) return; // Not the intake page — quietly do nothing.
+
+    fetch(API_URL, { cache: 'default' })
+      .then(function(r) {
+        if (!r.ok) throw new Error('list-subgenres returned ' + r.status);
+        return r.json();
+      })
+      .then(function(data) {
+        if (!data.ok || !Array.isArray(data.subgenres) || data.subgenres.length === 0) {
+          throw new Error('list-subgenres returned no subgenres');
+        }
+
+        // Wipe everything except the placeholder, then rebuild from the API.
+        var placeholder = select.querySelector('option[value=""]');
+        select.innerHTML = '';
+        if (placeholder) select.appendChild(placeholder);
+        else {
+          var blank = document.createElement('option');
+          blank.value = '';
+          blank.textContent = 'Choose…';
+          select.appendChild(blank);
+        }
+
+        data.subgenres.forEach(function(sg) {
+          var opt = document.createElement('option');
+          opt.value = sg.id; // Real DB id: e.g. "romance.contemporary.small_town"
+          opt.textContent = sg.display_name + (sg.status === 'beta' ? ' (beta)' : '');
+          select.appendChild(opt);
+        });
+
+        select.dataset.subgenresSource = 'live-api';
+        select.dataset.subgenresCount = String(data.subgenres.length);
+      })
+      .catch(function(err) {
+        // Silent fallback — the existing hardcoded <option>s remain visible.
+        // Logged to console for debugging but doesn't surface to the user.
+        console.warn('[tropesmith] dynamic subgenre load failed, using hardcoded fallback:', err);
+        select.dataset.subgenresSource = 'fallback-hardcoded';
+      });
+  });
+})();
+</script>
 </body>
 </html>
