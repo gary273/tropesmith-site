@@ -140,7 +140,7 @@
         const resp = await fetch(ENDPOINTS.mapStatus + '?map_id=' + encodeURIComponent(mapId));
         const data = await resp.json();
         if (onUpdate) onUpdate(data);
-        if (data && (data.status === 'delivered' || data.status === 'failed')) {
+        if (data && (data.status === 'ready' || data.status === 'delivered' || data.status === 'failed')) {
           return data;
         }
       } catch (err) {
