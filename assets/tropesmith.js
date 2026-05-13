@@ -42,10 +42,11 @@
     }
 
     try {
+      const unlockMapId = new URLSearchParams(window.location.search).get('unlock') || undefined;
       const resp = await fetch(ENDPOINTS.checkout, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_id: productId, email: email || undefined })
+        body: JSON.stringify({ product_id: productId, email: email || undefined, map_id: unlockMapId })
       });
 
       if (!resp.ok) {
