@@ -1,9 +1,7 @@
-# Cloudflare Pages redirects
+# Cloudflare Pages _redirects
+# Routes short links through the Supabase 'go' edge function for click tracking.
+# Pattern: /go/<slug> → Supabase /functions/v1/go?slug=<slug> (302, logs click, then redirects to intake)
+# Status 302 (proxy) so the URL bar still shows /go/<slug> when fetched, but the response is the 302 from Supabase.
 
-https://www.tropesmith.com/* https://tropesmith.com/:splat 301
-
-/blog/* / 301
-/wp-admin /  301
-
-/home / 301
-/index.html / 301
+/go/:slug   https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/go?slug=:slug   302
+/go         https://tropesmith.com/?utm_source=go_unknown                          302
