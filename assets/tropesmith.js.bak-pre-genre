@@ -108,8 +108,7 @@
 
   async function submitIntake(payload) {
     if (!payload.email) throw new Error('email is required');
-    if (!payload.genre_id) throw new Error('genre_id is required');
-    if (!payload.subgenre_id) throw new Error('subgenre_id is required');
+    if (!payload.subgenre) throw new Error('subgenre is required');
     if (!payload.heat_level) throw new Error('heat_level is required');
     if (!payload.format) throw new Error('format is required');
 
@@ -139,24 +138,34 @@
       try {
         const resp = await fetch(ENDPOINTS.mapStatus + '?map_id=' + encodeURIComponent(mapId));
         const data = await resp.json();
-        if (onUpdate) onUpdate(data);
-        if (data && (data.status === 'delivered' || data.status === 'failed')) {
-          return data;
-        }
+
+        const state = {
+          status: data.status,
+          map_url: data.map_url || null,
+          elapsed_seconds: data.elapsed_seconds || Math.floor((Date.now() - startedAt) / 1000),
+          raw: data
+        };
+
+        if (onUpdate) onUpdate(state);
+        if (state.status === 'ready' || state.status === 'failed') return state;
       } catch (err) {
-        console.warn('[Tropesmith] poll error:', err);
+        console.warn('[Tropesmith] poll error (will retry):', err);
       }
-      await new Promise(function (resolve) { return setTimeout(resolve, pollIntervalMs); });
+
+      await new Promise(function (r) { setTimeout(r, pollIntervalMs); });
     }
-    throw new Error('Map status poll timed out');
+
+    return { status: 'timeout', elapsed_seconds: Math.floor((Date.now() - startedAt) / 1000) };
   }
 
-  window.Tropesmith = window.Tropesmith || {};
-  Object.assign(window.Tropesmith, {
+  window.Tropesmith = {
     buyProduct: buyProduct,
     submitIntake: submitIntake,
     pollMapStatus: pollMapStatus,
-    ENDPOINTS: ENDPOINTS,
-    STRIPE_PUBLISHABLE_KEY: STRIPE_PUBLISHABLE_KEY
-  });
+    closeCheckout: function () {
+      const m = document.querySelector('.ts-checkout-modal');
+      if (m) closeCheckout(m);
+    },
+    _internal: { ENDPOINTS: ENDPOINTS, STRIPE_PUBLISHABLE_KEY: STRIPE_PUBLISHABLE_KEY }
+  };
 })();

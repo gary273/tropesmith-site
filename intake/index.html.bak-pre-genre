@@ -28,6 +28,8 @@
   </div>
 </div></div>
 
+<!-- tsm-intake-restructured: page-head moved into left column -->
+
 <section class="section tight" style="padding-top:0">
   <div class="wrap form-shell">
 
@@ -72,25 +74,22 @@
         <legend>The book</legend>
         <div class="row2">
           <div class="field">
-            <label for="genre">Genre <span class="req">*</span></label>
-            <select class="select" id="genre" name="genre" required>
-              <option value="">Choose…</option>
-            </select>
-          </div>
-          <div class="field">
             <label for="subgenre">Subgenre <span class="req">*</span></label>
-            <select class="select" id="subgenre" name="subgenre" required disabled>
-              <option value="">Pick a genre first…</option>
+            <select class="select" id="subgenre" name="subgenre" required>
+              <option value="">Choose…</option>
+              <option value="contemporary-general">Contemporary (general)</option>
+              <option value="small-town">Small-town</option>
+              <option value="sports">Sports</option>
+              <option value="billionaire">Billionaire</option>
+              <option value="dark-romance">Dark romance</option>
+              <option value="romantasy">Romantasy</option>
+              <option value="romantic-fantasy">Romantic fantasy</option>
+              <option value="paranormal-romance">Paranormal romance</option>
+              <option value="demons-devils">Demons / devils</option>
+              <option value="romantic-suspense">Romantic suspense</option>
+              <option value="clean-wholesome">Clean / wholesome</option>
             </select>
           </div>
-        </div>
-
-        <div id="subgenre-disclaimer" class="field" style="display:none;margin-top:-6px;margin-bottom:14px;background:rgba(255,184,77,0.08);border:1px solid rgba(255,184,77,0.25);border-left:3px solid #d97706;border-radius:6px;padding:10px 14px;font-size:0.85rem;line-height:1.45;color:var(--ts-ink-soft)">
-          <strong style="color:var(--ts-ink);font-weight:600">Newly tracked.</strong>
-          Your Map will use verified market data and our growing trope corpus. Some sections may be lighter than our most established subgenres while we collect more data.
-        </div>
-
-        <div class="row2">
           <div class="field">
             <label for="heat_level">Heat level <span class="req">*</span></label>
             <select class="select" id="heat_level" name="heat_level" required>
@@ -102,6 +101,8 @@
               <option value="dark">Dark</option>
             </select>
           </div>
+        </div>
+        <div class="row2">
           <div class="field">
             <label for="format">Format <span class="req">*</span></label>
             <select class="select" id="format" name="format" required>
@@ -109,18 +110,15 @@
               <option value="standalone">Standalone</option>
               <option value="duology">Duology</option>
               <option value="trilogy">Trilogy</option>
-              <option value="four_book">4-book series</option>
-              <option value="five_book">5-book series</option>
-              <option value="six_book">6-book series</option>
+              <option value="4-book">4-book series</option>
+              <option value="5-book">5-book series</option>
+              <option value="6plus">6+ book series</option>
             </select>
           </div>
-        </div>
-        <div class="row2">
           <div class="field">
             <label for="series_name">Series name <span class="micro" style="font-weight:400">(optional)</span></label>
             <input class="input" type="text" id="series_name" name="series_name" placeholder="If you have one in mind"/>
           </div>
-          <div class="field"></div>
         </div>
       </fieldset>
 
@@ -156,7 +154,7 @@
     <div><a class="brand" href="../index.html" style="color:var(--ts-cream)"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
       <p class="foot-blurb"><b>Market intelligence for romance authors.</b> We read the market so you can write the book.</p></div>
     <div><h6>Product</h6><a href="../how-it-works/index.html">How it works</a><a href="../sample/index.html">Sample Maps</a><a href="../pricing/index.html">Pricing</a><a href="index.html">Get your Map</a></div>
-    <div><h6>Company</h6><a href="/cdn-cgi/l/email-protection#196a6c6969766b6d596d6b76697c6a74706d71377a7674">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+    <div><h6>Company</h6><a href="mailto:support@tropesmith.com">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></div>
     <div><h6>Coming soon</h6><a href="#">Trope Pulse · monthly</a></div>
   </div>
   <div class="wrap foot-bar" style="padding-left:0;padding-right:0">
@@ -165,7 +163,6 @@
   </div>
 </div></footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script>
 (function(){
   const form = document.getElementById('intake-form');
@@ -190,16 +187,15 @@
     const payload = {
       email: form.email.value.trim(),
       display_name: form.display_name.value.trim() || undefined,
-      genre_id: form.genre.value,
-      subgenre_id: form.subgenre.value,
+      subgenre: form.subgenre.value,
       heat_level: form.heat_level.value,
       format: form.format.value,
       series_name: form.series_name.value.trim() || undefined,
-      comp_titles_raw: form.comp_titles.value.trim() || undefined,
-      marketing_opt_in: form.newsletter_opt_in.checked
+      comp_titles: form.comp_titles.value.trim() || undefined,
+      newsletter_opt_in: form.newsletter_opt_in.checked
     };
     if (fromSession) payload.from_session = fromSession;
-    if (!payload.email || !payload.genre_id || !payload.subgenre_id || !payload.heat_level || !payload.format) {
+    if (!payload.email || !payload.subgenre || !payload.heat_level || !payload.format) {
       msg.textContent = 'Please fill in the required fields.'; msg.classList.add('err'); return;
     }
     btn.disabled = true; const origLabel = btn.innerHTML; btn.innerHTML = 'Submitting…';
@@ -212,152 +208,120 @@
       }
     }).catch(function(err){
       console.error(err);
-      msg.textContent = 'Something went wrong: ' + err.message;
-      msg.classList.add('err');
       btn.disabled = false; btn.innerHTML = origLabel;
+      msg.textContent = 'Something went wrong. Please try again, or email support@tropesmith.com.';
+      msg.classList.add('err');
     });
   });
-
-  const SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
-  fetch(SUPABASE_URL + '/functions/v1/library/me', { credentials: 'include' })
-    .then(function(r){ return r.ok ? r.json() : null; })
-    .then(function(data){
-      if (data && data.email) {
-        const banner = document.getElementById('tsm-auth-banner');
-        const emailEl = document.getElementById('tsm-auth-email');
-        const emailField = document.getElementById('email');
-        emailEl.textContent = data.email;
-        banner.style.display = 'flex';
-        if (!emailField.value) emailField.value = data.email;
-      }
-    })
-    .catch(function(){ });
-
-  const signOutLink = document.getElementById('tsm-signout-link');
-  if (signOutLink) {
-    signOutLink.addEventListener('click', function(e){
-      e.preventDefault();
-      fetch(SUPABASE_URL + '/functions/v1/library/signout', {
-        method: 'POST', credentials: 'include'
-      }).then(function(){ location.reload(); });
-    });
-  }
 })();
 </script>
 
 <script>
+(function () {
+  const SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+  const banner = document.getElementById('tsm-auth-banner');
+  const emailSpan = document.getElementById('tsm-auth-email');
+  const aboutYou = document.getElementById('tsm-about-you');
+  const emailInput = document.getElementById('email');
+  const displayNameInput = document.getElementById('display_name');
+  const signoutLink = document.getElementById('tsm-signout-link');
+
+  fetch(SUPABASE_URL + '/functions/v1/library/me', { credentials: 'include' })
+    .then(resp => resp.ok ? resp.json() : null)
+    .then(data => {
+      if (!data || !data.ok) return;
+      // Logged-in state
+      emailSpan.textContent = data.email;
+      banner.style.display = 'flex';
+      // Hide the "About you" fieldset entirely
+      if (aboutYou) aboutYou.style.display = 'none';
+      // Pre-fill the hidden email field so the form submits correctly
+      if (emailInput) {
+        emailInput.value = data.email;
+        emailInput.required = false;
+      }
+      if (displayNameInput) displayNameInput.required = false;
+    })
+    .catch(() => { /* anonymous - no change */ });
+
+  if (signoutLink) {
+    signoutLink.addEventListener('click', e => {
+      e.preventDefault();
+      fetch(SUPABASE_URL + '/functions/v1/library/signout', {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      }).finally(() => { window.location.reload(); });
+    });
+  }
+})();
+</script>
+<!--
+  ============================================================
+  TROPESMITH — Dynamic subgenre loader
+  ============================================================
+  Replaces the hardcoded <option> tags inside #subgenre on /intake/
+  with options fetched live from the list-subgenres edge function.
+
+  Single source of truth: ref_subgenres table in Supabase.
+  Add a row → 5 minutes later (CDN cache) it shows up here.
+  Set status='sunset' → it disappears.
+
+  Failure mode: if the fetch fails for any reason, the form falls back
+  to the existing hardcoded list so the page never breaks.
+  ============================================================
+-->
+<script>
 (function() {
-  var API_BASE = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1';
+  var API_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/list-subgenres?genre=romance';
 
-  var COMING_ONLINE = {
-    'historical_fiction.general': true,
-    'horror.general': true,
-    'thriller.mystery_suspense_crime': true,
-    'thriller.psychological_domestic': true,
-    'mystery.general': true,
-    'mystery.cozy': true,
-    'mystery.cozy.paranormal': true,
-    'mystery.cozy.tropes': true,
-    'mystery.female_detective': true,
-    'mystery.historical': true,
-    'scifi.general': true,
-    'scifi.fantasy_combined': true,
-    'fantasy.general': true,
-    'fantasy.urban': true,
-    'romance.historical.scottish': true,
-    'romance.paranormal.womens_fiction': true,
-    'romance.paranormal.demons_devils': true
-  };
-
+  // Wait until the DOM has the subgenre <select>. If page uses defer/late-load,
+  // run on DOMContentLoaded; if it's already past that, run immediately.
   function ready(fn) {
     if (document.readyState !== 'loading') fn();
     else document.addEventListener('DOMContentLoaded', fn);
   }
 
   ready(function() {
-    var genreSelect    = document.getElementById('genre');
-    var subgenreSelect = document.getElementById('subgenre');
-    var disclaimer     = document.getElementById('subgenre-disclaimer');
-    if (!genreSelect || !subgenreSelect) return;
+    var select = document.getElementById('subgenre');
+    if (!select) return; // Not the intake page — quietly do nothing.
 
-    fetch(API_BASE + '/list-genres', { cache: 'default' })
+    fetch(API_URL, { cache: 'default' })
       .then(function(r) {
-        if (!r.ok) throw new Error('list-genres returned ' + r.status);
+        if (!r.ok) throw new Error('list-subgenres returned ' + r.status);
         return r.json();
       })
       .then(function(data) {
-        if (!data.ok || !Array.isArray(data.genres) || data.genres.length === 0) {
-          throw new Error('list-genres returned no genres');
+        if (!data.ok || !Array.isArray(data.subgenres) || data.subgenres.length === 0) {
+          throw new Error('list-subgenres returned no subgenres');
         }
-        genreSelect.innerHTML = '<option value="">Choose…</option>';
-        data.genres.forEach(function(g) {
+
+        // Wipe everything except the placeholder, then rebuild from the API.
+        var placeholder = select.querySelector('option[value=""]');
+        select.innerHTML = '';
+        if (placeholder) select.appendChild(placeholder);
+        else {
+          var blank = document.createElement('option');
+          blank.value = '';
+          blank.textContent = 'Choose…';
+          select.appendChild(blank);
+        }
+
+        data.subgenres.forEach(function(sg) {
           var opt = document.createElement('option');
-          opt.value = g.id;
-          opt.textContent = g.display_name;
-          genreSelect.appendChild(opt);
+          opt.value = sg.id; // Real DB id: e.g. "romance.contemporary.small_town"
+          opt.textContent = sg.display_name + (sg.status === 'beta' ? ' (beta)' : '');
+          select.appendChild(opt);
         });
-        genreSelect.dataset.source = 'live-api';
-        genreSelect.dataset.count = String(data.genres.length);
+
+        select.dataset.subgenresSource = 'live-api';
+        select.dataset.subgenresCount = String(data.subgenres.length);
       })
       .catch(function(err) {
-        console.warn('[tropesmith] genre load failed, falling back to romance only:', err);
-        genreSelect.innerHTML =
-          '<option value="">Choose…</option>' +
-          '<option value="romance">Romance</option>';
-        genreSelect.dataset.source = 'fallback-hardcoded';
+        // Silent fallback — the existing hardcoded <option>s remain visible.
+        // Logged to console for debugging but doesn't surface to the user.
+        console.warn('[tropesmith] dynamic subgenre load failed, using hardcoded fallback:', err);
+        select.dataset.subgenresSource = 'fallback-hardcoded';
       });
-
-    genreSelect.addEventListener('change', function(e) {
-      var genreId = e.target.value;
-      subgenreSelect.disabled = true;
-      disclaimer.style.display = 'none';
-
-      if (!genreId) {
-        subgenreSelect.innerHTML = '<option value="">Pick a genre first…</option>';
-        return;
-      }
-
-      subgenreSelect.innerHTML = '<option value="">Loading…</option>';
-
-      fetch(API_BASE + '/list-subgenres?genre=' + encodeURIComponent(genreId), { cache: 'default' })
-        .then(function(r) {
-          if (!r.ok) throw new Error('list-subgenres returned ' + r.status);
-          return r.json();
-        })
-        .then(function(data) {
-          if (!data.ok || !Array.isArray(data.subgenres)) {
-            throw new Error('list-subgenres returned no subgenres');
-          }
-          if (data.subgenres.length === 0) {
-            subgenreSelect.innerHTML = '<option value="">No subgenres available yet</option>';
-            subgenreSelect.disabled = true;
-            return;
-          }
-          subgenreSelect.innerHTML = '<option value="">Choose…</option>';
-          data.subgenres.forEach(function(sg) {
-            var opt = document.createElement('option');
-            opt.value = sg.id;
-            opt.textContent = sg.display_name + (sg.status === 'beta' ? ' (beta)' : '');
-            subgenreSelect.appendChild(opt);
-          });
-          subgenreSelect.disabled = false;
-          subgenreSelect.dataset.source = 'live-api';
-          subgenreSelect.dataset.count = String(data.subgenres.length);
-        })
-        .catch(function(err) {
-          console.warn('[tropesmith] subgenre load failed:', err);
-          subgenreSelect.innerHTML = '<option value="">Could not load — please reload</option>';
-          subgenreSelect.disabled = true;
-        });
-    });
-
-    subgenreSelect.addEventListener('change', function(e) {
-      if (COMING_ONLINE[e.target.value]) {
-        disclaimer.style.display = 'block';
-      } else {
-        disclaimer.style.display = 'none';
-      }
-    });
   });
 })();
 </script>
