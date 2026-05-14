@@ -11,7 +11,7 @@
     verdictDelayMs: 200,
     pauseOnCompleteMs: 3500,
     fadeMs: 400,
-    maxCycles: 3,
+    maxCycles: Infinity,
   };
 
   const MAPS = [
