@@ -696,3 +696,6 @@ h1,h2,h3,h4,h5,h6{ font-family: var(--ts-serif); font-weight: 600; letter-spacin
 .howbuilt-step .num{ font-family: var(--ts-mono); font-size: 10.5px; letter-spacing: .18em; color: var(--ts-coral); text-transform: uppercase; }
 .howbuilt-step h3{ font-size: 22px; line-height: 1.08; letter-spacing: -.015em; font-weight: 600; margin: 8px 0 8px; color: var(--ts-ink); }
 .howbuilt-step p{ font-family: var(--ts-serif); font-size: 15px; line-height: 1.55; color: var(--ts-mauve); margin: 0; max-width: 48ch; }
+
+/* Disable sticky behavior on .lhs columns where right column is taller (e.g. The Map) */
+.whatgrid .lhs.lhs-static{ position: static; top: auto; }

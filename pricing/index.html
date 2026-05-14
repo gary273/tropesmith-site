@@ -126,52 +126,6 @@
   </div>
 </section>
 
-<footer class="foot"><div class="wrap">
-  <div class="foot-grid">
-    <div><a class="brand" href="../index.html" style="color:var(--ts-cream)"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
-      <p class="foot-blurb"><b>Market intelligence for romance authors.</b> We read the market so you can write the book.</p></div>
-    <div><h6>Product</h6><a href="../how-it-works/index.html">How it works</a><a href="../sample/index.html">Sample Maps</a><a href="index.html">Pricing</a><a href="../intake/index.html">Get your Map</a></div>
-    <div><h6>Company</h6><a href="/cdn-cgi/l/email-protection#6d1e181d1d021f192d191f021d081e00041905430e0200">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></div>
-    <div><h6>Coming soon</h6><a href="#">Trope Pulse · monthly</a></div>
-  </div>
-  <div class="wrap foot-bar" style="padding-left:0;padding-right:0">
-    <span>© <span data-year>2026</span> Tropesmith. All rights reserved.</span>
-    <span>Data refreshed monthly · For indie romance</span>
-  </div>
-</div></footer>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// tsm-pricing-auth: detect signed-in user, expose email for one-click checkout
-window.TSM_SESSION_EMAIL = null;
-(function () {
-  const SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
-  fetch(SUPABASE_URL + '/functions/v1/library/me', { credentials: 'include' })
-    .then(resp => resp.ok ? resp.json() : null)
-    .then(data => {
-      if (!data || !data.ok) return;
-      window.TSM_SESSION_EMAIL = data.email;
-      const banner = document.getElementById('tsm-pricing-auth');
-      const emailEl = document.getElementById('tsm-pricing-email');
-      if (emailEl) emailEl.textContent = data.email;
-      if (banner) banner.style.display = 'flex';
-    })
-    .catch(() => { /* anonymous - no change */ });
-})();
-</script>
-<script>
-(function () {
-  document.querySelectorAll('[data-buy]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (window.Tropesmith && typeof Tropesmith.buyProduct === 'function') {
-        Tropesmith.buyProduct(btn.dataset.buy, { email: window.TSM_SESSION_EMAIL || undefined, onError: function(err){ alert('Sorry — we could not start checkout. Please try again, or email support@tropesmith.com.'); console.error(err); } });
-      } else {
-        console.warn('Tropesmith module not loaded — /assets/tropesmith.js missing.');
-        alert('Checkout is temporarily unavailable. Please try again in a moment.');
-      }
-    });
-  });
-})();
-</script>
 <!--
   ============================================================
   TROPESMITH — Corpus Section · PRICING variant ("The value")
@@ -190,7 +144,7 @@ window.TSM_SESSION_EMAIL = null;
     </div>
 
     <h2 id="tsm-corpus-heading-pricing" class="tsm-corpus-heading">
-      Every Map reads the entire corpus &mdash; <em>over half a billion</em> reader signals.
+      Every Map reads the entire corpus &mdash; <em>over two billion</em> reader signals.
     </h2>
 
     <p class="tsm-corpus-sub">
@@ -201,10 +155,10 @@ window.TSM_SESSION_EMAIL = null;
 
       <div class="tsm-corpus-card tsm-corpus-card--booktok">
         <div class="tsm-corpus-card-label">BookTok virality</div>
-        <div class="tsm-corpus-card-stat" data-target="534831529" data-format="abbreviated">0</div>
+        <div class="tsm-corpus-card-stat" data-target="2179280834" data-format="abbreviated">0</div>
         <div class="tsm-corpus-card-unit">plays read per Map</div>
         <div class="tsm-corpus-card-meta">
-          <span>31 hashtags</span>
+          <span>82 hashtags</span>
           <span aria-hidden="true">·</span>
           <span>Free tools: 0</span>
         </div>
@@ -212,10 +166,10 @@ window.TSM_SESSION_EMAIL = null;
 
       <div class="tsm-corpus-card tsm-corpus-card--goodreads">
         <div class="tsm-corpus-card-label">Goodreads readers</div>
-        <div class="tsm-corpus-card-stat" data-target="7849" data-format="comma">0</div>
+        <div class="tsm-corpus-card-stat" data-target="9258" data-format="comma">0</div>
         <div class="tsm-corpus-card-unit">shelf signals scanned</div>
         <div class="tsm-corpus-card-meta">
-          <span>6,711 reviews mined</span>
+          <span>7,674 reviews mined</span>
           <span aria-hidden="true">·</span>
           <span>Free tools: 0</span>
         </div>
@@ -223,10 +177,10 @@ window.TSM_SESSION_EMAIL = null;
 
       <div class="tsm-corpus-card tsm-corpus-card--amazon">
         <div class="tsm-corpus-card-label">Amazon supply</div>
-        <div class="tsm-corpus-card-stat" data-target="1036" data-format="comma">0</div>
+        <div class="tsm-corpus-card-stat" data-target="2531" data-format="comma">0</div>
         <div class="tsm-corpus-card-unit">bestsellers cross-checked</div>
         <div class="tsm-corpus-card-meta">
-          <span>12,784 tropes mapped</span>
+          <span>22,023 book-trope mappings</span>
           <span aria-hidden="true">·</span>
           <span>To find your unfair gap</span>
         </div>
@@ -234,7 +188,7 @@ window.TSM_SESSION_EMAIL = null;
 
       <div class="tsm-corpus-card tsm-corpus-card--reddit">
         <div class="tsm-corpus-card-label">Reader demand signals</div>
-        <div class="tsm-corpus-card-stat" data-target="7390" data-format="comma">0</div>
+        <div class="tsm-corpus-card-stat" data-target="9410" data-format="comma">0</div>
         <div class="tsm-corpus-card-unit">explicit asks parsed</div>
         <div class="tsm-corpus-card-meta">
           <span>Cross-platform</span>
@@ -267,7 +221,7 @@ window.TSM_SESSION_EMAIL = null;
     </div>
 
     <p class="tsm-corpus-footnote">
-      Every Map &mdash; from $15 starter to $129 workhorse pack &mdash; runs against the full corpus. Data as of <time datetime="2026-05-12">12 May 2026</time>.
+      Every Map &mdash; from $15 starter to $129 workhorse pack &mdash; runs against the full corpus. Data as of <time datetime="2026-05-14">14 May 2026</time>.
     </p>
 
   </div>
@@ -366,5 +320,51 @@ window.TSM_SESSION_EMAIL = null;
   }
 })();
 </script>
-</body>
+
+<footer class="foot"><div class="wrap">
+  <div class="foot-grid">
+    <div><a class="brand" href="../index.html" style="color:var(--ts-cream)"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+      <p class="foot-blurb"><b>Market intelligence for romance authors.</b> We read the market so you can write the book.</p></div>
+    <div><h6>Product</h6><a href="../how-it-works/index.html">How it works</a><a href="../sample/index.html">Sample Maps</a><a href="index.html">Pricing</a><a href="../intake/index.html">Get your Map</a></div>
+    <div><h6>Company</h6><a href="/cdn-cgi/l/email-protection#6d1e181d1d021f192d191f021d081e00041905430e0200">Contact</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+    <div><h6>Coming soon</h6><a href="#">Trope Pulse · monthly</a></div>
+  </div>
+  <div class="wrap foot-bar" style="padding-left:0;padding-right:0">
+    <span>© <span data-year>2026</span> Tropesmith. All rights reserved.</span>
+    <span>Data refreshed monthly · For indie romance</span>
+  </div>
+</div></footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// tsm-pricing-auth: detect signed-in user, expose email for one-click checkout
+window.TSM_SESSION_EMAIL = null;
+(function () {
+  const SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+  fetch(SUPABASE_URL + '/functions/v1/library/me', { credentials: 'include' })
+    .then(resp => resp.ok ? resp.json() : null)
+    .then(data => {
+      if (!data || !data.ok) return;
+      window.TSM_SESSION_EMAIL = data.email;
+      const banner = document.getElementById('tsm-pricing-auth');
+      const emailEl = document.getElementById('tsm-pricing-email');
+      if (emailEl) emailEl.textContent = data.email;
+      if (banner) banner.style.display = 'flex';
+    })
+    .catch(() => { /* anonymous - no change */ });
+})();
+</script>
+<script>
+(function () {
+  document.querySelectorAll('[data-buy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (window.Tropesmith && typeof Tropesmith.buyProduct === 'function') {
+        Tropesmith.buyProduct(btn.dataset.buy, { email: window.TSM_SESSION_EMAIL || undefined, onError: function(err){ alert('Sorry — we could not start checkout. Please try again, or email support@tropesmith.com.'); console.error(err); } });
+      } else {
+        console.warn('Tropesmith module not loaded — /assets/tropesmith.js missing.');
+        alert('Checkout is temporarily unavailable. Please try again in a moment.');
+      }
+    });
+  });
+})();
+</script></body>
 </html>
