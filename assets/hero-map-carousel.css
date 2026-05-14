@@ -9,6 +9,13 @@
   min-width: 0;
 }
 
+/* Fix: ensure both grid items can shrink below their content min-width.
+   Without this, the unclassed left <div> (headline column) overflows its
+   1.15fr track and pushes the Map below it. */
+.hero-grid > * {
+  min-width: 0;
+}
+
 .hero-map-card {
   background: var(--ts-ink, #10122F);
   color: var(--ts-cream, #FFF9F3);
