@@ -677,3 +677,13 @@ h1,h2,h3,h4,h5,h6{ font-family: var(--ts-serif); font-weight: 600; letter-spacin
 .modal-close{ font-family: var(--ts-mono); font-size: 13px; color: var(--ts-mauve); cursor: pointer; padding: 4px 10px; border-radius: 4px; }
 .modal-close:hover{ background: rgba(16,18,47,.06); }
 #checkout-modal-inner{ flex: 1; overflow: auto; min-height: 480px; }
+
+/* ── merged "The Map" section — stack 2-col grid on tablet/mobile ──
+   Matches the 880px breakpoint used by .whatgrid and .signals so the
+   single-column point is consistent across the page. */
+@media (max-width: 880px) {
+  .map-merged-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+}

@@ -66,6 +66,20 @@
   font-family: 'Fraunces', serif;
 }
 
+.hero-map-source {
+  font-size: 11px;
+  color: rgba(255, 249, 243, 0.5);
+  margin: 0 0 14px 0;
+  line-height: 1.5;
+  font-family: var(--ts-font-sans, 'Inter', system-ui, sans-serif);
+  letter-spacing: 0.01em;
+}
+
+.hero-map-source b {
+  color: var(--ts-coral, #FF6B7A);
+  font-weight: 600;
+}
+
 .hero-map-stack-label {
   font-size: 9.5px;
   letter-spacing: 0.12em;
