@@ -1,0 +1,176 @@
+/* ─────────────────────────────────────────────────────────────
+   Tropesmith hero — animated Map carousel
+   Replaces the static .mapdoc-stack on the right of the hero.
+   ───────────────────────────────────────────────────────────── */
+
+.hero-map-carousel {
+  position: relative;
+}
+
+.hero-map-card {
+  background: var(--ts-cream, #FFF9F3);
+  color: var(--ts-ink, #10122F);
+  border-radius: 10px;
+  padding: 18px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 12px;
+  box-shadow: 0 30px 60px rgba(139,92,246,0.25);
+  min-height: 340px;
+  transition: opacity 0.4s ease;
+}
+
+.hero-map-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ts-mauve, #5b4a59);
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.hero-map-head .hero-map-genre {
+  color: var(--ts-violet, #8B5CF6);
+  transition: opacity 0.3s ease;
+}
+
+.hero-map-title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+  font-family: 'Fraunces', serif;
+}
+
+.hero-map-sub {
+  font-size: 11.5px;
+  color: var(--ts-mauve, #5b4a59);
+  margin: 0 0 14px;
+  font-style: italic;
+  font-family: 'Fraunces', serif;
+}
+
+.hero-map-stack-label {
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ts-violet, #8B5CF6);
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-family: 'Inter', system-ui, sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
+
+.hero-map-stack-label .hero-map-counter {
+  color: rgba(91,74,89,0.5);
+  font-weight: 500;
+}
+
+.hero-map-tropes {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  font-size: 11.5px;
+  min-height: 200px;
+}
+
+.hero-map-trope {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(16,18,47,0.08);
+}
+
+.hero-map-trope:last-child { border-bottom: none; }
+
+.hero-map-trope.is-shown {
+  display: flex;
+  animation: heroMapTropeIn 0.25s ease-out;
+}
+
+@keyframes heroMapTropeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-map-trope .hero-map-rank {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 9.5px;
+  color: var(--ts-violet, #8B5CF6);
+  font-weight: 500;
+}
+
+.hero-map-trope .hero-map-trope-name {
+  flex: 1;
+  font-family: 'Fraunces', serif;
+}
+
+.hero-map-trope .hero-map-trope-name b { font-weight: 600; }
+
+.hero-map-trope .hero-map-lane {
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+}
+
+.hero-map-lane.hero-map-lane-hot {
+  background: #FAECE7;
+  color: #993C1D;
+}
+
+.hero-map-lane.hero-map-lane-warm {
+  background: #FAEEDA;
+  color: #854F0B;
+}
+
+.hero-map-verdict {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #E1F5EE;
+  color: #0F6E56;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: 'Inter', system-ui, sans-serif;
+  width: fit-content;
+}
+
+.hero-map-verdict.is-shown {
+  display: inline-flex;
+  animation: heroMapTropeIn 0.4s ease-out;
+}
+
+.hero-map-verdict-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0F6E56;
+}
+
+/* Mobile: disable animation, show single static Map */
+@media (max-width: 760px) {
+  .hero-map-carousel .hero-map-trope { display: flex; }
+  .hero-map-carousel .hero-map-verdict { display: inline-flex; }
+  .hero-map-carousel .hero-map-counter { display: none; }
+}
+
+/* Accessibility: respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hero-map-carousel .hero-map-trope { display: flex; animation: none; }
+  .hero-map-carousel .hero-map-verdict { display: inline-flex; animation: none; }
+  .hero-map-card { transition: none; }
+}

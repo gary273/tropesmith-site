@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tropesmith — Market intelligence for romance authors</title>
-  <meta name="description" content="Tropesmith reads thousands of Amazon bestsellers, Goodreads shelves, Reddit threads and BookTok captions every month — then tells you exactly what to write next. Your first Map is free." />
+  <meta name="description" content="Write what readers are reaching for this month. Tropesmith reads 2,531 Amazon bestsellers, 9,258 Goodreads shelves, 4,090 BookTok videos and 2,379 Reddit threads — then tells you the tropes, comps, and market gaps your next book should hit. Your first Map is free." />
 
   <!-- OG / Twitter -->
   <meta property="og:title" content="Tropesmith — Market intelligence for romance authors" />
-  <meta property="og:description" content="The romance market is talking. Tropesmith reads every word. Your first Map is free." />
+  <meta property="og:description" content="Write what readers are reaching for this month. Built from 2,531 Amazon bestsellers, 9,258 Goodreads shelves, 4,090 BookTok videos and 2,379 Reddit threads. Your first Map is free." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://tropesmith.com/" />
   <meta property="og:image" content="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png" />
@@ -21,6 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=optional" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/hero-map-carousel.css?v=20260514-2" />
   <script defer src="assets/site.js"></script>
 </head>
 <body>
@@ -74,51 +75,35 @@
       </div>
     </div>
 
-    <!-- ── Map preview mockup ── -->
-    <div class="mapdoc-stack">
-      <article class="mapdoc" aria-label="Sample Tropesmith Map">
-        <header class="mapdoc-head">
+    <!-- ── Map preview carousel (animated, JS-driven) ── -->
+    <div class="hero-map-carousel" aria-label="Animated sample Tropesmith Map">
+      <article class="hero-map-card">
+        <header class="hero-map-head">
           <span>Map · Single Book</span>
-          <span class="gen">Billionaire · Contemporary · Spicy · Standalone</span>
+          <span class="hero-map-genre">Billionaire · Contemporary · Spicy</span>
         </header>
 
-        <h2 class="mapdoc-title">Your next book — at a glance.</h2>
-        <p class="mapdoc-sub">A market verdict, not a writing prompt.</p>
+        <h2 class="hero-map-title">Your next book — at a glance.</h2>
+        <p class="hero-map-sub">A market verdict, not a writing prompt.</p>
 
-        <div class="mapdoc-section-label">
-          <span>Recommended trope stack · Top 5</span><span class="count">of 9 sections</span>
+        <div class="hero-map-stack-label">
+          <span>Recommended trope stack</span>
+          <span class="hero-map-counter">0 / 5</span>
         </div>
-        <ol class="troperank">
-          <li><span class="rk">01</span><span class="nm"><b>Grumpy-sunshine</b> · billionaire MMC, sunshine FMC</span><span class="lane lane-hot">Hot</span></li>
-          <li><span class="rk">02</span><span class="nm"><b>Fish-out-of-water</b> · glamorous FMC, his small-town</span><span class="lane lane-hot">Hot</span></li>
-          <li><span class="rk">03</span><span class="nm"><b>Provider MMC</b> · acts-of-service love language</span><span class="lane lane-hot">Hot · undersupplied</span></li>
-          <li><span class="rk">04</span><span class="nm"><b>Forced proximity</b> · second-act escalator</span><span class="lane lane-warm">Warming</span></li>
-          <li><span class="rk">05</span><span class="nm"><b>Opposites attract</b> · wealth + grounded</span><span class="lane lane-warm">Warming</span></li>
+
+        <ol class="hero-map-tropes">
+          <!-- Static fallback: first Map, shown if JS fails or on mobile/reduced-motion -->
+          <li class="hero-map-trope"><span class="hero-map-rank">01</span><span class="hero-map-trope-name"><b>Grumpy-sunshine</b> · billionaire MMC, sunshine FMC</span><span class="hero-map-lane hero-map-lane-hot">Hot</span></li>
+          <li class="hero-map-trope"><span class="hero-map-rank">02</span><span class="hero-map-trope-name"><b>Fish-out-of-water</b> · glamorous FMC, his small-town</span><span class="hero-map-lane hero-map-lane-hot">Hot</span></li>
+          <li class="hero-map-trope"><span class="hero-map-rank">03</span><span class="hero-map-trope-name"><b>Provider MMC</b> · acts-of-service love language</span><span class="hero-map-lane hero-map-lane-hot">Undersupplied</span></li>
+          <li class="hero-map-trope"><span class="hero-map-rank">04</span><span class="hero-map-trope-name"><b>Forced proximity</b> · second-act escalator</span><span class="hero-map-lane hero-map-lane-warm">Warming</span></li>
+          <li class="hero-map-trope"><span class="hero-map-rank">05</span><span class="hero-map-trope-name"><b>Opposites attract</b> · wealth + grounded</span><span class="hero-map-lane hero-map-lane-warm">Warming</span></li>
         </ol>
 
-        <div class="mapdoc-section-label"><span>Comp titles · top 3 of 5</span></div>
-        <div class="comprow">
-          <div class="comp">
-            <div class="t">It Happened One Summer</div>
-            <div class="a">Tessa Bailey</div>
-            <div class="m">Borrow · structural blueprint</div>
-          </div>
-          <div class="comp">
-            <div class="t">King of Wrath</div>
-            <div class="a">Ana Huang</div>
-            <div class="m">Borrow · opposites-attract</div>
-          </div>
-          <div class="comp">
-            <div class="t">Wild Love</div>
-            <div class="a">Elsie Silver</div>
-            <div class="m">Skip · ranch setting</div>
-          </div>
+        <div class="hero-map-verdict">
+          <span class="hero-map-verdict-dot"></span>
+          Green light · proceed
         </div>
-
-        <footer class="mapdoc-foot">
-          <span>FMC + MMC archetypes · setting · titles · vocabulary · gaps · risks · actions</span>
-          <span>9/9</span>
-        </footer>
       </article>
     </div>
 
@@ -655,5 +640,6 @@
   }
 })();
 </script>
+<script src="assets/hero-map-carousel.js?v=20260514-2" defer></script>
 </body>
 </html>
