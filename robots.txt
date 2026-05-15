@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /login/
+Disallow: /library/
+Disallow: /verify/
+Disallow: /status/
+Disallow: /order-complete/
+Disallow: /api/
+Disallow: /go/
+
+Sitemap: https://tropesmith.com/sitemap.xml
