@@ -699,3 +699,117 @@ h1,h2,h3,h4,h5,h6{ font-family: var(--ts-serif); font-weight: 600; letter-spacin
 
 /* Disable sticky behavior on .lhs columns where right column is taller (e.g. The Map) */
 .whatgrid .lhs.lhs-static{ position: static; top: auto; }
+
+/* ─────────────────────────────────────────────────────────────────
+   Mobile responsive overrides — additive only.
+   Desktop (>768px) is untouched. Order: ≤768 → ≤480.
+   ───────────────────────────────────────────────────────────────── */
+@media (max-width: 768px){
+
+  /* tighter container padding + section rhythm */
+  :root{ --ts-pad-x: 18px; }
+  .section{ padding: 36px 0; }
+  .section.tight{ padding: 28px 0; }
+
+  /* ── nav: stacked, scrollable links underneath brand ───── */
+  .nav{
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 64px;
+    padding: 10px 0;
+    gap: 10px;
+    align-items: center;
+  }
+  .brand-logo{ height: 44px; }
+  .nav-cta{ margin-left: auto; }
+  .nav-cta .btn-link{ display: none; } /* hide Sign-in to save room; available on /login */
+  .nav-cta .btn{ padding: 8px 12px; font-size: 12.5px; }
+  .nav-links{
+    display: flex !important;       /* override the existing 720px display:none */
+    order: 3;
+    flex: 1 0 100%;
+    gap: 18px;
+    padding: 6px 0 2px;
+    margin-top: 4px;
+    border-top: 1px solid var(--ts-rule);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    font-size: 13px;
+  }
+  .nav-links::-webkit-scrollbar{ display: none; }
+  .nav-links a{ white-space: nowrap; flex: 0 0 auto; }
+
+  /* ── hero: stacked, smaller type, full-bleed CTAs ──────── */
+  .hero{ padding: 22px 0 32px; }
+  .hero-grid{ grid-template-columns: 1fr; gap: 28px; }
+  .hero h1{ margin: 12px 0 12px; }
+  .hero .lede{ margin-bottom: 18px; }
+  .hero-cta{ flex-direction: column; align-items: stretch; gap: 10px; }
+  .hero-cta .btn{ width: 100%; justify-content: center; }
+  .hero-trust{ font-size: 11.5px; gap: 12px; margin-top: 12px; }
+  .hero-capacity{
+    font-size: 10px; padding: 6px 10px;
+    width: 100%; justify-content: flex-start;
+    text-align: left;
+  }
+
+  /* ── headline scale ────────────────────────────────────── */
+  .h-display{ font-size: clamp(28px, 7.5vw, 36px); line-height: 1.08; }
+  .h-section{ font-size: clamp(24px, 6vw, 30px); line-height: 1.12; }
+  .h-sub{ font-size: 17px; }
+  .lede.lg{ font-size: 16px; }
+  .lede{ font-size: 15px; }
+
+  /* ── closer block CTAs ─────────────────────────────────── */
+  .closer .closer-cta{ flex-direction: column; align-items: stretch; gap: 10px; }
+  .closer .closer-cta .btn{ width: 100%; justify-content: center; }
+  .closer p.copy{ font-size: 16.5px; }
+
+  /* ── pricing teaser head + tier cards ──────────────────── */
+  .tease-head{ flex-direction: column; align-items: flex-start; gap: 14px; }
+  .tease-head .btn{ width: 100%; justify-content: center; }
+  .tiers{ grid-template-columns: 1fr; gap: 12px; }
+
+  /* ── pricing page: demo banner + redeem panel CTAs ─────── */
+  .demo-banner{ flex-direction: column; align-items: stretch; gap: 14px; padding: 16px 18px; }
+  .demo-banner .btn{ width: 100%; justify-content: center; }
+
+  /* ── sample maps: stack two cards ──────────────────────── */
+  .samples{ grid-template-columns: 1fr; gap: 16px; }
+  .sample-card{ padding: 18px 18px 20px; }
+
+  /* ── intake form: single column, full-width submit ─────── */
+  .form-shell{ grid-template-columns: 1fr; gap: 24px; }
+  .form-shell .lhs{ position: static; top: auto; }
+  .form-card{ padding: 20px 18px 22px; }
+  .row2{ grid-template-columns: 1fr; gap: 12px; }
+  .form-foot{ flex-direction: column-reverse; align-items: stretch; gap: 12px; }
+  .form-foot .btn{ width: 100%; justify-content: center; }
+  .form-msg{ text-align: center; }
+
+  /* ── page-head titles a touch tighter ──────────────────── */
+  .page-head{ padding: 28px 0 18px; }
+
+  /* ── how-it-works longform: tighten reading column ─────── */
+  .longform{ gap: 18px; }
+  .longform article > section{ padding: 22px 0 28px; }
+  .longform article h2{ font-size: 26px; }
+
+  /* ── hero map mockup: shrink padding so it fits 375px ──── */
+  .mapdoc{ padding: 14px 14px 12px; transform: none; }
+
+  /* ── footer: 2-col already at 720; tighten gap ─────────── */
+  .foot-grid{ padding: 40px 0 22px; gap: 24px; }
+}
+
+/* ── extra-small phones ───────────────────────────────────── */
+@media (max-width: 420px){
+  :root{ --ts-pad-x: 14px; }
+  .h-display{ font-size: clamp(26px, 8vw, 32px); }
+  .h-section{ font-size: clamp(22px, 7vw, 26px); }
+  .nav-cta .btn{ padding: 7px 10px; font-size: 12px; }
+  .brand-logo{ height: 40px; }
+  .hero-trust{ flex-direction: column; align-items: flex-start; gap: 6px; }
+  .foot-grid{ grid-template-columns: 1fr; gap: 22px; }
+}
