@@ -42,11 +42,13 @@
     }
 
     try {
-      const unlockMapId = new URLSearchParams(window.location.search).get('unlock') || undefined;
+      const urlParams = new URLSearchParams(window.location.search);
+      const unlockMapId = urlParams.get('unlock') || undefined;
+      const internalCouponCode = urlParams.get('test_code') || undefined;
       const resp = await fetch(ENDPOINTS.checkout, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_id: productId, email: email || undefined, map_id: unlockMapId })
+        body: JSON.stringify({ product_id: productId, email: email || undefined, map_id: unlockMapId, internal_coupon_code: internalCouponCode })
       });
 
       if (!resp.ok) {
