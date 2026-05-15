@@ -44,6 +44,78 @@
   </div>
 </section>
 
+<!-- Credit redeem panel (only shown when /pricing?unlock={map_id} is present AND eligible) -->
+<section id="tsm-redeem-panel" class="section tight" style="display:none;padding-top:0">
+  <div class="wrap">
+    <div class="ts-redeem-card">
+
+      <div class="ts-redeem-state" id="redeem-state-loading">
+        <span class="ts-redeem-spinner" aria-hidden="true"></span>
+        <span>Checking your credit balance&hellip;</span>
+      </div>
+
+      <div class="ts-redeem-state" id="redeem-state-email" hidden>
+        <span class="ts-redeem-eyebrow">Credit redemption</span>
+        <h3 class="ts-redeem-h">Enter your email to check for credits</h3>
+        <p>If a Map credit is on your account, you can use it to unlock this Map &mdash; no payment needed.</p>
+        <form id="redeem-email-form" class="ts-redeem-form">
+          <input type="email" id="redeem-email-input" placeholder="you@example.com" required autocomplete="email" />
+          <button type="submit" class="btn btn-primary btn-sm">Check balance <span class="arrow">&rarr;</span></button>
+        </form>
+      </div>
+
+      <div class="ts-redeem-state" id="redeem-state-eligible" hidden>
+        <span class="ts-redeem-eyebrow">You have <b id="redeem-balance">1</b> paid Map credit</span>
+        <h3 class="ts-redeem-h">Use it to unlock this Map &mdash; no payment needed.</h3>
+        <p>Click Redeem and your Map will be re-rendered with the full paid version. Your unlock email will land shortly after.</p>
+        <div class="ts-redeem-actions">
+          <button class="btn btn-primary btn-lg" id="redeem-btn" type="button">Redeem credit <span class="arrow">&rarr;</span></button>
+          <button type="button" class="ts-redeem-link" id="redeem-pay-instead">or pay $15 instead</button>
+        </div>
+      </div>
+
+      <div class="ts-redeem-state" id="redeem-state-already" hidden>
+        <span class="ts-redeem-eyebrow">Already unlocked</span>
+        <h3 class="ts-redeem-h">This Map is already unlocked.</h3>
+        <p>Open it now &mdash; no further payment needed.</p>
+        <a id="redeem-open-link" class="btn btn-primary btn-lg" href="#">Open your Map <span class="arrow">&rarr;</span></a>
+      </div>
+
+      <div class="ts-redeem-state" id="redeem-state-redeeming" hidden>
+        <span class="ts-redeem-spinner" aria-hidden="true"></span>
+        <span>Redeeming your credit &mdash; redirecting to your Map&hellip;</span>
+      </div>
+
+      <div class="ts-redeem-state" id="redeem-state-error" hidden>
+        <span class="ts-redeem-eyebrow" style="color:#FF6B7A">Couldn't redeem</span>
+        <p id="redeem-error-msg" class="ts-redeem-h" style="font-size:18px"></p>
+        <p style="font-size:13px;color:var(--ts-mauve,#5b4a59)">You can still pay below &mdash; your credit will remain on your account.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .ts-redeem-card { background: #FFF9F3; border: 1px solid rgba(124,58,237,0.18); border-left: 4px solid #7C3AED; border-radius: 12px; padding: 24px 28px; box-shadow: 0 8px 24px rgba(16,18,47,0.06); font-family: 'Inter', sans-serif; }
+  .ts-redeem-state[hidden] { display: none; }
+  .ts-redeem-eyebrow { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #7C3AED; margin-bottom: 8px; }
+  .ts-redeem-eyebrow b { color: #10122F; font-weight: 700; }
+  .ts-redeem-h { margin: 4px 0 8px; font-family: 'Fraunces', Georgia, serif; font-size: 24px; line-height: 1.2; color: #10122F; font-weight: 700; }
+  .ts-redeem-card p { margin: 0 0 14px; color: #5b4a59; font-size: 15px; line-height: 1.55; }
+  .ts-redeem-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: stretch; margin-top: 6px; }
+  .ts-redeem-form input { flex: 1 1 240px; min-width: 200px; padding: 10px 14px; border: 1px solid rgba(16,18,47,0.18); border-radius: 8px; font: inherit; background: #fff; }
+  .ts-redeem-form input:focus { outline: none; border-color: #7C3AED; box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
+  .ts-redeem-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 4px; }
+  .ts-redeem-link { background: none; border: none; color: #7C3AED; cursor: pointer; font: inherit; text-decoration: underline; padding: 0; font-size: 14px; }
+  .ts-redeem-link:hover { color: #5b21b6; }
+  .ts-redeem-spinner { width: 16px; height: 16px; border: 2px solid rgba(124,58,237,0.25); border-top-color: #7C3AED; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 10px; animation: tsRedeemSpin 0.8s linear infinite; }
+  @keyframes tsRedeemSpin { to { transform: rotate(360deg); } }
+  #redeem-state-loading, #redeem-state-redeeming { display: flex; align-items: center; color: #10122F; font-size: 15px; }
+  #redeem-state-loading[hidden], #redeem-state-redeeming[hidden] { display: none; }
+  #redeem-btn[disabled] { opacity: 0.6; cursor: not-allowed; }
+</style>
+
 <section class="section tight" style="padding-top:0">
   <div class="wrap">
 
@@ -365,6 +437,181 @@ window.TSM_SESSION_EMAIL = null;
       }
     });
   });
+})();
+</script>
+<script>
+// tsm-credit-redeem: when /pricing?unlock={map_id} is present, check for a paid Map credit
+// and offer redemption before the Stripe checkout path. Purely additive — when no credit is
+// available, the page behaves exactly as it does today.
+(function () {
+  'use strict';
+
+  var REDEEM_ENDPOINT = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/credit-redeem-map';
+  var LIBRARY_ME      = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/library/me';
+
+  var params = new URLSearchParams(window.location.search);
+  var mapId  = params.get('unlock');
+  if (!mapId) return; // No unlock requested — nothing to do.
+
+  var panel = document.getElementById('tsm-redeem-panel');
+  if (!panel) return;
+
+  var emailFromQuery = (params.get('email') || '').trim();
+
+  var states = {
+    loading:   document.getElementById('redeem-state-loading'),
+    email:     document.getElementById('redeem-state-email'),
+    eligible:  document.getElementById('redeem-state-eligible'),
+    already:   document.getElementById('redeem-state-already'),
+    redeeming: document.getElementById('redeem-state-redeeming'),
+    error:     document.getElementById('redeem-state-error')
+  };
+
+  function showState(name) {
+    Object.keys(states).forEach(function (k) {
+      if (states[k]) states[k].hidden = (k !== name);
+    });
+    panel.style.display = '';
+  }
+
+  function hidePanel() {
+    panel.style.display = 'none';
+  }
+
+  function showError(msg) {
+    var el = document.getElementById('redeem-error-msg');
+    if (el) el.textContent = msg || 'Something went wrong. Please try again.';
+    showState('error');
+  }
+
+  // Resolve email: explicit ?email= wins; otherwise try the signed-in session.
+  async function resolveEmail() {
+    if (emailFromQuery && emailFromQuery.indexOf('@') > 0) return emailFromQuery;
+    if (window.TSM_SESSION_EMAIL) return window.TSM_SESSION_EMAIL;
+    try {
+      var resp = await fetch(LIBRARY_ME, { credentials: 'include' });
+      if (resp.ok) {
+        var data = await resp.json();
+        if (data && data.ok && data.email) {
+          window.TSM_SESSION_EMAIL = data.email;
+          return data.email;
+        }
+      }
+    } catch (_) { /* anonymous — fall through */ }
+    return null;
+  }
+
+  async function checkBalance(email) {
+    showState('loading');
+    try {
+      var url = REDEEM_ENDPOINT
+        + '?email='  + encodeURIComponent(email)
+        + '&map_id=' + encodeURIComponent(mapId);
+      var resp = await fetch(url, { method: 'GET' });
+      var data = await resp.json().catch(function () { return null; });
+      if (!data) { hidePanel(); return; } // Silent fall-through to Stripe.
+      handleBalance(email, data);
+    } catch (_) {
+      // Network failure on balance check — silently fall through to Stripe.
+      hidePanel();
+    }
+  }
+
+  function handleBalance(email, data) {
+    if (data.ok && data.eligible) {
+      var balanceEl = document.getElementById('redeem-balance');
+      if (balanceEl) balanceEl.textContent = (data.credit_balance != null) ? data.credit_balance : 1;
+
+      var btn = document.getElementById('redeem-btn');
+      if (btn) {
+        btn.disabled = false;
+        btn.onclick = function () { redeem(email, btn); };
+      }
+      var payInstead = document.getElementById('redeem-pay-instead');
+      if (payInstead) {
+        payInstead.onclick = function (e) {
+          e.preventDefault();
+          var starterBtn = document.querySelector('[data-buy="starter"]');
+          if (starterBtn) starterBtn.click();
+        };
+      }
+      showState('eligible');
+      return;
+    }
+
+    // Not eligible
+    var reason = data && data.reason;
+    if (reason === 'already_paid') {
+      var link = document.getElementById('redeem-open-link');
+      if (link && data.html_url) link.href = data.html_url;
+      showState('already');
+      // Hide pricing tiers/demo banner — no reason to show paid CTAs.
+      var tiersSection = document.querySelector('section.section.tight:not(#tsm-redeem-panel)');
+      if (tiersSection) tiersSection.style.display = 'none';
+      return;
+    }
+    // Any other ineligible reason (no_author_for_email, map_not_found, not_map_owner,
+    // insufficient_balance, unsupported_tier:*): silent fall-through to existing Stripe flow.
+    hidePanel();
+  }
+
+  async function redeem(email, btn) {
+    btn.disabled = true; // Prevent double-click — backend is idempotent anyway.
+    showState('redeeming');
+    try {
+      var resp = await fetch(REDEEM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, map_id: mapId })
+      });
+      var data = await resp.json().catch(function () { return null; });
+
+      if (!data) {
+        showError('Network error. Please try again, or email support@tropesmith.com.');
+        btn.disabled = false;
+        return;
+      }
+
+      // Success — either fresh redeem or idempotent already_paid. Either way, html_url
+      // is the customer's destination. The re-render is fire-and-forget; the unlock
+      // email arrives with the right URL.
+      if (data.ok && (data.redeemed || data.already_paid) && data.html_url) {
+        window.location.href = data.html_url;
+        return;
+      }
+
+      // Error response from the function (insufficient_balance, not_map_owner, etc.)
+      // — backend phrases the customer-facing message in `message`.
+      showError((data && data.message) || 'Could not redeem credit. Please try again.');
+      btn.disabled = false;
+    } catch (err) {
+      console.error('[Tropesmith] redeem failed:', err);
+      showError('Network error. Please try again, or email support@tropesmith.com.');
+      btn.disabled = false;
+    }
+  }
+
+  // Email-form path (used when we couldn't resolve the email automatically).
+  var form = document.getElementById('redeem-email-form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = document.getElementById('redeem-email-input');
+      var email = (input && input.value || '').trim();
+      if (!email || email.indexOf('@') < 1) return;
+      checkBalance(email);
+    });
+  }
+
+  // Kick off.
+  (async function () {
+    var email = await resolveEmail();
+    if (email) {
+      await checkBalance(email);
+    } else {
+      showState('email');
+    }
+  })();
 })();
 </script>
 <script src="../assets/page-event-tracker.js?v=20260514-9" defer></script>
