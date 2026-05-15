@@ -5,7 +5,7 @@
  * ============================================================ */
 (function () {
   'use strict';
-  var ENDPOINT = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/page-event';
+  var ENDPOINT = '/api/functions/v1/page-event';
   var FLUSH_INTERVAL_MS = 2000;
   var SCROLL_MILESTONES = [25, 50, 75, 100];
   // -------- UUID v4 (RFC 4122, cryptographically random) --------

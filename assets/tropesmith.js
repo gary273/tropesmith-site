@@ -8,7 +8,7 @@
   'use strict';
 
   const STRIPE_PUBLISHABLE_KEY = 'pk_live_51TWCSxEeslmkApi8V08SsTWPVOZgtNOhy8kNCLG6D1IH3JPjXxG29n9ioNf2FHXmG4FEKRaMSb64gCaqfGkMls4z00OdHCkZfb';
-  const SUPABASE_FN_BASE = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1';
+  const SUPABASE_FN_BASE = '/api/functions/v1';
   const ENDPOINTS = {
     checkout: SUPABASE_FN_BASE + '/tropesmith-checkout-session',
     intake: SUPABASE_FN_BASE + '/intake-submit',

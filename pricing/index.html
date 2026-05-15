@@ -411,7 +411,7 @@
 // tsm-pricing-auth: detect signed-in user, expose email for one-click checkout
 window.TSM_SESSION_EMAIL = null;
 (function () {
-  const SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+  const SUPABASE_URL = '/api';
   fetch(SUPABASE_URL + '/functions/v1/library/me', { credentials: 'include' })
     .then(resp => resp.ok ? resp.json() : null)
     .then(data => {
@@ -446,8 +446,8 @@ window.TSM_SESSION_EMAIL = null;
 (function () {
   'use strict';
 
-  var REDEEM_ENDPOINT = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/credit-redeem-map';
-  var LIBRARY_ME      = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/library/me';
+  var REDEEM_ENDPOINT = '/api/functions/v1/credit-redeem-map';
+  var LIBRARY_ME      = '/api/functions/v1/library/me';
 
   var params = new URLSearchParams(window.location.search);
   var mapId  = params.get('unlock');

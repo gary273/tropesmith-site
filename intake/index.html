@@ -218,7 +218,7 @@
     });
   });
 
-  const SUPABASE_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co';
+  const SUPABASE_URL = '/api';
   fetch(SUPABASE_URL + '/functions/v1/library/me', { credentials: 'include' })
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(data){
@@ -247,7 +247,7 @@
 
 <script>
 (function() {
-  var API_BASE = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1';
+  var API_BASE = '/api/functions/v1';
 
   var COMING_ONLINE = {
     'historical_fiction.general': true,
