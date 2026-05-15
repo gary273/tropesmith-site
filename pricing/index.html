@@ -131,7 +131,8 @@
         <h3 class="ts-redeem-h">Enter your email to check for credits</h3>
         <p>If a Map credit is on your account, you can use it to unlock this Map &mdash; no payment needed.</p>
         <form id="redeem-email-form" class="ts-redeem-form">
-          <input type="email" id="redeem-email-input" placeholder="you@example.com" required autocomplete="email" />
+          <label for="redeem-email-input" class="visually-hidden">Email address for credit balance check</label>
+          <input type="email" id="redeem-email-input" placeholder="you@example.com" required autocomplete="email" aria-label="Email address for credit balance check" />
           <button type="submit" class="btn btn-primary btn-sm">Check balance <span class="arrow">&rarr;</span></button>
         </form>
       </div>

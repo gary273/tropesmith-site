@@ -522,6 +522,17 @@ h1,h2,h3,h4,h5,h6{ font-family: var(--ts-serif); font-weight: 600; letter-spacin
 .divider-grad{ height: 1px; background: var(--ts-grad); opacity: .6; }
 @media (max-width: 720px){ .hide-mob{ display: none !important; } }
 
+/* a11y: visually hidden but exposed to screen readers + assistive tech */
+.visually-hidden{
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ── page-header (subpages) ──────────────────────────────── */
 .page-head{ padding: 44px 0 28px; }
 .page-head .eyebrow{ margin-bottom: 12px; }
