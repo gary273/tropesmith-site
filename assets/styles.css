@@ -533,6 +533,26 @@ h1,h2,h3,h4,h5,h6{ font-family: var(--ts-serif); font-weight: 600; letter-spacin
   border: 0;
 }
 
+/* a11y: skip-link — invisible until keyboard-focused, then jumps to main content */
+.skip-link{
+  position: absolute;
+  top: -100px; left: 16px;
+  z-index: 200;
+  padding: 10px 16px;
+  background: var(--ts-ink);
+  color: var(--ts-cream);
+  border-radius: 6px;
+  font-family: var(--ts-sans);
+  font-size: 14px; font-weight: 600;
+  text-decoration: none;
+  transition: top .15s ease;
+}
+.skip-link:focus{
+  top: 12px;
+  outline: 2px solid var(--ts-violet);
+  outline-offset: 2px;
+}
+
 /* ── page-header (subpages) ──────────────────────────────── */
 .page-head{ padding: 44px 0 28px; }
 .page-head .eyebrow{ margin-bottom: 12px; }
