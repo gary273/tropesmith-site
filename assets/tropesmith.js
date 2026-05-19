@@ -45,10 +45,13 @@
       const urlParams = new URLSearchParams(window.location.search);
       const unlockMapId = urlParams.get('unlock') || undefined;
       const internalCouponCode = urlParams.get('test_code') || undefined;
+      // ?promo=SKOOL25 — auto-applied at checkout when the edge function recognises
+      // the code in its KNOWN_PROMOS allowlist. Unknown values are ignored server-side.
+      const promoCode = urlParams.get('promo') || undefined;
       const resp = await fetch(ENDPOINTS.checkout, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_id: productId, email: email || undefined, map_id: unlockMapId, internal_coupon_code: internalCouponCode })
+        body: JSON.stringify({ product_id: productId, email: email || undefined, map_id: unlockMapId, internal_coupon_code: internalCouponCode, promo_code: promoCode })
       });
 
       if (!resp.ok) {
