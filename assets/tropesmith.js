@@ -31,6 +31,8 @@
   async function buyProduct(productId, options) {
     options = options || {};
     const email = options.email || '';
+    // mapId option for the library Unlock $15 button on locked series books.
+    const mapIdOpt = options.mapId || undefined;
     const onError = options.onError || null;
 
     let mountEl = document.getElementById('ts-checkout-mount');
@@ -43,7 +45,7 @@
 
     try {
       const urlParams = new URLSearchParams(window.location.search);
-      const unlockMapId = urlParams.get('unlock') || undefined;
+      const unlockMapId = mapIdOpt || urlParams.get('unlock') || undefined;
       const internalCouponCode = urlParams.get('test_code') || undefined;
       // ?promo=SKOOL25 — auto-applied at checkout when the edge function recognises
       // the code in its KNOWN_PROMOS allowlist. Unknown values are ignored server-side.

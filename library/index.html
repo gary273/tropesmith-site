@@ -212,7 +212,7 @@
         var mapId = btn.getAttribute('data-map-id');
         if (!mapId) return;
         if (window.Tropesmith && typeof Tropesmith.buyProduct === 'function') {
-          Tropesmith.buyProduct('starter', { email: btn.getAttribute('data-email') || undefined, onError: function(err) { alert('Checkout failed: ' + err.message); } });
+          Tropesmith.buyProduct('starter', { email: btn.getAttribute('data-email') || undefined, mapId: mapId, onError: function(err) { alert('Checkout failed: ' + err.message); } });
         } else { window.location.href = '/pricing/?unlock=' + encodeURIComponent(mapId); }
       });
     })
