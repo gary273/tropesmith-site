@@ -33,10 +33,23 @@
   .pill-paid { background: rgba(124,58,237,0.1); color: var(--ts-grad-start); }
   .pill-ready { background: rgba(34,160,107,0.12); color: #1c7a52; }
   .pill-pending { background: rgba(184,134,11,0.12); color: #8a6508; }
+  .pill-locked { background: rgba(26,18,8,0.06); color: var(--ts-ink-soft); }
+
+  .map-row-locked { background: #faf9f7; border: 1px dashed rgba(26,18,8,0.15); opacity: 0.85; }
+  .map-row-locked:hover { border-color: rgba(124,58,237,0.25); opacity: 1; }
+  .map-row-locked .map-row-title { color: var(--ts-ink-soft); }
+  .map-row-locked .map-row-teaser { font-size: 0.88rem; color: var(--ts-ink-soft); margin-top: 4px; font-style: italic; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .unlock-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--ts-grad-start, #7c3aed); color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: background 0.15s; text-decoration: none; }
+  .unlock-btn:hover { background: #6d28d9; }
+  .unlock-btn svg { width: 14px; height: 14px; }
+  .series-group { margin-bottom: 32px; }
+  .series-group-title { font-family: var(--ts-serif); font-size: 1.25rem; font-weight: 700; color: var(--ts-ink); margin: 0 0 6px 0; }
+  .series-group-subtitle { font-size: 0.9rem; color: var(--ts-ink-soft); margin: 0 0 14px 0; }
 
   .empty-state { background: #fff; border: 1px dashed rgba(26,18,8,0.15); border-radius: 12px; padding: 40px 24px; text-align: center; color: var(--ts-ink-soft); }
   .empty-state h3 { font-family: var(--ts-serif); color: var(--ts-ink); margin: 0 0 8px 0; }
 </style>
+<script src="/assets/tropesmith.js?v=20260521-1"></script>
 </head>
 <body>
 
@@ -124,11 +137,37 @@
     } catch (e) { return ''; }
   }
 
-  function statusPill(status) {
-    const s = (status || '').toLowerCase();
+  function statusPill(status, tier) {
+    var s = (status || '').toLowerCase();
+    var t = (tier || '').toLowerCase();
+    if (t === 'locked' || s === 'pending_series') return '<span class="pill pill-locked">Locked</span>';
     if (s === 'delivered') return '<span class="pill pill-ready">Ready</span>';
-    if (s === 'pending' || s === 'rendering') return '<span class="pill pill-pending">Building</span>';
+    if (s === 'pending' || s === 'rendering' || s === 'synthesising') return '<span class="pill pill-pending">Building</span>';
     return '<span class="pill pill-pending">' + (s || 'Unknown') + '</span>';
+  }
+
+  function renderMapRow(m) {
+    var isLocked = m.tier === 'locked' || m.status === 'pending_series';
+    var row = document.createElement(isLocked ? 'div' : 'a');
+    row.className = 'map-row' + (isLocked ? ' map-row-locked' : '');
+    if (!isLocked) { row.href = m.html_url || '#'; row.target = '_blank'; }
+    row.style.textDecoration = 'none';
+    var bookLabel = m.book_position ? 'Book ' + m.book_position : '';
+    var title = m.title || (bookLabel ? bookLabel + ' Map' : 'Untitled Map');
+    var tldr = m.tldr || '';
+    if (isLocked) {
+      row.innerHTML = '<div class="map-row-main"><div class="map-row-title">' + (bookLabel || 'Locked') + '</div>' + (tldr ? '<div class="map-row-teaser">' + tldr.substring(0, 180) + (tldr.length > 180 ? '...' : '') + '</div>' : '<div class="map-row-meta">Full trope map available</div>') + '</div><div><button class="unlock-btn" data-map-id="' + m.id + '" data-email="' + (m.email || '') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Unlock $15</button></div>';
+    } else {
+      row.innerHTML = '<div class="map-row-main"><div class="map-row-title">' + title + '</div><div class="map-row-meta">' + (bookLabel ? bookLabel + ' &middot; ' : '') + (m.subgenre ? m.subgenre + ' &middot; ' : '') + (m.delivered_at ? 'delivered ' + fmtDate(m.delivered_at) : 'created ' + fmtDate(m.created_at)) + '</div></div><div>' + statusPill(m.status, m.tier) + '</div>';
+    }
+    return row;
+  }
+
+  function groupMapsBySeries(maps) {
+    var groups = {}, order = [];
+    maps.forEach(function(m) { var key = m.intake_id || m.id; if (!groups[key]) { groups[key] = []; order.push(key); } groups[key].push(m); });
+    Object.keys(groups).forEach(function(k) { groups[k].sort(function(a, b) { return (a.book_position || 1) - (b.book_position || 1); }); });
+    return { groups: groups, order: order };
   }
 
   fetch(SUPABASE_URL + '/functions/v1/library/me', { credentials: 'include' })
@@ -138,39 +177,43 @@
     })
     .then(data => {
       if (!data.ok) throw new Error(data.error || 'failed');
-      const name = nameFromEmail(data.email);
+      var name = nameFromEmail(data.email);
       greetH.innerHTML = 'Hi <span class="grad-text">' + name + '.</span>';
-      const mapCount = data.delivered_map_count || 0;
-      const credits = data.credit_balance || 0;
-      const mapLabel = mapCount === 1 ? 'Map' : 'Maps';
-      const creditLabel = credits === 1 ? 'credit' : 'credits';
-      statsLine.innerHTML = 'You have <b>' + mapCount + ' ' + mapLabel + '</b> and <b>' + credits + ' ' + creditLabel + '</b> in your library.';
+      var mapCount = data.delivered_map_count || 0;
+      var credits = data.credit_balance || 0;
+      statsLine.innerHTML = 'You have <b>' + mapCount + ' ' + (mapCount === 1 ? 'Map' : 'Maps') + '</b> and <b>' + credits + ' ' + (credits === 1 ? 'credit' : 'credits') + '</b> in your library.';
       return fetch(SUPABASE_URL + '/functions/v1/library/maps', { credentials: 'include' });
     })
     .then(resp => resp.json())
     .then(data => {
-      const maps = (data && data.maps) || [];
-      if (maps.length === 0) {
-        emptyState.style.display = 'block';
-        return;
-      }
+      var maps = (data && data.maps) || [];
+      if (maps.length === 0) { emptyState.style.display = 'block'; return; }
       mapsSection.style.display = 'block';
-      maps.forEach(m => {
-        const row = document.createElement('a');
-        row.className = 'map-row';
-        row.href = m.html_url || '#';
-        row.target = '_blank';
-        row.style.textDecoration = 'none';
-        row.innerHTML = '\
-          <div class="map-row-main">\
-            <div class="map-row-title">' + (m.title || 'Untitled Map') + '</div>\
-            <div class="map-row-meta">' +
-              (m.subgenre ? m.subgenre + ' &middot; ' : '') +
-              (m.delivered_at ? 'delivered ' + fmtDate(m.delivered_at) : 'created ' + fmtDate(m.created_at)) +
-            '</div>\
-          </div>\
-          <div>' + statusPill(m.status) + '</div>';
-        mapsList.appendChild(row);
+      var result = groupMapsBySeries(maps);
+      result.order.forEach(function(intakeId) {
+        var group = result.groups[intakeId];
+        var hasMultiple = group.length > 1;
+        var lockedCount = group.filter(function(m) { return m.tier === 'locked' || m.status === 'pending_series'; }).length;
+        if (hasMultiple) {
+          var seriesDiv = document.createElement('div');
+          seriesDiv.className = 'series-group';
+          var seriesName = group[0].series_name || 'Your Series';
+          seriesDiv.innerHTML = '<h3 class="series-group-title">' + seriesName + '</h3>' + (lockedCount > 0 ? '<p class="series-group-subtitle">Book 1 is yours free. Unlock the remaining ' + lockedCount + ' book' + (lockedCount > 1 ? 's' : '') + ' for $15 each.</p>' : '');
+          group.forEach(function(m) { seriesDiv.appendChild(renderMapRow(m)); });
+          mapsList.appendChild(seriesDiv);
+        } else {
+          mapsList.appendChild(renderMapRow(group[0]));
+        }
+      });
+      mapsList.addEventListener('click', function(e) {
+        var btn = e.target.closest('.unlock-btn');
+        if (!btn) return;
+        e.preventDefault();
+        var mapId = btn.getAttribute('data-map-id');
+        if (!mapId) return;
+        if (window.Tropesmith && typeof Tropesmith.buyProduct === 'function') {
+          Tropesmith.buyProduct('starter', { email: btn.getAttribute('data-email') || undefined, onError: function(err) { alert('Checkout failed: ' + err.message); } });
+        } else { window.location.href = '/pricing/?unlock=' + encodeURIComponent(mapId); }
       });
     })
     .catch(err => {

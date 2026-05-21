@@ -210,14 +210,18 @@
       msg.classList.add('err');
       return;
     }
+    var FORMAT_TO_BOOKS = { standalone:1, duology:2, trilogy:3, four_book:4, five_book:5, six_book:6 };
+    var formatVal = form.format.value;
+    var booksInSeries = FORMAT_TO_BOOKS[formatVal] || 1;
     const payload = {
       email: form.email.value.trim(),
       display_name: form.display_name.value.trim() || undefined,
       genre_id: form.genre.value,
       subgenre_id: form.subgenre.value,
       heat_level: form.heat_level.value,
-      format: form.format.value,
+      format: formatVal,
       series_name: form.series_name.value.trim() || undefined,
+      books_in_series: booksInSeries,
       comp_titles_raw: form.comp_titles.value.trim() || undefined,
       marketing_opt_in: form.newsletter_opt_in.checked
     };
