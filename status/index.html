@@ -36,7 +36,7 @@
       <h2 id="status-title">Reading the market…</h2>
       <div class="status-text" id="status-text">Connecting…</div>
       <div class="status-bar" id="status-bar"></div>
-      <div class="elapsed" id="elapsed">Elapsed 0s · typical ~2 min</div>
+      <div class="elapsed" id="elapsed">Elapsed 0s · typical ~5 min</div>
       <p class="copy" style="margin: 18px auto 0; max-width: 44ch; font-size: 14.5px;">You can leave this tab open — we'll redirect you the moment your Map is ready. Or close it and check your email; the Map link arrives there too.</p>
     </div>
 
@@ -112,7 +112,7 @@
       const pair = labels[status] || labels.pending;
       titleEl.textContent = pair[0];
       statusText.textContent = pair[1];
-      elapsedEl.textContent = 'Elapsed ' + Math.floor(elapsed) + 's · typical ~2 min';
+      elapsedEl.textContent = 'Elapsed ' + Math.floor(elapsed) + 's · typical ~5 min';
     }
   });
 })();
