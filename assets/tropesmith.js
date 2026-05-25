@@ -92,6 +92,11 @@
         body: JSON.stringify({ map_id: mapId })
       });
       const data = await resp.json().catch(function () { return { error: 'unknown' }; });
+      // Backend returns HTTP 200 with {ok:true, redeemed:false, already_paid:true}
+      // when the map is already unlocked — treat as success, not an error.
+      if (data && data.already_paid === true) {
+        return data;
+      }
       if (!resp.ok || data.redeemed === false) {
         const e = new Error(data.message || data.error || 'HTTP ' + resp.status);
         e.code = data.reason || data.error || null;
