@@ -510,7 +510,20 @@ window.TSM_SESSION_EMAIL = null;
   document.querySelectorAll('[data-buy]').forEach(btn => {
     btn.addEventListener('click', () => {
       if (window.Tropesmith && typeof Tropesmith.buyProduct === 'function') {
-        Tropesmith.buyProduct(btn.dataset.buy, { email: window.TSM_SESSION_EMAIL || undefined, onError: function(err){ alert('Sorry — we could not start checkout. Please try again, or email support@tropesmith.com.'); console.error(err); } });
+        // Resolve customer email: prefer signed-in session, otherwise prompt
+        // when the URL carries a coupon (test_code or promo) — those are
+        // email-validated server-side BEFORE Stripe's iframe opens, so the
+        // anonymous "Stripe will ask in the iframe" path fails silently for them.
+        var email = window.TSM_SESSION_EMAIL || '';
+        if (!email) {
+          var qp = new URLSearchParams(window.location.search);
+          var needsEmail = qp.has('test_code') || qp.has('promo');
+          if (needsEmail) {
+            email = (window.prompt('Enter your email to apply your code and continue checkout:') || '').trim();
+            if (!email) return; // user cancelled
+          }
+        }
+        Tropesmith.buyProduct(btn.dataset.buy, { email: email || undefined, onError: function(err){ alert('Sorry — we could not start checkout. Please try again, or email support@tropesmith.com.'); console.error(err); } });
       } else {
         console.warn('Tropesmith module not loaded — /assets/tropesmith.js missing.');
         alert('Checkout is temporarily unavailable. Please try again in a moment.');
