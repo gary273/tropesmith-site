@@ -165,8 +165,13 @@
         ? '<div class="map-row-teaser">' + tldr.substring(0, 180) + (tldr.length > 180 ? '...' : '') + '</div>'
         : '<div class="map-row-meta">Full trope map available</div>';
       var btnHtml;
+      var lockSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
       if (isReady) {
-        btnHtml = '<button class="unlock-btn" data-map-id="' + m.id + '" data-email="' + (m.email || '') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Unlock $15</button>';
+        if (creditBalance > 0) {
+          btnHtml = '<button class="unlock-btn" data-map-id="' + m.id + '" data-mode="credit">' + lockSvg + 'Unlock free (1 credit)</button>';
+        } else {
+          btnHtml = '<button class="unlock-btn" data-map-id="' + m.id + '" data-mode="paid" data-email="' + (m.email || '') + '">' + lockSvg + 'Unlock $15</button>';
+        }
       } else {
         btnHtml = '<button class="unlock-btn unlock-btn--disabled" disabled aria-disabled="true" title="We are still preparing this book. Refresh in a moment."><span class="dot-spin"></span>Preparing…</button>';
       }
@@ -184,6 +189,7 @@
     return { groups: groups, order: order };
   }
 
+  var creditBalance = 0;
   fetch(SUPABASE_URL + '/functions/v1/library/me', { credentials: 'include' })
     .then(resp => {
       if (resp.status === 401) { window.location.href = '../login/index.html?next=/library/'; throw new Error('redirect'); }
@@ -195,6 +201,7 @@
       greetH.innerHTML = 'Hi <span class="grad-text">' + name + '.</span>';
       var mapCount = data.delivered_map_count || 0;
       var credits = data.credit_balance || 0;
+      creditBalance = credits;
       statsLine.innerHTML = 'You have <b>' + mapCount + ' ' + (mapCount === 1 ? 'Map' : 'Maps') + '</b> and <b>' + credits + ' ' + (credits === 1 ? 'credit' : 'credits') + '</b> in your library.';
       return fetch(SUPABASE_URL + '/functions/v1/library/maps', { credentials: 'include' });
     })
@@ -212,7 +219,15 @@
           var seriesDiv = document.createElement('div');
           seriesDiv.className = 'series-group';
           var seriesName = group[0].series_name || 'Your Series';
-          seriesDiv.innerHTML = '<h3 class="series-group-title">' + seriesName + '</h3>' + (lockedCount > 0 ? '<p class="series-group-subtitle">Book 1 is yours free. Unlock the remaining ' + lockedCount + ' book' + (lockedCount > 1 ? 's' : '') + ' for $15 each.</p>' : '');
+          var subtitleText = '';
+          if (lockedCount > 0) {
+            if (creditBalance > 0) {
+              subtitleText = '<p class="series-group-subtitle">Book 1 is yours free. Use your credits to unlock the remaining ' + lockedCount + ' book' + (lockedCount > 1 ? 's' : '') + ' — no extra charge.</p>';
+            } else {
+              subtitleText = '<p class="series-group-subtitle">Book 1 is yours free. Unlock the remaining ' + lockedCount + ' book' + (lockedCount > 1 ? 's' : '') + ' for $15 each.</p>';
+            }
+          }
+          seriesDiv.innerHTML = '<h3 class="series-group-title">' + seriesName + '</h3>' + subtitleText;
           group.forEach(function(m) { seriesDiv.appendChild(renderMapRow(m)); });
           mapsList.appendChild(seriesDiv);
         } else {
@@ -225,6 +240,24 @@
         e.preventDefault();
         var mapId = btn.getAttribute('data-map-id');
         if (!mapId) return;
+        var mode = btn.getAttribute('data-mode');
+        if (mode === 'credit' && window.Tropesmith && typeof Tropesmith.redeemCredit === 'function') {
+          var originalHtml = btn.innerHTML;
+          btn.disabled = true;
+          btn.classList.add('unlock-btn--disabled');
+          btn.innerHTML = '<span class="dot-spin"></span>Unlocking…';
+          Tropesmith.redeemCredit(mapId, {
+            onError: function(err) {
+              btn.disabled = false;
+              btn.classList.remove('unlock-btn--disabled');
+              btn.innerHTML = originalHtml;
+              alert('Unlock failed: ' + err.message);
+            }
+          }).then(function(result) {
+            if (result) { window.location.reload(); }
+          });
+          return;
+        }
         if (window.Tropesmith && typeof Tropesmith.buyProduct === 'function') {
           Tropesmith.buyProduct('starter', { email: btn.getAttribute('data-email') || undefined, mapId: mapId, onError: function(err) { alert('Checkout failed: ' + err.message); } });
         } else { window.location.href = '/pricing/?unlock=' + encodeURIComponent(mapId); }

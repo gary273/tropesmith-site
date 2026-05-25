@@ -12,7 +12,8 @@
   const ENDPOINTS = {
     checkout: SUPABASE_FN_BASE + '/tropesmith-checkout-session',
     intake: SUPABASE_FN_BASE + '/intake-submit',
-    mapStatus: SUPABASE_FN_BASE + '/map-status'
+    mapStatus: SUPABASE_FN_BASE + '/map-status',
+    creditUnlock: SUPABASE_FN_BASE + '/tropesmith-credit-unlock'
   };
 
   let stripeInstance = null;
@@ -77,6 +78,30 @@
       if (modalEl) modalEl.remove();
       if (onError) onError(err);
       else alert('Sorry, checkout failed: ' + err.message);
+    }
+  }
+
+  async function redeemCredit(mapId, options) {
+    options = options || {};
+    const onError = options.onError || null;
+    try {
+      const resp = await fetch(ENDPOINTS.creditUnlock, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ map_id: mapId })
+      });
+      const data = await resp.json().catch(function () { return { error: 'unknown' }; });
+      if (!resp.ok || data.redeemed === false) {
+        const e = new Error(data.message || data.error || 'HTTP ' + resp.status);
+        e.code = data.reason || data.error || null;
+        throw e;
+      }
+      return data;
+    } catch (err) {
+      console.error('[Tropesmith] credit unlock failed:', err);
+      if (onError) { onError(err); return null; }
+      throw err;
     }
   }
 
@@ -162,6 +187,7 @@
   window.Tropesmith = window.Tropesmith || {};
   Object.assign(window.Tropesmith, {
     buyProduct: buyProduct,
+    redeemCredit: redeemCredit,
     submitIntake: submitIntake,
     pollMapStatus: pollMapStatus,
     ENDPOINTS: ENDPOINTS,
