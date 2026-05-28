@@ -19,6 +19,60 @@
   let stripeInstance = null;
   let activeCheckout = null;
 
+  // UTM attribution (first-touch persisted, last-touch override).
+  // Captures ?utm_source / ?utm_medium / ?utm_campaign / ?utm_content / ?utm_term
+  // on every page load and persists to localStorage so the attribution survives
+  // the navigation from a marketing link to /intake/.
+  function captureUtm() {
+    try {
+      const params = new URLSearchParams(window.location.search || '');
+      const current = {
+        utm_source: params.get('utm_source'),
+        utm_medium: params.get('utm_medium'),
+        utm_campaign: params.get('utm_campaign'),
+        utm_content: params.get('utm_content'),
+        utm_term: params.get('utm_term'),
+        referrer: document.referrer || null,
+        landing_path: window.location.pathname || null,
+        captured_at: new Date().toISOString()
+      };
+      // Only persist if at least one UTM is present on this load (first-touch model).
+      const hasAnyUtm = current.utm_source || current.utm_medium || current.utm_campaign;
+      if (hasAnyUtm) {
+        const existing = localStorage.getItem('tsm_utm_first');
+        if (!existing) {
+          localStorage.setItem('tsm_utm_first', JSON.stringify(current));
+        }
+        // Always overwrite the "last-touch" slot.
+        localStorage.setItem('tsm_utm_last', JSON.stringify(current));
+      }
+    } catch (e) {
+      // localStorage may be unavailable in private browsing — silently ignore.
+    }
+  }
+  function getUtmForIntake() {
+    try {
+      const last = JSON.parse(localStorage.getItem('tsm_utm_last') || 'null');
+      const first = JSON.parse(localStorage.getItem('tsm_utm_first') || 'null');
+      const params = new URLSearchParams(window.location.search || '');
+      // Priority: current URL > last-touch > first-touch
+      return {
+        utm_source: params.get('utm_source') || (last && last.utm_source) || (first && first.utm_source) || null,
+        utm_medium: params.get('utm_medium') || (last && last.utm_medium) || (first && first.utm_medium) || null,
+        utm_campaign: params.get('utm_campaign') || (last && last.utm_campaign) || (first && first.utm_campaign) || null,
+        utm_content: params.get('utm_content') || (last && last.utm_content) || (first && first.utm_content) || null,
+        utm_term: params.get('utm_term') || (last && last.utm_term) || (first && first.utm_term) || null,
+        first_touch_at: (first && first.captured_at) || null,
+        first_touch_referrer: (first && first.referrer) || null,
+        last_touch_referrer: (last && last.referrer) || null
+      };
+    } catch (e) {
+      return {};
+    }
+  }
+  // Run on every script load
+  captureUtm();
+
   function getStripe() {
     if (!stripeInstance) {
       if (typeof Stripe === 'undefined') {
@@ -150,6 +204,19 @@
     if (!payload.subgenre_id) throw new Error('subgenre_id is required');
     if (!payload.heat_level) throw new Error('heat_level is required');
     if (!payload.format) throw new Error('format is required');
+
+    // Attach UTM attribution from URL / localStorage (caller can still override).
+    const utm = getUtmForIntake();
+    if (utm.utm_source && !payload.utm_source) payload.utm_source = utm.utm_source;
+    if (utm.utm_medium && !payload.utm_medium) payload.utm_medium = utm.utm_medium;
+    if (utm.utm_campaign && !payload.utm_campaign) payload.utm_campaign = utm.utm_campaign;
+    payload.metadata = Object.assign({}, payload.metadata || {}, {
+      utm_content: utm.utm_content,
+      utm_term: utm.utm_term,
+      first_touch_at: utm.first_touch_at,
+      first_touch_referrer: utm.first_touch_referrer,
+      last_touch_referrer: utm.last_touch_referrer
+    });
 
     const resp = await fetch(ENDPOINTS.intake, {
       method: 'POST',
