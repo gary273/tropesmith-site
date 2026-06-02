@@ -108,7 +108,7 @@
         <span class="grad-text">reaching for</span> this month.
       </h1>
       <p class="lede lg">
-        Tropesmith reads <strong>2.18 billion BookTok plays</strong>, <strong>9,258 Goodreads shelves</strong>, <strong>3,109 Reddit threads across 31 subreddits</strong>, and <strong>2,531 Amazon books</strong> so you don't have to. Then we tell you the <strong>5 tropes</strong>, <strong>3 comp titles</strong>, and <strong>market gaps</strong> your next book should hit.
+        Tropesmith reads <strong>2.18 billion BookTok plays</strong>, <strong><span data-stat-text="shelf_signals_analyzed">18,621</span> Goodreads shelves</strong>, <strong><span data-stat-text="reviews_analyzed">11,843</span> reader reviews</strong>, and <strong><span data-stat-text="books_analyzed">2,727</span> Amazon books</strong> so you don't have to. Then we tell you the <strong>5 tropes</strong>, <strong>3 comp titles</strong>, and <strong>market gaps</strong> your next book should hit.
       </p>
 
       <div class="hero-cta">
@@ -122,9 +122,9 @@
         <span>In minutes, not weeks</span>
       </div>
 
-      <div class="hero-capacity" title="Updated nightly">
+      <div class="hero-capacity">
         <span class="pulse" aria-hidden="true"></span>
-        <span>Live · 2.18B BookTok plays · 22,023 book-trope mappings · 9,410 demand signals</span>
+        <span>Live · <span data-stat-text="reader_signals_total">57,212</span> reader signals · <span data-stat-text="book_trope_links">34,219</span> book-trope mappings · <span data-stat-text="tropes_tracked">4,205</span> tropes tracked</span>
       </div>
     </div>
 
@@ -347,27 +347,27 @@
         <div class="tsm-corpus-card-meta">
           <span>82 hashtags tracked</span>
           <span aria-hidden="true">·</span>
-          <span>4,660 viral videos parsed</span>
+          <span><span data-stat-text="booktok_videos_analyzed">8,013</span> viral videos parsed</span>
         </div>
       </div>
 
       <div class="tsm-corpus-card tsm-corpus-card--goodreads">
         <div class="tsm-corpus-card-label">Goodreads readers</div>
-        <div class="tsm-corpus-card-stat" data-target="9258" data-format="comma">0</div>
+        <div class="tsm-corpus-card-stat" data-target="18621" data-stat="shelf_signals_analyzed" data-format="comma">0</div>
         <div class="tsm-corpus-card-unit">shelf signals</div>
         <div class="tsm-corpus-card-meta">
-          <span>7,674 reviews mined</span>
+          <span><span data-stat-text="reviews_analyzed">11,843</span> reviews mined</span>
           <span aria-hidden="true">·</span>
-          <span>161 books deep-tagged</span>
+          <span>deep-tagged by Claude</span>
         </div>
       </div>
 
       <div class="tsm-corpus-card tsm-corpus-card--amazon">
         <div class="tsm-corpus-card-label">Amazon bestsellers</div>
-        <div class="tsm-corpus-card-stat" data-target="2531" data-format="comma">0</div>
+        <div class="tsm-corpus-card-stat" data-target="2727" data-stat="books_analyzed" data-format="comma">0</div>
         <div class="tsm-corpus-card-unit">books analyzed</div>
         <div class="tsm-corpus-card-meta">
-          <span>22,023 book-trope mappings</span>
+          <span><span data-stat-text="book_trope_links">34,219</span> book-trope mappings</span>
           <span aria-hidden="true">·</span>
           <span>Kindle + print</span>
         </div>
@@ -375,7 +375,7 @@
 
       <div class="tsm-corpus-card tsm-corpus-card--reddit">
         <div class="tsm-corpus-card-label">Direct reader asks</div>
-        <div class="tsm-corpus-card-stat" data-target="9410" data-format="comma">0</div>
+        <div class="tsm-corpus-card-stat" data-target="18735" data-stat="demand_signals_analyzed" data-format="comma">0</div>
         <div class="tsm-corpus-card-unit">demand signals</div>
         <div class="tsm-corpus-card-meta">
           <span>BookTok + Reddit + Goodreads</span>
@@ -409,7 +409,7 @@
     </div>
 
     <p class="tsm-corpus-footnote">
-      Data refreshed monthly. Numbers above current as of <time datetime="2026-05-14">14 May 2026</time>.
+      Live corpus totals &mdash; updated continuously as we ingest more reader signals.
     </p>
 
   </div>
@@ -581,6 +581,10 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function() {
+  // Live corpus totals — best-effort fetch of the dateless public stats.
+  // Public, read-only, CORS-enabled; no auth, no dates exposed. If it fails,
+  // the hardcoded data-target / data-stat-text fallbacks stay (still current).
+  var STATS_URL = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/public-stats';
   function formatNumber(n, mode) {
     if (mode === 'abbreviated') {
       if (n >= 1000000000) return (n / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
@@ -590,6 +594,26 @@
     }
     return n.toLocaleString('en-US');
   }
+  function applyLiveStats(data) {
+    if (!data || typeof data !== 'object') return;
+    document.querySelectorAll('.tsm-corpus-card-stat[data-stat]').forEach(function(el) {
+      var v = data[el.dataset.stat];
+      if (typeof v === 'number' && v > 0) {
+        el.dataset.target = String(v);
+        if (el.dataset.animated) el.textContent = formatNumber(v, el.dataset.format || 'comma');
+      }
+    });
+    document.querySelectorAll('[data-stat-text]').forEach(function(el) {
+      var v = data[el.dataset.statText];
+      if (typeof v === 'number' && v > 0) el.textContent = v.toLocaleString('en-US');
+    });
+  }
+  try {
+    fetch(STATS_URL, { mode: 'cors' })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(applyLiveStats)
+      .catch(function() {});
+  } catch (e) {}
   function animateStat(el) {
     var target = parseInt(el.dataset.target, 10);
     var mode = el.dataset.format || 'comma';
