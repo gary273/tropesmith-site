@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Link not available — Tropesmith</title>
+<meta name="description" content="This Map link isn't available. Contact support if you think this is a mistake." />
+<meta name="robots" content="noindex" />
+<link rel="canonical" href="https://tropesmith.com/blocked" />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<link rel="icon" type="image/png" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png" />
+<link rel="apple-touch-icon" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=optional" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="nav-shell"><div class="wrap nav">
+  <a class="brand" href="/" aria-label="Tropesmith — home"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="/">Home</a>
+    <a href="/how-it-works/">How it works</a>
+    <a href="/sample/">Sample Maps</a>
+    <a href="/pricing/">Pricing</a>
+  </nav>
+  <div class="nav-cta">
+    <a class="btn btn-link" href="/login/" style="margin-right:12px;">Sign in</a><a class="btn btn-primary btn-sm" href="/intake/">Build my Map · Free <span class="arrow">→</span></a>
+  </div>
+</div></div>
+
+<main id="main">
+
+<section class="section" style="padding:80px 0 64px">
+  <div class="wrap" style="max-width:640px;text-align:center">
+    <span class="eyebrow" style="justify-content:center">Map link unavailable</span>
+    <h1 class="h-display" style="margin:18px 0 14px">This link can't open <span class="grad-text">that Map</span>.</h1>
+    <p class="lede lg" style="margin:0 auto 28px" data-reason-copy>This Map link is missing its access key, has been replaced, or is no longer active.</p>
+    <div class="hero-cta" style="justify-content:center">
+      <a class="btn btn-primary btn-lg" href="/library/">Open my Library <span class="arrow">→</span></a>
+      <a class="btn btn-lg" href="mailto:support@tropesmith.com?subject=Map%20link%20not%20working">Contact support</a>
+    </div>
+    <p class="micro" style="margin-top:24px">Bought a Map? Your latest delivery email always has your current link — or sign in to your <a href="/library/" style="text-decoration:underline">Library</a>. If you think this is a mistake, email <a href="mailto:support@tropesmith.com" style="text-decoration:underline">support@tropesmith.com</a> and we'll sort it fast.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot"><div class="wrap">
+  <div class="foot-grid">
+    <div><a class="brand" href="/" style="color:var(--ts-cream)"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+      <p class="foot-blurb"><b>Market intelligence for romance authors.</b> We read the market so you can write the book.</p></div>
+    <div><h6>Product</h6><a href="/how-it-works/">How it works</a><a href="/sample/">Sample Maps</a><a href="/pricing/">Pricing</a><a href="/intake/">Get your Map</a></div>
+    <div><h6>Company</h6><a href="mailto:support@tropesmith.com">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div>
+    <div><h6>Coming soon</h6><a href="#">Trope Pulse · monthly</a></div>
+  </div>
+  <div class="wrap foot-bar" style="padding-left:0;padding-right:0">
+    <span>© <span data-year>2026</span> Tropesmith. All rights reserved.</span>
+    <span>Data refreshed monthly · For indie romance</span>
+  </div>
+</div></footer>
+
+<script>
+document.querySelectorAll('[data-year]').forEach(function(el){el.textContent=new Date().getFullYear();});
+(function(){
+  var reason = new URLSearchParams(location.search).get('reason');
+  var copy = {
+    missing: "This Map link is incomplete — it's missing its access key. Use the link from your delivery email, or sign in to your Library.",
+    invalid: "This Map link isn't valid any more. It may have been replaced with a newer one — check your latest delivery email or your Library.",
+    revoked: "Access on this Map link has been turned off. If you believe this is a mistake, contact support and we'll sort it fast.",
+    temporary: "We hit a temporary hiccup opening your Map. Give it a minute and try your link again."
+  };
+  var el = document.querySelector('[data-reason-copy]');
+  if (el && reason && copy[reason]) el.textContent = copy[reason];
+})();
+</script>
+</body>
+</html>
