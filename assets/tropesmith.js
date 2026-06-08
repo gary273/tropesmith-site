@@ -70,8 +70,33 @@
       return {};
     }
   }
+  // Discount-code persistence. ?test_code= (internal comps, e.g. GARYTEST) and
+  // ?promo= (community codes, e.g. SKOOL25) are only read at checkout time. Persist
+  // them to localStorage on page load so the discount survives a magic-link login or
+  // navigation away from the entry URL — same first/last-touch idea as UTM above.
+  function captureDiscountCodes() {
+    try {
+      const params = new URLSearchParams(window.location.search || '');
+      const testCode = params.get('test_code');
+      const promo = params.get('promo');
+      if (testCode) localStorage.setItem('tsm_test_code', testCode);
+      if (promo) localStorage.setItem('tsm_promo', promo);
+    } catch (e) {
+      // localStorage may be unavailable in private browsing — silently ignore.
+    }
+  }
+  // Priority: current URL > persisted value. Returns undefined if neither present.
+  function getDiscountCode(param, storageKey) {
+    try {
+      const params = new URLSearchParams(window.location.search || '');
+      return params.get(param) || localStorage.getItem(storageKey) || undefined;
+    } catch (e) {
+      return new URLSearchParams(window.location.search || '').get(param) || undefined;
+    }
+  }
   // Run on every script load
   captureUtm();
+  captureDiscountCodes();
 
   function getStripe() {
     if (!stripeInstance) {
@@ -101,10 +126,12 @@
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const unlockMapId = mapIdOpt || urlParams.get('unlock') || undefined;
-      const internalCouponCode = urlParams.get('test_code') || undefined;
+      // test_code / promo fall back to the localStorage value captured on page load,
+      // so the discount survives login + navigation away from the entry URL.
+      const internalCouponCode = getDiscountCode('test_code', 'tsm_test_code');
       // ?promo=SKOOL25 — auto-applied at checkout when the edge function recognises
       // the code in its KNOWN_PROMOS allowlist. Unknown values are ignored server-side.
-      const promoCode = urlParams.get('promo') || undefined;
+      const promoCode = getDiscountCode('promo', 'tsm_promo');
       const resp = await fetch(ENDPOINTS.checkout, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
