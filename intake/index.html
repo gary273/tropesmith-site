@@ -146,6 +146,34 @@
       </fieldset>
 
       <fieldset class="fset">
+        <legend>Pairing &amp; tropes</legend>
+        <div class="row2">
+          <div class="field">
+            <label for="pairing">Pairing <span class="micro" style="font-weight:400">(optional)</span></label>
+            <select class="select" id="pairing" name="pairing">
+              <option value="any">No preference</option>
+              <option value="mf">M/F</option>
+              <option value="mm">M/M</option>
+              <option value="ff">F/F (Sapphic)</option>
+              <option value="rh">Why-Choose / Reverse Harem</option>
+              <option value="poly">Polyamorous</option>
+            </select>
+            <p class="help">We'll hold your Map to this pairing — no drift to M/F or reverse harem.</p>
+          </div>
+          <div class="field"></div>
+        </div>
+        <div class="field">
+          <label for="must_include">Tropes you're committed to <span class="micro" style="font-weight:400">(optional · comma-separated)</span></label>
+          <input class="input" type="text" id="must_include" name="must_include" placeholder="enemies to lovers, only one bed"/>
+        </div>
+        <div class="field">
+          <label for="must_avoid">Tropes you won't write <span class="micro" style="font-weight:400">(optional · comma-separated)</span></label>
+          <input class="input" type="text" id="must_avoid" name="must_avoid" placeholder="reverse harem, cheating"/>
+          <p class="help">We'll keep these out of your recommendations.</p>
+        </div>
+      </fieldset>
+
+      <fieldset class="fset">
         <legend>Comp titles</legend>
         <div class="field">
           <label for="comp_titles">Books you'd love to sit alongside <span class="micro" style="font-weight:400">(optional · one per line)</span></label>
@@ -223,6 +251,9 @@
       series_name: form.series_name.value.trim() || undefined,
       books_in_series: booksInSeries,
       comp_titles_raw: form.comp_titles.value.trim() || undefined,
+      pairing: form.pairing.value || 'any',
+      must_include_tropes: form.must_include.value.trim() || undefined,
+      must_avoid_tropes: form.must_avoid.value.trim() || undefined,
       marketing_opt_in: form.newsletter_opt_in.checked
     };
     if (fromSession) payload.from_session = fromSession;
