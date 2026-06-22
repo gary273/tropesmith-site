@@ -169,7 +169,7 @@
       var lockSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
       if (isReady) {
         if (creditBalance > 0) {
-          btnHtml = '<button class="unlock-btn" data-map-id="' + m.id + '" data-mode="credit">' + lockSvg + 'Unlock free (1 credit)</button>';
+          btnHtml = '<button class="unlock-btn" data-map-id="' + m.id + '" data-mode="credit">' + lockSvg + 'Unlock with 1 credit</button>';
         } else {
           btnHtml = '<button class="unlock-btn" data-map-id="' + m.id + '" data-mode="paid" data-email="' + (m.email || '') + '">' + lockSvg + 'Unlock $15</button>';
         }
@@ -223,9 +223,9 @@
           var subtitleText = '';
           if (lockedCount > 0) {
             if (creditBalance > 0) {
-              subtitleText = '<p class="series-group-subtitle">Book 1 is yours free. Use your credits to unlock the remaining ' + lockedCount + ' book' + (lockedCount > 1 ? 's' : '') + ' — no extra charge.</p>';
+              subtitleText = '<p class="series-group-subtitle">Book 1 is in your library. Use your credits to unlock the remaining ' + lockedCount + ' book' + (lockedCount > 1 ? 's' : '') + ' — no extra charge.</p>';
             } else {
-              subtitleText = '<p class="series-group-subtitle">Book 1 is yours free. Unlock the remaining ' + lockedCount + ' book' + (lockedCount > 1 ? 's' : '') + ' for $15 each.</p>';
+              subtitleText = '<p class="series-group-subtitle">Book 1 is in your library. Unlock the remaining ' + lockedCount + ' book' + (lockedCount > 1 ? 's' : '') + ' for $15 each.</p>';
             }
           }
           seriesDiv.innerHTML = '<h3 class="series-group-title">' + seriesName + '</h3>' + subtitleText;

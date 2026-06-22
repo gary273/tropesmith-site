@@ -4,12 +4,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Build Your Trope Map — Romance Market Research in 2 Minutes</title>
-<meta name="description" content="Tell us your romance subgenre, heat level, and format. Tropesmith builds your free trope, comp, and market-gap Map in about five minutes. No card needed." />
+<meta name="description" content="Tell us your romance subgenre, heat level, and format. Tropesmith builds your trope, comp, and market-gap Map in about five minutes. $15 a Map." />
 <link rel="canonical" href="https://tropesmith.com/intake/" />
 
 <!-- Open Graph -->
 <meta property="og:title" content="Build Your Trope Map — Romance Market Research in 2 Minutes" />
-<meta property="og:description" content="A 60-second brief and Tropesmith builds your Map in about five minutes. Your first Map is free — no card needed." />
+<meta property="og:description" content="A 60-second brief and Tropesmith builds your Map in about five minutes. $15 a Map." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://tropesmith.com/intake/" />
 <meta property="og:image" content="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png" />
@@ -18,7 +18,7 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Build Your Trope Map — Romance Market Research in 2 Minutes" />
-<meta name="twitter:description" content="60-second brief, 5-minute Map. First Map free — no card needed." />
+<meta name="twitter:description" content="60-second brief, 5-minute Map. $15 a Map." />
 <meta name="twitter:image" content="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png" />
 
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
@@ -63,7 +63,7 @@
         <span class="pulse"></span>
         <span>Current queue ~5 min · refreshed monthly</span>
       </div>
-      <p class="micro" style="margin-top:14px">No card needed. Your brief stays private — we never share or sell it.</p>
+      <p class="micro" style="margin-top:14px">$15 a Map, paid at build. Your brief stays private — we never share or sell it.</p>
     </aside>
 
     <form class="form-card" id="intake-form" novalidate>
@@ -138,10 +138,19 @@
         </div>
         <div class="row2">
           <div class="field">
+            <label for="work_length">Length <span class="req">*</span></label>
+            <select class="select" id="work_length" name="work_length" required>
+              <option value="">Choose…</option>
+              <option value="novella">Novella (~20–50k words)</option>
+              <option value="category">Category / short novel (~50–70k words)</option>
+              <option value="novel">Full-length novel (80k+ words)</option>
+            </select>
+            <p class="help">Changes the length sweet-spot, comps, and KU economics in your Map.</p>
+          </div>
+          <div class="field">
             <label for="series_name">Series name <span class="micro" style="font-weight:400">(optional)</span></label>
             <input class="input" type="text" id="series_name" name="series_name" placeholder="If you have one in mind"/>
           </div>
-          <div class="field"></div>
         </div>
       </fieldset>
 
@@ -191,7 +200,7 @@
       </fieldset>
 
       <div class="form-foot">
-        <p class="form-msg" id="form-msg">First Map free · no card · we never sell your brief</p>
+        <p class="form-msg" id="form-msg">$15 a Map · paid at build · we never sell your brief</p>
         <button class="btn btn-primary btn-lg" type="submit" id="submit-btn">Build my Map <span class="arrow">→</span></button>
       </div>
 
@@ -248,6 +257,7 @@
       subgenre_id: form.subgenre.value,
       heat_level: form.heat_level.value,
       format: formatVal,
+      work_length: form.work_length.value,
       series_name: form.series_name.value.trim() || undefined,
       books_in_series: booksInSeries,
       comp_titles_raw: form.comp_titles.value.trim() || undefined,
@@ -257,12 +267,25 @@
       marketing_opt_in: form.newsletter_opt_in.checked
     };
     if (fromSession) payload.from_session = fromSession;
-    if (!payload.email || !payload.genre_id || !payload.subgenre_id || !payload.heat_level || !payload.format) {
+    if (!payload.email || !payload.genre_id || !payload.subgenre_id || !payload.heat_level || !payload.format || !payload.work_length) {
       msg.textContent = 'Please fill in the required fields.'; msg.classList.add('err'); return;
     }
     btn.disabled = true; const origLabel = btn.innerHTML; btn.innerHTML = 'Submitting…';
     msg.textContent = 'Sending your brief…'; msg.classList.remove('err');
     Tropesmith.submitIntake(payload).then(function(res){
+      if (res && res.ok && res.requires_payment && res.map_id) {
+        // Pay-at-build: open the $15 checkout for this Map. On payment it synthesizes + delivers.
+        msg.textContent = 'Opening secure checkout…';
+        if (window.Tropesmith && typeof Tropesmith.buyProduct === 'function') {
+          Tropesmith.buyProduct('starter', { email: payload.email, mapId: res.map_id, onError: function(err){
+            btn.disabled = false; btn.innerHTML = origLabel;
+            msg.textContent = 'Checkout failed: ' + err.message; msg.classList.add('err');
+          }});
+        } else {
+          location.href = '/pricing/?unlock=' + encodeURIComponent(res.map_id);
+        }
+        return;
+      }
       if (res && res.ok && res.map_id) {
         location.href = '/status/?map_id=' + encodeURIComponent(res.map_id);
       } else {

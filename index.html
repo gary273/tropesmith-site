@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tropesmith — Trope Research & Market Intelligence for Romance Authors</title>
-  <meta name="description" content="Find the tropes, comps, and market gaps your next romance novel should hit. Built from 2.18B BookTok plays, Goodreads shelves & Reddit. Your first Map is free." />
+  <meta name="description" content="Find the tropes, comps, and market gaps your next romance novel should hit. Built from 2.18B BookTok plays, Goodreads shelves & Reddit. $15 a Map." />
   <link rel="canonical" href="https://tropesmith.com/" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Tropesmith — Trope Research & Market Intelligence for Romance Authors" />
-  <meta property="og:description" content="Find the tropes, comps, and market gaps your next romance novel should hit. Built from 2.18B BookTok plays, Goodreads shelves & Reddit. Your first Map is free." />
+  <meta property="og:description" content="Find the tropes, comps, and market gaps your next romance novel should hit. Built from 2.18B BookTok plays, Goodreads shelves & Reddit. $15 a Map." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://tropesmith.com/" />
   <meta property="og:image" content="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png" />
@@ -18,7 +18,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Tropesmith — Trope Research & Market Intelligence for Romance Authors" />
-  <meta name="twitter:description" content="Find the tropes, comps, and market gaps your next romance novel should hit. Your first Map is free." />
+  <meta name="twitter:description" content="Find the tropes, comps, and market gaps your next romance novel should hit. $15 a Map." />
   <meta name="twitter:image" content="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png" />
 
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
@@ -56,9 +56,9 @@
         "offers": {
           "@type": "AggregateOffer",
           "priceCurrency": "USD",
-          "lowPrice": "0",
+          "lowPrice": "15",
           "highPrice": "129",
-          "offerCount": "5",
+          "offerCount": "4",
           "url": "https://tropesmith.com/pricing/"
         }
       }
@@ -90,12 +90,86 @@
       <a href="pricing/index.html">Pricing</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-link" href="login/index.html" style="margin-right:12px;">Sign in</a><a class="btn btn-primary btn-sm" href="intake/index.html">Build my Map · Free <span class="arrow">→</span></a>
+      <a class="btn btn-link" href="login/index.html" style="margin-right:12px;">Sign in</a><a class="btn btn-primary btn-sm" href="intake/index.html">Build my Map <span class="arrow">→</span></a>
     </div>
   </div>
 </div>
 
 <main id="main">
+
+<!-- ─── UPGRADE ANNOUNCEMENT BANNER ───────────────────────────────── -->
+<section class="ts-upgrade-banner" aria-label="TropeSmith product upgrade announcement">
+  <style>
+    .ts-upgrade-banner{ background:linear-gradient(135deg,#faf5ff 0%,#fff9f3 55%,#f3f0ff 100%); border-bottom:1px solid rgba(124,58,237,.18); padding:36px 0 40px; }
+    .ts-upgrade-banner .tsu-wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
+    .tsu-head{ text-align:center; max-width:780px; margin:0 auto 26px; }
+    .tsu-chip{ display:inline-flex; align-items:center; gap:7px; background:#7c3aed; color:#fff; font-size:.72rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:6px 15px; border-radius:999px; }
+    .tsu-kicker{ font-family:var(--ts-serif,'Fraunces',serif); font-weight:700; text-transform:uppercase; letter-spacing:.01em; color:var(--ts-ink,#1a1208); font-size:clamp(2rem,4.6vw,3.2rem); line-height:1.04; margin:16px 0 8px; }
+    .tsu-kicker .tsu-grad{ background:linear-gradient(90deg,#7c3aed,#db2777); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+    .tsu-h{ font-family:var(--ts-serif,'Fraunces',serif); font-weight:600; color:var(--ts-ink,#1a1208); font-size:clamp(1.1rem,2vw,1.45rem); line-height:1.25; margin:0 0 12px; }
+    .tsu-sub{ font-size:1.06rem; line-height:1.5; color:var(--ts-ink-soft,#5b4a59); margin:0 auto; max-width:660px; }
+    .tsu-compare{ display:grid; grid-template-columns:1fr 1.18fr; gap:18px; align-items:start; }
+    .tsu-card{ background:#fff; border:1px solid rgba(26,18,8,.1); border-radius:16px; padding:22px 24px; }
+    .tsu-card.tsu-now{ border:2px solid #7c3aed; box-shadow:0 12px 34px rgba(124,58,237,.13); }
+    .tsu-tag{ display:inline-block; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; padding:4px 11px; border-radius:999px; }
+    .tsu-tag.tsu-before{ background:rgba(26,18,8,.07); color:var(--ts-ink-soft,#5b4a59); }
+    .tsu-tag.tsu-nowtag{ background:rgba(34,160,107,.14); color:#1c7a52; }
+    .tsu-cardh{ font-family:var(--ts-serif,'Fraunces',serif); font-weight:700; font-size:1.28rem; color:var(--ts-ink,#1a1208); margin:13px 0 4px; }
+    .tsu-cardp{ font-size:.92rem; color:var(--ts-ink-soft,#5b4a59); margin:0 0 15px; line-height:1.45; }
+    .tsu-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px; }
+    .tsu-list li{ position:relative; padding-left:26px; font-size:.94rem; line-height:1.4; color:var(--ts-ink,#1a1208); }
+    .tsu-list.tsu-muted li{ color:var(--ts-ink-soft,#6b5a68); }
+    .tsu-list li::before{ content:"✓"; position:absolute; left:0; top:0; font-weight:800; }
+    .tsu-list.tsu-muted li::before{ color:#bcb0b9; }
+    .tsu-list.tsu-go li::before{ color:#22a06b; }
+    .tsu-list li.tsu-star::before{ content:"★"; color:#7c3aed; }
+    .tsu-cta{ text-align:center; margin-top:28px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    @media(max-width:720px){ .tsu-compare{ grid-template-columns:1fr; } }
+  </style>
+  <div class="tsu-wrap">
+    <div class="tsu-head">
+      <span class="tsu-chip">★ Just upgraded</span>
+      <h2 class="tsu-kicker">The new TropeSmith is <span class="tsu-grad">live</span>!</h2>
+      <p class="tsu-h">TropeSmith is now a complete pre-launch blueprint.</p>
+      <p class="tsu-sub">Your Map used to tell you which tropes were selling. Now it tells you <strong>whether to write the book at all</strong> — then exactly how to build, package, and position it to sell. Same quick brief. A far bigger Map.</p>
+    </div>
+    <div class="tsu-compare">
+      <div class="tsu-card">
+        <span class="tsu-tag tsu-before">Before</span>
+        <div class="tsu-cardh">A trope report</div>
+        <p class="tsu-cardp">Which tropes are selling in your subgenre.</p>
+        <ul class="tsu-list tsu-muted">
+          <li>Trending tropes in your subgenre</li>
+          <li>A suggested trope stack</li>
+          <li>A few comparable titles</li>
+          <li>Market gaps &amp; oversupply</li>
+          <li>Risks &amp; next steps</li>
+        </ul>
+      </div>
+      <div class="tsu-card tsu-now">
+        <span class="tsu-tag tsu-nowtag">Now · massive upgrade</span>
+        <div class="tsu-cardh">A complete pre-launch blueprint</div>
+        <p class="tsu-cardp">Whether to write it — and exactly how to build, package &amp; position it to sell.</p>
+        <ul class="tsu-list tsu-go">
+          <li class="tsu-star"><strong>A go / no-go Opportunity Score</strong> — should you even write it</li>
+          <li>Trending tropes, momentum &amp; BookTok velocity</li>
+          <li>Character archetypes readers want (hero &amp; heroine)</li>
+          <li>The open gap to claim + what's oversupplied</li>
+          <li>Cover direction drawn from real top covers</li>
+          <li>Title directions + ready-to-use character &amp; place names</li>
+          <li>The book-length sweet spot</li>
+          <li>Comps three ways + what your readers actually read</li>
+          <li>Reader vocabulary + the categories you can rank in</li>
+          <li>Market economics, risk flags &amp; a step-by-step plan</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tsu-cta">
+      <a class="btn btn-primary btn-lg" href="how-it-works/index.html">See everything that's new <span class="arrow">→</span></a>
+      <a class="btn btn-lg" href="sample/index.html">See a real Map</a>
+    </div>
+  </div>
+</section>
 
 <!-- ─── HERO ──────────────────────────────────────────────────────── -->
 <section class="section hero" data-screen-label="01 Home · Hero">
@@ -112,13 +186,13 @@
       </p>
 
       <div class="hero-cta">
-        <a class="btn btn-primary btn-lg" href="intake/index.html">Build my Map · Free <span class="arrow">→</span></a>
+        <a class="btn btn-primary btn-lg" href="intake/index.html">Build my Map <span class="arrow">→</span></a>
         <a class="btn btn-lg" href="sample/index.html">See a real Map</a>
       </div>
 
       <div class="hero-trust">
-        <span>No card needed</span>
-        <span>First Map free</span>
+        <span>$15 a Map</span>
+        <span>Credits never expire</span>
         <span>In minutes, not weeks</span>
       </div>
 
@@ -207,7 +281,7 @@
           Nine pieces of <span class="grad-text">evidence</span>, two minutes to read.
         </h2>
         <div class="flow">
-          <a class="btn btn-primary btn-lg" href="intake/index.html">Build my Map · Free <span class="arrow">→</span></a>
+          <a class="btn btn-primary btn-lg" href="intake/index.html">Build my Map <span class="arrow">→</span></a>
           <a class="btn" href="sample/index.html">See a real Map first</a>
         </div>
       </div>
@@ -258,9 +332,9 @@
         You could read 6,000 reviews.<br/>Or you could <span class="grad-text">write the book</span>.
       </h2>
       <p class="copy" style="font-size:19px">A week on Goodreads. A month tracking Amazon ranks. Survey BookTok every night. Or let Tropesmith do it and spend that time writing the book that's actually going to sell.</p>
-      <p class="copy" style="font-size:19px">Your first Map is <span class="grad-text" style="font-size:1em">free</span>. After that, $15 a book. The math is easy.</p>
+      <p class="copy" style="font-size:19px"><span class="grad-text" style="font-size:1em">$15 a book</span>. Less than a single hour of research time. The math is easy.</p>
       <div class="closer-cta">
-        <a class="btn btn-primary btn-lg" href="intake/index.html">Build my Map · Free <span class="arrow">→</span></a>
+        <a class="btn btn-primary btn-lg" href="intake/index.html">Build my Map <span class="arrow">→</span></a>
         <a class="btn btn-lg" href="pricing/index.html">See pricing</a>
       </div>
     </div>
@@ -273,7 +347,7 @@
     <div class="tease-head">
       <div>
         <span class="eyebrow">Pricing · From $10.75 a Map</span>
-        <h2 class="h-section" style="margin-top:18px;font-size:clamp(28px,2.6vw,40px)">Credits never expire. <span class="grad-text">First Map free.</span></h2>
+        <h2 class="h-section" style="margin-top:18px;font-size:clamp(28px,2.6vw,40px)">Credits never expire. <span class="grad-text">$15 a Map.</span></h2>
       </div>
       <a class="btn" href="pricing/index.html">Full pricing <span class="arrow">→</span></a>
     </div>
