@@ -153,14 +153,25 @@
 
   function renderMapRow(m) {
     var isLocked = m.tier === 'locked' || m.status === 'pending_series';
-    var row = document.createElement(isLocked ? 'div' : 'a');
-    row.className = 'map-row' + (isLocked ? ' map-row-locked' : '');
-    if (!isLocked) { row.href = m.html_url || '#'; row.target = '_blank'; }
+    var isAwaiting = (m.tier === 'awaiting_payment' || m.status === 'awaiting_payment');
+    var isUnlockable = isLocked || isAwaiting;
+    var row = document.createElement(isUnlockable ? 'div' : 'a');
+    row.className = 'map-row' + (isUnlockable ? ' map-row-locked' : '');
+    if (!isUnlockable) { row.href = m.html_url || '#'; row.target = '_blank'; }
     row.style.textDecoration = 'none';
     var bookLabel = m.book_position ? 'Book ' + m.book_position : '';
     var title = m.title || (bookLabel ? bookLabel + ' Map' : 'Untitled Map');
     var tldr = m.tldr || '';
-    if (isLocked) {
+    if (isAwaiting) {
+      var lockSvgA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+      var awaitingBtn = creditBalance > 0
+        ? '<button class="unlock-btn" data-map-id="' + m.id + '" data-mode="credit">' + lockSvgA + 'Use 1 credit to build this Map</button>'
+        : '<button class="unlock-btn" data-map-id="' + m.id + '" data-mode="paid" data-email="' + (m.email || '') + '">' + lockSvgA + 'Build this Map · $15</button>';
+      var awaitingMeta = creditBalance > 0
+        ? '<div class="map-row-meta">Ready to build — uses 1 of your credits</div>'
+        : '<div class="map-row-meta">Ready to build</div>';
+      row.innerHTML = '<div class="map-row-main"><div class="map-row-title">' + (bookLabel ? bookLabel + ' Map' : 'Your Map') + '</div>' + awaitingMeta + '</div><div>' + awaitingBtn + '</div>';
+    } else if (isLocked) {
       var isReady = m.eager_ready === true;
       var teaserHtml = tldr
         ? '<div class="map-row-teaser">' + tldr.substring(0, 180) + (tldr.length > 180 ? '...' : '') + '</div>'
