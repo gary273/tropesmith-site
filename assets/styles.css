@@ -27,7 +27,7 @@
   --ts-grad: linear-gradient(90deg, var(--ts-violet) 0%, var(--ts-coral) 100%);
   --ts-grad-soft: linear-gradient(90deg, rgba(139,92,246,.10) 0%, rgba(255,107,122,.10) 100%);
 
-  --ts-wrap: 1320px;
+  --ts-wrap: min(1680px, 94vw);
   --ts-pad-x: 32px;
   --ts-section-pad: 56px;
   --ts-section-pad-tight: 40px;
