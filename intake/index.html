@@ -273,17 +273,16 @@
     btn.disabled = true; const origLabel = btn.innerHTML; btn.innerHTML = 'Submitting…';
     msg.textContent = 'Sending your brief…'; msg.classList.remove('err');
     Tropesmith.submitIntake(payload).then(function(res){
+      if (res && res.ok && res.needs_credits) {
+        // No credits available — send them to buy credits, then come back and build.
+        msg.textContent = 'Out of credits — taking you to add some…';
+        location.href = '/pricing/?need=1';
+        return;
+      }
       if (res && res.ok && res.requires_payment && res.map_id) {
-        // Pay-at-build: open the $15 checkout for this Map. On payment it synthesizes + delivers.
-        msg.textContent = 'Opening secure checkout…';
-        if (window.Tropesmith && typeof Tropesmith.buyProduct === 'function') {
-          Tropesmith.buyProduct('starter', { email: payload.email, mapId: res.map_id, onError: function(err){
-            btn.disabled = false; btn.innerHTML = origLabel;
-            msg.textContent = 'Checkout failed: ' + err.message; msg.classList.add('err');
-          }});
-        } else {
-          location.href = '/pricing/?unlock=' + encodeURIComponent(res.map_id);
-        }
+        // Legacy pay-at-build Map (pre-credits-flow): route to the credit-redeem / pay page.
+        msg.textContent = 'Taking you to checkout…';
+        location.href = '/pricing/?unlock=' + encodeURIComponent(res.map_id);
         return;
       }
       if (res && res.ok && res.map_id) {

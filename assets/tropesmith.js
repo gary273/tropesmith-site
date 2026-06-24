@@ -113,6 +113,10 @@
     const email = options.email || '';
     // mapId option for the library Unlock $15 button on locked series books.
     const mapIdOpt = options.mapId || undefined;
+    // quantity option for the credit-purchase widget (1 credit = 1 Map). The
+    // server picks the per-credit rate from the volume ladder for this quantity.
+    const quantityOpt = (typeof options.quantity === 'number' && options.quantity >= 1)
+      ? Math.floor(options.quantity) : undefined;
     const onError = options.onError || null;
 
     let mountEl = document.getElementById('ts-checkout-mount');
@@ -135,7 +139,7 @@
       const resp = await fetch(ENDPOINTS.checkout, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_id: productId, email: email || undefined, map_id: unlockMapId, internal_coupon_code: internalCouponCode, promo_code: promoCode })
+        body: JSON.stringify({ product_id: productId, email: email || undefined, map_id: unlockMapId, internal_coupon_code: internalCouponCode, promo_code: promoCode, quantity: quantityOpt })
       });
 
       if (!resp.ok) {

@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tropesmith Pricing — Romance Market Maps from $15</title>
-<meta name="description" content="$15 per Tropesmith Map, paid when you build. Or buy a credit pack from $15 (1 Map) to $129 (12 Maps · $10.75 each). Credits never expire. No subscription." />
+<title>Tropesmith Pricing — 1 credit = 1 Map, from $10.50</title>
+<meta name="description" content="1 credit = 1 Map. Buy any number — the more you buy, the lower the price per Map: $15 for one, down to $10.50 each at 11+. Credits never expire. No subscription." />
 <link rel="canonical" href="https://tropesmith.com/pricing/" />
 
 <!-- Open Graph -->
-<meta property="og:title" content="Tropesmith Pricing — Romance Market Maps from $15" />
-<meta property="og:description" content="$15 per Map, paid when you build. Credit packs from $15 to $129. Credits never expire. No subscription." />
+<meta property="og:title" content="Tropesmith Pricing — 1 credit = 1 Map, from $10.50" />
+<meta property="og:description" content="1 credit = 1 Map. Buy any number — the more you buy, the lower the price per Map. Credits never expire. No subscription." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://tropesmith.com/pricing/" />
 <meta property="og:image" content="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png" />
@@ -17,8 +17,8 @@
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Tropesmith Pricing — Romance Market Maps from $15" />
-<meta name="twitter:description" content="$15 per Map, paid when you build. Credit packs from $15 to $129. Credits never expire." />
+<meta name="twitter:title" content="Tropesmith Pricing — 1 credit = 1 Map, from $10.50" />
+<meta name="twitter:description" content="1 credit = 1 Map. Buy any number — the more you buy, the lower the price per Map. Credits never expire." />
 <meta name="twitter:image" content="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png" />
 
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
@@ -38,48 +38,21 @@
   },
   "image": "https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png",
   "url": "https://tropesmith.com/pricing/",
-  "offers": [
-    {
-      "@type": "Offer",
-      "name": "TropeSmith Map",
-      "price": "15.00",
-      "priceCurrency": "USD",
-      "url": "https://tropesmith.com/intake/",
-      "availability": "https://schema.org/InStock"
-    },
-    {
-      "@type": "Offer",
-      "name": "Starter (1 Map)",
-      "price": "15",
-      "priceCurrency": "USD",
-      "url": "https://tropesmith.com/pricing/",
-      "availability": "https://schema.org/InStock"
-    },
-    {
-      "@type": "Offer",
-      "name": "Author Pack (3 Maps)",
-      "price": "39",
-      "priceCurrency": "USD",
-      "url": "https://tropesmith.com/pricing/",
-      "availability": "https://schema.org/InStock"
-    },
-    {
-      "@type": "Offer",
-      "name": "Series Pack (6 Maps)",
-      "price": "69",
-      "priceCurrency": "USD",
-      "url": "https://tropesmith.com/pricing/",
-      "availability": "https://schema.org/InStock"
-    },
-    {
-      "@type": "Offer",
-      "name": "Workhorse (12 Maps)",
-      "price": "129",
-      "priceCurrency": "USD",
-      "url": "https://tropesmith.com/pricing/",
-      "availability": "https://schema.org/InStock"
-    }
-  ]
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "USD",
+    "lowPrice": "10.50",
+    "highPrice": "15.00",
+    "offerCount": "4",
+    "url": "https://tropesmith.com/pricing/",
+    "availability": "https://schema.org/InStock",
+    "offers": [
+      { "@type": "Offer", "name": "1 credit (1 Map)", "price": "15.00", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 1 } },
+      { "@type": "Offer", "name": "2–5 credits", "price": "13.00", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "minValue": 2, "maxValue": 5 } },
+      { "@type": "Offer", "name": "6–10 credits", "price": "11.50", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "minValue": 6, "maxValue": 10 } },
+      { "@type": "Offer", "name": "11+ credits", "price": "10.50", "priceCurrency": "USD", "eligibleQuantity": { "@type": "QuantitativeValue", "minValue": 11 } }
+    ]
+  }
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -111,13 +84,14 @@
 
 <section class="section page-head">
   <div class="wrap">
+    <div id="tsm-need-credits" style="display:none;background:rgba(255,107,122,0.10);border:1px solid rgba(255,107,122,0.30);border-radius:10px;padding:10px 16px;margin-bottom:18px;color:#10122F;font-size:0.92rem">You need a credit to build that Map. Grab one below — it lands in your library instantly, then head back to build.</div>
     <div id="tsm-pricing-auth" style="display:none;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.18);border-radius:10px;padding:10px 16px;margin-bottom:18px;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
         <span style="color:var(--ts-ink);font-size:0.92rem">Signed in as <b id="tsm-pricing-email"></b> &middot; <span style="color:var(--ts-ink-soft)">credits will be added to your library instantly</span></span>
         <a href="../library/index.html" style="color:var(--ts-grad-start);font-size:0.85rem;text-decoration:none;font-weight:600">My library &rarr;</a>
       </div>
       <span class="eyebrow">Pricing · Credits never expire</span>
-    <h1 class="h-display"><span class="grad-text">$15</span> per Map.</h1>
-    <p class="lede lg" style="margin-top:14px">$15 per Map, paid when you build — or buy a credit pack and bring the per-Map price down. Mix subgenres across Maps. Credits never expire.</p>
+    <h1 class="h-display"><span class="grad-text">1 credit</span> = 1 Map.</h1>
+    <p class="lede lg" style="margin-top:14px">Buy as many as you like — the more you buy, the lower the price per Map, applied automatically. Credits never expire, and you can mix subgenres across Maps.</p>
   </div>
 </section>
 
@@ -148,7 +122,7 @@
         <p>Click Redeem and your Map will be re-rendered with the full paid version. Your unlock email will land shortly after.</p>
         <div class="ts-redeem-actions">
           <button class="btn btn-primary btn-lg" id="redeem-btn" type="button">Redeem credit <span class="arrow">&rarr;</span></button>
-          <button type="button" class="ts-redeem-link" id="redeem-pay-instead">or pay $15 instead</button>
+          <button type="button" class="ts-redeem-link" id="redeem-pay-instead">or buy a credit instead</button>
         </div>
       </div>
 
@@ -197,71 +171,101 @@
 <section class="section tight" style="padding-top:0">
   <div class="wrap">
 
-    <!-- Single Map banner -->
-    <div class="demo-banner">
-      <div>
-        <span class="label" style="color:var(--ts-violet-dk)">Start here · $15</span>
-        <h4 style="margin:4px 0 2px">A single Map</h4>
-        <p>One Map, $15, paid when you build. Ranked trope recommendations · comp titles · market gaps · reader vocabulary · title directions. No upsell, no email tricks.</p>
+    <!-- Buy credits widget (single product, volume-tiered, any quantity) -->
+    <div class="ts-credits-card">
+      <div class="ts-credits-head">
+        <span class="label" style="color:var(--ts-violet-dk)">1 credit = 1 Map · credits never expire</span>
+        <h4 style="margin:6px 0 4px">Buy credits</h4>
+        <p>Choose how many Maps you want. Bigger quantities drop the per-credit price automatically — no packs to pick. Use them whenever you like.</p>
       </div>
-      <a class="btn btn-primary btn-lg" href="../intake/index.html">Build my Map <span class="arrow">→</span></a>
+      <div class="ts-credits-controls">
+        <div class="ts-qty" role="group" aria-label="Number of credits">
+          <button type="button" class="ts-qty-btn" id="ts-qty-minus" aria-label="Fewer credits">&minus;</button>
+          <input type="number" id="ts-qty-input" class="ts-qty-input" min="1" max="100" value="1" inputmode="numeric" aria-label="Number of credits" />
+          <button type="button" class="ts-qty-btn" id="ts-qty-plus" aria-label="More credits">+</button>
+        </div>
+        <div class="ts-credits-quote">
+          <div class="ts-credits-total" id="ts-credits-total">$15</div>
+          <div class="ts-credits-rate" id="ts-credits-rate">1 credit · $15.00 each</div>
+        </div>
+        <button class="btn btn-primary btn-lg" id="ts-buy-credits" type="button">Buy <span id="ts-buy-qty-label">1 credit</span> <span class="arrow">→</span></button>
+      </div>
+      <div class="ts-credits-ladder" aria-label="Volume pricing">
+        <span>1 = <b>$15</b></span>
+        <span>2–5 = <b>$13</b> ea</span>
+        <span>6–10 = <b>$11.50</b> ea</span>
+        <span>11+ = <b>$10.50</b> ea</span>
+      </div>
+      <p class="ts-credits-fine">Every credit unlocks one full Map: 5–7 ranked trope recommendations, comp titles with study notes, market gaps, FMC + MMC archetypes, risk flags and next actions.</p>
     </div>
 
-    <div class="tiers" style="margin-top:24px">
-      <article class="tier">
-        <h4>Starter</h4>
-        <div class="price">$15</div>
-        <div class="per">1 Map · $15.00 each</div>
-        <ul class="tfeat">
-          <li>5–7 trope recommendations</li>
-          <li>5 comp titles with study notes</li>
-          <li>5–7 market gaps</li>
-          <li>FMC + MMC archetype block</li>
-          <li>Risk flags + next actions</li>
-        </ul>
-        <div style="margin-top:auto;padding-top:14px"><button class="btn btn-primary btn-sm" data-buy="starter">Buy Starter <span class="arrow">→</span></button></div>
-      </article>
+    <style>
+      .ts-credits-card{background:#FFF9F3;border:1px solid rgba(124,58,237,0.18);border-left:4px solid #7C3AED;border-radius:14px;padding:26px 28px;box-shadow:0 8px 24px rgba(16,18,47,0.06);margin-top:8px}
+      .ts-credits-head h4{font-family:'Fraunces',Georgia,serif;font-size:26px;color:#10122F;font-weight:700;line-height:1.15}
+      .ts-credits-head .label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+      .ts-credits-head p{color:#5b4a59;font-size:15px;line-height:1.55;margin:6px 0 0;max-width:560px}
+      .ts-credits-controls{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin:22px 0 6px}
+      .ts-qty{display:inline-flex;align-items:stretch;border:1px solid rgba(16,18,47,0.18);border-radius:10px;overflow:hidden;background:#fff}
+      .ts-qty-btn{width:46px;border:none;background:#fff;font-size:22px;line-height:1;color:#7C3AED;cursor:pointer;font-weight:600}
+      .ts-qty-btn:hover{background:rgba(124,58,237,0.08)}
+      .ts-qty-input{width:64px;border:none;border-left:1px solid rgba(16,18,47,0.12);border-right:1px solid rgba(16,18,47,0.12);text-align:center;font:600 18px 'Inter',sans-serif;color:#10122F;background:#fff;-moz-appearance:textfield}
+      .ts-qty-input::-webkit-outer-spin-button,.ts-qty-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+      .ts-qty-input:focus{outline:none}
+      .ts-credits-quote{min-width:140px}
+      .ts-credits-total{font-family:'Fraunces',Georgia,serif;font-size:34px;font-weight:700;color:#10122F;line-height:1}
+      .ts-credits-rate{font-size:13px;color:#5b4a59;margin-top:3px}
+      #ts-buy-credits{margin-left:auto}
+      .ts-credits-ladder{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:14px;padding-top:14px;border-top:1px dashed rgba(124,58,237,0.25)}
+      .ts-credits-ladder span{font-size:13px;color:#5b4a59}
+      .ts-credits-ladder b{color:#10122F}
+      .ts-credits-fine{font-size:13px;color:#5b4a59;line-height:1.55;margin:14px 0 0}
+      @media (max-width:560px){#ts-buy-credits{margin-left:0;width:100%}.ts-credits-controls{gap:16px}}
+    </style>
 
-      <article class="tier featured">
-        <span class="badge">Best value</span>
-        <h4>Author Pack</h4>
-        <div class="price">$39</div>
-        <div class="per">3 Maps · $13.00 each</div>
-        <ul class="tfeat">
-          <li>Everything in Starter × 3</li>
-          <li>Credits never expire</li>
-          <li>Mix subgenres across Maps</li>
-          <li>For testing 3 directions</li>
-        </ul>
-        <div style="margin-top:auto;padding-top:14px"><button class="btn btn-primary btn-sm" data-buy="author_pack">Buy Author Pack <span class="arrow">→</span></button></div>
-      </article>
-
-      <article class="tier">
-        <h4>Series Pack</h4>
-        <div class="price">$69</div>
-        <div class="per">6 Maps · $11.50 each</div>
-        <ul class="tfeat">
-          <li>Everything in Starter × 6</li>
-          <li>For a full series + spin-offs</li>
-          <li>Or test 6 different lanes</li>
-          <li>Credits never expire</li>
-        </ul>
-        <div style="margin-top:auto;padding-top:14px"><button class="btn btn-primary btn-sm" data-buy="series_pack">Buy Series Pack <span class="arrow">→</span></button></div>
-      </article>
-
-      <article class="tier">
-        <h4>Workhorse Pack</h4>
-        <div class="price">$129</div>
-        <div class="per">12 Maps · $10.75 each</div>
-        <ul class="tfeat">
-          <li>A year of books at indie pace</li>
-          <li>Best per-Map price</li>
-          <li>Credits never expire</li>
-          <li>For prolific authors</li>
-        </ul>
-        <div style="margin-top:auto;padding-top:14px"><button class="btn btn-primary btn-sm" data-buy="workhorse_pack">Buy Workhorse <span class="arrow">→</span></button></div>
-      </article>
-    </div>
+    <script>
+    (function () {
+      var TIERS = [
+        { min: 1, max: 1, unit: 15.00 },
+        { min: 2, max: 5, unit: 13.00 },
+        { min: 6, max: 10, unit: 11.50 },
+        { min: 11, max: null, unit: 10.50 }
+      ];
+      function unitFor(q) { var t = TIERS.find(function (t) { return q >= t.min && (t.max == null || q <= t.max); }); return t ? t.unit : 10.50; }
+      var input = document.getElementById('ts-qty-input');
+      var totalEl = document.getElementById('ts-credits-total');
+      var rateEl = document.getElementById('ts-credits-rate');
+      var qtyLabel = document.getElementById('ts-buy-qty-label');
+      function clampQty() { var q = parseInt(input.value, 10); if (!isFinite(q) || q < 1) q = 1; if (q > 100) q = 100; return q; }
+      function fmt(n) { return '$' + (Number.isInteger(n) ? n : n.toFixed(2)); }
+      function render() {
+        var q = clampQty();
+        var unit = unitFor(q);
+        var total = unit * q;
+        totalEl.textContent = '$' + (Number.isInteger(total) ? total : total.toFixed(2));
+        rateEl.textContent = q + (q === 1 ? ' credit · ' : ' credits · ') + unit.toFixed(2) + ' each';
+        qtyLabel.textContent = q + (q === 1 ? ' credit' : ' credits');
+      }
+      document.getElementById('ts-qty-minus').addEventListener('click', function () { input.value = Math.max(1, clampQty() - 1); render(); });
+      document.getElementById('ts-qty-plus').addEventListener('click', function () { input.value = Math.min(100, clampQty() + 1); render(); });
+      input.addEventListener('input', render);
+      input.addEventListener('blur', function () { input.value = clampQty(); render(); });
+      render();
+      try { if (new URLSearchParams(window.location.search).get('need') === '1') { var nb = document.getElementById('tsm-need-credits'); if (nb) nb.style.display = 'block'; } } catch (e) {}
+      document.getElementById('ts-buy-credits').addEventListener('click', function () {
+        if (!(window.Tropesmith && typeof Tropesmith.buyProduct === 'function')) { alert('Checkout is temporarily unavailable. Please try again in a moment.'); return; }
+        var q = clampQty();
+        var email = window.TSM_SESSION_EMAIL || '';
+        if (!email) {
+          var qp = new URLSearchParams(window.location.search);
+          if (qp.has('test_code') || qp.has('promo')) {
+            email = (window.prompt('Enter your email to apply your code and continue checkout:') || '').trim();
+            if (!email) return;
+          }
+        }
+        Tropesmith.buyProduct('credit_topup', { email: email || undefined, quantity: q, onError: function (err) { alert('Sorry — we could not start checkout. Please try again, or email support@tropesmith.com.'); console.error(err); } });
+      });
+    })();
+    </script>
 
     <!-- Coming soon Trope Pulse -->
     <div class="demo-banner" style="margin-top:24px;border-style:solid;border-color:var(--ts-rule);background:var(--ts-cream-soft)">
@@ -624,8 +628,8 @@ window.TSM_SESSION_EMAIL = null;
       if (payInstead) {
         payInstead.onclick = function (e) {
           e.preventDefault();
-          var starterBtn = document.querySelector('[data-buy="starter"]');
-          if (starterBtn) starterBtn.click();
+          var buyBtn = document.getElementById('ts-buy-credits');
+          if (buyBtn) { buyBtn.scrollIntoView({ behavior: 'smooth', block: 'center' }); buyBtn.click(); }
         };
       }
       showState('eligible');
