@@ -21,7 +21,7 @@
   color: var(--ts-cream, #FFF9F3);
   border-radius: 10px;
   padding: 20px;
-  font-family: 'Plus Jakarta Sans', Georgia, serif;
+  font-family: 'Fraunces', Georgia, serif;
   font-size: 12px;
   box-shadow: 0 30px 80px -20px rgba(16,18,47,0.4), 0 0 0 1px rgba(255,107,122,0.08);
   min-height: 340px;
@@ -40,7 +40,7 @@
   color: rgba(255,249,243,0.5);
   font-weight: 500;
   margin-bottom: 10px;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .hero-map-head .hero-map-genre {
@@ -54,7 +54,7 @@
   line-height: 1.15;
   margin: 0 0 4px;
   letter-spacing: -0.01em;
-  font-family: 'Plus Jakarta Sans', serif;
+  font-family: 'Fraunces', serif;
   color: var(--ts-cream, #FFF9F3);
 }
 
@@ -63,7 +63,7 @@
   color: rgba(255,249,243,0.55);
   margin: 0 0 16px;
   font-style: italic;
-  font-family: 'Plus Jakarta Sans', serif;
+  font-family: 'Fraunces', serif;
 }
 
 .hero-map-source {
@@ -71,7 +71,7 @@
   color: rgba(255, 249, 243, 0.5);
   margin: 0 0 14px 0;
   line-height: 1.5;
-  font-family: var(--ts-font-sans, 'Plus Jakarta Sans', system-ui, sans-serif);
+  font-family: var(--ts-font-sans, 'Inter', system-ui, sans-serif);
   letter-spacing: 0.01em;
 }
 
@@ -87,7 +87,7 @@
   color: var(--ts-coral, #FF6B7A);
   font-weight: 600;
   margin-bottom: 8px;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   display: flex;
   justify-content: space-between;
 }
@@ -134,7 +134,7 @@
 
 .hero-map-trope .hero-map-trope-name {
   flex: 1;
-  font-family: 'Plus Jakarta Sans', serif;
+  font-family: 'Fraunces', serif;
   color: var(--ts-cream, #FFF9F3);
 }
 
@@ -146,7 +146,7 @@
   padding: 2px 7px;
   border-radius: 3px;
   text-transform: uppercase;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 600;
 }
 
@@ -172,7 +172,7 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   font-weight: 600;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   width: fit-content;
 }
 
