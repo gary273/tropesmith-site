@@ -27,7 +27,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=optional" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css" />
 <script defer src="../assets/site.js"></script>
 </head>
@@ -52,7 +52,7 @@
 
 <section class="section page-head">
   <div class="wrap">
-    <span class="eyebrow">Legal · Last updated 15 May 2026</span>
+    <span class="eyebrow">Legal · Last updated 25 June 2026</span>
     <h1 class="h-display">Privacy <span class="grad-text">Policy</span>.</h1>
     <p class="lede lg" style="margin-top:14px">Plain English. What we collect, what we do with it, and what you can do about it.</p>
   </div>
@@ -96,6 +96,7 @@
         <h3 class="h-sub" style="margin-top:18px">Collected automatically:</h3>
         <ul>
           <li><b>Page events</b> — anonymous data about which pages you view, scroll depth, and which buttons you click, used to improve the site. Stored in our database (Supabase) without third-party cookies.</li>
+          <li><b>Google Analytics</b> — we use Google Analytics 4 to understand how visitors find and use the site (pages viewed, time on page, navigation paths, and whether you complete actions like building a Map or signing up). This sets cookies and shares usage data with Google. We have IP anonymisation enabled and do not use Google Analytics for advertising. Analytics cookies load only after you accept them in our cookie banner.</li>
           <li><b>Technical data</b> — IP address, user agent, referrer, timestamps, captured in standard server logs.</li>
         </ul>
         <h3 class="h-sub" style="margin-top:18px">When you pay:</h3>
@@ -124,6 +125,7 @@
           <li><b>Supabase</b> (USA) — database and authentication, where your account, brief, Maps, and page events are stored.</li>
           <li><b>Resend</b> (USA) — transactional email delivery (sign-in links, Map ready notifications, receipts).</li>
           <li><b>Cloudflare</b> (USA) — site hosting, CDN, and DDoS protection.</li>
+          <li><b>Google</b> (USA) — Google Analytics 4, used to measure site traffic and usage. See <a href="https://policies.google.com/privacy" style="text-decoration:underline" target="_blank" rel="noopener">Google's privacy policy</a>.</li>
           <li><b>Anthropic / OpenAI</b> — AI model providers we use to generate Map content. Your brief inputs are sent to these providers solely for that purpose and are not used to train their public models.</li>
         </ul>
         <p>We may also disclose information if required by law, to protect against fraud or abuse, or in connection with a business transfer (in which case you'll be notified).</p>
@@ -156,12 +158,18 @@
 
       <section id="cookies">
         <h2>Cookies</h2>
-        <p>Tropesmith uses only essential cookies and equivalent storage:</p>
+        <p>Tropesmith uses the following cookies and equivalent storage:</p>
+        <h3 class="h-sub" style="margin-top:14px">Essential (always on):</h3>
         <ul>
           <li><b>Session cookie</b> — to keep you signed in while using the site.</li>
           <li><b>Stripe cookies</b> — set by Stripe on its checkout page for fraud prevention.</li>
+          <li><b>Consent preference</b> — remembers your choice in the cookie banner below.</li>
         </ul>
-        <p>We do <b>not</b> use Google Analytics, Facebook Pixel, advertising trackers, or any third-party cookie that follows you around the web. Our page-event tracking is server-side, anonymous by default, and stored only in our own database.</p>
+        <h3 class="h-sub" style="margin-top:14px">Analytics (only if you accept):</h3>
+        <ul>
+          <li><b>Google Analytics cookies</b> — set by Google Analytics 4 to measure traffic and how the site is used. These load <b>only</b> after you accept analytics in our cookie banner, and you can withdraw consent at any time by clearing your cookies. We have IP anonymisation enabled.</li>
+        </ul>
+        <p>We do <b>not</b> use Facebook Pixel, advertising trackers, or cross-site retargeting cookies, and we never sell your data. Our own page-event tracking is server-side, anonymous by default, and stored only in our own database.</p>
       </section>
 
       <section id="security">

@@ -68,7 +68,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=optional" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css" />
   <link rel="stylesheet" href="assets/hero-map-carousel.css?v=20260514-9" />
   <script defer src="assets/site.js"></script>
@@ -100,30 +100,35 @@
 <!-- ─── UPGRADE ANNOUNCEMENT BANNER ───────────────────────────────── -->
 <section class="ts-upgrade-banner" aria-label="TropeSmith product upgrade announcement">
   <style>
-    .ts-upgrade-banner{ background:linear-gradient(135deg,#faf5ff 0%,#fff9f3 55%,#f3f0ff 100%); border-bottom:1px solid rgba(124,58,237,.18); padding:36px 0 40px; }
+    /* subtle dark ombre: deep navy → a lighter navy (same family), clean edge below */
+    .ts-upgrade-banner{ background:linear-gradient(180deg,#090a20 0%,#13153a 55%,#23264f 100%); border-bottom:0; padding:54px 0 64px; }
     .ts-upgrade-banner .tsu-wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
-    .tsu-head{ text-align:center; max-width:780px; margin:0 auto 26px; }
-    .tsu-chip{ display:inline-flex; align-items:center; gap:7px; background:#7c3aed; color:#fff; font-size:.72rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:6px 15px; border-radius:999px; }
-    .tsu-kicker{ font-family:var(--ts-serif,'Fraunces',serif); font-weight:700; text-transform:uppercase; letter-spacing:.01em; color:var(--ts-ink,#1a1208); font-size:clamp(2rem,4.6vw,3.2rem); line-height:1.04; margin:16px 0 8px; }
-    .tsu-kicker .tsu-grad{ background:linear-gradient(90deg,#7c3aed,#db2777); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-    .tsu-h{ font-family:var(--ts-serif,'Fraunces',serif); font-weight:600; color:var(--ts-ink,#1a1208); font-size:clamp(1.1rem,2vw,1.45rem); line-height:1.25; margin:0 0 12px; }
-    .tsu-sub{ font-size:1.06rem; line-height:1.5; color:var(--ts-ink-soft,#5b4a59); margin:0 auto; max-width:660px; }
+    .tsu-head{ text-align:center; max-width:780px; margin:0 auto 30px; }
+    .tsu-chip{ display:inline-flex; align-items:center; gap:7px; background:linear-gradient(100deg,#7C3AED,#A855F7 40%,#EC4899 72%,#FF6B7A); color:#fff; font-size:.72rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:7px 16px; border-radius:999px; box-shadow:0 8px 22px -10px rgba(124,58,237,.6); }
+    .tsu-kicker{ font-family:var(--ts-display,'Space Grotesk',sans-serif); font-weight:700; text-transform:uppercase; letter-spacing:-.01em; color:#F4F1FE; font-size:clamp(2rem,4.6vw,3.4rem); line-height:1.02; margin:16px 0 8px; }
+    .tsu-kicker .tsu-grad{ background:linear-gradient(100deg,#A855F7,#EC4899 55%,#FF6B7A); background-size:200% auto; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; font-style:italic; animation:ts-vibe-pan 6s linear infinite alternate; padding-right:.2em; margin-right:.06em; }
+    /* gradient-italic accent headings — movement + vibe (real Plus Jakarta italic) */
+    .tsu-h{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; font-style:italic; font-size:clamp(1.2rem,2.2vw,1.6rem); line-height:1.3; margin:0 0 14px; background:linear-gradient(100deg,#A855F7,#EC4899 52%,#FF6B7A); background-size:200% auto; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; animation:ts-vibe-pan 6s linear infinite alternate; padding-right:.16em; }
+    .tsu-sub{ font-size:1.06rem; line-height:1.55; color:rgba(244,241,254,.76); margin:0 auto; max-width:660px; }
     .tsu-compare{ display:grid; grid-template-columns:1fr 1.18fr; gap:18px; align-items:start; }
-    .tsu-card{ background:#fff; border:1px solid rgba(26,18,8,.1); border-radius:16px; padding:22px 24px; }
-    .tsu-card.tsu-now{ border:2px solid #7c3aed; box-shadow:0 12px 34px rgba(124,58,237,.13); }
+    .tsu-card{ background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:22px 24px; -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); }
+    .tsu-card.tsu-now{ border:1.5px solid #FF6B7A; box-shadow:0 18px 46px -18px rgba(255,107,122,.6); background:rgba(255,107,122,.08); }
     .tsu-tag{ display:inline-block; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; padding:4px 11px; border-radius:999px; }
-    .tsu-tag.tsu-before{ background:rgba(26,18,8,.07); color:var(--ts-ink-soft,#5b4a59); }
-    .tsu-tag.tsu-nowtag{ background:rgba(34,160,107,.14); color:#1c7a52; }
-    .tsu-cardh{ font-family:var(--ts-serif,'Fraunces',serif); font-weight:700; font-size:1.28rem; color:var(--ts-ink,#1a1208); margin:13px 0 4px; }
-    .tsu-cardp{ font-size:.92rem; color:var(--ts-ink-soft,#5b4a59); margin:0 0 15px; line-height:1.45; }
+    .tsu-tag.tsu-before{ background:rgba(255,255,255,.1); color:rgba(244,241,254,.7); }
+    .tsu-tag.tsu-nowtag{ background:rgba(255,107,122,.16); color:#FF8A95; }
+    .tsu-cardh{ font-family:var(--ts-display,'Space Grotesk',sans-serif); font-weight:700; font-size:1.28rem; color:#F4F1FE; margin:13px 0 4px; }
+    .tsu-card.tsu-now .tsu-cardh{ font-family:'Plus Jakarta Sans',sans-serif; font-style:italic; background:linear-gradient(100deg,#A855F7,#EC4899 52%,#FF6B7A); background-size:200% auto; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; animation:ts-vibe-pan 6s linear infinite alternate; padding-right:.16em; }
+    .tsu-cardp{ font-size:.92rem; color:rgba(244,241,254,.66); margin:0 0 15px; line-height:1.45; }
     .tsu-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px; }
-    .tsu-list li{ position:relative; padding-left:26px; font-size:.94rem; line-height:1.4; color:var(--ts-ink,#1a1208); }
-    .tsu-list.tsu-muted li{ color:var(--ts-ink-soft,#6b5a68); }
+    .tsu-list li{ position:relative; padding-left:26px; font-size:.94rem; line-height:1.4; color:rgba(244,241,254,.92); }
+    .tsu-list.tsu-muted li{ color:rgba(244,241,254,.55); }
     .tsu-list li::before{ content:"✓"; position:absolute; left:0; top:0; font-weight:800; }
-    .tsu-list.tsu-muted li::before{ color:#bcb0b9; }
-    .tsu-list.tsu-go li::before{ color:#22a06b; }
-    .tsu-list li.tsu-star::before{ content:"★"; color:#7c3aed; }
+    .tsu-list.tsu-muted li::before{ color:rgba(244,241,254,.38); }
+    .tsu-list.tsu-go li::before{ color:#34d399; }
+    .tsu-list li.tsu-star::before{ content:"★"; color:#FF6B7A; }
     .tsu-cta{ text-align:center; margin-top:28px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .ts-upgrade-banner .btn:not(.btn-primary){ color:#F4F1FE; border-color:rgba(255,255,255,.3); }
+    .ts-upgrade-banner .btn:not(.btn-primary):hover{ background:rgba(255,255,255,.09); }
     @media(max-width:720px){ .tsu-compare{ grid-template-columns:1fr; } }
   </style>
   <div class="tsu-wrap">
@@ -284,10 +289,7 @@
           <a class="btn btn-primary btn-lg" href="intake/index.html">Build my Map <span class="arrow">→</span></a>
           <a class="btn" href="sample/index.html">See a real Map first</a>
         </div>
-      </div>
-
-      <div>
-        <ul class="gets">
+        <ul class="gets" style="column-count:1; margin-top:10px;">
           <li><b>5–7 trope recommendations</b>, ranked with verdict</li>
           <li><b>3–5 comp titles</b> — what to borrow, what to skip</li>
           <li><b>FMC + MMC archetypes</b> readers in your lane love</li>
@@ -295,7 +297,9 @@
           <li><b>Market gaps</b> where demand outpaces supply</li>
           <li><b>Risk flags</b> + next-actions checklist</li>
         </ul>
+      </div>
 
+      <div>
         <div class="map-howbuilt">
           <span class="eyebrow" style="margin-top:8px">How it's built</span>
           <div class="howbuilt-steps">
@@ -496,7 +500,7 @@
     padding: 96px 24px;
     position: relative;
     overflow: hidden;
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: 'Plus Jakarta Sans', Georgia, serif;
   }
   .tsm-corpus::before {
     content: '';
@@ -536,19 +540,20 @@
     50% { opacity: 0.5; transform: scale(1.3); }
   }
   .tsm-corpus-heading {
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
     font-size: clamp(32px, 5vw, 56px); font-weight: 700;
     line-height: 1.08; letter-spacing: -0.02em;
     margin: 0 0 24px; color: #FFF9F3;
   }
   .tsm-corpus-heading em {
     font-style: italic;
+    padding-right: .14em; margin-right: -.14em;
     background: linear-gradient(135deg, #8B5CF6 0%, #FF6B7A 100%);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent; color: transparent;
   }
   .tsm-corpus-sub {
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: 'Plus Jakarta Sans', Georgia, serif;
     font-size: 18px; line-height: 1.6;
     color: rgba(255,249,243,0.75);
     max-width: 720px; margin: 0 0 56px;
@@ -582,18 +587,18 @@
     color: var(--accent); margin-bottom: 14px; font-weight: 500;
   }
   .tsm-corpus-card-stat {
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: 'Plus Jakarta Sans', Georgia, serif;
     font-size: clamp(36px, 4vw, 48px); font-weight: 700;
     line-height: 1; letter-spacing: -0.02em;
     color: #FFF9F3; margin-bottom: 6px;
     font-feature-settings: "tnum"; font-variant-numeric: tabular-nums;
   }
   .tsm-corpus-card-unit {
-    font-family: 'Fraunces', Georgia, serif; font-size: 14px;
+    font-family: 'Plus Jakarta Sans', Georgia, serif; font-size: 14px;
     color: rgba(255,249,243,0.7); margin-bottom: 16px; font-style: italic;
   }
   .tsm-corpus-card-meta {
-    font-family: 'Inter', sans-serif; font-size: 11.5px;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px;
     color: rgba(255,249,243,0.5);
     display: flex; flex-wrap: wrap; gap: 6px; line-height: 1.5;
   }
@@ -610,11 +615,22 @@
     display: inline-flex; align-items: center; gap: 8px;
     padding: 8px 14px; background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,107,122,0.2); border-radius: 999px;
-    font-family: 'Inter', sans-serif; font-size: 13px;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px;
     transition: transform 0.2s ease, background 0.2s ease;
   }
-  .tsm-hashtag:hover { transform: translateY(-2px); background: rgba(255,107,122,0.12); }
-  .tsm-hashtag-name { color: #FF6B7A; font-weight: 600; }
+  .tsm-hashtag:hover { transform: translateY(-3px) scale(1.03); background: rgba(255,107,122,0.14); }
+  /* rainbow cycle across the logo palette — energetic, young */
+  .tsm-hashtag:nth-child(5n+1){ border-color: rgba(124,58,237,.45); }
+  .tsm-hashtag:nth-child(5n+1) .tsm-hashtag-name{ color:#A855F7; }
+  .tsm-hashtag:nth-child(5n+2){ border-color: rgba(168,85,247,.45); }
+  .tsm-hashtag:nth-child(5n+2) .tsm-hashtag-name{ color:#C084FC; }
+  .tsm-hashtag:nth-child(5n+3){ border-color: rgba(236,72,153,.45); }
+  .tsm-hashtag:nth-child(5n+3) .tsm-hashtag-name{ color:#EC4899; }
+  .tsm-hashtag:nth-child(5n+4){ border-color: rgba(244,114,182,.45); }
+  .tsm-hashtag:nth-child(5n+4) .tsm-hashtag-name{ color:#F472B6; }
+  .tsm-hashtag:nth-child(5n+5){ border-color: rgba(255,107,122,.45); }
+  .tsm-hashtag:nth-child(5n+5) .tsm-hashtag-name{ color:#FF6B7A; }
+  .tsm-hashtag-name { color: #FF6B7A; font-weight: 700; }
   .tsm-hashtag-plays {
     color: rgba(255,249,243,0.55);
     font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
@@ -630,7 +646,7 @@
     color: #FF6B7A; margin-bottom: 12px;
   }
   .tsm-corpus-mechanism p {
-    font-family: 'Fraunces', Georgia, serif; font-size: 16px;
+    font-family: 'Plus Jakarta Sans', Georgia, serif; font-size: 16px;
     line-height: 1.65; color: rgba(255,249,243,0.85); margin: 0;
   }
   .tsm-corpus-mechanism strong { color: #FFF9F3; font-weight: 700; }

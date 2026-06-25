@@ -20,8 +20,8 @@
   --ts-rule-soft:  rgba(16,18,47,.06);
   --ts-rule-on-ink:rgba(255,249,243,.14);
 
-  --ts-serif: "Fraunces", Georgia, serif;
-  --ts-sans:  "Inter", system-ui, -apple-system, sans-serif;
+  --ts-serif: "Plus Jakarta Sans", Georgia, serif;
+  --ts-sans:  "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --ts-mono:  "JetBrains Mono", ui-monospace, monospace;
 
   --ts-grad: linear-gradient(90deg, var(--ts-violet) 0%, var(--ts-coral) 100%);
@@ -844,3 +844,172 @@ h1,h2,h3,h4,h5,h6{ font-family: var(--ts-serif); font-weight: 600; letter-spacin
   .hero-trust{ flex-direction: column; align-items: flex-start; gap: 6px; }
   .foot-grid{ grid-template-columns: 1fr; gap: 22px; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   VIBE PASS — logo-derived energy layer (2026-06-25)
+   Pulls the brandmark's violet→magenta→coral straight into the page.
+   Same layout, louder color. Self-contained; delete this block to revert.
+   ═══════════════════════════════════════════════════════════════════ */
+:root{
+  /* logo palette, expanded */
+  --ts-violet:     #7C3AED;   /* electric violet (logo left)  */
+  --ts-violet-dk:  #6D28D9;
+  --ts-iris:       #A855F7;   /* light violet midpoint        */
+  --ts-magenta:    #EC4899;   /* hot pink core                */
+  --ts-coral:      #FF6B7A;   /* coral (logo right)           */
+  --ts-coral-dk:   #FB5468;
+
+  /* warmer, less "faded paper" muted tones */
+  --ts-mauve:      #564a63;
+  --ts-mauve-soft: #8d80a0;
+
+  /* the signature gradient — now a 4-stop, energetic and on-logo */
+  --ts-grad: linear-gradient(100deg, #7C3AED 0%, #A855F7 30%, #EC4899 64%, #FF6B7A 100%);
+  --ts-grad-soft: linear-gradient(100deg, rgba(124,58,237,.12) 0%, rgba(236,72,153,.10) 55%, rgba(255,107,122,.12) 100%);
+
+  /* colored, lifted shadows */
+  --ts-shadow-card: 0 1px 0 rgba(16,18,47,.04), 0 20px 44px -24px rgba(124,58,237,.34);
+  --ts-shadow-paper:0 1px 0 rgba(16,18,47,.05), 0 22px 50px -26px rgba(124,58,237,.30),
+                    0 60px 90px -52px rgba(236,72,153,.22);
+}
+
+/* living background — soft lilac base, lit by the logo's violet auras
+   (no more peach: base + auras are all cool violet/lavender) */
+html body{
+  background:
+    radial-gradient(1100px 620px at 10% -8%,  rgba(124,58,237,.16), transparent 58%),
+    radial-gradient(980px  560px at 94% -2%,  rgba(168,85,247,.13), transparent 55%),
+    radial-gradient(900px  760px at 52% 112%, rgba(124,58,237,.09), transparent 60%),
+    #F3F0FB;
+  background-attachment: fixed;
+}
+/* cool the frosted nav + card surfaces so nothing reads peach */
+.nav-shell{ background: rgba(243,240,251,.82); }
+.tier, .sample-card, .form-card, .status-card, .steps{ background: #FCFBFE; }
+.section.cream-deep{
+  background:
+    radial-gradient(700px 380px at 85% 0%, rgba(168,85,247,.09), transparent 60%),
+    linear-gradient(180deg, rgba(124,58,237,.06), rgba(168,85,247,.05));
+}
+/* cool the hero glow blobs (kill the peachy lower-left wash) */
+.hero::after{ background: radial-gradient(closest-side, rgba(168,85,247,.10), transparent 70%); }
+
+/* animated gradient sweep (used by text + buttons) */
+@keyframes ts-vibe-pan{ to{ background-position: 200% center; } }
+
+/* eyebrows: from muted mono to live gradient — instant energy */
+.eyebrow{
+  background: var(--ts-grad);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  font-weight: 700;
+  animation: ts-vibe-pan 7s linear infinite alternate;
+}
+.eyebrow::before{ width: 22px; height: 2px; border-radius: 2px; }
+.section.ink .eyebrow{ color: transparent; }   /* gradient is bright enough on dark */
+
+/* gradient text: brighter + alive */
+.grad-text, .stat .n{
+  background: var(--ts-grad);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  animation: ts-vibe-pan 6s linear infinite alternate;
+}
+
+/* primary buttons: bigger glow + animated gradient + springier hover */
+.btn{ border-radius: 11px; }
+.btn-primary{
+  background: var(--ts-grad);
+  background-size: 200% auto;
+  border-color: transparent;
+  animation: ts-vibe-pan 6s linear infinite alternate;
+  box-shadow: 0 1px 0 rgba(255,255,255,.22) inset, 0 10px 26px -10px rgba(124,58,237,.60);
+}
+.btn-primary:hover{
+  background: var(--ts-grad); background-size: 200% auto;
+  transform: translateY(-2px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.28) inset, 0 16px 34px -10px rgba(236,72,153,.70);
+}
+/* secondary buttons on light: subtle violet identity */
+.btn:not(.btn-primary){ border-color: rgba(124,58,237,.28); }
+.btn:not(.btn-primary):hover{ background: rgba(124,58,237,.06); border-color: rgba(124,58,237,.45); }
+
+/* rounder, younger cards + colored hover glow */
+.tier, .sample-card, .form-card, .status-card{ border-radius: 16px; }
+.mapdoc, .steps, .modal{ border-radius: 14px; }
+.tier:hover, .sample-card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 1px 0 rgba(16,18,47,.04), 0 24px 48px -24px rgba(124,58,237,.42);
+  border-color: rgba(168,85,247,.5);
+}
+/* featured pricing tier: single clean gradient ring (no doubled top line) */
+.tier.featured{
+  border-color: transparent;
+  box-shadow: 0 0 0 1.5px var(--ts-iris), 0 22px 40px -24px rgba(124,58,237,.5);
+  background: linear-gradient(180deg, rgba(168,85,247,.10), var(--ts-cream-soft));
+}
+.tier.featured::after{ content: none; }
+
+/* tinted "deep" sections instead of flat paper */
+.section.cream-deep{
+  background:
+    radial-gradient(700px 380px at 85% 0%, rgba(236,72,153,.07), transparent 60%),
+    linear-gradient(180deg, rgba(124,58,237,.05), rgba(255,107,122,.04));
+}
+
+/* hot lane chip + sample tag: louder */
+.lane-hot{ color:#fff; background: var(--ts-grad); }
+.sample-card .tag, .step .step-num, .howbuilt-step .num, .signal .num{ font-weight: 700; }
+
+/* capacity pill: gradient-lit border */
+.hero-capacity{
+  border-color: rgba(124,58,237,.35);
+  background: rgba(255,255,255,.7);
+  box-shadow: 0 6px 20px -14px rgba(124,58,237,.5);
+}
+
+/* callout / demo banner: brighter brand edge */
+.longform article .callout{ border-left-width: 3px; border-image: var(--ts-grad) 1; }
+.demo-banner{ border-color: rgba(124,58,237,.45); }
+
+/* punchier text selection */
+::selection{ background: rgba(236,72,153,.28); color: var(--ts-ink); }
+
+/* thicker, fully-saturated gradient rules */
+.rule-grad, .divider-grad{ height: 2px; opacity: .85; border-radius: 2px; }
+
+/* respect reduced-motion: hold gradients still */
+@media (prefers-reduced-motion: reduce){
+  .eyebrow, .grad-text, .stat .n, .btn-primary{ animation: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   VIBE PASS · type system (2026-06-25)
+   Plus Jakarta Sans everywhere (clean, modern body) + Space Grotesk on
+   headings (modern display character). Mono labels stay JetBrains.
+   ═══════════════════════════════════════════════════════════════════ */
+:root{
+  --ts-display: "Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif;
+}
+h1,h2,h3,h4,h5,h6,
+.h-display,.h-section,.h-sub,
+.mapdoc-title,.sample-card h3,.tier h4,.longform article h2,
+.status-card h2,.demo-banner h4{
+  font-family: var(--ts-display);
+  letter-spacing: -.025em;
+}
+.h-display{ font-weight: 700; letter-spacing: -.035em; }
+.h-section{ font-weight: 700; letter-spacing: -.03em; }
+
+/* nav links: uppercase + bolder + a touch of tracking */
+.nav-links{ text-transform: uppercase; font-weight: 700; letter-spacing: .07em; font-size: 12.5px; }
+
+/* Sign in button → solid coral fill */
+.nav-cta .btn-link{ background: var(--ts-coral); color: #fff; border-color: transparent; font-weight: 700; box-shadow: 0 8px 20px -10px rgba(255,107,122,.6); }
+.nav-cta .btn-link:hover{ background: var(--ts-coral-dk); color: #fff; transform: translateY(-1px); }
+
+/* italic gradient words: stop the slanted last letter from clipping
+   (extend the clip box on the right; negative margin keeps layout put) */
+.grad-text{ padding-right: .14em; margin-right: -.14em; }
