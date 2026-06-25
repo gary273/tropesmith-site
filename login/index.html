@@ -126,7 +126,7 @@
       const resp = await fetch(SUPABASE_URL + '/functions/v1/auth-request-magic-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, source: 'login_page' })
+        body: JSON.stringify({ email: email, source: 'login_page', redirect_to: (function(){ var n=new URLSearchParams(location.search).get('next'); return (n && n.charAt(0)==='/') ? n : undefined; })() })
       });
       const data = await resp.json();
       if (resp.ok && data.ok) {

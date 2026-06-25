@@ -143,6 +143,15 @@
         body: JSON.stringify({ product_id: productId, email: email || undefined, map_id: unlockMapId, internal_coupon_code: internalCouponCode, promo_code: promoCode, quantity: quantityOpt })
       });
 
+      if (resp.status === 401) {
+        const vd = await resp.json().catch(() => ({}));
+        if (vd && vd.error === 'needs_verification') {
+          if (modalEl) { try { modalEl.remove(); } catch (_) {} }
+          var nxt = encodeURIComponent(window.location.pathname + window.location.search);
+          window.location.href = (vd.login_url || '/login/') + '?next=' + nxt;
+          return;
+        }
+      }
       if (!resp.ok) {
         const err = await resp.json().catch(() => ({ error: 'unknown' }));
         throw new Error(err.message || err.error || 'HTTP ' + resp.status);
