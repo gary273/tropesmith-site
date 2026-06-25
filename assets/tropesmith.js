@@ -138,6 +138,7 @@
       const promoCode = getDiscountCode('promo', 'tsm_promo');
       const resp = await fetch(ENDPOINTS.checkout, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ product_id: productId, email: email || undefined, map_id: unlockMapId, internal_coupon_code: internalCouponCode, promo_code: promoCode, quantity: quantityOpt })
       });
@@ -251,6 +252,7 @@
 
     const resp = await fetch(ENDPOINTS.intake, {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });

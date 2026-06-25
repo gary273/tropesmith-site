@@ -279,6 +279,14 @@
         location.href = '/pricing/?need=1';
         return;
       }
+      if (res && res.ok && res.needs_verification) {
+        // Verify-before-build: stash the brief, magic link already sent by the backend.
+        try { localStorage.setItem('tsm_pending_intake', JSON.stringify(payload)); } catch (e) {}
+        msg.textContent = 'Almost there — check your inbox and click the link to confirm ' + (res.email || payload.email) + '. Your Map builds automatically once you confirm.';
+        msg.classList.remove('err');
+        btn.disabled = false; btn.innerHTML = origLabel;
+        return;
+      }
       if (res && res.ok && res.requires_payment && res.map_id) {
         // Legacy pay-at-build Map (pre-credits-flow): route to the credit-redeem / pay page.
         msg.textContent = 'Taking you to checkout…';
@@ -309,6 +317,18 @@
         emailEl.textContent = data.email;
         banner.style.display = 'flex';
         if (!emailField.value) emailField.value = data.email;
+        // Resume a brief saved before email verification (now signed in → cookie present).
+        try {
+          var pend = JSON.parse(localStorage.getItem('tsm_pending_intake') || 'null');
+          if (pend && window.Tropesmith && Tropesmith.submitIntake) {
+            localStorage.removeItem('tsm_pending_intake');
+            if (msg) { msg.textContent = 'Email confirmed — building your Map…'; msg.classList.remove('err'); }
+            Tropesmith.submitIntake(pend).then(function(r){
+              if (r && r.ok && r.map_id) location.href = '/status/?map_id=' + encodeURIComponent(r.map_id);
+              else if (r && r.ok && r.needs_credits) location.href = '/pricing/?need=1';
+            }).catch(function(){});
+          }
+        } catch (e) {}
       }
     })
     .catch(function(){ });
