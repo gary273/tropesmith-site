@@ -1004,3 +1004,21 @@ html body{
 /* italic gradient words: stop the slanted last letter from clipping
    (extend the clip box on the right; negative margin keeps layout put) */
 .grad-text{ padding-right: .14em; margin-right: -.14em; }
+
+/* ── partners banner (rounded logo cards: dark for Starport, white for Plot Prose) ── */
+.ts-partners-row{ display:flex; align-items:center; justify-content:space-between; gap:36px; flex-wrap:wrap; }
+.ts-partners-text{ font-family:var(--ts-serif); font-weight:600; font-size:clamp(17px,1.7vw,22px); line-height:1.35; color:var(--ts-ink); max-width:30ch; margin:0; }
+.ts-partners-logos{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+.ts-partner{ display:flex; align-items:center; justify-content:center; height:80px; border-radius:16px; overflow:hidden; box-shadow:0 12px 28px -18px rgba(16,18,47,.5); transition:transform .15s ease, box-shadow .2s ease; }
+.ts-partner:hover{ transform:translateY(-2px); box-shadow:0 18px 34px -18px rgba(124,58,237,.5); }
+.ts-partner img{ display:block; }
+.ts-partner--dark{ background:#0b0d26; padding:0 18px; }
+.ts-partner--dark img{ height:80px; width:auto; }
+.ts-partner--light{ background:#fff; padding:12px 22px; }
+.ts-partner--light img{ height:56px; width:auto; }
+@media (max-width:720px){
+  .ts-partners-row{ flex-direction:column; align-items:flex-start; gap:20px; }
+  .ts-partner{ height:64px; }
+  .ts-partner--dark img{ height:64px; }
+  .ts-partner--light img{ height:44px; }
+}
