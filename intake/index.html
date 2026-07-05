@@ -30,6 +30,13 @@
 <script src="/assets/tropesmith.js?v=20260528-utm"></script>
 <script defer src="../assets/site.js"></script>
   <script src="/assets/analytics.js?v=20260627" defer></script>
+<style>
+.ts-focus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.ts-focus{display:flex;align-items:center;gap:8px;cursor:pointer;border:1px solid var(--ts-rule,#e3dccf);border-radius:8px;padding:9px 11px;font-size:.9rem;line-height:1.3;background:var(--ts-cream,#fffdf8);transition:border-color .12s,background .12s}
+.ts-focus input{margin:0;accent-color:var(--ts-violet,#7c5cff)}
+.ts-focus:has(input:checked){border-color:var(--ts-violet,#7c5cff);background:rgba(124,92,255,.06)}
+.ts-focus span{color:var(--ts-ink,#241f2e)}
+</style>
 </head>
 <body>
 
@@ -193,6 +200,20 @@
       </fieldset>
 
       <fieldset class="fset">
+        <legend>What your Map leads with</legend>
+        <p class="help" style="margin-top:-6px;margin-bottom:12px">All included in your $15 — this just puts what you care about first.</p>
+        <div class="ts-focus-grid">
+          <label class="ts-focus"><input type="checkbox" name="focus" value="revenue" checked/><span>Market size &amp; earnings</span></label>
+          <label class="ts-focus"><input type="checkbox" name="focus" value="radar" checked/><span>Emerging trope radar</span></label>
+          <label class="ts-focus"><input type="checkbox" name="focus" value="tropes" checked/><span>Trope stack &amp; demand</span></label>
+          <label class="ts-focus"><input type="checkbox" name="focus" value="quotes" checked/><span>Readers&#39; own words</span></label>
+          <label class="ts-focus"><input type="checkbox" name="focus" value="canon" checked/><span>Reader canon &amp; comps</span></label>
+          <label class="ts-focus"><input type="checkbox" name="focus" value="search" checked/><span>Search demand</span></label>
+          <label class="ts-focus"><input type="checkbox" name="focus" value="covers" checked/><span>Cover trends</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="fset">
         <legend>One more thing</legend>
         <label class="chk">
           <input type="checkbox" id="newsletter_opt_in" name="newsletter_opt_in"/>
@@ -280,7 +301,8 @@
       pairing: form.pairing.value || 'any',
       must_include_tropes: form.must_include.value.trim() || undefined,
       must_avoid_tropes: form.must_avoid.value.trim() || undefined,
-      marketing_opt_in: form.newsletter_opt_in.checked
+      marketing_opt_in: form.newsletter_opt_in.checked,
+      focus_panels: Array.from(form.querySelectorAll('input[name="focus"]:checked')).map(function(c){return c.value;})
     };
     if (fromSession) payload.from_session = fromSession;
     if (!payload.email || !payload.genre_id || !payload.subgenre_id || !payload.heat_level || !payload.format || !payload.work_length) {
