@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Signing you in… — Tropesmith</title>
+<title>Sign in — Tropesmith</title>
 <meta name="robots" content="noindex, nofollow">
 
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
@@ -36,7 +36,15 @@
       <a href="../index.html"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith" width="160" height="113" /></a>
     </div>
 
-    <div id="loading-state">
+    <!-- Default: require an explicit click so email link-scanners/previews can't
+         silently consume the one-time sign-in token before the real person arrives. -->
+    <div id="confirm-state">
+      <h1 class="verify-h">Sign in to Tropesmith</h1>
+      <p class="verify-sub">Click below to finish signing in to your library.</p>
+      <button id="signin-btn" type="button" class="btn btn-primary btn-lg">Complete sign-in <span class="arrow">→</span></button>
+    </div>
+
+    <div id="loading-state" style="display:none">
       <div class="spinner"></div>
       <h1 class="verify-h">Signing you in…</h1>
       <p class="verify-sub">Just a moment.</p>
@@ -63,12 +71,15 @@
   const token = (params.get('token') || '').trim();
   const next = params.get('next') || '/library/';
 
+  const confirmEl = document.getElementById('confirm-state');
   const loadingEl = document.getElementById('loading-state');
   const successEl = document.getElementById('success-state');
   const errorEl = document.getElementById('error-state');
   const errorMsg = document.getElementById('error-msg');
+  const signinBtn = document.getElementById('signin-btn');
 
   function showError(msg) {
+    confirmEl.style.display = 'none';
     loadingEl.style.display = 'none';
     errorMsg.textContent = msg;
     errorEl.style.display = 'block';
@@ -79,25 +90,36 @@
     return;
   }
 
-  fetch(SUPABASE_URL + '/functions/v1/auth-verify-magic-link', {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ token: token })
-  })
-    .then(resp => resp.json().then(data => ({ ok: resp.ok, data: data })))
-    .then(r => {
-      if (r.ok) {
-        loadingEl.style.display = 'none';
-        successEl.style.display = 'block';
-        setTimeout(() => { window.location.href = next; }, 600);
-      } else {
-        showError(r.data.error || 'Sign-in failed. Please request a new link.');
-      }
+  let submitted = false;
+  function completeSignIn() {
+    if (submitted) return;          // guard against double-submit
+    submitted = true;
+    signinBtn.disabled = true;
+    confirmEl.style.display = 'none';
+    loadingEl.style.display = 'block';
+
+    fetch(SUPABASE_URL + '/functions/v1/auth-verify-magic-link', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: token })
     })
-    .catch(() => {
-      showError('Network error. Please try again.');
-    });
+      .then(resp => resp.json().then(data => ({ ok: resp.ok, data: data })))
+      .then(r => {
+        if (r.ok) {
+          loadingEl.style.display = 'none';
+          successEl.style.display = 'block';
+          setTimeout(() => { window.location.href = next; }, 600);
+        } else {
+          showError(r.data.error || 'Sign-in failed. Please request a new link.');
+        }
+      })
+      .catch(() => {
+        showError('Network error. Please try again.');
+      });
+  }
+
+  signinBtn.addEventListener('click', completeSignIn);
 })();
 </script>
 
