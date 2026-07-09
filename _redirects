@@ -6,3 +6,7 @@
 /go/:slug   https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/go?slug=:slug   302
 /go         https://tropesmith.com/?utm_source=go_unknown                          302
 
+
+# Trope Pulse public archive
+/pulse/:sub/:date  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-archive?subgenre=:sub&date=:date  200
+/pulse/:sub  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-archive?subgenre=:sub  200
