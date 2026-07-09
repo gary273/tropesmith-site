@@ -6,5 +6,3 @@
 /go/:slug   https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/go?slug=:slug   302
 /go         https://tropesmith.com/?utm_source=go_unknown                          302
 
-# What's New page (served by the public whats-new edge function)
-/whats-new   https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/whats-new   302
