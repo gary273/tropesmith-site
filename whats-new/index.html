@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>What's New · Tropesmith</title>
+<meta name="description" content="New and live in Tropesmith — the market intelligence that keeps growing for romance authors.">
+<style>
+  :root{--ink:#221b2e;--mauve:#5b4a59;--cream:#fbf7f0;--rule:#ece4d8;--violet:#6D28D9;--coral:#e04a3a}
+  *{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.55}
+  .wrap{max-width:760px;margin:0 auto;padding:56px 22px 90px}
+  .hero{text-align:center;margin-bottom:44px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);font-weight:800}
+  h1{font-size:40px;margin:10px 0 8px;letter-spacing:-.02em}
+  .sub{color:var(--mauve);font-size:16px;max-width:520px;margin:0 auto}
+  .day{margin:34px 0}
+  .date{font-size:12.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mauve);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+  .cards{display:flex;flex-direction:column;gap:14px}
+  .card{background:#fff;border:1px solid var(--rule);border-radius:16px;padding:20px 22px;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+  .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid;margin-bottom:10px}
+  .card h3{margin:0 0 6px;font-size:19px;letter-spacing:-.01em}
+  .card p{margin:0;color:#40364b;font-size:15px}
+  .foot{text-align:center;margin-top:56px;color:var(--mauve);font-size:13.5px}
+  .foot a{color:var(--violet);font-weight:600;text-decoration:none}
+  @media(max-width:560px){h1{font-size:31px}.wrap{padding:38px 16px 70px}}
+</style></head><body>
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">New &amp; live</div>
+    <h1>What's new in Tropesmith</h1>
+    <p class="sub">Your market intelligence keeps growing. Here's what we've shipped — every update lands in your Map automatically, at no extra cost.</p>
+  </div>
+  <div id="feed"><p style="text-align:center;color:var(--mauve)">Loading…</p></div>
+  <div class="foot">Have a Map? Every improvement above is already live in it. <a href="https://tropesmith.com">Go to Tropesmith →</a></div>
+</div>
+<script>
+  var SUPA='https://vsbytdonbuwrrlmwteaw.supabase.co';
+  var ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzYnl0ZG9uYnV3cnJsbXd0ZWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODg5MDksImV4cCI6MjA5MjM2NDkwOX0.EGgGUQfCcQ3tul-LKuAQR3-hALTZOOo3cEeq5Ha2aM0';
+  var esc=function(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')};
+  var tagColor=function(t){return t==='New Map section'?'#6D28D9':t==='Fresher data'?'#1b9c85':t==='Accuracy'?'#b4431f':t==='New tool'?'#c05621':'#5b4a59'};
+  var fmt=function(d){try{return new Date(d+'T00:00:00Z').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'UTC'})}catch(e){return d}};
+  fetch(SUPA+'/rest/v1/product_updates?select=shipped_on,title,body,tag&is_live=eq.true&order=shipped_on.desc,sort_weight.desc,id.desc&limit=200',{headers:{apikey:ANON,Authorization:'Bearer '+ANON}})
+   .then(function(r){return r.json()})
+   .then(function(rows){
+     var el=document.getElementById('feed');
+     if(!rows||!rows.length){el.innerHTML='<p style="text-align:center;color:var(--mauve)">Updates coming soon.</p>';return}
+     var groups={}; rows.forEach(function(u){(groups[u.shipped_on]=groups[u.shipped_on]||[]).push(u)});
+     var html=Object.keys(groups).sort().reverse().map(function(day){
+       return '<section class="day"><div class="date">'+esc(fmt(day))+'</div><div class="cards">'+
+         groups[day].map(function(u){
+           return '<article class="card">'+(u.tag?'<span class="tag" style="color:'+tagColor(u.tag)+';border-color:'+tagColor(u.tag)+'33;background:'+tagColor(u.tag)+'0f">'+esc(u.tag)+'</span>':'')+
+             '<h3>'+esc(u.title)+'</h3><p>'+esc(u.body)+'</p></article>';
+         }).join('')+'</div></section>';
+     }).join('');
+     el.innerHTML=html;
+   })
+   .catch(function(){document.getElementById('feed').innerHTML='<p style="text-align:center;color:var(--mauve)">Updates coming soon.</p>'});
+</script>
+</body></html>
