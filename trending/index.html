@@ -115,6 +115,13 @@ select{margin-bottom:16px}
         <div style="font-size:11px;text-transform:uppercase;letter-spacing:.07em;font-weight:800;color:#a39395;margin-bottom:7px">Most reached-for this month <span style="color:#C2334A">▲ rising</span></div>
         <ul class="trlist" id="tropes"></ul>
       </div>
+      <div id="sharebox" style="display:none;margin:18px 0 4px;text-align:center">
+        <button id="sharebtn" type="button" style="background:#10122F;color:#fff;font-weight:700;font-size:15px;border:none;border-radius:999px;padding:13px 24px;cursor:pointer">📸 Save a shareable image</button>
+        <div style="font-size:12px;color:#a39395;margin-top:8px">Post it to BookTok / Instagram — the link's right on the image.</div>
+        <canvas id="sharecanvas" width="1080" height="1080" style="display:none"></canvas>
+        <div id="shareimg" style="margin-top:14px"></div>
+      </div>
+
       <div class="rescta">
         <b>This is a taste. Your book deserves the full verdict.</b>
         <p>A Tropesmith Map turns this into a go/no-go call for your exact book — the full ranked trope stack with demand-vs-supply, the open gap to claim, comp titles with borrow/skip notes, cover &amp; title direction, the length sweet spot, market economics and a step-by-step plan.</p>
@@ -145,6 +152,7 @@ select{margin-bottom:16px}
       go=document.getElementById('go'),err=document.getElementById('err'),
       result=document.getElementById('result'),rtitle=document.getElementById('rtitle'),
       ow=document.getElementById('ow'),tropes=document.getElementById('tropes'),trendwrap=document.getElementById('trendwrap');
+  var lastData=null;
   function showErr(m){err.textContent=m;err.style.display='block';}
   function chips(arr){return arr.map(function(n){return '<span class="chip"></span>';}).join('');}
   function block(cls,label,arr){
@@ -175,11 +183,66 @@ select{margin-bottom:16px}
         var tr=(d.tropes||[]);
         if(tr.length){tr.forEach(function(t){var li=document.createElement('li');li.innerHTML=(t.rising?'<b>▲ </b>':'');li.appendChild(document.createTextNode(t.name));tropes.appendChild(li);});trendwrap.style.display='block';}
         else{trendwrap.style.display='none';}
+        lastData=d;var _sb=document.getElementById('sharebox');if(_sb)_sb.style.display='block';
         f.style.display='none';result.style.display='block';
         result.scrollIntoView({behavior:'smooth',block:'nearest'});
       })
       .catch(function(){showErr('Network error — please try again.');go.disabled=false;go.textContent='Show me the opportunity in my lane →';});
   });
+
+  // ---- shareable result card (canvas → PNG, no external deps) ----
+  function rr(x,X,Y,W,H,R){x.beginPath();x.moveTo(X+R,Y);x.arcTo(X+W,Y,X+W,Y+H,R);x.arcTo(X+W,Y+H,X,Y+H,R);x.arcTo(X,Y+H,X,Y,R);x.arcTo(X,Y,X+W,Y,R);x.closePath();}
+  function panel(x,title,tc,bg,bd,marker,items,px,py,pw){
+    var lineH=66,pad=30,headH=52;
+    var ph=headH+pad+items.length*lineH+6;
+    x.fillStyle=bg;rr(x,px,py,pw,ph,28);x.fill();
+    x.lineWidth=2;x.strokeStyle=bd;rr(x,px,py,pw,ph,28);x.stroke();
+    x.fillStyle=tc;x.font='700 26px Inter,Arial,sans-serif';x.fillText(title,px+pad,py+46);
+    items.forEach(function(it,i){
+      var ry=py+headH+pad+i*lineH+34;
+      x.fillStyle=tc;x.font='700 38px Inter,Arial,sans-serif';x.fillText(marker,px+pad,ry);
+      x.fillStyle='#10122F';x.font='600 44px Fraunces,Georgia,serif';x.fillText(it,px+pad+54,ry+2);
+    });
+    return py+ph;
+  }
+  function drawShareCard(d){
+    var c=document.getElementById('sharecanvas'),x=c.getContext('2d'),W=1080,H=1080;
+    x.clearRect(0,0,W,H);
+    x.fillStyle='#FFF9F3';x.fillRect(0,0,W,H);
+    x.fillStyle='#141636';x.fillRect(0,0,W,172);
+    var g=x.createLinearGradient(72,0,620,0);g.addColorStop(0,'#a78bfa');g.addColorStop(1,'#FF8A97');
+    x.fillStyle=g;x.font='700 64px Fraunces,Georgia,serif';x.textBaseline='alphabetic';x.fillText('Tropesmith',72,104);
+    x.fillStyle='#c4b5fd';x.font='700 24px Inter,Arial,sans-serif';x.fillText('TROPE OPPORTUNITY · THIS MONTH',74,144);
+    x.fillStyle='#10122F';x.font='700 66px Fraunces,Georgia,serif';x.fillText(d.subgenre_label||'Your lane',72,288);
+    x.fillStyle='#5b4a59';x.font='400 29px Inter,Arial,sans-serif';x.fillText('Where the room is opening up right now',72,334);
+    var o=d.opportunity||{},y=394;
+    y=panel(x,'WRITE INTO THESE — RISING, NOT YET CROWDED','#1E7A43','#E9F9EE','#BEE9CC','▲',(o.rising||[]).slice(0,3),72,y,W-144);
+    var cool=(o.cooling||[]).slice(0,2);
+    if(cool.length){y+=26;panel(x,'COOLING — THINK TWICE BEFORE YOU BUILD ON THESE','#B4741A','#FFF3D8','#F1DCA4','▼',cool,72,y,W-144);}
+    x.fillStyle='#141636';x.fillRect(0,H-118,W,118);
+    x.fillStyle='#ffffff';x.font='700 34px Fraunces,Georgia,serif';x.fillText('Check your lane free',72,H-62);
+    x.fillStyle='#c4b5fd';x.font='600 30px Inter,Arial,sans-serif';x.fillText('tropesmith.com/trending',72,H-24);
+  }
+  function shareNow(){
+    if(!lastData)return;
+    var ready=(document.fonts&&document.fonts.ready)?document.fonts.ready:Promise.resolve();
+    ready.then(function(){
+      try{drawShareCard(lastData);}catch(e){return;}
+      document.getElementById('sharecanvas').toBlob(function(blob){
+        if(!blob)return;
+        var url=URL.createObjectURL(blob);
+        var name='tropesmith-'+String(lastData.subgenre_id||'lane').replace(/[^a-z0-9]+/gi,'-')+'.png';
+        document.getElementById('shareimg').innerHTML='<img alt="Your trope opportunity card" src="'+url+'" style="max-width:340px;width:100%;border-radius:16px;border:1px solid rgba(16,18,47,.1)"><div style="font-size:12px;color:#a39395;margin-top:6px">Saved — ready to post.</div>';
+        var file=null;try{file=new File([blob],name,{type:'image/png'});}catch(e){}
+        if(file&&navigator.canShare&&navigator.canShare({files:[file]})){
+          navigator.share({files:[file],title:'Tropesmith',text:"What's trending in "+lastData.subgenre_label+' romance this month'}).catch(function(){});
+        }else{
+          var a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+        }
+      },'image/png');
+    });
+  }
+  var _sbtn=document.getElementById('sharebtn');if(_sbtn)_sbtn.addEventListener('click',shareNow);
 })();
 </script>
 </body></html>
