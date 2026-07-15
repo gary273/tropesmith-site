@@ -10,3 +10,7 @@
 # Trope Pulse public archive
 /pulse/:sub/:date  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-archive?subgenre=:sub&date=:date  200
 /pulse/:sub  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-archive?subgenre=:sub  200
+
+# Pre-purchase lane score — powers the /intake "your lane at a glance" panel.
+# Proxies /lane-score/<subgenre_id> to the public lane-score edge function (200 = rewrite, same-origin JSON).
+/lane-score/:sg  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/lane-score?subgenre_id=:sg  200
