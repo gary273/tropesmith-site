@@ -560,7 +560,7 @@
       var myReq=++laneSnapReq;
       laneSnapEl.style.display='block';
       laneSnapEl.innerHTML='<div style="font-size:12.5px;color:var(--ts-mauve-soft,#a39395);padding:6px 2px">Loading this lane’s market…</div>';
-      fetch('/lane-score/'+encodeURIComponent(subgenreId), { cache:'default' })
+      fetch('https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/lane-score?subgenre_id='+encodeURIComponent(subgenreId), { cache:'default' })
         .then(function(r){ return r.ok ? r.json() : null; })
         .then(function(d){ if(myReq!==laneSnapReq) return; if(d&&d.ok){ renderLaneSnap(d); } else { hideLaneSnap(); } })
         .catch(function(){ if(myReq===laneSnapReq) hideLaneSnap(); });
