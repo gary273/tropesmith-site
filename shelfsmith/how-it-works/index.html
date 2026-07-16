@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Shelfsmith works — and what “BISAC” means for your book</title>
+<style>
+  :root{color-scheme:light;--cream:#FFF9F3;--paper:#FFFEFB;--ink:#10122F;--ink-soft:#3f425e;--mauve:#5b4a59;--muted:#8a8394;
+    --rule:#ece4d8;--violet:#6D28D9;--violet-tint:#F5F0FF;--green:#1a7f52;--green-tint:#e7f5ec;--amber:#b5701a;--amber-tint:#fbf1e2}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink-soft);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+  .wrap{max-width:720px;margin:0 auto;padding:40px 22px 90px}
+  .brand{font-family:Georgia,serif;font-weight:700;font-size:19px;color:var(--ink)}.brand span{color:var(--violet)}
+  .kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);font-weight:800;margin-top:22px}
+  h1{font-family:Georgia,serif;font-size:32px;line-height:1.15;color:var(--ink);margin:6px 0 10px}
+  h2{font-family:Georgia,serif;font-size:22px;color:var(--ink);margin:36px 0 10px}
+  h3{font-size:15px;color:var(--ink);margin:18px 0 4px;font-weight:800}
+  p{margin:0 0 14px;font-size:16px}
+  .lede{font-size:17px;color:var(--mauve);margin-bottom:8px}
+  .card{background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:20px 22px;margin:18px 0}
+  .card.tint{background:var(--violet-tint);border-color:#e0d4ff}
+  .bisac{display:inline-block;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:2px 8px;font-family:Consolas,monospace;font-size:14px;color:var(--violet)}
+  ul{margin:0 0 14px;padding-left:22px}li{margin:7px 0;font-size:16px}
+  .modes{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+  .mode{flex:1 1 300px;background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:18px 20px}
+  .mode .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:3px 10px;border-radius:999px;background:var(--violet-tint);color:var(--violet);margin-bottom:8px}
+  .mode h3{margin:0 0 6px;font-family:Georgia,serif;font-size:18px;font-weight:700}
+  .mode p{font-size:14.5px;margin:0}
+  .price{display:inline-flex;align-items:baseline;gap:6px;font-family:Georgia,serif;font-weight:700;color:var(--violet)}
+  .price b{font-size:30px}
+  .steps{counter-reset:s;list-style:none;padding:0;margin:12px 0}
+  .steps li{counter-increment:s;position:relative;padding:2px 0 12px 42px;margin:0}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--violet);color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;font-family:Calibri,sans-serif}
+  .btn{display:inline-block;margin-top:8px;background:var(--violet);color:#fff;text-decoration:none;font-weight:800;font-size:16px;padding:13px 26px;border-radius:10px}
+  .note{font-size:13.5px;color:var(--muted);border-top:1px solid var(--rule);margin-top:34px;padding-top:16px;line-height:1.55}
+  .tag2{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 10px;border-radius:999px}
+  .tag2.free{background:var(--green-tint);color:var(--green)}.tag2.pay{background:var(--violet-tint);color:var(--violet)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Trope<span>smith</span></div>
+  <div class="kicker">How it works</div>
+  <h1>Make sure Amazon shelves your book where your readers are looking</h1>
+  <p class="lede">Get your category right and the readers who want exactly your kind of story find you. Get it wrong and your book is invisible — sitting on a shelf your readers never browse. Shelfsmith checks your book against thousands of real titles and tells you where it lands — so you can fix it while you still can.</p>
+
+  <h2>The thing most authors don’t realise</h2>
+  <p>When you publish on Amazon you choose up to three categories. But Amazon doesn’t simply take your word for it — its system <b>reads your title, subtitle, blurb and keywords</b> and decides whether your book really belongs there.</p>
+  <p>If those signals say “generic contemporary romance” but you chose “Clean &amp; Wholesome,” Amazon can quietly file you in the broad category instead — the one with a hundred thousand books and none of <em>your</em> specific readers. And once the book is live, that placement is painful to undo.</p>
+
+  <h2>So what exactly is a “BISAC” code?</h2>
+  <p><b>BISAC</b> (Book Industry Standards and Communications) is the publishing industry’s official list of subject codes — a standard way of saying precisely what a book is. Every romance sub-type has one:</p>
+  <div class="card">
+    <p style="margin:0 0 8px"><span class="bisac">FIC027270</span> &nbsp;=&nbsp; Romance / Clean &amp; Wholesome</p>
+    <p style="margin:0 0 8px"><span class="bisac">FIC027560</span> &nbsp;=&nbsp; Romance / Dark Romance</p>
+    <p style="margin:0"><span class="bisac">FIC027070</span> &nbsp;=&nbsp; Romance / Historical / Regency</p>
+  </div>
+  <p>Think of a BISAC code as your book’s <b>shelf label</b> — written in a language every bookstore, library and retailer understands.</p>
+  <p>Here’s the part that trips authors up: <b>on Amazon you no longer pick a BISAC code yourself.</b> Since 2023 you choose an Amazon category, and Amazon works out the matching BISAC automatically, behind the scenes. So the category you pick <em>is</em> your BISAC — you just never see the code. It still matters directly if you go “wide” (selling through IngramSpark, libraries and other retailers), where the BISAC is exactly how your book gets shelved.</p>
+
+  <div class="card tint">
+    <p style="margin:0"><b>Why this matters to you:</b> the category you pick — and the BISAC it maps to — is the single biggest lever controlling where your book appears. Your keywords, subtitle and blurb then either <b>back it up</b> (so Amazon keeps you there and readers find you) or <b>fight it</b> (so you drift). Shelfsmith checks all of it together, against thousands of real books whose shelves we already know.</p>
+  </div>
+
+  <h2>Two ways to use it</h2>
+  <div class="modes">
+    <div class="mode">
+      <span class="tag">Before you publish</span>
+      <h3>Check my blurb</h3>
+      <p>Haven’t hit publish yet? Paste the blurb you’re about to upload and the category you’re aiming for. We tell you — before Amazon decides — whether it will land where you want, and what it actually reads as.</p>
+    </div>
+    <div class="mode">
+      <span class="tag">Already published</span>
+      <h3>Why did Amazon shelve me here?</h3>
+      <p>Already live and not sure why you’re where you are? Drop in your book’s Amazon link. We pull it up, show you the <b>exact shelves Amazon has it on right now</b>, and explain why it landed there.</p>
+    </div>
+  </div>
+
+  <h2>What the free check gives you <span class="tag2 free">Free</span></h2>
+  <p>Whichever way you use it, the free check is your <b>diagnosis</b>:</p>
+  <ul>
+    <li><b>Where your book lands</b> — the category it reads as (pre-publish), or the real shelves Amazon has put it on (published), versus the one you want.</li>
+    <li><b>Whether it’s even eligible</b> — you can’t sit on the Clean &amp; Wholesome shelf with an explicit book; Amazon won’t allow it, and we’ll tell you before you try.</li>
+    <li><b>The top categories your book reads like</b> right now — and, if you’re off, a plain-English reason why.</li>
+  </ul>
+
+  <h2>The exact fix <span class="tag2 pay">Upgrade</span></h2>
+  <p>The free check tells you what’s wrong. For the price of a coffee, we tell you <b>exactly how to fix it</b> — everything ready to copy straight into KDP, and sent to your inbox too:</p>
+  <ul>
+    <li>The <b>exact Amazon category to select</b> — and its BISAC code — so you land where you want.</li>
+    <li>A <b>tightened, rewritten blurb</b> that reads as your target category, not a vague one.</li>
+    <li>Your <b>7 keywords</b>, drawn from what readers are actually searching for right now.</li>
+    <li>A <b>subtitle</b> that reinforces it all.</li>
+  </ul>
+  <p style="margin-top:6px"><span class="price"><b>$5</b> per book</span> &nbsp;— one book, five dollars, no guesswork.</p>
+
+  <h2>How authors use it</h2>
+  <ol class="steps">
+    <li>Choose whether you’re checking a book <b>before</b> you publish, or auditing one that’s <b>already live</b>.</li>
+    <li>Tell us the category you want, then paste your blurb — or drop in your published book’s Amazon link.</li>
+    <li>Get your free diagnosis: where you land, whether you’re eligible, and why.</li>
+    <li>Upgrade for $5 to get the exact category, BISAC, blurb, keywords and subtitle — copy them into KDP with confidence.</li>
+  </ol>
+
+  <a class="btn" href="/shelfsmith/">Run the free check →</a>
+
+  <div class="note"><b>The honest bit.</b> We read the market and compare your book to thousands of real books whose Amazon shelves we already know. It’s a strong, data-backed signal — not a guarantee, and not affiliated with or endorsed by Amazon. The category is one you set yourself in KDP, free. But it’s the difference between publishing on a hunch and publishing knowing where you’ll land.</div>
+</div>
+</body>
+</html>
