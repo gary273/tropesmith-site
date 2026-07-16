@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shelfsmith · Tropesmith</title>
+<style>
+  :root{color-scheme:light;--cream:#FFF9F3;--paper:#FFFEFB;--ink:#10122F;--ink-soft:#4a4d6b;--mauve:#5b4a59;--muted:#a39395;
+    --rule:#ece4d8;--violet:#6D28D9;--violet-tint:#F5F0FF;--coral:#e04a3a;--green:#1a7f52;--green-tint:#e7f5ec;--amber:#b5701a;--amber-tint:#fbf1e2}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.55}
+  .wrap{max-width:640px;margin:0 auto;padding:42px 22px 90px}
+  .brand{font-family:Georgia,serif;font-weight:700;font-size:19px}.brand span{color:var(--violet)}
+  .kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);font-weight:800;margin-top:20px}
+  h1{font-family:Georgia,serif;font-size:34px;line-height:1.12;margin:6px 0 8px}
+  .sub{color:var(--mauve);font-size:16px;margin:0 0 26px}
+  .card{background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:20px 20px 22px}
+  label{display:block;font-size:12.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin:14px 0 5px}
+  label:first-child{margin-top:0}
+  select,input,textarea{width:100%;border:1px solid var(--rule);border-radius:9px;padding:11px 12px;font-size:15px;font-family:inherit;color:var(--ink);background:#fff}
+  textarea{min-height:150px;resize:vertical;line-height:1.5}
+  .row{display:flex;gap:10px;flex-wrap:wrap}.row>div{flex:1 1 240px}
+  .hint{font-size:12px;color:var(--muted);margin-top:4px}
+  .btn{margin-top:18px;width:100%;border:none;border-radius:10px;background:var(--violet);color:#fff;font-size:16px;font-weight:800;padding:13px;cursor:pointer}
+  .btn:disabled{opacity:.55;cursor:default}
+  .result{margin-top:22px;display:none}
+  .verdict{border-radius:14px;padding:18px 20px;border:1px solid}
+  .verdict.on{background:var(--green-tint);border-color:#bfe6cf}
+  .verdict.near{background:var(--violet-tint);border-color:#e0d4ff}
+  .verdict.off{background:var(--amber-tint);border-color:#f0dbb0}
+  .verdict h2{margin:0 0 4px;font-size:20px;font-family:Georgia,serif}
+  .verdict p{margin:0;font-size:14.5px;color:var(--ink-soft)}
+  .reads{margin-top:16px}.reads .lbl{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:800}
+  .chips{margin-top:6px}.chip{display:inline-block;background:#fff;border:1px solid var(--rule);border-radius:999px;padding:5px 12px;margin:0 6px 6px 0;font-size:13px;font-weight:600;color:var(--ink)}
+  .chip.first{background:var(--violet);color:#fff;border-color:var(--violet)}
+  .kw{margin-top:16px}.kw .kwtag{display:inline-block;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:3px 9px;margin:3px 5px 0 0;font-size:12.5px;color:var(--mauve)}
+  .cta{margin-top:20px;background:linear-gradient(135deg,#f4f0ff,#fff5f2);border:1px solid var(--rule);border-radius:12px;padding:16px 18px}
+  .cta b{color:var(--ink)}.cta a{display:inline-block;margin-top:8px;color:var(--violet);font-weight:800;text-decoration:none}
+  .err{color:var(--coral);font-size:14px;margin-top:12px}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+  .method{font-size:12px;color:var(--mauve);margin-top:14px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Trope<span>smith</span></div>
+  <div class="kicker">Free tool</div>
+  <h1>Shelfsmith</h1>
+  <p class="sub">Will Amazon shelve your book where you want it? Paste your blurb (or an Amazon link), tell us the category you're aiming for, and we'll tell you where it actually reads — and how to close the gap.</p>
+
+  <div class="card">
+    <label for="target">The category you're aiming for</label>
+    <select id="target"></select>
+
+    <label for="blurb">Your blurb <span style="text-transform:none;font-weight:400;color:var(--muted)">(or an Amazon link / ASIN below)</span></label>
+    <textarea id="blurb" placeholder="Paste your book blurb here — a draft is fine…"></textarea>
+
+    <label for="asin">…or an Amazon link / ASIN (published books)</label>
+    <input id="asin" placeholder="https://www.amazon.com/dp/B0… or B0XXXXXXX" />
+
+    <label for="email">Your email <span style="text-transform:none;font-weight:400;color:var(--muted)">(we'll send your result + tips)</span></label>
+    <input id="email" type="email" placeholder="you@example.com" />
+
+    <button class="btn" id="go">Run Shelfsmith →</button>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="result" id="result">
+    <div class="verdict" id="verdict"><h2 id="vh"></h2><p id="vp"></p></div>
+    <div class="reads"><div class="lbl">Your blurb reads like</div><div class="chips" id="chips"></div></div>
+    <div class="kw" id="kwbox" style="display:none"><div class="lbl">To lean into your target, work in words like</div><div id="kwtags"></div></div>
+    <div class="cta" id="cta"></div>
+    <div class="method">This is a data-backed read (we compare your blurb to thousands of books whose Amazon shelves we already know), not a guarantee. The category you pick is one you set yourself in KDP, free.</div>
+  </div>
+
+  <div class="foot">Tropesmith · Shelfsmith · market intelligence for romance & fiction authors</div>
+</div>
+
+<script>
+  var FN = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/placement-blurb';
+  var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzYnl0ZG9uYnV3cnJsbXd0ZWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODg5MDksImV4cCI6MjA5MjM2NDkwOX0.EGgGUQfCcQ3tul-LKuAQR3-hALTZOOo3cEeq5Ha2aM0';
+  // subgenre_id -> display name, grouped by genre
+  var LANES = {
+    "Romance":[["romance.clean_wholesome","Clean & Wholesome"],["romance.contemporary.small_town","Contemporary — Small Town"],["romance.contemporary.workplace","Contemporary — Workplace"],["romance.contemporary.second_chance","Contemporary — Second Chance"],["romance.contemporary.billionaire","Contemporary — Billionaire"],["romance.contemporary.sports.hockey","Sports — Hockey"],["romance.romcom","Romantic Comedy"],["romance.dark","Dark Romance"],["romance.suspense","Romantic Suspense"],["romance.christmas","Christmas / Holiday"],["romance.historical.regency","Historical — Regency"],["romance.historical.scottish","Historical — Scottish"],["romance.western","Western"],["romance.paranormal.demons_devils","Paranormal — Demons & Devils"],["romance.paranormal.womens_fiction","Paranormal — Women's Fiction"],["romance.romantasy.romantic_fantasy","Romantic Fantasy"],["romance.cozy_fantasy","Cozy Fantasy"],["romance.scifi","Sci-Fi Romance"],["romance.lgbtq.mm","M/M (Gay) Romance"],["romance.lgbtq.sapphic","Sapphic (F/F) Romance"],["romance.lgbtq.bi","Bisexual / Pansexual Romance"],["romance.lgbtq.trans","Trans Romance"]],
+    "Fantasy & Sci-Fi":[["fantasy.general","Fantasy"],["fantasy.urban","Urban Fantasy"],["fantasy.litrpg","GameLit / LitRPG"],["fantasy.mens_adventure","Men's Adventure / HaremLit"],["scifi.general","Science Fiction"],["scifi.fantasy_combined","Science Fiction & Fantasy"]],
+    "Mystery & Thriller":[["mystery.cozy","Cozy Mystery"],["mystery.cozy.paranormal","Paranormal Cozy Mystery"],["mystery.female_detective","Female Detectives & Sleuths"],["mystery.historical","Historical Mystery"],["mystery.general","Mystery"],["thriller.psychological_domestic","Psychological & Domestic Thrillers"],["thriller.mystery_suspense_crime","Mystery, Thriller, Suspense & Crime"]],
+    "Other":[["historical_fiction.general","Historical Fiction"],["horror.general","Horror Fiction"]]
+  };
+  var NAME = {};
+  var sel = document.getElementById('target');
+  Object.keys(LANES).forEach(function(g){
+    var og = document.createElement('optgroup'); og.label = g;
+    LANES[g].forEach(function(p){ NAME[p[0]]=p[1]; var o=document.createElement('option'); o.value=p[0]; o.textContent=p[1]; og.appendChild(o); });
+    sel.appendChild(og);
+  });
+  sel.value = 'romance.clean_wholesome';
+  function nm(id){ return NAME[id] || id; }
+
+  function asinFrom(s){ var m=(s||'').match(/[A-Z0-9]{10}/i); return m?m[0].toUpperCase():''; }
+
+  document.getElementById('go').addEventListener('click', function(){
+    var err=document.getElementById('err'); err.textContent='';
+    var target=sel.value, blurb=document.getElementById('blurb').value.trim(), asin=asinFrom(document.getElementById('asin').value), email=document.getElementById('email').value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.textContent='Please enter a valid email.'; return; }
+    if(blurb.length<40 && !asin){ err.textContent='Paste a blurb (40+ characters) or an Amazon link/ASIN.'; return; }
+    var btn=this; btn.disabled=true; btn.textContent='Checking…';
+    var payload={target:target, email:email};
+    if(asin && blurb.length<40) payload.asin=asin; else payload.blurb=blurb;
+    fetch(FN,{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON,'Authorization':'Bearer '+ANON},body:JSON.stringify(payload)})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        btn.disabled=false; btn.textContent='Run Shelfsmith →';
+        if(!d || d.error){ err.textContent=(d&&d.error)||'Something went wrong — try again.'; return; }
+        render(d, target);
+      })
+      .catch(function(){ btn.disabled=false; btn.textContent='Run Shelfsmith →'; err.textContent='Network error — try again.'; });
+  });
+
+  function render(d, target){
+    var v=document.getElementById('verdict'), vh=document.getElementById('vh'), vp=document.getElementById('vp');
+    var tname=nm(target);
+    v.className='verdict '+(d.status==='on_target'?'on':d.status==='near_target'?'near':'off');
+    if(d.status==='on_target'){ vh.textContent='On target ✓'; vp.textContent='Your blurb reads squarely as '+tname+'. Claim that category and you\'ll land where your readers browse.'; }
+    else if(d.status==='near_target'){ vh.textContent='Close'; vp.textContent=tname+' is in range, but your blurb leads with '+nm(d.predicted_top3[0])+'. A few tweaks will make '+tname+' the clear read.'; }
+    else { vh.textContent='Off target'; vp.textContent='Right now your blurb reads as '+nm(d.predicted_top3[0])+', not '+tname+'. To land in '+tname+', the blurb needs to signal it more strongly.'; }
+    var chips=document.getElementById('chips'); chips.innerHTML='';
+    (d.predicted_top3||[]).forEach(function(id,i){ var c=document.createElement('span'); c.className='chip'+(i===0?' first':''); c.textContent=nm(id); chips.appendChild(c); });
+    var kwbox=document.getElementById('kwbox'), kwtags=document.getElementById('kwtags');
+    if(d.status!=='on_target' && d.target_keywords && d.target_keywords.length){ kwbox.style.display='block'; kwtags.innerHTML=''; d.target_keywords.forEach(function(k){ var t=document.createElement('span'); t.className='kwtag'; t.textContent=k; kwtags.appendChild(t); }); }
+    else kwbox.style.display='none';
+    var cta=document.getElementById('cta');
+    if(d.status==='on_target') cta.innerHTML='<b>Nicely aimed.</b> Want a full placement report across your whole catalogue, or help fine-tuning the blurb? <a href="https://tropesmith.com">See what Tropesmith can do →</a>';
+    else cta.innerHTML='<b>Want a blurb that lands in '+tname+'?</b> Our team can rewrite it to read the way Amazon needs — so it shelves where your readers are. <a href="https://tropesmith.com">Get a blurb that lands →</a>';
+    document.getElementById('result').style.display='block';
+    document.getElementById('result').scrollIntoView({behavior:'smooth'});
+  }
+</script>
+</body>
+</html>
