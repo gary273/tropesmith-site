@@ -67,17 +67,14 @@
   <div class="brand" id="brandEl">Trope<span>smith</span></div>
   <div class="kicker">Free tool</div>
   <h1 id="h1El">Shelfsmith</h1>
-  <p class="sub">Will Amazon shelve your book where you want it? Paste your blurb (or an Amazon link), tell us the category you're aiming for, and we'll tell you where it actually reads — and how to close the gap.</p>
+  <p class="sub">Will Amazon shelve your book where you want it? Paste the blurb you're about to publish, tell us the category you're aiming for, and we'll tell you — <b>before you upload</b> — where it actually reads, and how to close the gap.</p>
 
   <div class="card">
     <label for="target">The category you're aiming for</label>
     <select id="target"></select>
 
-    <label for="blurb">Your blurb <span style="text-transform:none;font-weight:400;color:var(--muted)">(or an Amazon link / ASIN below)</span></label>
-    <textarea id="blurb" placeholder="Paste your book blurb here — a draft is fine…"></textarea>
-
-    <label for="asin">…or an Amazon link / ASIN (published books)</label>
-    <input id="asin" placeholder="https://www.amazon.com/dp/B0… or B0XXXXXXX" />
+    <label for="blurb">Your book blurb <span style="text-transform:none;font-weight:400;color:var(--muted)">(a draft is perfect — that's the point)</span></label>
+    <textarea id="blurb" placeholder="Paste the blurb you're about to publish…"></textarea>
 
     <label for="email">Your email <span style="text-transform:none;font-weight:400;color:var(--muted)">(we'll send your result + tips)</span></label>
     <input id="email" type="email" placeholder="you@example.com" />
@@ -129,16 +126,13 @@
   sel.value = 'romance.clean_wholesome';
   function nm(id){ return NAME[id] || id; }
 
-  function asinFrom(s){ var m=(s||'').match(/[A-Z0-9]{10}/i); return m?m[0].toUpperCase():''; }
-
   document.getElementById('go').addEventListener('click', function(){
     var err=document.getElementById('err'); err.textContent='';
-    var target=sel.value, blurb=document.getElementById('blurb').value.trim(), asin=asinFrom(document.getElementById('asin').value), email=document.getElementById('email').value.trim();
+    var target=sel.value, blurb=document.getElementById('blurb').value.trim(), email=document.getElementById('email').value.trim();
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.textContent='Please enter a valid email.'; return; }
-    if(blurb.length<40 && !asin){ err.textContent='Paste a blurb (40+ characters) or an Amazon link/ASIN.'; return; }
+    if(blurb.length<40){ err.textContent='Paste your blurb (at least 40 characters).'; return; }
     var btn=this; btn.disabled=true; btn.textContent='Checking…';
-    var payload={target:target, email:email};
-    if(asin && blurb.length<40) payload.asin=asin; else payload.blurb=blurb;
+    var payload={target:target, email:email, blurb:blurb};
     fetch(FN,{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON,'Authorization':'Bearer '+ANON},body:JSON.stringify(payload)})
       .then(function(r){return r.json();})
       .then(function(d){
