@@ -79,6 +79,7 @@
   <div class="kicker">Free tool</div>
   <h1 id="h1El">Shelfsmith</h1>
   <p class="sub">Will Amazon shelve your book where you want it? Paste the blurb you're about to publish, tell us the category you're aiming for, and we'll tell you — <b>before you upload</b> — where it actually reads, and how to close the gap.</p>
+  <div id="howLink" style="margin:-16px 0 22px;font-size:14px"><a href="/shelfsmith/how-it-works/" style="color:var(--violet);font-weight:700;text-decoration:none">How it works &amp; what BISAC means →</a></div>
 
   <div class="card">
     <label for="mode">What do you want to do?</label>
@@ -137,6 +138,7 @@
       var b=document.getElementById('brandEl'); if(b) b.textContent=WL.brand;
       var f=document.getElementById('footEl'); if(f) f.textContent=WL.brand+' · free category check for authors';
       var pb=document.getElementById('pbEl'); if(pb) pb.style.display='block';
+      var hl=document.getElementById('howLink'); if(hl) hl.style.display='none';
     }
   })();
   // subgenre_id -> display name, grouped by genre
