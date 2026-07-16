@@ -60,6 +60,17 @@
   .err{color:var(--coral);font-size:14px;margin-top:12px}
   .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
   .method{font-size:12px;color:var(--mauve);margin-top:14px;line-height:1.5}
+  .fixbtn{margin-top:12px;border:none;border-radius:10px;background:var(--violet);color:#fff;font-size:15px;font-weight:800;padding:12px 18px;cursor:pointer}
+  .fixbtn:disabled{opacity:.6;cursor:default}
+  .fixpanel{margin-top:24px;display:none}
+  .fixpanel h2{font-family:Georgia,serif;font-size:24px;margin:0 0 4px}
+  .fixrow{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:16px 18px;margin-top:12px}
+  .fixrow .flbl{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:6px}
+  .fixrow .fval{font-size:15px;color:var(--ink);font-weight:600}
+  .fixrow .bisac{display:inline-block;background:var(--violet-tint);border:1px solid #e0d4ff;border-radius:6px;padding:2px 9px;font-family:Consolas,monospace;font-size:13px;color:var(--violet);margin-left:6px}
+  .blurbbox{white-space:pre-wrap;font-size:14.5px;line-height:1.55;color:var(--ink);background:#fff;border:1px dashed var(--rule);border-radius:8px;padding:12px 14px;margin-top:8px}
+  .copybtn{float:right;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--violet);background:none;border:1px solid #e0d4ff;border-radius:6px;padding:3px 9px;cursor:pointer}
+  .fixnote{font-size:12.5px;color:var(--mauve);margin-top:14px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -105,6 +116,8 @@
     <div class="method">This is a data-backed read (we compare your book to thousands of books whose Amazon shelves we already know), not a guarantee. The category you pick is one you set yourself in KDP, free.</div>
   </div>
 
+  <div class="fixpanel" id="fixPanel"></div>
+
   <div class="foot" id="footEl">Tropesmith · Shelfsmith · market intelligence for romance & fiction authors</div>
   <div class="foot" id="pbEl" style="display:none;margin-top:4px">Powered by <a href="https://tropesmith.com" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Tropesmith</a></div>
 </div>
@@ -112,6 +125,9 @@
 <script>
   var FN = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/placement-blurb';
   var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzYnl0ZG9uYnV3cnJsbXd0ZWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODg5MDksImV4cCI6MjA5MjM2NDkwOX0.EGgGUQfCcQ3tul-LKuAQR3-hALTZOOo3cEeq5Ha2aM0';
+  var FIX_CHECKOUT = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/shelfsmith-fix-checkout';
+  var FIX_RESULT = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/shelfsmith-fix-result';
+  var LASTFIX = null;
   // ── white-label application (window.__WL set by head script) ──
   var WL = window.__WL || { isWL:false, brand:'Tropesmith', toolName:'Shelfsmith', site:'' };
   (function(){
@@ -172,6 +188,7 @@
       if(blurb.length<40){ err.textContent='Paste your blurb (at least 40 characters).'; return; }
       payload.blurb=blurb;
     }
+    LASTFIX = { target:target, blurb: payload.blurb || '', asin: payload.asin || null, partner: WL.isWL ? WL.brand : null };
     var btn=this, orig=goLabel(); btn.disabled=true; btn.textContent = mode==='audit' ? 'Checking your live book… (up to a minute)' : 'Checking…';
     fetch(FN,{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON,'Authorization':'Bearer '+ANON},body:JSON.stringify(payload)})
       .then(function(r){return r.json();})
@@ -201,12 +218,13 @@
     else { vh.textContent='Off target'; vp.textContent='Right now your blurb reads as '+nm(d.predicted_top3[0])+', not '+tname+'. To land in '+tname+', the blurb needs to signal it more strongly.'; }
     fillChips('chips', d.predicted_top3); showKw(d);
     var cta=document.getElementById('cta');
-    if(d.status==='on_target') cta.innerHTML='<b>Nicely aimed.</b> Want the exact category + BISAC to select, and a second opinion on the blurb? '+ctaLink('See what Tropesmith can do →');
-    else cta.innerHTML='<b>Want the exact fixes to land in '+tname+'?</b> The category to pick, its BISAC code, a tightened blurb and the keywords — ready for KDP. '+ctaLink('Get the exact fixes →');
+    if(d.status==='on_target') cta.innerHTML='<b>Nicely aimed.</b> Get the exact category + BISAC to select, your 7 keywords, a subtitle and a polished blurb — ready for KDP.'+fixButton();
+    else cta.innerHTML='<b>Want the exact fixes to land in '+tname+'?</b> The exact category to pick, its BISAC code, a tightened blurb, the keywords and a subtitle — ready for KDP.'+fixButton();
     finish();
   }
 
   function renderAudit(d, target){
+    if(LASTFIX && d.description) LASTFIX.blurb = d.description;
     var v=document.getElementById('verdict'), vh=document.getElementById('vh'), vp=document.getElementById('vp'), tname=nm(target);
     var cta=document.getElementById('cta');
     // real Amazon shelf names if we scraped them live; else our mapped lane names
@@ -245,10 +263,59 @@
       }
     }
     showKw({status: inTarget?'on_target':'off_target', target_keywords:d.target_keywords});
-    if(inTarget) cta.innerHTML='<b>Good news — you\'re where you wanted.</b> Want the same check across your whole catalogue? '+ctaLink('See what Tropesmith can do →');
-    else cta.innerHTML='<b>Want the exact fixes to move to '+tname+'?</b> The category to select, its BISAC code, a re-worked blurb and the keywords — ready to paste into KDP. '+ctaLink('Get the exact fixes →');
+    if(inTarget) cta.innerHTML='<b>Good news — you\'re where you wanted.</b> Want the exact category + BISAC, the keywords, a subtitle and a sharper blurb — ready to paste into KDP?'+fixButton();
+    else cta.innerHTML='<b>Want the exact fixes to move to '+tname+'?</b> The exact category to select, its BISAC code, a re-worked blurb, the keywords and a subtitle — ready to paste into KDP.'+fixButton();
     finish();
   }
+
+  // ───────── $5 exact-fixes: checkout + post-payment delivery ─────────
+  function fixButton(){ return '<div style="margin-top:8px"><button class="fixbtn">Get the exact fixes — $5 →</button></div>'; }
+
+  document.getElementById('result').addEventListener('click', function(e){
+    if(e.target && e.target.classList && e.target.classList.contains('fixbtn')) startFixCheckout(e.target);
+  });
+
+  function startFixCheckout(btn){
+    var email=document.getElementById('email').value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ document.getElementById('err').textContent='Enter your email above first.'; return; }
+    if(!LASTFIX || !LASTFIX.target){ return; }
+    btn.disabled=true; btn.textContent='Taking you to secure checkout…';
+    fetch(FIX_CHECKOUT,{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON,'Authorization':'Bearer '+ANON},
+      body:JSON.stringify({target:LASTFIX.target, blurb:LASTFIX.blurb, asin:LASTFIX.asin, email:email, partner:LASTFIX.partner})})
+      .then(function(r){return r.json();})
+      .then(function(d){ if(d && d.url){ window.location = d.url; } else { btn.disabled=false; btn.textContent='Get the exact fixes — $5 →'; document.getElementById('err').textContent=(d&&d.error)||'Could not start checkout — try again.'; } })
+      .catch(function(){ btn.disabled=false; btn.textContent='Get the exact fixes — $5 →'; document.getElementById('err').textContent='Network error — try again.'; });
+  }
+
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function renderFixes(fx){
+    var kw = (fx.keywords||[]).map(function(k){return '<span class="chip">'+esc(k)+'</span>';}).join('');
+    var cat = fx.amazon_category ? esc(fx.amazon_category) : '(your target category)';
+    var bisac = fx.bisac_code ? '<span class="bisac">'+esc(fx.bisac_code)+'</span>' : '';
+    var html = '<h2>Your exact fixes</h2>'+
+      '<p style="color:var(--mauve);font-size:15px;margin:2px 0 4px">For '+esc(fx.target_name||fx.target)+' — copy these straight into KDP.</p>'+
+      '<div class="fixrow"><div class="flbl">1 · Category to select in KDP</div><div class="fval">'+cat+' '+bisac+'</div><div class="fixnote" style="margin-top:6px">Pick this category when you publish. The code is its BISAC — use it if you also distribute wide (IngramSpark, libraries).</div></div>'+
+      '<div class="fixrow"><div class="flbl">2 · Subtitle</div><div class="fval">'+esc(fx.subtitle||'')+'</div></div>'+
+      '<div class="fixrow"><div class="flbl">3 · Your 7 keywords</div><div class="chips" style="margin-top:4px">'+kw+'</div></div>'+
+      '<div class="fixrow"><button class="copybtn" data-copy="blurb">Copy</button><div class="flbl">4 · Rewritten blurb</div><div class="blurbbox" id="fixBlurb">'+esc(fx.rewritten_blurb||'')+'</div></div>'+
+      '<div class="fixnote">These are recommendations from live market data — a strong starting point, not a guarantee. You set the category yourself in KDP, free.</div>';
+    var p=document.getElementById('fixPanel'); p.innerHTML=html; p.style.display='block';
+    p.addEventListener('click', function(e){ if(e.target && e.target.getAttribute && e.target.getAttribute('data-copy')==='blurb'){ var t=document.getElementById('fixBlurb'); if(t && navigator.clipboard){ navigator.clipboard.writeText(t.textContent); e.target.textContent='Copied ✓'; } } });
+    document.getElementById('result').style.display='none';
+    p.scrollIntoView({behavior:'smooth'});
+  }
+  function fixMsg(msg){ var p=document.getElementById('fixPanel'); p.innerHTML='<div class="fixrow" style="text-align:center">'+esc(msg)+'</div>'; p.style.display='block'; p.scrollIntoView({behavior:'smooth'}); }
+  function pollFix(oid,n){
+    fetch(FIX_RESULT,{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON,'Authorization':'Bearer '+ANON},body:JSON.stringify({order_id:oid})})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(d && d.status==='delivered' && d.fixes){ renderFixes(d.fixes); return; }
+        if(d && d.status==='unpaid'){ fixMsg('We haven’t received your payment yet. If you just paid, give it a few seconds and refresh.'); return; }
+        if(n<20){ setTimeout(function(){pollFix(oid,n+1);}, 3000); } else { fixMsg('Your fixes are taking a little longer — we’ll email them to you shortly.'); }
+      })
+      .catch(function(){ if(n<20) setTimeout(function(){pollFix(oid,n+1);},3000); else fixMsg('Something went wrong loading your fixes — please refresh.'); });
+  }
+  (function(){ var oid=new URLSearchParams(location.search).get('fix_order'); if(oid){ fixMsg('Preparing your exact fixes…'); pollFix(oid,0); } })();
 </script>
 </body>
 </html>
