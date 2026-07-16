@@ -235,8 +235,14 @@
       vp.textContent='Amazon does list your book under '+tname+(others.length?' (alongside '+others.join(', ')+')':'')+'. Your metadata is carrying it there.';
     } else {
       vh.textContent='Not on the '+tname+' shelf';
-      var why = reads.length ? ' The reason: your book reads as '+nm(reads[0])+' — that\'s the signal Amazon picked up, so that\'s where it shelved you.' : '';
-      vp.textContent='Amazon has your book under '+shelves[0]+', not '+tname+'.'+why;
+      if(reads.length && reads.indexOf(target) > -1){
+        // the blurb ALREADY reads as the target — so the mis-shelving is metadata, not the blurb
+        vp.textContent='Amazon has your book under '+shelves[0]+', not '+tname+' — even though your blurb already reads as '+tname+'. That means the mis-shelving is coming from your chosen categories and keywords, not your blurb. Those are what to fix.';
+      } else if(reads.length){
+        vp.textContent='Amazon has your book under '+shelves[0]+', not '+tname+'. Your blurb reads as '+nm(reads[0])+' — that\'s the signal Amazon picked up, so that\'s where it shelved you.';
+      } else {
+        vp.textContent='Amazon has your book under '+shelves[0]+', not '+tname+'.';
+      }
     }
     showKw({status: inTarget?'on_target':'off_target', target_keywords:d.target_keywords});
     if(inTarget) cta.innerHTML='<b>Good news — you\'re where you wanted.</b> Want the same check across your whole catalogue? '+ctaLink('See what Tropesmith can do →');
