@@ -70,11 +70,24 @@
   <p class="sub">Will Amazon shelve your book where you want it? Paste the blurb you're about to publish, tell us the category you're aiming for, and we'll tell you — <b>before you upload</b> — where it actually reads, and how to close the gap.</p>
 
   <div class="card">
-    <label for="target">The category you're aiming for</label>
+    <label for="mode">What do you want to do?</label>
+    <select id="mode">
+      <option value="prepub">I haven't published yet — check my blurb</option>
+      <option value="audit">Already published — why did Amazon shelve me here?</option>
+    </select>
+
+    <label for="target" id="targetLbl">The category you're aiming for</label>
     <select id="target"></select>
 
-    <label for="blurb">Your book blurb <span style="text-transform:none;font-weight:400;color:var(--muted)">(a draft is perfect — that's the point)</span></label>
-    <textarea id="blurb" placeholder="Paste the blurb you're about to publish…"></textarea>
+    <div id="blurbWrap">
+      <label for="blurb">Your book blurb <span style="text-transform:none;font-weight:400;color:var(--muted)">(a draft is perfect — that's the point)</span></label>
+      <textarea id="blurb" placeholder="Paste the blurb you're about to publish…"></textarea>
+    </div>
+
+    <div id="asinWrap" style="display:none">
+      <label for="asin">Your book's Amazon link or ASIN</label>
+      <input id="asin" placeholder="https://www.amazon.com/dp/B0… or B0XXXXXXX" />
+    </div>
 
     <label for="email">Your email <span style="text-transform:none;font-weight:400;color:var(--muted)">(we'll send your result + tips)</span></label>
     <input id="email" type="email" placeholder="you@example.com" />
@@ -85,10 +98,11 @@
 
   <div class="result" id="result">
     <div class="verdict" id="verdict"><h2 id="vh"></h2><p id="vp"></p></div>
-    <div class="reads"><div class="lbl">Your blurb reads like</div><div class="chips" id="chips"></div></div>
+    <div class="reads" id="observedBox" style="display:none"><div class="lbl">Amazon currently lists your book under</div><div class="chips" id="obchips"></div></div>
+    <div class="reads" id="readsBox"><div class="lbl" id="readsLbl">Your blurb reads like</div><div class="chips" id="chips"></div></div>
     <div class="kw" id="kwbox" style="display:none"><div class="lbl">To lean into your target, work in words like</div><div id="kwtags"></div></div>
     <div class="cta" id="cta"></div>
-    <div class="method">This is a data-backed read (we compare your blurb to thousands of books whose Amazon shelves we already know), not a guarantee. The category you pick is one you set yourself in KDP, free.</div>
+    <div class="method">This is a data-backed read (we compare your book to thousands of books whose Amazon shelves we already know), not a guarantee. The category you pick is one you set yourself in KDP, free.</div>
   </div>
 
   <div class="foot" id="footEl">Tropesmith · Shelfsmith · market intelligence for romance & fiction authors</div>
@@ -124,47 +138,103 @@
     sel.appendChild(og);
   });
   sel.value = 'romance.clean_wholesome';
-  function nm(id){ return NAME[id] || id; }
+  function titlecase(s){ return s.replace(/\b\w/g,function(c){return c.toUpperCase();}); }
+  function nm(id){ if(NAME[id]) return NAME[id]; if(!id) return id;
+    var seg=String(id).split('.').pop().replace(/_/g,' '); return titlecase(seg); }
+
+  // ── mode toggle: pre-publish (blurb) vs audit (published book, ASIN) ──
+  var modeSel=document.getElementById('mode'), subEl=document.querySelector('.sub');
+  var PREPUB_SUB="Will Amazon shelve your book where you want it? Paste the blurb you're about to publish, tell us the category you're aiming for, and we'll tell you — <b>before you upload</b> — where it actually reads, and how to close the gap.";
+  var AUDIT_SUB="Already published and not sure why Amazon put you where it did? Give us your book's Amazon link, tell us where you <em>wanted</em> it to land, and we'll show you what Amazon has it listed under — and why it landed there.";
+  function goLabel(){ return modeSel.value==='audit' ? 'Show me why →' : 'Run '+WL.toolName+' →'; }
+  function applyMode(){
+    var m=modeSel.value;
+    document.getElementById('blurbWrap').style.display = m==='audit' ? 'none':'block';
+    document.getElementById('asinWrap').style.display = m==='audit' ? 'block':'none';
+    document.getElementById('targetLbl').textContent = m==='audit' ? 'Where did you want it to land?' : "The category you're aiming for";
+    if(subEl) subEl.innerHTML = m==='audit' ? AUDIT_SUB : PREPUB_SUB;
+    document.getElementById('go').textContent = goLabel();
+    document.getElementById('result').style.display='none';
+  }
+  modeSel.addEventListener('change', applyMode);
 
   document.getElementById('go').addEventListener('click', function(){
     var err=document.getElementById('err'); err.textContent='';
-    var target=sel.value, blurb=document.getElementById('blurb').value.trim(), email=document.getElementById('email').value.trim();
+    var mode=modeSel.value, target=sel.value, email=document.getElementById('email').value.trim();
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.textContent='Please enter a valid email.'; return; }
-    if(blurb.length<40){ err.textContent='Paste your blurb (at least 40 characters).'; return; }
-    var btn=this; btn.disabled=true; btn.textContent='Checking…';
-    var payload={target:target, email:email, blurb:blurb};
+    var payload={target:target, email:email};
+    if(mode==='audit'){
+      var m=(document.getElementById('asin').value||'').match(/[A-Z0-9]{10}/i);
+      if(!m){ err.textContent='Paste your book\'s Amazon link or its 10-character ASIN.'; return; }
+      payload.asin=m[0].toUpperCase();
+    } else {
+      var blurb=document.getElementById('blurb').value.trim();
+      if(blurb.length<40){ err.textContent='Paste your blurb (at least 40 characters).'; return; }
+      payload.blurb=blurb;
+    }
+    var btn=this, orig=goLabel(); btn.disabled=true; btn.textContent='Checking…';
     fetch(FN,{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON,'Authorization':'Bearer '+ANON},body:JSON.stringify(payload)})
       .then(function(r){return r.json();})
       .then(function(d){
-        btn.disabled=false; btn.textContent='Run '+WL.toolName+' →';
+        btn.disabled=false; btn.textContent=orig;
         if(!d || d.error){ err.textContent=(d&&d.error)||'Something went wrong — try again.'; return; }
-        render(d, target);
+        (mode==='audit') ? renderAudit(d, target) : renderPrepub(d, target);
       })
-      .catch(function(){ btn.disabled=false; btn.textContent='Run Shelfsmith →'; err.textContent='Network error — try again.'; });
+      .catch(function(){ btn.disabled=false; btn.textContent=orig; err.textContent='Network error — try again.'; });
   });
 
-  function render(d, target){
-    var v=document.getElementById('verdict'), vh=document.getElementById('vh'), vp=document.getElementById('vp');
-    var tname=nm(target);
+  function ctaLink(txt){ if(WL.isWL){ return WL.site ? '<a href="'+WL.site+'" target="_blank" rel="noopener">'+txt+'</a>' : ''; } return '<a href="https://tropesmith.com">'+txt+'</a>'; }
+  function fillChips(elId, ids){ var box=document.getElementById(elId); box.innerHTML=''; (ids||[]).forEach(function(id,i){ var c=document.createElement('span'); c.className='chip'+(i===0?' first':''); c.textContent=nm(id); box.appendChild(c); }); }
+  function showKw(d){ var kwbox=document.getElementById('kwbox'), kwtags=document.getElementById('kwtags');
+    if(d.status!=='on_target' && d.target_keywords && d.target_keywords.length){ kwbox.style.display='block'; kwtags.innerHTML=''; d.target_keywords.forEach(function(k){ var t=document.createElement('span'); t.className='kwtag'; t.textContent=k; kwtags.appendChild(t); }); } else kwbox.style.display='none'; }
+  function finish(){ document.getElementById('result').style.display='block'; document.getElementById('result').scrollIntoView({behavior:'smooth'}); }
+
+  function renderPrepub(d, target){
+    document.getElementById('observedBox').style.display='none';
+    document.getElementById('readsBox').style.display='block';
+    document.getElementById('readsLbl').textContent='Your blurb reads like';
+    var v=document.getElementById('verdict'), vh=document.getElementById('vh'), vp=document.getElementById('vp'), tname=nm(target);
     v.className='verdict '+(d.status==='on_target'?'on':d.status==='near_target'?'near':'off');
     if(d.status==='on_target'){ vh.textContent='On target ✓'; vp.textContent='Your blurb reads squarely as '+tname+'. Claim that category and you\'ll land where your readers browse.'; }
     else if(d.status==='near_target'){ vh.textContent='Close'; vp.textContent=tname+' is in range, but your blurb leads with '+nm(d.predicted_top3[0])+'. A few tweaks will make '+tname+' the clear read.'; }
     else { vh.textContent='Off target'; vp.textContent='Right now your blurb reads as '+nm(d.predicted_top3[0])+', not '+tname+'. To land in '+tname+', the blurb needs to signal it more strongly.'; }
-    var chips=document.getElementById('chips'); chips.innerHTML='';
-    (d.predicted_top3||[]).forEach(function(id,i){ var c=document.createElement('span'); c.className='chip'+(i===0?' first':''); c.textContent=nm(id); chips.appendChild(c); });
-    var kwbox=document.getElementById('kwbox'), kwtags=document.getElementById('kwtags');
-    if(d.status!=='on_target' && d.target_keywords && d.target_keywords.length){ kwbox.style.display='block'; kwtags.innerHTML=''; d.target_keywords.forEach(function(k){ var t=document.createElement('span'); t.className='kwtag'; t.textContent=k; kwtags.appendChild(t); }); }
-    else kwbox.style.display='none';
+    fillChips('chips', d.predicted_top3); showKw(d);
     var cta=document.getElementById('cta');
-    var link='';
-    if(WL.isWL){ if(WL.site) link='<a href="'+WL.site+'" target="_blank" rel="noopener">Learn more →</a>'; }
-    else { link = d.status==='on_target'
-      ? '<a href="https://tropesmith.com">See what Tropesmith can do →</a>'
-      : '<a href="https://tropesmith.com">Get a blurb that lands →</a>'; }
-    if(d.status==='on_target') cta.innerHTML='<b>Nicely aimed.</b> Want a full placement report across your whole catalogue, or help fine-tuning the blurb? '+link;
-    else cta.innerHTML='<b>Want a blurb that lands in '+tname+'?</b> A rewrite can make it read the way Amazon needs — so it shelves where your readers are. '+link;
-    document.getElementById('result').style.display='block';
-    document.getElementById('result').scrollIntoView({behavior:'smooth'});
+    if(d.status==='on_target') cta.innerHTML='<b>Nicely aimed.</b> Want the exact category + BISAC to select, and a second opinion on the blurb? '+ctaLink('See what Tropesmith can do →');
+    else cta.innerHTML='<b>Want the exact fixes to land in '+tname+'?</b> The category to pick, its BISAC code, a tightened blurb and the keywords — ready for KDP. '+ctaLink('Get the exact fixes →');
+    finish();
+  }
+
+  function renderAudit(d, target){
+    var v=document.getElementById('verdict'), vh=document.getElementById('vh'), vp=document.getElementById('vp'), tname=nm(target);
+    var cta=document.getElementById('cta');
+    // book not in our index yet
+    if(!d.observed || !d.observed.length){
+      document.getElementById('observedBox').style.display='none';
+      document.getElementById('readsBox').style.display='none';
+      document.getElementById('kwbox').style.display='none';
+      v.className='verdict near'; vh.textContent='We\'re pulling your book in';
+      vp.textContent='We don\'t have this book indexed yet. We\'ve noted your email — we\'ll fetch what Amazon has it listed under and send your report shortly.';
+      cta.innerHTML=''; finish(); return;
+    }
+    var inTarget = d.observed.indexOf(target) > -1;
+    document.getElementById('observedBox').style.display='block';
+    fillChips('obchips', d.observed);
+    document.getElementById('readsBox').style.display='block';
+    document.getElementById('readsLbl').textContent='Why it landed there — your blurb reads like';
+    fillChips('chips', d.predicted_top3);
+    v.className='verdict '+(inTarget?'on':'off');
+    if(inTarget){
+      vh.textContent='You\'re on the '+tname+' shelf ✓';
+      vp.textContent='Amazon does list your book under '+tname+' (alongside '+d.observed.filter(function(x){return x!==target;}).map(nm).join(', ')+'). Your metadata is carrying it there.';
+    } else {
+      vh.textContent='Not on the '+tname+' shelf';
+      vp.textContent='Amazon has your book under '+nm(d.observed[0])+', not '+tname+'. The reason: your blurb reads as '+nm(d.predicted_top3[0])+' — that\'s the signal Amazon picked up, so that\'s where it shelved you.';
+    }
+    showKw({status: inTarget?'on_target':'off_target', target_keywords:d.target_keywords});
+    if(inTarget) cta.innerHTML='<b>Good news — you\'re where you wanted.</b> Want the same check across your whole catalogue? '+ctaLink('See what Tropesmith can do →');
+    else cta.innerHTML='<b>Want the exact fixes to move to '+tname+'?</b> The category to select, its BISAC code, a re-worked blurb and the keywords — ready to paste into KDP. '+ctaLink('Get the exact fixes →');
+    finish();
   }
 </script>
 </body>
