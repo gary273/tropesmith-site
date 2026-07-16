@@ -4,6 +4,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How Shelfsmith works — and what “BISAC” means for your book</title>
+<script>
+/* White-label: /shelfsmith/how-it-works/?partner=Acme (optional &accent=1a7f52 &tool=Shelf%20Check) */
+(function(){
+  var q=new URLSearchParams(location.search);
+  var partner=(q.get('partner')||'').trim().slice(0,60);
+  if(!partner) return;
+  var tool=(q.get('tool')||'Shelf Check').trim().slice(0,40);
+  var accent=(q.get('accent')||'').replace('#','');
+  if(/^[0-9a-fA-F]{6}$/.test(accent)) document.documentElement.style.setProperty('--violet','#'+accent);
+  document.title='How '+tool+' works';
+  function walk(node){
+    for(var n=node.firstChild;n;n=n.nextSibling){
+      if(n.nodeType===3){ n.nodeValue=n.nodeValue.replace(/Shelfsmith/g,tool).replace(/Tropesmith/g,partner); }
+      else if(n.nodeType===1 && n.tagName!=='SCRIPT' && n.tagName!=='STYLE'){ walk(n); }
+    }
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    var b=document.querySelector('.brand'); if(b) b.textContent=partner;
+    var wrap=document.querySelector('.wrap'); if(wrap) walk(wrap);
+    var cta=document.querySelector('a.btn'); if(cta) cta.href='/shelfsmith/?partner='+encodeURIComponent(partner)+(accent?'&accent='+accent:'')+(q.get('tool')?'&tool='+encodeURIComponent(tool):'');
+    var note=document.querySelector('.note'); if(note){ var pb=document.createElement('div'); pb.style.cssText='margin-top:8px;font-size:12px;color:#8a8394'; pb.innerHTML='Powered by <a href="https://tropesmith.com" style="color:inherit">Tropesmith</a>.'; note.parentNode.appendChild(pb); }
+  });
+})();
+</script>
 <style>
   :root{color-scheme:light;--cream:#FFF9F3;--paper:#FFFEFB;--ink:#10122F;--ink-soft:#3f425e;--mauve:#5b4a59;--muted:#8a8394;
     --rule:#ece4d8;--violet:#6D28D9;--violet-tint:#F5F0FF;--green:#1a7f52;--green-tint:#e7f5ec;--amber:#b5701a;--amber-tint:#fbf1e2}
