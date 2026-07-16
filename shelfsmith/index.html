@@ -4,6 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shelfsmith · Tropesmith</title>
+<script>
+  /* White-label mode: /shelfsmith/?partner=Acme%20Author%20Co  (optional &accent=6D28D9 &tool=Shelf%20Check &site=https://acme.com) */
+  (function(){
+    var q=new URLSearchParams(location.search);
+    var partner=(q.get('partner')||q.get('wl')||'').trim().slice(0,60);
+    var accent=(q.get('accent')||'').replace('#','').trim();
+    var tool=(q.get('tool')||'').trim().slice(0,40);
+    var site=(q.get('site')||'').trim();
+    if(!/^https:\/\/[a-z0-9.\-]+\.[a-z]{2,}(\/[^\s"'<>]*)?$/i.test(site)) site='';
+    window.__WL={
+      isWL: !!partner,
+      brand: partner || 'Tropesmith',
+      toolName: tool || (partner ? 'Shelf Check' : 'Shelfsmith'),
+      site: site
+    };
+    if(/^[0-9a-fA-F]{6}$/.test(accent)){
+      document.documentElement.style.setProperty('--violet','#'+accent);
+    }
+    document.title = window.__WL.toolName + (partner ? ' · '+partner : ' · Tropesmith');
+  })();
+</script>
 <style>
   :root{color-scheme:light;--cream:#FFF9F3;--paper:#FFFEFB;--ink:#10122F;--ink-soft:#4a4d6b;--mauve:#5b4a59;--muted:#a39395;
     --rule:#ece4d8;--violet:#6D28D9;--violet-tint:#F5F0FF;--coral:#e04a3a;--green:#1a7f52;--green-tint:#e7f5ec;--amber:#b5701a;--amber-tint:#fbf1e2}
@@ -43,9 +64,9 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="brand">Trope<span>smith</span></div>
+  <div class="brand" id="brandEl">Trope<span>smith</span></div>
   <div class="kicker">Free tool</div>
-  <h1>Shelfsmith</h1>
+  <h1 id="h1El">Shelfsmith</h1>
   <p class="sub">Will Amazon shelve your book where you want it? Paste your blurb (or an Amazon link), tell us the category you're aiming for, and we'll tell you where it actually reads — and how to close the gap.</p>
 
   <div class="card">
@@ -73,12 +94,22 @@
     <div class="method">This is a data-backed read (we compare your blurb to thousands of books whose Amazon shelves we already know), not a guarantee. The category you pick is one you set yourself in KDP, free.</div>
   </div>
 
-  <div class="foot">Tropesmith · Shelfsmith · market intelligence for romance & fiction authors</div>
+  <div class="foot" id="footEl">Tropesmith · Shelfsmith · market intelligence for romance & fiction authors</div>
 </div>
 
 <script>
   var FN = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/placement-blurb';
   var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzYnl0ZG9uYnV3cnJsbXd0ZWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODg5MDksImV4cCI6MjA5MjM2NDkwOX0.EGgGUQfCcQ3tul-LKuAQR3-hALTZOOo3cEeq5Ha2aM0';
+  // ── white-label application (window.__WL set by head script) ──
+  var WL = window.__WL || { isWL:false, brand:'Tropesmith', toolName:'Shelfsmith', site:'' };
+  (function(){
+    var h=document.getElementById('h1El'); if(h) h.textContent=WL.toolName;
+    var g=document.getElementById('go'); if(g) g.textContent='Run '+WL.toolName+' →';
+    if(WL.isWL){
+      var b=document.getElementById('brandEl'); if(b) b.textContent=WL.brand;
+      var f=document.getElementById('footEl'); if(f) f.textContent=WL.brand+' · free category check for authors';
+    }
+  })();
   // subgenre_id -> display name, grouped by genre
   var LANES = {
     "Romance":[["romance.clean_wholesome","Clean & Wholesome"],["romance.contemporary.small_town","Contemporary — Small Town"],["romance.contemporary.workplace","Contemporary — Workplace"],["romance.contemporary.second_chance","Contemporary — Second Chance"],["romance.contemporary.billionaire","Contemporary — Billionaire"],["romance.contemporary.sports.hockey","Sports — Hockey"],["romance.romcom","Romantic Comedy"],["romance.dark","Dark Romance"],["romance.suspense","Romantic Suspense"],["romance.christmas","Christmas / Holiday"],["romance.historical.regency","Historical — Regency"],["romance.historical.scottish","Historical — Scottish"],["romance.western","Western"],["romance.paranormal.demons_devils","Paranormal — Demons & Devils"],["romance.paranormal.womens_fiction","Paranormal — Women's Fiction"],["romance.romantasy.romantic_fantasy","Romantic Fantasy"],["romance.cozy_fantasy","Cozy Fantasy"],["romance.scifi","Sci-Fi Romance"],["romance.lgbtq.mm","M/M (Gay) Romance"],["romance.lgbtq.sapphic","Sapphic (F/F) Romance"],["romance.lgbtq.bi","Bisexual / Pansexual Romance"],["romance.lgbtq.trans","Trans Romance"]],
@@ -109,7 +140,7 @@
     fetch(FN,{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON,'Authorization':'Bearer '+ANON},body:JSON.stringify(payload)})
       .then(function(r){return r.json();})
       .then(function(d){
-        btn.disabled=false; btn.textContent='Run Shelfsmith →';
+        btn.disabled=false; btn.textContent='Run '+WL.toolName+' →';
         if(!d || d.error){ err.textContent=(d&&d.error)||'Something went wrong — try again.'; return; }
         render(d, target);
       })
@@ -129,8 +160,13 @@
     if(d.status!=='on_target' && d.target_keywords && d.target_keywords.length){ kwbox.style.display='block'; kwtags.innerHTML=''; d.target_keywords.forEach(function(k){ var t=document.createElement('span'); t.className='kwtag'; t.textContent=k; kwtags.appendChild(t); }); }
     else kwbox.style.display='none';
     var cta=document.getElementById('cta');
-    if(d.status==='on_target') cta.innerHTML='<b>Nicely aimed.</b> Want a full placement report across your whole catalogue, or help fine-tuning the blurb? <a href="https://tropesmith.com">See what Tropesmith can do →</a>';
-    else cta.innerHTML='<b>Want a blurb that lands in '+tname+'?</b> Our team can rewrite it to read the way Amazon needs — so it shelves where your readers are. <a href="https://tropesmith.com">Get a blurb that lands →</a>';
+    var link='';
+    if(WL.isWL){ if(WL.site) link='<a href="'+WL.site+'" target="_blank" rel="noopener">Learn more →</a>'; }
+    else { link = d.status==='on_target'
+      ? '<a href="https://tropesmith.com">See what Tropesmith can do →</a>'
+      : '<a href="https://tropesmith.com">Get a blurb that lands →</a>'; }
+    if(d.status==='on_target') cta.innerHTML='<b>Nicely aimed.</b> Want a full placement report across your whole catalogue, or help fine-tuning the blurb? '+link;
+    else cta.innerHTML='<b>Want a blurb that lands in '+tname+'?</b> A rewrite can make it read the way Amazon needs — so it shelves where your readers are. '+link;
     document.getElementById('result').style.display='block';
     document.getElementById('result').scrollIntoView({behavior:'smooth'});
   }
