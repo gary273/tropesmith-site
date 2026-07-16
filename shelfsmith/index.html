@@ -172,7 +172,7 @@
       if(blurb.length<40){ err.textContent='Paste your blurb (at least 40 characters).'; return; }
       payload.blurb=blurb;
     }
-    var btn=this, orig=goLabel(); btn.disabled=true; btn.textContent='Checking…';
+    var btn=this, orig=goLabel(); btn.disabled=true; btn.textContent = mode==='audit' ? 'Checking your live book… (up to a minute)' : 'Checking…';
     fetch(FN,{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON,'Authorization':'Bearer '+ANON},body:JSON.stringify(payload)})
       .then(function(r){return r.json();})
       .then(function(d){
@@ -185,6 +185,7 @@
 
   function ctaLink(txt){ if(WL.isWL){ return WL.site ? '<a href="'+WL.site+'" target="_blank" rel="noopener">'+txt+'</a>' : ''; } return '<a href="https://tropesmith.com">'+txt+'</a>'; }
   function fillChips(elId, ids){ var box=document.getElementById(elId); box.innerHTML=''; (ids||[]).forEach(function(id,i){ var c=document.createElement('span'); c.className='chip'+(i===0?' first':''); c.textContent=nm(id); box.appendChild(c); }); }
+  function fillChipsText(elId, names){ var box=document.getElementById(elId); box.innerHTML=''; (names||[]).forEach(function(n,i){ var c=document.createElement('span'); c.className='chip'+(i===0?' first':''); c.textContent=n; box.appendChild(c); }); }
   function showKw(d){ var kwbox=document.getElementById('kwbox'), kwtags=document.getElementById('kwtags');
     if(d.status!=='on_target' && d.target_keywords && d.target_keywords.length){ kwbox.style.display='block'; kwtags.innerHTML=''; d.target_keywords.forEach(function(k){ var t=document.createElement('span'); t.className='kwtag'; t.textContent=k; kwtags.appendChild(t); }); } else kwbox.style.display='none'; }
   function finish(){ document.getElementById('result').style.display='block'; document.getElementById('result').scrollIntoView({behavior:'smooth'}); }
@@ -208,28 +209,34 @@
   function renderAudit(d, target){
     var v=document.getElementById('verdict'), vh=document.getElementById('vh'), vp=document.getElementById('vp'), tname=nm(target);
     var cta=document.getElementById('cta');
-    // book not in our index yet
-    if(!d.observed || !d.observed.length){
+    // real Amazon shelf names if we scraped them live; else our mapped lane names
+    var shelves = (d.amazon_categories && d.amazon_categories.length) ? d.amazon_categories.slice()
+                : (d.observed && d.observed.length) ? d.observed.map(nm) : [];
+    // couldn't read the page at all -> graceful fallback (email captured)
+    if(!shelves.length){
       document.getElementById('observedBox').style.display='none';
       document.getElementById('readsBox').style.display='none';
       document.getElementById('kwbox').style.display='none';
       v.className='verdict near'; vh.textContent='We\'re pulling your book in';
-      vp.textContent='We don\'t have this book indexed yet. We\'ve noted your email — we\'ll fetch what Amazon has it listed under and send your report shortly.';
+      vp.textContent='We couldn\'t read this book\'s Amazon page just now. We\'ve noted your email — we\'ll fetch what Amazon has it listed under and send your report shortly.';
       cta.innerHTML=''; finish(); return;
     }
-    var inTarget = d.observed.indexOf(target) > -1;
+    var inTarget = (d.observed||[]).indexOf(target) > -1;
+    var reads = d.predicted_top3 || [];
     document.getElementById('observedBox').style.display='block';
-    fillChips('obchips', d.observed);
-    document.getElementById('readsBox').style.display='block';
-    document.getElementById('readsLbl').textContent='Why it landed there — your blurb reads like';
-    fillChips('chips', d.predicted_top3);
+    fillChipsText('obchips', shelves);
+    var readsBox=document.getElementById('readsBox');
+    if(reads.length){ readsBox.style.display='block'; document.getElementById('readsLbl').textContent='Why it landed there — your book reads like'; fillChips('chips', reads); }
+    else { readsBox.style.display='none'; }
     v.className='verdict '+(inTarget?'on':'off');
     if(inTarget){
+      var others = shelves.filter(function(x){ return x.toLowerCase()!==tname.toLowerCase(); });
       vh.textContent='You\'re on the '+tname+' shelf ✓';
-      vp.textContent='Amazon does list your book under '+tname+' (alongside '+d.observed.filter(function(x){return x!==target;}).map(nm).join(', ')+'). Your metadata is carrying it there.';
+      vp.textContent='Amazon does list your book under '+tname+(others.length?' (alongside '+others.join(', ')+')':'')+'. Your metadata is carrying it there.';
     } else {
       vh.textContent='Not on the '+tname+' shelf';
-      vp.textContent='Amazon has your book under '+nm(d.observed[0])+', not '+tname+'. The reason: your blurb reads as '+nm(d.predicted_top3[0])+' — that\'s the signal Amazon picked up, so that\'s where it shelved you.';
+      var why = reads.length ? ' The reason: your book reads as '+nm(reads[0])+' — that\'s the signal Amazon picked up, so that\'s where it shelved you.' : '';
+      vp.textContent='Amazon has your book under '+shelves[0]+', not '+tname+'.'+why;
     }
     showKw({status: inTarget?'on_target':'off_target', target_keywords:d.target_keywords});
     if(inTarget) cta.innerHTML='<b>Good news — you\'re where you wanted.</b> Want the same check across your whole catalogue? '+ctaLink('See what Tropesmith can do →');
