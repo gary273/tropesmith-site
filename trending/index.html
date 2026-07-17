@@ -3,7 +3,7 @@
 <meta name="description" content="Free for your subgenre: the tropes to write INTO right now, the ones too crowded to bother, and the ones cooling off — plus this month's top 5 trending. Read from live BookTok, Goodreads & Reddit signals.">
 <link rel="canonical" href="https://tropesmith.com/trending/">
 <meta property="og:title" content="Free Romance Trope Opportunity Check — What to Write Next">
-<meta property="og:description" content="For your subgenre: which tropes to write into now, which are too crowded, and which are cooling — free, updated monthly.">
+<meta property="og:description" content="For your subgenre: which tropes to write into now, which are too crowded, and which are cooling — free, refreshed continuously from our live reader-demand engine.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tropesmith.com/trending/">
 <meta property="og:image" content="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png">
@@ -67,7 +67,7 @@ select{margin-bottom:16px}
 </div></div>
 
 <div class="wrap">
-  <div class="eyebrow">Free tool · Updated monthly · No card needed</div>
+  <div class="eyebrow">Free tool · Live engine data · No card needed</div>
   <h1>Which tropes should your next romance actually lean into?</h1>
   <p class="lede">Pick your subgenre and get a free read on where the opportunity is <strong>right now</strong> — not just what's popular. For your exact lane you'll see:</p>
   <ul class="promise">
@@ -143,7 +143,7 @@ select{margin-bottom:16px}
   <p>A book that lands in a high-demand, low-supply pocket does marketing a great-but-crowded book can't do for itself. Chasing the loudest trend often means adding to a pile; catching a rising one early is where the room is. For the fuller picture — including where reader demand outpaces what's published — see <a href="/blog/romance-tropes-that-sell-2026/">Romance tropes that are selling in 2026</a>.</p>
 </div>
 
-<div class="foot">© 2026 Tropesmith · <a href="/">Home</a> · <a href="/pricing/">Pricing</a> · <a href="/blog/">Blog</a> — Data refreshed monthly. Signals move as the market moves.</div>
+<div class="foot">© 2026 Tropesmith · <a href="/">Home</a> · <a href="/pricing/">Pricing</a> · <a href="/blog/">Blog</a> — Data refreshed continuously from the live engine. Signals move as the market moves.</div>
 
 <script>
 (function(){
@@ -173,6 +173,7 @@ select{margin-bottom:16px}
       .then(function(d){
         if(!d||!d.ok){showErr((d&&d.message)||'Something went wrong — please try again.');go.disabled=false;go.textContent='Show me the opportunity in my lane →';return;}
         rtitle.textContent=d.subgenre_label+' — where the opportunity is';
+        if(d.data_as_of){var fr=document.createElement('div');fr.style.cssText='font-size:12px;letter-spacing:1px;text-transform:uppercase;opacity:.75;margin:4px 0 10px;';fr.textContent='\u25CF Live engine data \u00B7 as of '+d.data_as_of;rtitle.parentNode.insertBefore(fr,rtitle.nextSibling);}
         ow.innerHTML='';
         var o=d.opportunity||{};
         var b1=block('w','✅ Write into these — rising, not yet crowded',o.rising);
