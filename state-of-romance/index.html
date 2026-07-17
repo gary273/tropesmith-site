@@ -123,6 +123,33 @@ blockquote{border-left:4px solid #8B5CF6;margin:18px 0;padding:4px 18px;color:#3
   <a class="btn" href="/trending/">Check your lane free — live data →</a>
   <a class="btn ghost" href="/intake/">Get the full Map for your book →</a>
 </div>
+<div class="card" id="pulsecard" style="background:linear-gradient(135deg,#f6efff,#fff4ef)">
+  <h3 style="margin-top:0;font-family:Fraunces,Georgia,serif;font-size:21px">Get the next edition in your inbox</h3>
+  <p style="font-size:15px;color:#3a3450;margin:6px 0 14px">The Q4 2026 edition plus the monthly movers — which tropes are rising and cooling in the lanes you care about. Free, from the same live engine. Unsubscribe anytime.</p>
+  <form id="pulseform" style="display:flex;gap:10px;flex-wrap:wrap">
+    <input type="email" id="pulseemail" required placeholder="you@authorname.com" style="flex:1;min-width:220px;padding:13px 14px;border:1px solid rgba(16,18,47,.16);border-radius:11px;font-size:16px;font-family:inherit">
+    <button type="submit" class="btn" style="border:0;cursor:pointer" id="pulsebtn">Send me the trends &rarr;</button>
+  </form>
+  <p id="pulsemsg" style="display:none;font-size:14px;margin:10px 0 0"></p>
+</div>
+<script>
+(function(){
+  var f=document.getElementById('pulseform'),e=document.getElementById('pulseemail'),
+      b=document.getElementById('pulsebtn'),m=document.getElementById('pulsemsg');
+  f.addEventListener('submit',function(ev){
+    ev.preventDefault();b.disabled=true;b.textContent='Sending\u2026';
+    fetch('https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-subscribe',{
+      method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({email:e.value,site:'state-of-romance'})
+    }).then(function(r){return r.json();}).then(function(d){
+      m.style.display='block';
+      if(d&&d.ok){m.style.color='#0e7a4f';m.textContent=d.already?'You\u2019re already subscribed \u2014 thanks!':'Almost there \u2014 check your email to confirm.';f.querySelector('input').value='';}
+      else{m.style.color='#c2274b';m.textContent=(d&&d.message)||'Something went wrong \u2014 please try again.';}
+      b.disabled=false;b.textContent='Send me the trends \u2192';
+    }).catch(function(){m.style.display='block';m.style.color='#c2274b';m.textContent='Network error \u2014 please try again.';b.disabled=false;b.textContent='Send me the trends \u2192';});
+  });
+})();
+</script>
 <p style="font-size:14px;color:#7a6f85">Journalists, bloggers and podcasters: everything here may be quoted with a link to this page. For lane-level custom cuts, <a href="mailto:hello@authorythm.ai">ask us</a>.</p>
 </div>
 <div class="foot">© 2026 Tropesmith · <a href="/">Home</a> · <a href="/trending/">Free tool</a> · <a href="/pricing/">Pricing</a> · <a href="/blog/">Blog</a> — Data: Tropesmith reader-demand engine, July 2023 – June 2026. Next edition: Q4 2026.</div>
