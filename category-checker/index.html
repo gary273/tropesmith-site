@@ -2,23 +2,25 @@
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Free Book Category & Rank Checker — Tropesmith</title>
-<meta name="description" content="Paste any Amazon book link or ASIN and see every category it ranks in, plus its sales rank. Free, live Amazon data.">
+<title>Free Book Category &amp; Rank Checker — Tropesmith</title>
+<meta name="description" content="Paste any Amazon book link or ASIN and see every category it ranks in, plus its sales rank. Free, live Amazon data. A replacement for BKLNK.">
 <link rel="canonical" href="https://tropesmith.com/category-checker/">
 <style>
-:root{--bg:#f6f8fc;--card:#fff;--ink:#161a22;--ink2:#4a5262;--ink3:#8a93a6;--line:#e3e8f0;--gold:#c8873e;--gold2:#b0742f;--teal:#0e8f86;--tealbg:#e7f5f3;--shadow:0 10px 30px rgba(20,30,60,.08)}
+:root{--bg:#fbf7ff;--bgrad:#f3ecff;--card:#fff;--ink:#10122F;--ink2:#454063;--ink3:#8a84a3;--line:#ece7f6;--accent:#7C3AED;--accent2:#A855F7;--alt:#e0556a;--altbg:#fff1f3;--cta1:#2a1259;--cta2:#7C3AED;--ctaink:#f3ecff;--ctasub:#dcc9f7;--shadow:0 10px 30px rgba(40,20,80,.09)}
+html[data-brand="plotprose"]{--bg:#fdf8f2;--bgrad:#f3e9d6;--ink:#1a1220;--ink2:#4a3b58;--ink3:#8a7d97;--line:#ece3f2;--accent:#6b3fa0;--accent2:#8b5fc0;--alt:#b98e2f;--altbg:#f7efd8;--cta1:#2d1b4e;--cta2:#6b3fa0;--ctaink:#fdf8f2;--ctasub:#e6d8c2}
+html[data-brand="perfectyear"]{--bg:#f4f6fb;--bgrad:#eef1fb;--ink:#161a22;--ink2:#4a5262;--ink3:#8a93a6;--line:#e3e8f0;--accent:#c8873e;--accent2:#e0a24e;--alt:#0e8f86;--altbg:#e7f5f3;--cta1:#12332f;--cta2:#0e6f68;--ctaink:#eafaf7;--ctasub:#bfe9e3}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(1100px 700px at 85% -8%,#eef2fb 0%,transparent 60%),var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;line-height:1.5;padding:32px clamp(16px,5vw,48px) 72px;min-height:100vh}
+body{margin:0;background:radial-gradient(1100px 700px at 85% -8%,var(--bgrad) 0%,transparent 60%),var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;line-height:1.5;padding:32px clamp(16px,5vw,48px) 72px;min-height:100vh}
 .wrap{max-width:760px;margin:0 auto}
-.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2)}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
 h1{font-size:clamp(26px,5vw,38px);line-height:1.12;margin:8px 0 10px;letter-spacing:-.01em}
-h1 span{color:var(--gold2)}
+h1 span{color:var(--accent)}
 .sub{color:var(--ink2);font-size:16px;max-width:560px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px;margin-top:22px}
 form{display:flex;gap:10px;flex-wrap:wrap}
-input[type=text]{flex:1;min-width:220px;padding:13px 15px;border:1px solid var(--line);border-radius:11px;font-size:15px;color:var(--ink);background:#fbfcfe;outline:none}
-input[type=text]:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,135,62,.15)}
-button{padding:13px 22px;border:0;border-radius:11px;background:linear-gradient(120deg,var(--gold),#e0a24e);color:#1a1206;font-weight:800;font-size:15px;cursor:pointer;white-space:nowrap}
+input[type=text]{flex:1;min-width:220px;padding:13px 15px;border:1px solid var(--line);border-radius:11px;font-size:15px;color:var(--ink);background:#fff;outline:none}
+input[type=text]:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+button{padding:13px 22px;border:0;border-radius:11px;background:linear-gradient(120deg,var(--accent),var(--accent2));color:#fff;font-weight:800;font-size:15px;cursor:pointer;white-space:nowrap}
 button:disabled{opacity:.6;cursor:default}
 .hint{font-size:12.5px;color:var(--ink3);margin-top:9px}
 .bookhead{margin:6px 0}
@@ -30,24 +32,24 @@ button:disabled{opacity:.6;cursor:default}
 table{width:100%;border-collapse:collapse;margin-top:14px}
 th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);padding:8px 10px;border-bottom:1px solid var(--line)}
 td{padding:10px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}
-td.rank{font-weight:800;color:var(--teal);white-space:nowrap;width:78px}
+td.rank{font-weight:800;color:var(--alt);white-space:nowrap;width:78px}
 td.rank .hash{color:var(--ink3)}
-td a{color:var(--gold2);text-decoration:none}
+td a{color:var(--accent);text-decoration:none}
 td a:hover{text-decoration:underline}
-.pill{display:inline-block;background:var(--tealbg);color:var(--teal);font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;margin-left:8px}
+.pill{display:inline-block;background:var(--altbg);color:var(--alt);font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;margin-left:8px}
 .msg{padding:14px 16px;border-radius:11px;font-size:14px;margin-top:16px}
-.msg.warn{background:#fff6e9;border:1px solid rgba(200,135,62,.35);color:var(--gold2)}
+.msg.warn{background:var(--altbg);border:1px solid color-mix(in srgb,var(--alt) 35%,transparent);color:var(--alt)}
 .msg.err{background:#fdecec;border:1px solid #f0c0c0;color:#b1354a}
-.cta{margin-top:20px;background:linear-gradient(120deg,#12332f,#0e6f68);color:#eafaf7;border-radius:16px;padding:18px 20px}
+.cta{margin-top:20px;background:linear-gradient(120deg,var(--cta1),var(--cta2));color:var(--ctaink);border-radius:16px;padding:18px 20px}
 .cta h3{margin:0 0 4px;font-size:16px}
-.cta p{margin:0;font-size:13.5px;color:#bfe9e3}
+.cta p{margin:0;font-size:13.5px;color:var(--ctasub)}
 .foot{margin-top:26px;font-size:12.5px;color:var(--ink3);text-align:center;line-height:1.7}
 .foot b{color:var(--ink2)}
-.spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(0,0,0,.15);border-top-color:var(--gold2);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:7px}
+.spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(0,0,0,.15);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:7px}
 @keyframes sp{to{transform:rotate(360deg)}}
 </style></head>
 <body><div class="wrap">
-<div class="eyebrow">Free tool · Tropesmith</div>
+<div class="eyebrow" id="eyebrow">Free tool · Tropesmith</div>
 <h1>See <span>every category</span> your book ranks in</h1>
 <p class="sub">Paste any Amazon book link or ASIN. We'll show the full category path and its sales rank in <em>every</em> category — not just the two you picked at publish. Live Amazon data, no login.</p>
 <div class="card">
@@ -62,6 +64,7 @@ td a:hover{text-decoration:underline}
 <div class="foot"><b>Powered by Tropesmith</b> — live Amazon category data, refreshed continuously.<br>Looking for the BKLNK category checker? It's retiring — this is the free, always-updated replacement.</div>
 </div>
 <script>
+document.documentElement.dataset.brand=(new URLSearchParams(location.search).get("brand")||"").toLowerCase();
 const API="https://booklookup.plotprose-scraper.workers.dev/";
 const out=document.getElementById("out"),btn=document.getElementById("go");
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
