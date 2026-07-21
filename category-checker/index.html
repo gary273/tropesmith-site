@@ -18,8 +18,8 @@ h1 span{color:var(--accent)}
 .sub{color:var(--ink2);font-size:16px;max-width:560px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px;margin-top:22px}
 form{display:flex;gap:10px;flex-wrap:wrap}
-input[type=text]{flex:1;min-width:220px;padding:13px 15px;border:1px solid var(--line);border-radius:11px;font-size:15px;color:var(--ink);background:#fff;outline:none}
-input[type=text]:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+input[type=text],input[type=email]{flex:1;min-width:220px;padding:13px 15px;border:1px solid var(--line);border-radius:11px;font-size:15px;color:var(--ink);background:#fff;outline:none}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
 button{padding:13px 22px;border:0;border-radius:11px;background:linear-gradient(120deg,var(--accent),var(--accent2));color:#fff;font-weight:800;font-size:15px;cursor:pointer;white-space:nowrap}
 button:disabled{opacity:.6;cursor:default}
 .hint{font-size:12.5px;color:var(--ink3);margin-top:9px}
@@ -40,6 +40,12 @@ td a:hover{text-decoration:underline}
 .msg{padding:14px 16px;border-radius:11px;font-size:14px;margin-top:16px}
 .msg.warn{background:var(--altbg);border:1px solid color-mix(in srgb,var(--alt) 35%,transparent);color:var(--alt)}
 .msg.err{background:#fdecec;border:1px solid #f0c0c0;color:#b1354a}
+.msg.ok{background:color-mix(in srgb,var(--accent) 8%,#fff);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);color:var(--ink2)}
+.gate{margin-top:16px;background:var(--altbg);border:1px solid color-mix(in srgb,var(--alt) 30%,transparent);border-radius:12px;padding:16px}
+.gate h4{margin:0 0 4px;font-size:15px;color:var(--ink)}
+.gate p{margin:0 0 10px;font-size:13px;color:var(--ink2)}
+.gate small{display:block;margin-top:9px;color:var(--ink3);font-size:11.5px}
+.credits{font-size:12px;color:var(--ink3);margin-top:10px}
 .cta{margin-top:20px;background:linear-gradient(120deg,var(--cta1),var(--cta2));color:var(--ctaink);border-radius:16px;padding:18px 20px}
 .cta h3{margin:0 0 4px;font-size:16px}
 .cta p{margin:0;font-size:13.5px;color:var(--ctasub)}
@@ -65,25 +71,67 @@ td a:hover{text-decoration:underline}
 </div>
 <script>
 document.documentElement.dataset.brand=(new URLSearchParams(location.search).get("brand")||"").toLowerCase();
-const API="https://booklookup.plotprose-scraper.workers.dev/";
+const QS=new URLSearchParams(location.search);
+const API="https://booklookup.plotprose-scraper.workers.dev";
 const out=document.getElementById("out"),btn=document.getElementById("go");
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let sessEmail=(QS.get("email")||"").trim().toLowerCase();   // Perfect Year embed can prefill a member
+
+function renderBook(d){
+  const crumb=(d.category_path||[]).map((c,i,a)=>'<b>'+esc(c)+'</b>'+(i<a.length-1?'<span class="sep">›</span>':'')).join(" ");
+  const ranks=(d.bestseller_ranks||[]).slice().sort((a,b)=>(a.rank||1e9)-(b.rank||1e9));
+  const rows=ranks.map(r=>'<tr><td class="rank"><span class="hash">#</span>'+(r.rank!=null?Number(r.rank).toLocaleString():"—")+'</td><td>'+(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener">'+esc(r.category||"—")+'</a>':esc(r.category||"—"))+'</td></tr>').join("");
+  return '<div class="bookhead"><div class="bt">'+esc(d.title||"(untitled)")+' <span class="pill">'+esc(d.marketplace||"amazon.com")+'</span></div>'+(d.author?'<div class="ba">by '+esc(d.author)+'</div>':'')+'</div>'+(crumb?'<div class="crumb">'+crumb+'</div>':'')+(ranks.length?'<table><thead><tr><th>Rank</th><th>Category ('+ranks.length+')</th></tr></thead><tbody>'+rows+'</tbody></table>':'<div class="msg warn">No bestseller-category ranks in our latest snapshot.</div>');
+}
+async function renderFromCache(asin){
+  try{const d=await (await fetch(API+"?asin="+encodeURIComponent(asin))).json();
+      if(d&&d.found){out.innerHTML=renderBook(d);return true;}}catch(e){}
+  return false;
+}
+async function runOnDemand(asin,email){
+  out.innerHTML='<div class="msg"><span class="spin"></span>Fetching '+esc(asin)+' live from Amazon… this can take up to a minute.</div>';
+  let rq;
+  try{rq=await (await fetch(API+"/request",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({asin:asin,email:email})})).json();}
+  catch(e){out.innerHTML='<div class="msg err">Couldn\'t reach the lookup service. Please try again shortly.</div>';return;}
+  if(!rq.ok){
+    const map={no_credits:"You've used your 5 free lookups. Perfect Year members get unlimited on-demand lookups — or your allowance refreshes when you next confirm the newsletter.",daily_cap:"We're at today's free on-demand limit. Please try again tomorrow, or check a title that's already indexed.",ip_limit:"That's a lot of lookups from your connection today — please try again tomorrow.",bad_asin:"That ASIN doesn't look valid."};
+    out.innerHTML='<div class="msg warn">'+esc(map[rq.error]||("Couldn't queue that lookup ("+(rq.error||"unknown")+")."))+'</div>';return;
+  }
+  const creditNote=(typeof rq.credits_left==="number")?'<div class="credits">'+rq.credits_left+' free lookup'+(rq.credits_left===1?'':'s')+' left.</div>':'';
+  if(rq.status==="cached"){ if(await renderFromCache(asin)){out.innerHTML+=creditNote;return;} }
+  for(let i=0;i<30;i++){
+    await sleep(3000);
+    let st; try{st=await (await fetch(API+"/status?asin="+encodeURIComponent(asin))).json();}catch(e){continue;}
+    if(st&&st.cached){ if(await renderFromCache(asin)){out.innerHTML+=creditNote;return;} }
+    if(st&&st.queue==="error"){out.innerHTML='<div class="msg warn"><b>Couldn\'t read that page.</b> Amazon didn\'t return full data for this title (it may be a box set, pre-order, or region-locked). Try another ASIN.</div>';return;}
+  }
+  out.innerHTML='<div class="msg warn">Still working on it — this one is taking longer than usual. Give it a minute and search the ASIN again.</div>';
+}
+function showGate(asin){
+  if(sessEmail){runOnDemand(asin,sessEmail);return;}
+  out.innerHTML='<div class="gate"><h4>Not in our index yet — fetch it live</h4><p>Enter your email and we\'ll pull this book straight from Amazon now. You\'ll join our free author newsletter and get <b>5 instant lookups</b>.</p><form id="gf"><input id="ge" type="email" placeholder="you@email.com" aria-label="Email" required><button type="submit">Fetch it live</button></form><small>No spam. Unsubscribe anytime. Powered by the Tropesmith engine.</small></div>';
+  document.getElementById("gf").addEventListener("submit",async ev=>{
+    ev.preventDefault();
+    const email=(document.getElementById("ge").value||"").trim().toLowerCase();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){return;}
+    try{const s=await (await fetch(API+"/signup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email})})).json(); if(s&&s.ok)sessEmail=email;}catch(e){}
+    runOnDemand(asin, sessEmail||email);
+  });
+}
 document.getElementById("f").addEventListener("submit",async e=>{
-e.preventDefault();
-const raw=document.getElementById("q").value.trim();
-if(!raw){out.innerHTML="";return;}
-const m=raw.toUpperCase().match(/([A-Z0-9]{10})/);
-if(!m){out.innerHTML='<div class="msg err">That doesn\'t look like an ASIN or Amazon link. An ASIN is 10 characters, e.g. B0FD8FZL5B.</div>';return;}
-btn.disabled=true;out.innerHTML='<div class="msg"><span class="spin"></span>Looking up '+esc(m[1])+'…</div>';
-try{
-const r=await fetch(API+"?asin="+encodeURIComponent(m[1]));
-const d=await r.json();
-if(!d.found){out.innerHTML='<div class="msg warn"><b>Not in our index yet.</b> We track a large but finite set of books — on-demand lookups for any title are coming soon.</div>';return;}
-const crumb=(d.category_path||[]).map((c,i,a)=>'<b>'+esc(c)+'</b>'+(i<a.length-1?'<span class="sep">›</span>':'')).join(" ");
-const ranks=(d.bestseller_ranks||[]).slice().sort((a,b)=>(a.rank||1e9)-(b.rank||1e9));
-const rows=ranks.map(r=>'<tr><td class="rank"><span class="hash">#</span>'+(r.rank!=null?Number(r.rank).toLocaleString():"—")+'</td><td>'+(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener">'+esc(r.category||"—")+'</a>':esc(r.category||"—"))+'</td></tr>').join("");
-out.innerHTML='<div class="bookhead"><div class="bt">'+esc(d.title||"(untitled)")+' <span class="pill">'+esc(d.marketplace||"amazon.com")+'</span></div>'+(d.author?'<div class="ba">by '+esc(d.author)+'</div>':'')+'</div>'+(crumb?'<div class="crumb">'+crumb+'</div>':'')+(ranks.length?'<table><thead><tr><th>Rank</th><th>Category ('+ranks.length+')</th></tr></thead><tbody>'+rows+'</tbody></table>':'<div class="msg warn">No bestseller-category ranks in our latest snapshot.</div>');
-}catch(err){out.innerHTML='<div class="msg err">Something went wrong fetching that. Please try again in a moment.</div>';}
-finally{btn.disabled=false;}
+  e.preventDefault();
+  const raw=document.getElementById("q").value.trim();
+  if(!raw){out.innerHTML="";return;}
+  const m=raw.toUpperCase().match(/([A-Z0-9]{10})/);
+  if(!m){out.innerHTML='<div class="msg err">That doesn\'t look like an ASIN or Amazon link. An ASIN is 10 characters, e.g. B0FD8FZL5B.</div>';return;}
+  const asin=m[1];
+  btn.disabled=true;out.innerHTML='<div class="msg"><span class="spin"></span>Looking up '+esc(asin)+'…</div>';
+  try{
+    const d=await (await fetch(API+"?asin="+encodeURIComponent(asin))).json();
+    if(d&&d.found){out.innerHTML=renderBook(d);}
+    else{showGate(asin);}
+  }catch(err){out.innerHTML='<div class="msg err">Something went wrong fetching that. Please try again in a moment.</div>';}
+  finally{btn.disabled=false;}
 });
 </script></body></html>
