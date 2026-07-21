@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Book Category & Rank Checker — Tropesmith</title>
+<meta name="description" content="Paste any Amazon book link or ASIN and see every category it ranks in, plus its sales rank. Free, live Amazon data.">
+<link rel="canonical" href="https://tropesmith.com/category-checker/">
+<style>
+:root{--bg:#f6f8fc;--card:#fff;--ink:#161a22;--ink2:#4a5262;--ink3:#8a93a6;--line:#e3e8f0;--gold:#c8873e;--gold2:#b0742f;--teal:#0e8f86;--tealbg:#e7f5f3;--shadow:0 10px 30px rgba(20,30,60,.08)}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1100px 700px at 85% -8%,#eef2fb 0%,transparent 60%),var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;line-height:1.5;padding:32px clamp(16px,5vw,48px) 72px;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2)}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.12;margin:8px 0 10px;letter-spacing:-.01em}
+h1 span{color:var(--gold2)}
+.sub{color:var(--ink2);font-size:16px;max-width:560px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px;margin-top:22px}
+form{display:flex;gap:10px;flex-wrap:wrap}
+input[type=text]{flex:1;min-width:220px;padding:13px 15px;border:1px solid var(--line);border-radius:11px;font-size:15px;color:var(--ink);background:#fbfcfe;outline:none}
+input[type=text]:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,135,62,.15)}
+button{padding:13px 22px;border:0;border-radius:11px;background:linear-gradient(120deg,var(--gold),#e0a24e);color:#1a1206;font-weight:800;font-size:15px;cursor:pointer;white-space:nowrap}
+button:disabled{opacity:.6;cursor:default}
+.hint{font-size:12.5px;color:var(--ink3);margin-top:9px}
+.bookhead{margin:6px 0}
+.bt{font-size:19px;font-weight:800}
+.ba{font-size:13.5px;color:var(--ink2)}
+.crumb{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px;font-size:13px;color:var(--ink2)}
+.crumb b{color:var(--ink)}
+.crumb .sep{color:var(--ink3)}
+table{width:100%;border-collapse:collapse;margin-top:14px}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:10px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}
+td.rank{font-weight:800;color:var(--teal);white-space:nowrap;width:78px}
+td.rank .hash{color:var(--ink3)}
+td a{color:var(--gold2);text-decoration:none}
+td a:hover{text-decoration:underline}
+.pill{display:inline-block;background:var(--tealbg);color:var(--teal);font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;margin-left:8px}
+.msg{padding:14px 16px;border-radius:11px;font-size:14px;margin-top:16px}
+.msg.warn{background:#fff6e9;border:1px solid rgba(200,135,62,.35);color:var(--gold2)}
+.msg.err{background:#fdecec;border:1px solid #f0c0c0;color:#b1354a}
+.cta{margin-top:20px;background:linear-gradient(120deg,#12332f,#0e6f68);color:#eafaf7;border-radius:16px;padding:18px 20px}
+.cta h3{margin:0 0 4px;font-size:16px}
+.cta p{margin:0;font-size:13.5px;color:#bfe9e3}
+.foot{margin-top:26px;font-size:12.5px;color:var(--ink3);text-align:center;line-height:1.7}
+.foot b{color:var(--ink2)}
+.spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(0,0,0,.15);border-top-color:var(--gold2);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:7px}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style></head>
+<body><div class="wrap">
+<div class="eyebrow">Free tool · Tropesmith</div>
+<h1>See <span>every category</span> your book ranks in</h1>
+<p class="sub">Paste any Amazon book link or ASIN. We'll show the full category path and its sales rank in <em>every</em> category — not just the two you picked at publish. Live Amazon data, no login.</p>
+<div class="card">
+<form id="f" autocomplete="off">
+<input id="q" type="text" placeholder="Amazon book link or ASIN (e.g. B0FD8FZL5B)" aria-label="Amazon book link or ASIN">
+<button id="go" type="submit">Check book</button>
+</form>
+<div class="hint">Tip: paste the whole <b>amazon.com/dp/…</b> link — we'll find the ASIN for you.</div>
+<div id="out" aria-live="polite"></div>
+</div>
+<div class="cta"><h3>Was this useful?</h3><p>This is a taste of the Tropesmith engine — live category, rank &amp; trope-demand data for romance authors, powering your covers, categories and launch timing.</p></div>
+<div class="foot"><b>Powered by Tropesmith</b> — live Amazon category data, refreshed continuously.<br>Looking for the BKLNK category checker? It's retiring — this is the free, always-updated replacement.</div>
+</div>
+<script>
+const API="https://booklookup.plotprose-scraper.workers.dev/";
+const out=document.getElementById("out"),btn=document.getElementById("go");
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+document.getElementById("f").addEventListener("submit",async e=>{
+e.preventDefault();
+const raw=document.getElementById("q").value.trim();
+if(!raw){out.innerHTML="";return;}
+const m=raw.toUpperCase().match(/([A-Z0-9]{10})/);
+if(!m){out.innerHTML='<div class="msg err">That doesn\'t look like an ASIN or Amazon link. An ASIN is 10 characters, e.g. B0FD8FZL5B.</div>';return;}
+btn.disabled=true;out.innerHTML='<div class="msg"><span class="spin"></span>Looking up '+esc(m[1])+'…</div>';
+try{
+const r=await fetch(API+"?asin="+encodeURIComponent(m[1]));
+const d=await r.json();
+if(!d.found){out.innerHTML='<div class="msg warn"><b>Not in our index yet.</b> We track a large but finite set of books — on-demand lookups for any title are coming soon.</div>';return;}
+const crumb=(d.category_path||[]).map((c,i,a)=>'<b>'+esc(c)+'</b>'+(i<a.length-1?'<span class="sep">›</span>':'')).join(" ");
+const ranks=(d.bestseller_ranks||[]).slice().sort((a,b)=>(a.rank||1e9)-(b.rank||1e9));
+const rows=ranks.map(r=>'<tr><td class="rank"><span class="hash">#</span>'+(r.rank!=null?Number(r.rank).toLocaleString():"—")+'</td><td>'+(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener">'+esc(r.category||"—")+'</a>':esc(r.category||"—"))+'</td></tr>').join("");
+out.innerHTML='<div class="bookhead"><div class="bt">'+esc(d.title||"(untitled)")+' <span class="pill">'+esc(d.marketplace||"amazon.com")+'</span></div>'+(d.author?'<div class="ba">by '+esc(d.author)+'</div>':'')+'</div>'+(crumb?'<div class="crumb">'+crumb+'</div>':'')+(ranks.length?'<table><thead><tr><th>Rank</th><th>Category ('+ranks.length+')</th></tr></thead><tbody>'+rows+'</tbody></table>':'<div class="msg warn">No bestseller-category ranks in our latest snapshot.</div>');
+}catch(err){out.innerHTML='<div class="msg err">Something went wrong fetching that. Please try again in a moment.</div>';}
+finally{btn.disabled=false;}
+});
+</script></body></html>
