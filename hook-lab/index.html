@@ -47,15 +47,15 @@
   .hl-ppbrand .hl-ppfree{ font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--hl-muted2); border-left:1px solid var(--hl-line); padding-left:10px; }
 
   /* ── HERO ── */
-  .hero{ text-align:center; padding:14px 0 8px; }
+  .hero{ text-align:center; padding:6px 0 4px; }
   .kicker{ display:inline-block; font-size:11.5px; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
     color:var(--hl-eyebrow); background:var(--hl-eyebrowbg); padding:6px 13px; border-radius:999px; margin-bottom:18px; }
-  h1.hl-h1{ font-family:var(--hl-serif); font-size:clamp(32px,5.6vw,52px); line-height:1.05; letter-spacing:-.02em; margin:6px 0 16px; color:var(--hl-ink); font-weight:600; }
+  h1.hl-h1{ font-family:var(--hl-serif); font-size:clamp(26px,4.2vw,38px); line-height:1.08; letter-spacing:-.02em; margin:4px 0 12px; color:var(--hl-ink); font-weight:600; }
   h1.hl-h1 .hl{ background:var(--hl-grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; font-style:italic; }
-  .hero .lede{ font-size:19px; line-height:1.55; color:var(--hl-muted); max-width:620px; margin:0 auto 26px; }
+  .hero .lede{ font-size:16px; line-height:1.5; color:var(--hl-muted); max-width:600px; margin:0 auto 22px; }
   .hero .lede b{ color:var(--hl-ink); font-weight:700; }
-  .benefits{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; max-width:720px; margin:0 auto 30px; text-align:left; }
-  .benefit{ background:var(--hl-card); border:1px solid var(--hl-line); border-radius:14px; padding:16px 16px; box-shadow:var(--hl-shadow); }
+  .benefits{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; max-width:700px; margin:0 auto 24px; text-align:left; }
+  .benefit{ background:var(--hl-card); border:1px solid var(--hl-line); border-radius:14px; padding:13px 14px; box-shadow:var(--hl-shadow); }
   .benefit .bi{ font-size:20px; margin-bottom:6px; display:block; }
   .benefit h4{ margin:0 0 4px; font-size:15px; font-family:var(--hl-serif); font-weight:600; color:var(--hl-ink); }
   .benefit p{ margin:0; font-size:13.5px; color:var(--hl-muted); line-height:1.5; }
@@ -265,6 +265,14 @@
   var FN_URL = "https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/hook-teaser";
   var ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzYnl0ZG9uYnV3cnJsbXd0ZWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODg5MDksImV4cCI6MjA5MjM2NDkwOX0.EGgGUQfCcQ3tul-LKuAQR3-hALTZOOo3cEeq5Ha2aM0";
   document.documentElement.dataset.brand = (new URLSearchParams(location.search).get("brand")||"").toLowerCase();
+
+  // When embedded (PlotProse iframe), report our height so the parent can size the frame — no scroll, no cut-off.
+  function framed(){ try { return window.self !== window.top; } catch(e){ return true; } }
+  function reportHeight(){ if(!framed()) return; var h=Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight); try{ parent.postMessage({hookLabHeight:h}, "*"); }catch(e){} }
+  window.addEventListener("load", function(){ reportHeight(); setTimeout(reportHeight,500); setTimeout(reportHeight,1500); });
+  window.addEventListener("resize", reportHeight);
+  if(framed()){ setInterval(reportHeight, 1200); }
+
   var $ = function(id){ return document.getElementById(id); };
   var hook=$("hook"), go=$("go"), count=$("count"), spinner=$("spinner"), err=$("err"), capped=$("capped"), results=$("results"), lastHook="";
   Array.prototype.forEach.call(document.querySelectorAll("[data-year]"), function(el){ el.textContent = new Date().getFullYear(); });
@@ -285,7 +293,7 @@
     var objs=$("objs"); objs.innerHTML=""; (d.top_objections||[]).forEach(function(o){ var li=document.createElement("li"); li.textContent=o; objs.appendChild(li); }); $("objSec").style.display=(d.top_objections&&d.top_objections.length)?"":"none";
     var rc=$("reactions"); rc.innerHTML=""; (d.sample_reactions||[]).forEach(function(r){ var box=document.createElement("div"); box.className="reaction";
       box.innerHTML='<div class="who">'+esc(r.reader_type)+'<span class="act">'+esc(r.reaction)+'</span></div>'+(r.why?'<div class="why">'+esc(r.why)+'</div>':'')+(r.objection?'<div class="obj">Hesitation: '+esc(r.objection)+'</div>':''); rc.appendChild(box); });
-    results.style.display="block"; results.scrollIntoView({behavior:"smooth",block:"start"});
+    results.style.display="block"; reportHeight(); setTimeout(reportHeight,300); results.scrollIntoView({behavior:"smooth",block:"start"});
   }
   go.addEventListener("click", function(){
     var h=hook.value.trim(); err.style.display="none"; capped.style.display="none";
