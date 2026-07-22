@@ -267,11 +267,18 @@
   document.documentElement.dataset.brand = (new URLSearchParams(location.search).get("brand")||"").toLowerCase();
 
   // When embedded (PlotProse iframe), report our height so the parent can size the frame — no scroll, no cut-off.
+  var _lastH=0;
   function framed(){ try { return window.self !== window.top; } catch(e){ return true; } }
-  function reportHeight(){ if(!framed()) return; var h=Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight); try{ parent.postMessage({hookLabHeight:h}, "*"); }catch(e){} }
-  window.addEventListener("load", function(){ reportHeight(); setTimeout(reportHeight,500); setTimeout(reportHeight,1500); });
-  window.addEventListener("resize", reportHeight);
-  if(framed()){ setInterval(reportHeight, 1200); }
+  function reportHeight(){
+    if(!framed()) return;
+    var el=document.querySelector('.hl-wrap');            // measure CONTENT only (stable, no viewport feedback loop)
+    var h=(el ? el.offsetHeight : document.body.scrollHeight) + 48;
+    if(Math.abs(h-_lastH) < 4) return;                    // guard: don't re-post tiny/no changes -> kills the loop
+    _lastH=h;
+    try{ parent.postMessage({hookLabHeight:h}, "*"); }catch(e){}
+  }
+  window.addEventListener("load", function(){ reportHeight(); setTimeout(reportHeight,500); setTimeout(reportHeight,1600); });
+  if(framed()){ setInterval(reportHeight, 1500); }
 
   var $ = function(id){ return document.getElementById(id); };
   var hook=$("hook"), go=$("go"), count=$("count"), spinner=$("spinner"), err=$("err"), capped=$("capped"), results=$("results"), lastHook="";
