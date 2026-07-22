@@ -224,22 +224,27 @@
       </ul>
     </div>
     <div class="plan full">
-      <div class="ptag">The full Audience Twin</div>
-      <h3>The real reader panel</h3>
-      <p class="big">Your hook rehearsed against a panel of <b>thousands of readers</b>, modeled on real reader data.</p>
+      <div class="ptag">Included with Perfect Year</div>
+      <h3>The full Reader Panel</h3>
+      <p class="big">Your hooks rehearsed against a panel of <b>thousands of readers</b> — one of the tools inside <b>Perfect Year</b>, your author command-centre.</p>
       <ul>
         <li><b>Thousands</b> of readers, not seven</li>
         <li>All your hooks <b>ranked head-to-head</b> — post the winner</li>
         <li>Full objection &amp; reader-segment report per hook</li>
-        <li>Winner flows straight into your ads + organic posts (Launch Engine)</li>
-        <li>Gets sharper every time — learns from real results</li>
+        <li>Winner flows straight into your ads + organic posts</li>
+        <li>Plus the whole Perfect Year toolkit — planner, launches &amp; more</li>
       </ul>
-      <div class="signup">
+      <a class="cta" href="https://plotprose.com/planner/" style="width:100%;text-align:center;box-sizing:border-box">Get it with Perfect Year →</a>
+      <div style="margin-top:14px;display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+        <a href="/hook-lab/sample/" target="_blank" rel="noopener" style="font-size:13.5px;font-weight:800;color:var(--hl-accentdk);text-decoration:none">↳ See a full sample report</a>
+        <span style="color:var(--hl-muted2);font-size:13px">·</span>
+        <a href="#" id="notifylink" style="font-size:13.5px;font-weight:700;color:var(--hl-muted);text-decoration:none">Email me the sample &amp; updates</a>
+      </div>
+      <div class="signup" id="notifybox" style="display:none;margin-top:12px">
         <input id="email" type="email" placeholder="you@email.com" />
-        <button id="signup">Get the full panel</button>
+        <button id="signup">Send it</button>
       </div>
       <div class="signok" id="signok">Got it — check your inbox. We'll be in touch.</div>
-      <div style="margin-top:14px"><a href="/hook-lab/sample/" target="_blank" rel="noopener" style="font-size:13.5px;font-weight:800;color:var(--hl-accentdk);text-decoration:none">↳ See a full sample report</a></div>
     </div>
   </div>
 
@@ -315,6 +320,7 @@
       render(d);
     }).catch(function(){ go.disabled=false; spinner.classList.remove("on"); err.textContent="Network error — please try again."; err.style.display="block"; });
   });
+  var _nl=$("notifylink"); if(_nl){ _nl.addEventListener("click", function(ev){ ev.preventDefault(); var b=$("notifybox"); if(b){ b.style.display="flex"; } var e=$("email"); if(e){ e.focus(); } }); }
   $("signup").addEventListener("click", function(){
     var email=$("email").value.trim(); if(!email||email.indexOf("@")<0){ $("email").focus(); return; }
     var btn=$("signup"); btn.disabled=true; btn.textContent="Sending…";
