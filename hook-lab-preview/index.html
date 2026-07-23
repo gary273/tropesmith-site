@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hook read — Tropesmith</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="referrer" content="no-referrer" />
+<meta name="description" content="Paste a blurb hook and see how a reader panel reacts, built on live reader-demand data from the Tropesmith engine." />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10122F; --paper:#FFF9F3; --coral:#FF6B7A; --violet:#6D28D9;
+    --muted:#5b566b; --muted2:#8b8699; --line:rgba(16,18,47,.12); --soft:#F3EEFF;
+    --card:#ffffff; --shadow:0 1px 0 rgba(16,18,47,.03), 0 20px 46px -30px rgba(16,18,47,.34);
+    --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,-apple-system,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); line-height:1.55; min-height:100vh; }
+  .wrap{ max-width:760px; margin:0 auto; padding:40px 20px 80px; }
+  .mark{ display:flex; align-items:center; gap:11px; margin-bottom:34px; }
+  .mark .logo{ font-family:var(--serif); font-weight:600; font-size:19px; letter-spacing:-.01em; color:var(--ink); }
+  .mark .tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted2); border-left:1px solid var(--line); padding-left:11px; }
+
+  .eyebrow{ font-family:var(--mono); font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--violet); margin:0 0 14px; }
+  h1{ font-family:var(--serif); font-size:clamp(28px,4.4vw,40px); line-height:1.08; letter-spacing:-.02em; font-weight:600; margin:0 0 14px; }
+  .lede{ font-size:17px; color:var(--muted); max-width:600px; margin:0 0 6px; }
+  .provenance{ font-size:14px; color:var(--muted2); margin:8px 0 0; display:flex; align-items:flex-start; gap:8px; }
+  .provenance::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--coral); margin-top:7px; flex:0 0 auto; }
+
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:18px; padding:22px; box-shadow:var(--shadow); margin-top:30px; }
+  label{ font-weight:700; font-size:13px; display:block; margin-bottom:9px; letter-spacing:.01em; }
+  textarea{ width:100%; min-height:118px; resize:vertical; padding:14px 15px; font-size:16px; font-family:var(--sans); color:var(--ink);
+    border:1.5px solid var(--line); border-radius:13px; background:#fff; }
+  textarea:focus{ outline:none; border-color:var(--violet); box-shadow:0 0 0 4px color-mix(in srgb,var(--violet) 15%,transparent); }
+  .examples{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  .chip{ font-size:12.5px; color:var(--violet); background:var(--soft); border:1px solid var(--line); padding:6px 11px; border-radius:999px; cursor:pointer; font-weight:600; }
+  .chip:hover{ filter:brightness(.98); }
+  .row{ display:flex; gap:10px; align-items:center; margin-top:15px; flex-wrap:wrap; }
+  .count{ font-family:var(--mono); font-size:12px; color:var(--muted2); margin-left:auto; }
+  button.go{ appearance:none; border:0; cursor:pointer; font-family:var(--sans); font-weight:700; font-size:15.5px; color:#fff;
+    background:var(--ink); padding:14px 26px; border-radius:13px; transition:transform .05s, background .2s; }
+  button.go:hover{ background:#1c1f45; }
+  button.go:active{ transform:translateY(1px); }
+  button.go:disabled{ opacity:.5; cursor:not-allowed; }
+  .hint{ font-size:13px; color:var(--muted2); margin-top:12px; }
+  .spinner{ display:none; align-items:center; gap:9px; margin-top:16px; color:var(--muted); font-size:14px; }
+  .spinner.on{ display:flex; }
+  .dot{ width:8px; height:8px; border-radius:50%; background:var(--violet); animation:b 1s infinite ease-in-out; }
+  .dot:nth-child(2){ animation-delay:.15s; } .dot:nth-child(3){ animation-delay:.3s; }
+  @keyframes b{ 0%,80%,100%{ transform:scale(.5); opacity:.4; } 40%{ transform:scale(1); opacity:1; } }
+  .err{ color:#c0392b; font-size:14px; margin-top:14px; display:none; }
+
+  #results{ margin-top:26px; display:none; }
+  .scorecard{ display:flex; gap:20px; align-items:center; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; box-shadow:var(--shadow); flex-wrap:wrap; }
+  .gauge{ --pct:0; width:98px; height:98px; border-radius:50%; flex:0 0 auto; background:conic-gradient(var(--violet) calc(var(--pct)*1%), #ece7f6 0); display:grid; place-items:center; position:relative; }
+  .gauge::after{ content:""; position:absolute; inset:10px; background:var(--card); border-radius:50%; }
+  .gauge b{ position:relative; z-index:1; font-size:25px; font-family:var(--serif); font-weight:600; }
+  .gauge span{ position:relative; z-index:1; font-family:var(--mono); font-size:9px; color:var(--muted2); font-weight:500; text-transform:uppercase; letter-spacing:.1em; margin-top:2px; }
+  .gcol{ display:flex; flex-direction:column; align-items:center; }
+  .smeta{ flex:1; min-width:220px; }
+  .smeta h3{ margin:0 0 6px; font-size:19px; font-family:var(--serif); font-weight:600; }
+  .smeta p{ margin:0; color:var(--muted); font-size:14px; }
+  .genrepill{ display:inline-flex; align-items:center; gap:6px; margin-bottom:9px; font-family:var(--mono); font-size:11px; font-weight:500; letter-spacing:.04em; text-transform:uppercase; color:var(--violet); background:var(--soft); border:1px solid var(--line); padding:5px 10px; border-radius:999px; }
+  .section{ margin-top:15px; background:var(--card); border:1px solid var(--line); border-radius:15px; padding:18px 20px; box-shadow:var(--shadow); }
+  .section h4{ margin:0 0 12px; font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.11em; color:var(--muted2); font-weight:500; }
+  .tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .tag{ background:var(--soft); border:1px solid var(--line); border-radius:999px; padding:6px 12px; font-size:13.5px; font-weight:600; }
+  ul.obj{ margin:0; padding-left:18px; } ul.obj li{ margin:7px 0; font-size:14.5px; }
+  .standout{ font-family:var(--serif); font-style:italic; font-size:16.5px; }
+  .reaction{ border:1px solid var(--line); border-radius:13px; padding:14px 16px; margin-top:10px; background:color-mix(in srgb,var(--soft) 34%,#fff); }
+  .reaction .who{ font-weight:800; font-size:14.5px; }
+  .reaction .act{ display:inline-block; font-family:var(--mono); font-size:10px; font-weight:500; text-transform:uppercase; letter-spacing:.06em; color:#fff; background:var(--violet); padding:3px 8px; border-radius:999px; margin-left:8px; vertical-align:middle; }
+  .reaction .why{ margin:6px 0 0; font-size:14.5px; }
+  .reaction .obj{ margin:6px 0 0; font-size:13px; color:var(--muted); }
+
+  /* email capture */
+  .capture{ margin-top:26px; background:linear-gradient(180deg,color-mix(in srgb,var(--soft) 46%,#fff),#fff); border:1.5px solid var(--violet); border-radius:18px; padding:24px; box-shadow:var(--shadow); }
+  .capture h3{ font-family:var(--serif); font-weight:600; font-size:21px; margin:0 0 6px; }
+  .capture p{ margin:0 0 16px; color:var(--muted); font-size:14.5px; }
+  .signup{ display:flex; gap:10px; flex-wrap:wrap; }
+  .signup input{ flex:1; min-width:220px; padding:13px 15px; font-size:15px; border:1.5px solid var(--line); border-radius:12px; background:#fff; font-family:var(--sans); color:var(--ink); }
+  .signup input:focus{ outline:none; border-color:var(--violet); box-shadow:0 0 0 4px color-mix(in srgb,var(--violet) 15%,transparent); }
+  .signup button{ appearance:none; border:0; cursor:pointer; font-family:var(--sans); font-weight:700; color:#fff; background:var(--coral); padding:0 24px; border-radius:12px; font-size:15px; }
+  .signup button:disabled{ opacity:.6; cursor:not-allowed; }
+  .signok{ color:var(--violet); font-weight:700; font-size:14px; margin-top:12px; display:none; }
+
+  .craft{ margin-top:34px; padding-top:22px; border-top:1px solid var(--line); font-size:14.5px; color:var(--muted); }
+  .craft a{ color:var(--violet); font-weight:700; text-decoration:none; }
+  .craft a:hover{ text-decoration:underline; }
+  .craft .fam{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted2); display:block; margin-top:4px; }
+  .foot{ text-align:center; color:var(--muted2); font-size:12.5px; margin-top:40px; line-height:1.7; }
+  @media(max-width:560px){ .signup input{ min-width:100%; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="mark"><span class="logo">Tropesmith</span><span class="tag">Hook read</span></div>
+
+  <p class="eyebrow">Reader-panel preview</p>
+  <h1>See how readers react to your hook</h1>
+  <p class="lede">Paste a blurb hook or caption. A reader panel reads it and tells you what stops the scroll, who it lands with, and where it loses people — before you post it.</p>
+  <p class="provenance">Built on live reader-demand data from the Tropesmith engine.</p>
+
+  <div class="card">
+    <label for="hook">Your hook or caption</label>
+    <textarea id="hook" placeholder="e.g. The lighthouse keeper hasn't spoken to a soul in twenty years. Tonight, someone knocked back."></textarea>
+    <div class="examples">
+      <span class="chip" data-ex="One bed. One blizzard. One very bad idea I keep wanting to repeat.">a romance hook</span>
+      <span class="chip" data-ex="The detective assigned to my sister's murder is the man I woke up next to this morning.">a thriller hook</span>
+      <span class="chip" data-ex="They crowned me queen of a kingdom that wants me dead by the first snow.">a fantasy hook</span>
+    </div>
+    <div class="row"><button class="go" id="go">Read the room</button><span class="count" id="count">0 / 600</span></div>
+    <div class="spinner" id="spinner"><span class="dot"></span><span class="dot"></span><span class="dot"></span> Reading the room…</div>
+    <div class="err" id="err"></div>
+    <p class="hint">A quick sample panel. No signup needed to run it.</p>
+  </div>
+
+  <div id="results">
+    <div class="scorecard">
+      <div class="gcol"><div class="gauge" id="gauge"><b id="pct">0%</b><span>engaged</span></div></div>
+      <div class="smeta"><span class="genrepill" id="genrepill" style="display:none"></span><h3 id="verdict">Reader panel reaction</h3><p id="verdictsub"></p></div>
+    </div>
+    <div class="section" id="segSec"><h4>Lands with these reader types</h4><div class="tags" id="segs"></div></div>
+    <div class="section" id="standSec"><h4>What made a reader stop</h4><p class="standout" id="standout"></p></div>
+    <div class="section" id="objSec"><h4>Where it loses people</h4><ul class="obj" id="objs"></ul></div>
+    <div class="section" id="rxSec"><h4>Sample reader reactions</h4><div id="reactions"></div></div>
+  </div>
+
+  <div class="capture" id="capture" style="display:none">
+    <h3>Get the full teaser report by email</h3>
+    <p>The full report runs your hook past a bigger panel, ranks multiple hooks head-to-head, and sends the write-up to your inbox.</p>
+    <div class="signup" id="signupbox">
+      <input id="email" type="email" placeholder="you@email.com" autocomplete="email" />
+      <button id="signup">Email it to me</button>
+    </div>
+    <div class="signok" id="signok">Got it — the full report is on its way to your inbox.</div>
+  </div>
+
+  <p class="craft">Want to write hooks that do this on purpose? Learn the craft behind hooks with <a href="https://plotprose.com/author-training/" target="_blank" rel="noopener">the author training classes</a>.
+    <span class="fam">From the same team behind Tropesmith</span></p>
+
+  <p class="foot">Hook read · reader personas modeled on real reader-demand data across genres · directional guidance, not a guarantee.</p>
+</main>
+
+<script>
+(function(){
+  var FN = "https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/hook-teaser";
+  var ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzYnl0ZG9uYnV3cnJsbXd0ZWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODg5MDksImV4cCI6MjA5MjM2NDkwOX0.EGgGUQfCcQ3tul-LKuAQR3-hALTZOOo3cEeq5Ha2aM0";
+  var $ = function(id){ return document.getElementById(id); };
+  var hook=$("hook"), go=$("go"), count=$("count"), spinner=$("spinner"), err=$("err"), results=$("results"), capture=$("capture"), lastHook="";
+  hook.addEventListener("input", function(){ var n=hook.value.length; count.textContent=n+" / 600"; count.style.color=n>600?"#c0392b":""; });
+  Array.prototype.forEach.call(document.querySelectorAll(".chip"), function(c){ c.addEventListener("click", function(){ hook.value=c.getAttribute("data-ex"); hook.dispatchEvent(new Event("input")); hook.focus(); }); });
+  function esc(s){ var d=document.createElement("div"); d.textContent=(s==null?"":String(s)); return d.innerHTML; }
+  function titlecase(s){ s=String(s||"").trim(); return s ? s.replace(/\b\w/g,function(m){return m.toUpperCase();}) : s; }
+  function show(el,on){ el.style.display = on ? "" : "none"; }
+  function render(d){
+    lastHook = d.hook || hook.value.trim();
+    var pct=d.engaged_pct||0; $("gauge").style.setProperty("--pct",pct); $("pct").textContent=pct+"%";
+    var genre=(d.genre||"").trim(), genreLabel=genre?titlecase(genre):"", gp=$("genrepill");
+    if(genreLabel){ gp.textContent="Tested against "+genreLabel+" readers"; show(gp,true); } else show(gp,false);
+    $("verdict").textContent = pct>=60?"Strong scroll-stopper":pct>=35?"Lands with a real slice":"Niche — most keep scrolling";
+    var who=genreLabel?(genreLabel+" readers"):"readers";
+    $("verdictsub").textContent = pct+"% of a "+(d.panel_size||7)+"-reader sample of "+who+" engaged. Panel score "+(d.panel_score||0)+".";
+    var segs=$("segs"); segs.innerHTML=""; (d.reaches_segments||[]).forEach(function(s){ var t=document.createElement("span"); t.className="tag"; t.textContent=s; segs.appendChild(t); }); show($("segSec"),(d.reaches_segments&&d.reaches_segments.length));
+    $("standout").textContent = d.standout_why?("“"+d.standout_why+"”"):""; show($("standSec"),!!d.standout_why);
+    var objs=$("objs"); objs.innerHTML=""; (d.top_objections||[]).forEach(function(o){ var li=document.createElement("li"); li.textContent=o; objs.appendChild(li); }); show($("objSec"),(d.top_objections&&d.top_objections.length));
+    var rc=$("reactions"); rc.innerHTML=""; (d.sample_reactions||[]).forEach(function(r){ var box=document.createElement("div"); box.className="reaction";
+      box.innerHTML='<div class="who">'+esc(r.reader_type)+'<span class="act">'+esc(r.reaction)+'</span></div>'+(r.why?'<div class="why">'+esc(r.why)+'</div>':'')+(r.objection?'<div class="obj">Hesitation: '+esc(r.objection)+'</div>':''); rc.appendChild(box); });
+    show($("rxSec"),(d.sample_reactions&&d.sample_reactions.length));
+    results.style.display="block"; capture.style.display="block"; results.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  go.addEventListener("click", function(){
+    var h=hook.value.trim(); err.style.display="none";
+    if(!h){ err.textContent="Paste a hook first."; err.style.display="block"; return; }
+    if(h.length>600){ err.textContent="That's a bit long — trim to 600 characters."; err.style.display="block"; return; }
+    go.disabled=true; spinner.classList.add("on"); results.style.display="none"; capture.style.display="none";
+    fetch(FN,{method:"POST",headers:{"Content-Type":"application/json","apikey":ANON,"Authorization":"Bearer "+ANON},body:JSON.stringify({hook:h})})
+    .then(function(r){return r.json();}).then(function(d){ go.disabled=false; spinner.classList.remove("on");
+      if(d.capped){ err.textContent=d.message||"You've used your free reads for now — leave your email below for the full report."; err.style.display="block"; capture.style.display="block"; return; }
+      if(d.error){ err.textContent="Panel hiccup: "+d.error+". Try again in a moment."; err.style.display="block"; return; }
+      render(d);
+    }).catch(function(){ go.disabled=false; spinner.classList.remove("on"); err.textContent="Network error — please try again."; err.style.display="block"; });
+  });
+  $("signup").addEventListener("click", function(){
+    var email=$("email").value.trim(); if(!email||email.indexOf("@")<1){ $("email").focus(); return; }
+    var btn=$("signup"); btn.disabled=true; btn.textContent="Sending…";
+    fetch(FN,{method:"POST",headers:{"Content-Type":"application/json","apikey":ANON,"Authorization":"Bearer "+ANON},body:JSON.stringify({hook:lastHook||hook.value.trim()||"(full-report signup)",email:email})})
+    .then(function(r){return r.json();}).then(function(){ $("signupbox").style.display="none"; $("signok").style.display="block"; })
+    .catch(function(){ $("signupbox").style.display="none"; $("signok").textContent="Got it — you're on the list."; $("signok").style.display="block"; });
+  });
+})();
+</script>
+</body>
+</html>
