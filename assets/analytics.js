@@ -72,9 +72,18 @@
 
     var path = location.pathname.replace(/\/index\.html$/, '/');
 
-    // Purchase — the "Payment received" page
+    // Purchase — the "Payment received" page.
+    // transaction_id = the Stripe Checkout session id from the return URL
+    // (?session_id=). It dedupes repeat/refresh loads so GA4 records ONE
+    // purchase per order (previously every reload counted again). Post-discount
+    // revenue is not available client-side; add `value` via a session-status
+    // lookup when value-based bidding is needed. (WO PP-3904)
     if (path.indexOf('/order-complete') === 0) {
-      track('purchase', { currency: 'USD' });
+      var _txn = null;
+      try { _txn = new URLSearchParams(location.search).get('session_id'); } catch (e) {}
+      var _purchase = { currency: 'USD' };
+      if (_txn) _purchase.transaction_id = _txn;
+      track('purchase', _purchase);
     }
 
     // Ran a Map — successful intake redirects here with ?map_id=
