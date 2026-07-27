@@ -362,6 +362,7 @@
 (function(){
   var FN = "https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/trope-trend-tool";
   var SOURCE = "dark_romance_hub";
+  var ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzYnl0ZG9uYnV3cnJsbXd0ZWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODg5MDksImV4cCI6MjA5MjM2NDkwOX0.EGgGUQfCcQ3tul-LKuAQR3-hALTZOOo3cEeq5Ha2aM0";
   var f = document.getElementById('drf'),
       sg = document.getElementById('drsg'),
       em = document.getElementById('drem'),
@@ -390,7 +391,7 @@
     go.disabled = true; go.textContent = 'Reading your lane…';
     fetch(FN, {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: { 'content-type': 'application/json', 'apikey': ANON, 'Authorization': 'Bearer ' + ANON },
       body: JSON.stringify({ email: email, subgenre_id: subgenre, source: SOURCE })
     })
     .then(function(r){ return r.json(); })
