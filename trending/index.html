@@ -148,6 +148,7 @@ select{margin-bottom:16px}
 <script>
 (function(){
   var FN="https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/trope-trend-tool";
+  var FN_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzYnl0ZG9uYnV3cnJsbXd0ZWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODg5MDksImV4cCI6MjA5MjM2NDkwOX0.EGgGUQfCcQ3tul-LKuAQR3-hALTZOOo3cEeq5Ha2aM0";
   var f=document.getElementById('f'),sg=document.getElementById('sg'),em=document.getElementById('em'),
       go=document.getElementById('go'),err=document.getElementById('err'),
       result=document.getElementById('result'),rtitle=document.getElementById('rtitle'),
@@ -168,7 +169,7 @@ select{margin-bottom:16px}
     if(!subgenre){showErr('Please choose your subgenre.');return;}
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){showErr('Please enter a valid email address.');return;}
     go.disabled=true;go.textContent='Reading your lane…';
-    fetch(FN,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:email,subgenre_id:subgenre})})
+    fetch(FN,{method:'POST',headers:{'content-type':'application/json','apikey':FN_ANON,'Authorization':'Bearer '+FN_ANON},body:JSON.stringify({email:email,subgenre_id:subgenre})})
       .then(function(r){return r.json();})
       .then(function(d){
         if(!d||!d.ok){showErr((d&&d.message)||'Something went wrong — please try again.');go.disabled=false;go.textContent='Show me the opportunity in my lane →';return;}
