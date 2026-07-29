@@ -721,5 +721,31 @@ window.TSM_SESSION_EMAIL = null;
 })();
 </script>
 <script src="../assets/page-event-tracker.js?v=20260514-9" defer></script>
+<script>
+// tsm-live-board: /pricing?live_board={map_id} auto-launches the $7/mo Live Board embedded checkout.
+// Reuses the same Stripe embedded-checkout modal + /api proxy as every other product. Purely additive.
+(function () {
+  'use strict';
+  var params = new URLSearchParams(window.location.search);
+  var mapId = params.get('live_board');
+  if (!mapId) return;
+  var tries = 0;
+  function launch() {
+    if (window.Tropesmith && typeof Tropesmith.buyProduct === 'function') {
+      Tropesmith.buyProduct('live_board_monthly', {
+        mapId: mapId,
+        onError: function (err) {
+          alert('Sorry \u2014 we could not start the Live Board checkout. Please try again, or email support@tropesmith.com.');
+          console.error(err);
+        }
+      });
+      return;
+    }
+    if (tries++ < 50) { setTimeout(launch, 100); }
+    else { console.warn('Tropesmith module not loaded \u2014 cannot start Live Board checkout.'); }
+  }
+  launch();
+})();
+</script>
 </body>
 </html>
