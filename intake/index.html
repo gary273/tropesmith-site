@@ -185,12 +185,12 @@
           <div class="field"></div>
         </div>
         <div class="field">
-          <label for="must_include">Tropes you're committed to <span class="micro" style="font-weight:400">(optional · comma-separated)</span></label>
-          <input class="input" type="text" id="must_include" name="must_include" placeholder="enemies to lovers, only one bed"/>
+          <label for="must_include_search">Tropes you're committed to <span class="micro" style="font-weight:400">(optional · type to search)</span></label>
+          <div class="ts-tp" data-tp="must_include"><input class="input ts-tp-search" id="must_include_search" type="text" autocomplete="off" placeholder="Type to search 200+ romance tropes…"/><div class="ts-tp-menu" hidden></div><div class="ts-tp-chips"></div><input type="hidden" id="must_include" name="must_include"/></div>
         </div>
         <div class="field">
-          <label for="must_avoid">Tropes you won't write <span class="micro" style="font-weight:400">(optional · comma-separated)</span></label>
-          <input class="input" type="text" id="must_avoid" name="must_avoid" placeholder="reverse harem, cheating"/>
+          <label for="must_avoid_search">Tropes you won't write <span class="micro" style="font-weight:400">(optional · type to search)</span></label>
+          <div class="ts-tp" data-tp="must_avoid"><input class="input ts-tp-search" id="must_avoid_search" type="text" autocomplete="off" placeholder="Type to search tropes to exclude…"/><div class="ts-tp-menu" hidden></div><div class="ts-tp-chips"></div><input type="hidden" id="must_avoid" name="must_avoid"/></div>
           <p class="help">We'll keep these out of your recommendations.</p>
         </div>
       </fieldset>
@@ -574,6 +574,48 @@
       loadLaneSnap(e.target.value);
     });
   });
+})();
+</script>
+<!-- TS-0464: searchable trope picker (list-tropes, romance). Hidden inputs keep must_include/must_avoid names so the submit handler is unchanged. -->
+<style>
+.ts-tp{position:relative}
+.ts-tp-menu{position:absolute;z-index:40;left:0;right:0;top:calc(100% + 4px);background:#fff;border:1px solid rgba(16,18,47,.15);border-radius:10px;box-shadow:0 14px 34px -14px rgba(16,18,47,.28);max-height:260px;overflow:auto;padding:4px}
+.ts-tp-opt{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;background:none;border:0;padding:9px 12px;border-radius:7px;font:inherit;color:var(--ts-ink,#221b2e);cursor:pointer}
+.ts-tp-opt:hover{background:rgba(124,92,255,.10)}
+.ts-tp-cat{color:var(--ts-mauve,#5b4a59);font-size:.78em;text-transform:capitalize;align-self:center;white-space:nowrap}
+.ts-tp-custom{color:var(--ts-violet,#6D28D9);font-weight:600}
+.ts-tp-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ts-tp-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(124,92,255,.12);border:1px solid rgba(124,92,255,.30);color:var(--ts-ink,#221b2e);border-radius:999px;padding:4px 6px 4px 12px;font-size:.9rem}
+.ts-tp-x{background:none;border:0;color:var(--ts-mauve,#5b4a59);cursor:pointer;font-size:1rem;line-height:1;padding:0 4px}
+.ts-tp-x:hover{color:var(--ts-coral,#e04a3a)}
+</style>
+<script>
+(function(){
+  var API_BASE='/api/functions/v1', MAX=8;
+  var ready=fetch(API_BASE+'/list-tropes?genre=romance',{cache:'default'})
+    .then(function(r){return r.ok?r.json():{by_category:{}};})
+    .then(function(d){var out=[],bc=(d&&d.by_category)||{};Object.keys(bc).forEach(function(cat){(bc[cat]||[]).forEach(function(t){out.push({name:t.display_name,cat:cat,hay:(t.display_name+' '+((t.aliases||[]).join(' '))).toLowerCase()});});});out.sort(function(a,b){return a.name.localeCompare(b.name);});return out;})
+    .catch(function(){return[];});
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function ea(s){return esc(s).replace(/"/g,'&quot;');}
+  function pc(c){return ({'fmc-trait':'heroine','mmc-trait':'hero','relationship':'dynamic','scenario':'setup','structure':'structure','plot':'plot','device':'device','setting':'setting','spice':'heat','character':'character'})[c]||c;}
+  function initP(root){
+    var hid=root.querySelector('input[type="hidden"]'),sr=root.querySelector('.ts-tp-search'),menu=root.querySelector('.ts-tp-menu'),chips=root.querySelector('.ts-tp-chips'),sel=[],all=[];
+    ready.then(function(l){all=l;});
+    function sync(){hid.value=sel.join(', ');chips.innerHTML=sel.map(function(s,i){return '<span class="ts-tp-chip">'+esc(s)+'<button type="button" class="ts-tp-x" data-i="'+i+'" aria-label="Remove '+ea(s)+'">×</button></span>';}).join('');}
+    function add(n){n=(n||'').trim();if(!n)return;var lo=n.toLowerCase();if(sel.some(function(s){return s.toLowerCase()===lo;})){sr.value='';render('');return;}if(sel.length>=MAX)return;sel.push(n);sync();sr.value='';render('');}
+    function rm(i){sel.splice(i,1);sync();}
+    function render(q){q=(q||'').trim().toLowerCase();var pk=sel.map(function(s){return s.toLowerCase();});var ms=all.filter(function(t){return pk.indexOf(t.name.toLowerCase())===-1&&(!q||t.hay.indexOf(q)!==-1);}).slice(0,10);var h=ms.map(function(t){return '<button type="button" class="ts-tp-opt" data-name="'+ea(t.name)+'">'+esc(t.name)+' <span class="ts-tp-cat">'+esc(pc(t.cat))+'</span></button>';}).join('');var ty=(sr.value||'').trim();if(ty&&!ms.some(function(t){return t.name.toLowerCase()===ty.toLowerCase();})&&pk.indexOf(ty.toLowerCase())===-1){h+='<button type="button" class="ts-tp-opt ts-tp-custom" data-name="'+ea(ty)+'">Add “'+esc(ty)+'”</button>';}menu.innerHTML=h;menu.hidden=!h;}
+    sr.addEventListener('input',function(){render(sr.value);});
+    sr.addEventListener('focus',function(){render(sr.value);});
+    sr.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();var f=menu.querySelector('.ts-tp-opt');if(f)add(f.getAttribute('data-name'));}else if(e.key==='Backspace'&&!sr.value&&sel.length){rm(sel.length-1);}else if(e.key==='Escape'){menu.hidden=true;}});
+    menu.addEventListener('mousedown',function(e){var b=e.target.closest('.ts-tp-opt');if(b){e.preventDefault();add(b.getAttribute('data-name'));}});
+    chips.addEventListener('click',function(e){var x=e.target.closest('.ts-tp-x');if(x)rm(parseInt(x.getAttribute('data-i'),10));});
+    document.addEventListener('click',function(e){if(!root.contains(e.target))menu.hidden=true;});
+    sync();
+  }
+  function boot(){document.querySelectorAll('.ts-tp').forEach(initP);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();
 </script>
 </body>
