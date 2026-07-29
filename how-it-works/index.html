@@ -209,7 +209,7 @@
 
       <div class="tsm-corpus-card tsm-corpus-card--reddit">
         <div class="tsm-corpus-card-label">Layer 2 · Explicit demand</div>
-        <div class="tsm-corpus-card-stat" data-target="9410" data-format="comma">0</div>
+        <div class="tsm-corpus-card-stat" data-target="18735" data-stat="demand_signals_analyzed" data-format="comma">0</div>
         <div class="tsm-corpus-card-unit">structured reader asks</div>
         <div class="tsm-corpus-card-meta">
           <span>Reddit + Goodreads + BookTok</span>
@@ -220,7 +220,7 @@
 
       <div class="tsm-corpus-card tsm-corpus-card--goodreads">
         <div class="tsm-corpus-card-label">Layer 3 · Reader praise</div>
-        <div class="tsm-corpus-card-stat" data-target="9258" data-format="comma">0</div>
+        <div class="tsm-corpus-card-stat" data-target="18621" data-stat="shelf_signals_analyzed" data-format="comma">0</div>
         <div class="tsm-corpus-card-unit">Goodreads shelf signals</div>
         <div class="tsm-corpus-card-meta">
           <span>11,843 reviews mined</span>
@@ -231,7 +231,7 @@
 
       <div class="tsm-corpus-card tsm-corpus-card--amazon">
         <div class="tsm-corpus-card-label">Layer 4 · Supply scan</div>
-        <div class="tsm-corpus-card-stat" data-target="2531" data-format="comma">0</div>
+        <div class="tsm-corpus-card-stat" data-target="2727" data-stat="books_analyzed" data-format="comma">0</div>
         <div class="tsm-corpus-card-unit">bestsellers analyzed</div>
         <div class="tsm-corpus-card-meta">
           <span>34,219 book-trope mappings</span>
@@ -397,5 +397,16 @@
   </div>
 </div></footer>
 <script src="../assets/page-event-tracker.js?v=20260514-9" defer></script>
+<script>
+/* hiw-live-stats: override frozen corpus fallbacks with real public-stats. */
+(function(){
+  var URL='https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/public-stats';
+  function apply(d){ if(!d||typeof d!=='object')return;
+    document.querySelectorAll('.tsm-corpus-card-stat[data-stat]').forEach(function(el){ var v=d[el.dataset.stat]; if(typeof v==='number'&&v>0){ el.dataset.target=String(v); if(el.dataset.animated) el.textContent=v.toLocaleString('en-US'); } });
+    document.querySelectorAll('[data-stat-text]').forEach(function(el){ var v=d[el.dataset.statText]; if(typeof v==='number'&&v>0) el.textContent=v.toLocaleString('en-US'); });
+  }
+  try{ fetch(URL,{mode:'cors'}).then(function(r){return r.ok?r.json():null;}).then(apply).catch(function(){}); }catch(e){}
+})();
+</script>
 </body>
 </html>
