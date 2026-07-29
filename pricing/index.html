@@ -284,6 +284,41 @@
   Angle    : What you get for $15. The moat justifies the price.
   ============================================================
 -->
+<!-- ─── LIVE BOARD add-on ──────────────────────── -->
+<style>
+  .lbp{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center;background:linear-gradient(135deg,rgba(139,92,246,.10),rgba(255,107,122,.10));border:1px solid var(--ts-rule);border-radius:20px;padding:32px}
+  .lbp .k{font-family:var(--ts-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ts-violet-dk)}
+  .lbp h3{font-family:var(--ts-serif);font-size:clamp(24px,2.4vw,32px);margin:10px 0 8px;color:var(--ts-ink);line-height:1.12}
+  .lbp p{color:var(--ts-mauve);font-size:16px;line-height:1.55;margin:0}
+  .lbp .price{font-family:var(--ts-serif);font-size:44px;color:var(--ts-ink);line-height:1}
+  .lbp .price i{font-style:normal;font-family:var(--ts-mono);font-size:14px;color:var(--ts-mauve-soft)}
+  .lbp ul{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
+  .lbp li{padding-left:20px;position:relative;font-size:15px;color:var(--ts-ink)}
+  .lbp li::before{content:"+";position:absolute;left:0;color:var(--ts-violet);font-family:var(--ts-mono);font-weight:700}
+  @media(max-width:760px){.lbp{grid-template-columns:1fr;gap:20px;padding:24px}}
+</style>
+<section class="section tight" style="padding-top:0" data-screen-label="Pricing · Live Board">
+  <div class="wrap">
+    <div class="lbp">
+      <div>
+        <span class="k">New · $7 / month add-on</span>
+        <h3>Keep your lane alive with the Live Board.</h3>
+        <p>Your Map is a snapshot of the market today. The Live Board keeps that exact lane updated as tropes rise and cool — so you write toward where readers are heading. Add it to any Map you own, and swap the lane once per book.</p>
+        <ul>
+          <li>Your bought lane, refreshed as the market moves</li>
+          <li>Swap the lane once per book</li>
+          <li>View-only — added right from your Map or library</li>
+        </ul>
+      </div>
+      <div style="text-align:center">
+        <div class="price">$7<i>&nbsp;/ mo</i></div>
+        <div style="margin-top:16px"><a class="btn btn-primary btn-lg" href="/library/">Turn a Map Live <span class="arrow">→</span></a></div>
+        <p style="font-size:13px;color:var(--ts-mauve-soft);margin-top:10px">Own a Map already? Add a Live Board to it from your library.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="tsm-corpus" aria-labelledby="tsm-corpus-heading-pricing">
   <div class="tsm-corpus-shell">
 
@@ -315,7 +350,7 @@
 
       <div class="tsm-corpus-card tsm-corpus-card--goodreads">
         <div class="tsm-corpus-card-label">Goodreads readers</div>
-        <div class="tsm-corpus-card-stat" data-target="9258" data-format="comma">0</div>
+        <div class="tsm-corpus-card-stat" data-target="18621" data-stat="shelf_signals_analyzed" data-format="comma">0</div>
         <div class="tsm-corpus-card-unit">shelf signals scanned</div>
         <div class="tsm-corpus-card-meta">
           <span>7,674 reviews mined</span>
@@ -326,7 +361,7 @@
 
       <div class="tsm-corpus-card tsm-corpus-card--amazon">
         <div class="tsm-corpus-card-label">Amazon supply</div>
-        <div class="tsm-corpus-card-stat" data-target="2531" data-format="comma">0</div>
+        <div class="tsm-corpus-card-stat" data-target="2727" data-stat="books_analyzed" data-format="comma">0</div>
         <div class="tsm-corpus-card-unit">bestsellers cross-checked</div>
         <div class="tsm-corpus-card-meta">
           <span>22,023 book-trope mappings</span>
@@ -337,7 +372,7 @@
 
       <div class="tsm-corpus-card tsm-corpus-card--reddit">
         <div class="tsm-corpus-card-label">Reader demand signals</div>
-        <div class="tsm-corpus-card-stat" data-target="9410" data-format="comma">0</div>
+        <div class="tsm-corpus-card-stat" data-target="18735" data-stat="demand_signals_analyzed" data-format="comma">0</div>
         <div class="tsm-corpus-card-unit">explicit asks parsed</div>
         <div class="tsm-corpus-card-meta">
           <span>Cross-platform</span>
@@ -745,6 +780,18 @@ window.TSM_SESSION_EMAIL = null;
     else { console.warn('Tropesmith module not loaded \u2014 cannot start Live Board checkout.'); }
   }
   launch();
+})();
+</script>
+<script>
+/* live corpus totals: override the frozen fallbacks with real public-stats (self-contained). */
+(function(){
+  var URL='https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/public-stats';
+  function fmt(n,mode){ if(mode==='abbreviated'){ if(n>=1e9)return (n/1e9).toFixed(1).replace(/\.0$/,'')+'B'; if(n>=1e6)return Math.round(n/1e6)+'M'; if(n>=1e3)return Math.round(n/1e3)+'K'; return String(n);} return n.toLocaleString('en-US'); }
+  function apply(d){ if(!d||typeof d!=='object')return;
+    document.querySelectorAll('.tsm-corpus-card-stat[data-stat]').forEach(function(el){ var v=d[el.dataset.stat]; if(typeof v==='number'&&v>0){ el.dataset.target=String(v); if(el.dataset.animated) el.textContent=fmt(v, el.dataset.format||'comma'); } });
+    document.querySelectorAll('[data-stat-text]').forEach(function(el){ var v=d[el.dataset.statText]; if(typeof v==='number'&&v>0) el.textContent=v.toLocaleString('en-US'); });
+  }
+  try{ fetch(URL,{mode:'cors'}).then(function(r){return r.ok?r.json():null;}).then(apply).catch(function(){}); }catch(e){}
 })();
 </script>
 </body>
