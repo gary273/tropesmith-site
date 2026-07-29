@@ -400,6 +400,45 @@
   </div>
 </section>
 
+<!-- ─── LIVE BOARD ───────────────────────────── -->
+<style>
+  .lb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+  .lb-cell{background:rgba(255,255,255,.05);border:1px solid var(--ts-rule-on-ink);border-radius:14px;padding:18px 18px 20px;display:flex;flex-direction:column;gap:5px}
+  .lb-t{font-family:var(--ts-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ts-coral)}
+  .lb-b{font-family:var(--ts-serif);font-size:17px;color:var(--ts-cream);line-height:1.25}
+  .lb-s{font-size:14px;color:rgba(255,249,243,.62);line-height:1.45}
+  .lb-head{display:inline-flex;align-items:center;gap:9px;font-family:var(--ts-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,249,243,.7);margin-top:30px}
+  .lb-dot{width:8px;height:8px;border-radius:50%;background:#23B98A;box-shadow:0 0 0 0 rgba(35,185,138,.6);animation:lbpulse 2.4s infinite;display:inline-block}
+  @keyframes lbpulse{0%{box-shadow:0 0 0 0 rgba(35,185,138,.55)}70%{box-shadow:0 0 0 9px rgba(35,185,138,0)}100%{box-shadow:0 0 0 0 rgba(35,185,138,0)}}
+  @media(prefers-reduced-motion:reduce){.lb-dot{animation:none}}
+  .lb-foot{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:30px}
+  .lb-price{font-family:var(--ts-serif);font-size:32px;color:var(--ts-cream);display:inline-flex;align-items:baseline;gap:5px}
+  .lb-price b{background:var(--ts-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+  .lb-price i{font-style:normal;font-family:var(--ts-mono);font-size:13px;color:rgba(255,249,243,.6)}
+  .lb-note{color:rgba(255,249,243,.66);font-size:14.5px;flex:1;min-width:220px;line-height:1.5;margin:0}
+  @media(max-width:720px){.lb-grid{grid-template-columns:1fr}}
+</style>
+<section class="section ink" data-screen-label="01 Home · Live Board">
+  <div class="wrap">
+    <div class="flow" style="max-width:820px">
+      <span class="eyebrow">New · Your lane, kept alive</span>
+      <h2 class="h-section" style="margin-top:18px">A Map is today's snapshot.<br/>The <span class="grad-text">Live Board</span> keeps it moving.</h2>
+      <p class="copy" style="font-size:19px">Tropes rise, crest and cool. The Live Board keeps your exact lane updated as the market shifts — so you write toward where readers are heading, not where they were when you started. View-only, swap the lane once per book.</p>
+    </div>
+    <div class="lb-head"><span class="lb-dot"></span> Live Board · Steamy Workplace Romcom · refreshed continuously</div>
+    <div class="lb-grid">
+      <div class="lb-cell"><span class="lb-t">Movement this cycle</span><span class="lb-b">Fake Dating → top of stack</span><span class="lb-s">overtook Forced Proximity on demand.</span></div>
+      <div class="lb-cell"><span class="lb-t">Heating up</span><span class="lb-b">Workplace + Rivals-to-Lovers</span><span class="lb-s">a fresh pairing gaining pull.</span></div>
+      <div class="lb-cell"><span class="lb-t">Ease off</span><span class="lb-b">Secret Baby</span><span class="lb-s">demand slipping in this lane.</span></div>
+    </div>
+    <div class="lb-foot">
+      <span class="lb-price"><b>$7</b><i>/ month</i></span>
+      <p class="lb-note">Add it to any Map you own — right from the Map, or your library. Every Map can become a Live Board.</p>
+      <a class="btn btn-primary btn-lg" href="intake/index.html">Build a Map to begin <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
 <!--
   ============================================================
   TROPESMITH — Corpus Section · HOMEPAGE variant ("The proof")
