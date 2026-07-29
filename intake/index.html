@@ -591,8 +591,8 @@
 </style>
 <script>
 (function(){
-  var API_BASE='/api/functions/v1', MAX=8;
-  var ready=fetch(API_BASE+'/list-tropes?genre=romance',{cache:'default'})
+  var MAX=8;
+  var ready=fetch('https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/list-tropes?genre=romance',{cache:'default'})
     .then(function(r){return r.ok?r.json():{by_category:{}};})
     .then(function(d){var out=[],bc=(d&&d.by_category)||{};Object.keys(bc).forEach(function(cat){(bc[cat]||[]).forEach(function(t){out.push({name:t.display_name,cat:cat,hay:(t.display_name+' '+((t.aliases||[]).join(' '))).toLowerCase()});});});out.sort(function(a,b){return a.name.localeCompare(b.name);});return out;})
     .catch(function(){return[];});
