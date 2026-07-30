@@ -1,3 +1,7 @@
+# Force apex domain (SEO: one canonical host)
+https://www.tropesmith.com/*  https://tropesmith.com/:splat  301
+https://tropesmith-site.pages.dev/*  https://tropesmith.com/:splat  301
+
 # Cloudflare Pages _redirects
 # Routes short links through the Supabase 'go' edge function for click tracking.
 # Pattern: /go/<slug> → Supabase /functions/v1/go?slug=<slug> (302, logs click, then redirects to intake)
