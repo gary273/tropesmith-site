@@ -746,6 +746,18 @@
       var v = data[el.dataset.statText];
       if (typeof v === 'number' && v > 0) el.textContent = v.toLocaleString('en-US');
     });
+    // Live BookTok 'hot this month' chips (top tags by plays from public-stats).
+    if (Array.isArray(data.top_hashtags) && data.top_hashtags.length) {
+      var track = document.querySelector('.tsm-corpus-hashtag-track');
+      if (track) {
+        track.innerHTML = data.top_hashtags.slice(0, 9).map(function(h) {
+          var n = Number(h.plays) || 0;
+          var p = n >= 1000000 ? Math.round(n / 1000000) + 'M' : Math.round(n / 1000) + 'K';
+          var name = String(h.tag || '').replace(/[^a-z0-9_]/gi, '');
+          return '<span class="tsm-hashtag"><span class="tsm-hashtag-name">#' + name + '</span> <span class="tsm-hashtag-plays">' + p + ' plays</span></span>';
+        }).join('');
+      }
+    }
   }
   try {
     fetch(STATS_URL, { mode: 'cors' })
