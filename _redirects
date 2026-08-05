@@ -14,3 +14,6 @@ https://tropesmith-site.pages.dev/*  https://tropesmith.com/:splat  301
 # Trope Pulse public archive
 /pulse/:sub/:date  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-archive?subgenre=:sub&date=:date  200
 /pulse/:sub  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-archive?subgenre=:sub  200
+
+# lane-score free tool: proxy to the Supabase edge fn (TS-0490)
+/lane-score/:sub  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/lane-score?subgenre_id=:sub  200
