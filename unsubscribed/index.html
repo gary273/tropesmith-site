@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Email preferences — Tropesmith</title>
+<meta name="description" content="Tropesmith email preferences — unsubscribe confirmation." />
+<meta name="robots" content="noindex" />
+<link rel="canonical" href="https://tropesmith.com/unsubscribed" />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<link rel="icon" type="image/png" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png" />
+<link rel="apple-touch-icon" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css?v=20260625e" />
+  <script src="/assets/analytics.js?v=20260627" defer></script>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="nav-shell"><div class="wrap nav">
+  <a class="brand" href="/" aria-label="Tropesmith — home"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="/">Home</a>
+    <a href="/how-it-works/">How it works</a>
+    <a href="/sample/">Sample Maps</a>
+    <a href="/pricing/">Pricing</a>
+  </nav>
+  <div class="nav-cta">
+    <a class="btn btn-link" href="/login/" style="margin-right:12px;">Sign in</a><a class="btn btn-primary btn-sm" href="/intake/">Build my Map <span class="arrow">→</span></a>
+  </div>
+</div></div>
+
+<main id="main">
+
+<section class="section" style="padding:80px 0 64px">
+  <div class="wrap" style="max-width:640px;text-align:center">
+    <span class="eyebrow" style="justify-content:center" data-eyebrow>Email preferences</span>
+    <h1 class="h-display" style="margin:18px 0 14px" data-title>You're <span class="grad-text">unsubscribed</span>.</h1>
+    <p class="lede lg" style="margin:0 auto 28px" data-copy>You won't receive any more Tropesmith product update emails. Your Maps and account are unaffected.</p>
+    <div class="hero-cta" style="justify-content:center">
+      <a class="btn btn-primary btn-lg" href="/library/">Open my Library <span class="arrow">→</span></a>
+      <a class="btn btn-lg" href="mailto:support@tropesmith.com?subject=Email%20preferences">Contact support</a>
+    </div>
+    <p class="micro" style="margin-top:24px">Changed your mind? Reply to any of our emails or write to support and we'll switch updates back on.</p>
+  </div>
+</section>
+<script>
+(function(){
+  var s=(new URLSearchParams(location.search).get("s")||"ok").toLowerCase();
+  var T={
+    ok:{eyebrow:"Email preferences",title:"You're <span class=\"grad-text\">unsubscribed</span>.",copy:"You won't receive any more Tropesmith product update emails. Your Maps and account are unaffected."},
+    invalid:{eyebrow:"Link problem",title:"This unsubscribe link is <span class=\"grad-text\">invalid</span>.",copy:"The link doesn't match our records. Use the unsubscribe link from your most recent Tropesmith email, or contact support and we'll do it for you."},
+    missing:{eyebrow:"Link problem",title:"This unsubscribe link is <span class=\"grad-text\">incomplete</span>.",copy:"The link is missing information. Use the unsubscribe link from your most recent Tropesmith email, or contact support and we'll do it for you."}
+  }[s]||null;
+  if(!T) return;
+  document.querySelector("[data-eyebrow]").textContent=T.eyebrow;
+  document.querySelector("[data-title]").innerHTML=T.title;
+  document.querySelector("[data-copy]").textContent=T.copy;
+})();
+</script>
+
+</main>
+
+<!-- ─── PARTNERS BANNER ──────────────────────────────────────────── -->
+<section class="section tight ts-partners" aria-label="Partner services">
+  <div class="wrap ts-partners-row">
+    <p class="ts-partners-text">We are proudly partnered with these other amazing author services.</p>
+    <div class="ts-partners-logos">
+      <a class="ts-partner ts-partner--dark" href="https://authorsstarport.com" target="_blank" rel="noopener" aria-label="Authors Starport">
+        <img src="/partners/starport.png" alt="Authors Starport" loading="lazy" width="1111" height="300" />
+      </a>
+      <a class="ts-partner ts-partner--light" href="https://plotprose.com" target="_blank" rel="noopener" aria-label="Plot Prose · Coral Hart">
+        <img src="/partners/plotprose.png" alt="Plot Prose · Coral Hart" loading="lazy" width="1080" height="566" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot"><div class="wrap">
+  <div class="foot-grid">
+    <div><a class="brand" href="/" style="color:var(--ts-cream)"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
+      <p class="foot-blurb"><b>Market intelligence for romance authors.</b> We read the market so you can write the book.</p></div>
+    <div><h6>Product</h6><a href="/how-it-works/">How it works</a><a href="/sample/">Sample Maps</a><a href="/pricing/">Pricing</a><a href="/intake/">Get your Map</a></div>
+    <div><h6>Company</h6><a href="mailto:support@tropesmith.com">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div>
+    <div><h6>Coming soon</h6><a href="#">Trope Pulse · weekly</a></div>
+  </div>
+  <div class="wrap foot-bar" style="padding-left:0;padding-right:0">
+    <span>© <span data-year>2026</span> Tropesmith. All rights reserved.</span>
+    <span>Data refreshed monthly · For indie romance</span>
+  </div>
+</div></footer>
+
+<script>
+document.querySelectorAll('[data-year]').forEach(function(el){el.textContent=new Date().getFullYear();});
+(function(){
+  var reason = new URLSearchParams(location.search).get('reason');
+  var copy = {
+    missing: "This Map link is incomplete — it's missing its access key. Use the link from your delivery email, or sign in to your Library.",
+    invalid: "This Map link isn't valid any more. It may have been replaced with a newer one — check your latest delivery email or your Library.",
+    revoked: "Access on this Map link has been turned off. If you believe this is a mistake, contact support and we'll sort it fast.",
+    temporary: "We hit a temporary hiccup opening your Map. Give it a minute and try your link again."
+  };
+  var el = document.querySelector('[data-reason-copy]');
+  if (el && reason && copy[reason]) el.textContent = copy[reason];
+})();
+</script>
+</body>
+</html>
