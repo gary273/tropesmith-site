@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Trope Pulse — what readers want this week | TropeSmith</title>
+<meta name="description" content="The weekly Trope Pulse: which tropes are surging in your romance lane right now, from TropeSmith's live demand corpus. Free for authors.">
+<link rel="icon" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png">
+<style>
+:root{--bg:#090a20;--card:#12142e;--line:#23264a;--ink:#EDEEF7;--soft:#9BA0C4;
+--teal:#4DD0E1;--purple:#8B5CF6;--coral:#FF6B7A;--gold:#FFB84D;--green:#23B98A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{max-width:700px;margin:0 auto;padding:0 20px}
+header.page{padding:40px 0 6px}
+.logo{height:38px;margin-bottom:20px}
+.eyebrow{font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin:0 0 12px}
+h1{font-size:clamp(26px,5vw,38px);font-weight:700;line-height:1.08;letter-spacing:-.02em;margin:0 0 10px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--teal),var(--purple),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
+p{margin:0 0 12px}
+.lede{color:var(--soft);font-size:16.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin:16px 0}
+select,input[type=email]{font:inherit;padding:11px 13px;border:1px solid var(--line);border-radius:9px;background:#0d0f26;color:var(--ink);width:100%}
+button{font:600 15px/1 system-ui,sans-serif;background:linear-gradient(90deg,var(--purple),var(--coral));color:#fff;border:0;border-radius:9px;padding:13px 22px;cursor:pointer;width:100%}
+button:disabled{opacity:.5;cursor:default}
+.row{display:grid;gap:10px;margin-top:10px}
+@media(min-width:560px){.row{grid-template-columns:1fr 1fr auto}.row button{width:auto}}
+.msg{font-size:14px;color:var(--coral);margin-top:10px;min-height:18px}
+.quiet{font-size:12.5px;color:var(--soft)}
+.hidden{display:none}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:10px 0}
+th{text-align:left;font:600 10.5px/1.3 ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);padding:7px 10px 7px 0;border-bottom:1px solid var(--line)}
+td{padding:9px 10px 9px 0;border-bottom:1px solid var(--line)}
+td.num{font-family:ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.up{color:var(--green);font-weight:600}
+.down{color:var(--coral);font-weight:600}
+.flat{color:var(--soft)}
+.new{font:600 10px/1 ui-monospace,Menlo,monospace;background:rgba(77,208,225,.15);color:var(--teal);border-radius:20px;padding:3px 8px}
+.cta{background:linear-gradient(135deg,#161837,#1c1040);border:1px solid var(--line);border-radius:14px;padding:24px;margin:24px 0}
+.cta h2{margin:0 0 8px;font-size:19px}
+.cta p{color:var(--soft);font-size:14.5px}
+.cta .pill{display:inline-block;background:rgba(255,184,77,.15);color:var(--gold);font:600 12px/1 ui-monospace,Menlo,monospace;border-radius:20px;padding:6px 12px;margin-bottom:10px}
+footer{padding:30px 0 44px;color:var(--soft);font-size:13px}
+a{color:var(--teal)}
+</style>
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
+<link rel="canonical" href="https://tropesmith.com/pulse/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://tropesmith.com/pulse/", "name": "The Trope Pulse — what readers want this week | TropeSmith", "publisher": {"@type": "Organization", "name": "Tropesmith", "url": "https://tropesmith.com"}, "description": "The weekly Trope Pulse: which tropes are surging in your romance lane right now, from TropeSmith"}</script>
+</head>
+<body>
+<div class="w">
+<header class="page">
+<img class="logo" src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="TropeSmith">
+<p class="eyebrow">The Trope Pulse · updates weekly</p>
+<h1>What readers want <em>this week</em> — in your lane.</h1>
+<p class="lede">TropeSmith tracks trope demand across romance lanes, every week, from live reader signals. Pick your lane, get this week's pulse — and what's surging versus last week.</p>
+</header>
+
+<div id="form" class="card">
+<h2 style="margin:0 0 8px;font-size:18px">Get your lane's pulse</h2>
+<div class="row">
+<select id="lane"><option value="">Loading lanes…</option></select>
+<input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+<button id="go">Show this week's pulse</button>
+</div>
+<p class="quiet" style="margin-top:10px">Free. You'll also join the TropeSmith early-access list — first in when we open, unsubscribe anytime.</p>
+<p class="msg" id="formMsg"></p>
+</div>
+
+<div id="result" class="hidden">
+<div class="card" style="border-top:3px solid var(--teal)">
+<h2 style="margin:0 0 4px;font-size:19px" id="laneTitle"></h2>
+<p class="quiet" id="laneMeta"></p>
+<table><thead><tr><th>Trope</th><th>Share of lane buzz</th><th>vs last week</th></tr></thead><tbody id="rows"></tbody></table>
+<p class="quiet" id="stamp"></p>
+</div>
+
+<div class="cta">
+<span class="pill">EARLY ACCESS</span>
+<h2>This is one lane, one week. TropeSmith is all of them, always.</h2>
+<p>Live trope demand, lane maps, and market gaps across every romance lane — updated continuously. You're on the early-access list: you'll be first in the door when we open.</p>
+</div>
+</div>
+
+<footer>Data: TropeSmith live demand corpus — weekly reader-signal tracking. No estimates, no invented numbers.</footer>
+</div>
+
+<script>
+(function () {
+	var EP = "https://kzkehpgnqofhyskyftas.supabase.co/functions/v1/ts-trope-pulse";
+	function $(id) { return document.getElementById(id); }
+	function post(body) {
+		return fetch(EP, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) })
+			.then(function (r) { return r.json(); });
+	}
+	function esc(s) { var d = document.createElement("div"); d.textContent = String(s); return d.innerHTML; }
+	function tropeName(t) { return String(t).replace(/-/g, " "); }
+
+	post({ action: "lanes" }).then(function (r) {
+		if (!r.ok) { $("formMsg").textContent = "Couldn't load lanes — refresh to try again."; return; }
+		var sel = $("lane");
+		sel.innerHTML = '<option value="">Pick your lane…</option>';
+		r.lanes.forEach(function (l) {
+			var o = document.createElement("option");
+			o.value = l.lane; o.textContent = l.display_name;
+			sel.appendChild(o);
+		});
+		var pre = new URLSearchParams(location.search).get("lane");
+		if (pre) sel.value = pre;
+	}).catch(function () { $("formMsg").textContent = "Couldn't load lanes — refresh to try again."; });
+
+	$("go").onclick = function () {
+		var lane = $("lane").value, email = $("email").value.trim();
+		if (!lane) { $("formMsg").textContent = "Pick your lane first."; return; }
+		if (!email || email.indexOf("@") < 0) { $("formMsg").textContent = "Enter a valid email address."; return; }
+		$("go").disabled = true; $("formMsg").textContent = "";
+		post({ action: "pulse", email: email, lane: lane }).then(function (r) {
+			$("go").disabled = false;
+			if (!r.ok) { $("formMsg").textContent = r.reason === "rate_limited" ? "Easy there — try again in an hour." : "Something went wrong — please try again."; return; }
+			render(r.pulse);
+		}).catch(function () { $("go").disabled = false; $("formMsg").textContent = "Network error — please try again."; });
+	};
+
+	function render(p) {
+		$("form").classList.add("hidden");
+		$("result").classList.remove("hidden");
+		$("laneTitle").textContent = p.display_name + " — this week's pulse";
+		$("laneMeta").textContent = "Week of " + p.week_start + " · share of this lane's reader buzz";
+		var tb = $("rows"); tb.innerHTML = "";
+		(p.tropes || []).forEach(function (t) {
+			var d = t.delta_pct;
+			var dHtml = d === null ? '<span class="new">NEW</span>'
+				: d > 0 ? '<span class="up">▲ +' + d + '</span>'
+				: d < 0 ? '<span class="down">▼ ' + d + '</span>'
+				: '<span class="flat">—</span>';
+			tb.insertAdjacentHTML("beforeend", "<tr><td>" + esc(tropeName(t.trope)) + "</td><td class=num>" + t.share_pct + "%</td><td class=num>" + dHtml + "</td></tr>");
+		});
+		$("stamp").textContent = "Generated " + new Date(p.generated_at).toLocaleDateString() + " · refreshes every Monday.";
+		window.scrollTo({ top: 0 });
+	}
+})();
+</script>
+</body>
+</html>

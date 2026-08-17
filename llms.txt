@@ -1,0 +1,17 @@
+# Tropesmith
+> Trope research and market intelligence for romance authors: live BookTok demand, per-trope reader reach, subgenre market snapshots, KDP keyword data.
+
+## Start here
+- https://tropesmith.com/romance-tropes/ : Romance tropes pillar — every major trope with reader-demand data
+- https://tropesmith.com/booktok-books/ : BookTok books data page
+- https://tropesmith.com/romance-tropes-list/ : Romance tropes list
+- https://tropesmith.com/dark-romance-books/ : Dark romance books
+- https://tropesmith.com/what-is-dark-romance/ : What is dark romance
+- https://tropesmith.com/kdp-keywords/ : KDP keywords for romance
+- https://tropesmith.com/market/ : Book market snapshots by subgenre (live data)
+- https://tropesmith.com/blog/ : Blog — romance market data and writing to market
+- https://tropesmith.com/how-it-works/ : How Tropesmith works
+- https://tropesmith.com/pricing/ : Pricing
+
+## Sitemap
+- https://tropesmith.com/sitemap.xml
