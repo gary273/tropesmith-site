@@ -17,3 +17,6 @@ https://tropesmith-site.pages.dev/*  https://tropesmith.com/:splat  301
 
 # lane-score free tool: proxy to the Supabase edge fn (TS-0490)
 /lane-score/*  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/lane-score/:splat  302
+
+# Renamed/removed lane (GSC 404 IN-0699)
+/market/mystery-cozy-tropes/  /market/mystery-cozy/  301
