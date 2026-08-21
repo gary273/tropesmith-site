@@ -7,5 +7,6 @@ Disallow: /status/
 Disallow: /order-complete/
 Disallow: /api/
 Disallow: /go/
+Disallow: /partials/
 
 Sitemap: https://tropesmith.com/sitemap.xml
