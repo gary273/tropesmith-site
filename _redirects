@@ -11,9 +11,10 @@ https://tropesmith-site.pages.dev/*  https://tropesmith.com/:splat  301
 /go         https://tropesmith.com/?utm_source=go_unknown                          302
 
 
-# Trope Pulse public archive
-/pulse/:sub/:date  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-archive?subgenre=:sub&date=:date  200
-/pulse/:sub  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-archive?subgenre=:sub  200
+# Trope Pulse public archive: DO NOT put a rule here either. The two status-200 rules that
+# used to live on these lines never worked — CF Pages cannot 200-proxy to an external origin
+# — so /pulse/<sub> 404'd from the day it shipped. IN-0778 replaced them with a same-origin
+# Pages Function (functions/pulse/[[path]].js). _redirects is evaluated BEFORE Functions.
 
 # lane-score: DO NOT put a redirect here. IN-0778 replaced the TS-0490 302 with a
 # same-origin Pages Function (functions/lane-score/[[lane]].js) that fetches the

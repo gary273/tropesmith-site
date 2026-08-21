@@ -479,7 +479,16 @@ export async function handle(context) {
 	const segs = [].concat(context.params.lane || []).filter(Boolean);
 	const fmt = (url.searchParams.get('format') || '').toLowerCase();
 	const accept = request.headers.get('accept') || '';
-	const wantsHtml = fmt === 'html' || (fmt !== 'json' && accept.includes('text/html'));
+	// HTML IS THE DEFAULT, deliberately. Googlebot, ClaudeBot and GPTBot all send an
+	// `Accept` of star-slash-star; the first cut of this Function read that as "a machine"
+	// and served them raw JSON, so no crawler ever saw the page, the Dataset schema, the
+	// canonical or the attribution — i.e. the link magnet earned nothing.
+	// JSON now requires an EXPLICIT signal: ?format=json, or an Accept that asks for
+	// application/json and does NOT accept text/html. Every JSON consumer in the estate was
+	// moved onto ?format=json BEFORE this default flipped (self-heal monitor x2,
+	// ai-radar/verify_all_findings.sh, and the two scripts that rewrite the monitor).
+	const wantsJson = fmt === 'json' || (fmt !== 'html' && accept.includes('application/json') && !accept.includes('text/html'));
+	const wantsHtml = !wantsJson;
 
 	let raw = decodeURIComponent(segs[0] || url.searchParams.get('subgenre_id') || '').trim().toLowerCase();
 

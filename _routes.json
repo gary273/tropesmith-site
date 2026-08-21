@@ -4,7 +4,11 @@
     "/lane-score",
     "/lane-score/*",
     "/embed",
-    "/embed/*"
+    "/embed/*",
+    "/pulse/*"
   ],
-  "exclude": []
+  "exclude": [
+    "/pulse/",
+    "/pulse/index.html"
+  ]
 }
