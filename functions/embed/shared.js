@@ -41,7 +41,11 @@ async function cachedJson(url, key, ttl) {
 		} catch (_e) {}
 	}
 	try {
-		const r = await fetch(url, { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(25000) });
+		const r = await fetch(url, {
+			headers: { accept: 'application/json' },
+			signal: AbortSignal.timeout(20000),
+			cf: { cacheTtl: ttl, cacheEverything: true }
+		});
 		const text = await r.text();
 		const data = JSON.parse(text);
 		if (r.ok) {
@@ -164,7 +168,7 @@ export async function handle(context) {
 
 	const common = {
 		'access-control-allow-origin': '*',
-		'cache-control': 'public, max-age=900, s-maxage=1800',
+		'cache-control': 'public, max-age=900, s-maxage=1800, stale-while-revalidate=86400',
 		'x-robots-tag': 'noindex'
 	};
 

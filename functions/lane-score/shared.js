@@ -107,7 +107,14 @@ async function cachedJson(url, key, ttl) {
 	}
 	let r;
 	try {
-		r = await fetch(url, { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(25000) });
+		r = await fetch(url, {
+			headers: { accept: 'application/json' },
+			signal: AbortSignal.timeout(20000),
+			/* cacheEverything is the reliable subrequest cache; caches.default below is a
+			   second layer. Without this a cold Supabase isolate (~20s) is paid on every
+			   miss, which is the IN-0753 regression we must not reintroduce. */
+			cf: { cacheTtl: ttl, cacheEverything: true }
+		});
 	} catch (e) {
 		return { data: null, error: String(e && e.message ? e.message : e) };
 	}
@@ -130,7 +137,7 @@ function jsonResponse(body, status) {
 		status: status || 200,
 		headers: {
 			'content-type': 'application/json; charset=utf-8',
-			'cache-control': 'public, max-age=300, s-maxage=900',
+			'cache-control': 'public, max-age=300, s-maxage=900, stale-while-revalidate=3600',
 			'access-control-allow-origin': '*',
 			'x-lane-score-origin': 'tropesmith-pages-function'
 		}
@@ -485,7 +492,7 @@ export async function handle(context) {
 		if (!wantsHtml) return jsonResponse({ ok: false, error: 'valid subgenre_id required', lanes: Object.keys(LANES) }, 400);
 		const st = await cachedJson(STATS, 'stats', 1800);
 		return new Response(indexPage(st.data), {
-			headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=600, s-maxage=3600' }
+			headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=600, s-maxage=3600, stale-while-revalidate=86400' }
 		});
 	}
 
@@ -499,6 +506,9 @@ export async function handle(context) {
 			: jsonResponse({ ok: false, error: 'valid subgenre_id required' }, 400);
 	}
 
+	/* Fire both upstreams together: serialising them added the public-stats latency on
+	   top of the lane-score cold start (25s measured on the first UAT run). */
+	const stP = wantsHtml ? cachedJson(STATS, 'stats', 1800) : null;
 	const up = await cachedJson(EDGE + '/' + encodeURIComponent(raw), 'ls-' + raw, 900);
 
 	if (!wantsHtml) {
@@ -519,12 +529,12 @@ export async function handle(context) {
 
 	const meta = LANES[raw];
 	const name = (meta && meta[0]) || d.display_name || raw;
-	const st = await cachedJson(STATS, 'stats', 1800);
+	const st = (await stP) || { data: null };
 
 	return new Response(lanePage(raw, name, d, st.data, !!(meta && meta[1])), {
 		headers: {
 			'content-type': 'text/html; charset=utf-8',
-			'cache-control': 'public, max-age=600, s-maxage=3600',
+			'cache-control': 'public, max-age=600, s-maxage=3600, stale-while-revalidate=86400',
 			'x-lane-score-origin': 'tropesmith-pages-function'
 		}
 	});
