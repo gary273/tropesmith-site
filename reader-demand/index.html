@@ -92,7 +92,39 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
       },
       "publisher": {
         "@id": "https://tropesmith.com/#organization"
-      }
+      },
+      "temporalCoverage": "2026-03-23/2026-07-06",
+      "dateModified": "2026-08-21",
+      "measurementTechnique": "Each romance lane's share of all tracked romance trope mentions over an 8-week window, plus the change in that share versus the preceding 8 weeks, in percentage points. The window ends at least 6 weeks back because a market week keeps accruing mentions for 6+ capture-weeks, so recent weeks are the least mature. Lanes are selected by share size, never by movement.",
+      "variableMeasured": [
+        {
+          "@type": "PropertyValue",
+          "name": "share_of_romance_reader_conversation",
+          "unitText": "percent",
+          "description": "Percentage of all tracked romance trope mentions in the window that belong to this subgenre lane."
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "share_change",
+          "unitText": "percentage points",
+          "description": "Change in that share versus the preceding eight-week window. Reported in percentage points, never as a percentage change."
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "mentions",
+          "unitText": "count",
+          "description": "Tracked reader mentions for the lane in the window."
+        }
+      ],
+      "distribution": [
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "application/json",
+          "contentUrl": "https://coral-ticker.plotprose-scraper.workers.dev/trope-ticker.json",
+          "name": "Live trope ticker payload"
+        }
+      ],
+      "creativeWorkStatus": "Published"
     }
   ]
 }
