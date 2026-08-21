@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "include": [
+    "/lane-score",
+    "/lane-score/*",
+    "/embed",
+    "/embed/*"
+  ],
+  "exclude": []
+}
