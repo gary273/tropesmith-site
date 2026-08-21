@@ -814,7 +814,13 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
         }
       });
     }, { threshold: 0.4 });
+    var tsmReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     document.querySelectorAll('.tsm-corpus-card-stat').forEach(function(el) {
+      // IN-0778: the final value ships in the HTML so a no-JS crawler reads a real number.
+      // Reset to zero HERE, where only a browser sees it, so the count-up still starts at zero
+      // and the tile never flashes final -> 0 -> final.
+      if (tsmReduce) { el.dataset.animated = '1'; return; }
+      el.textContent = formatNumber(0, el.dataset.format || 'comma');
       observer.observe(el);
     });
   } else {
