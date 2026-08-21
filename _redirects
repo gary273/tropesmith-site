@@ -15,8 +15,11 @@ https://tropesmith-site.pages.dev/*  https://tropesmith.com/:splat  301
 /pulse/:sub/:date  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-archive?subgenre=:sub&date=:date  200
 /pulse/:sub  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-archive?subgenre=:sub  200
 
-# lane-score free tool: proxy to the Supabase edge fn (TS-0490)
-/lane-score/*  https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/lane-score/:splat  302
+# lane-score: DO NOT put a redirect here. IN-0778 replaced the TS-0490 302 with a
+# same-origin Pages Function (functions/lane-score/[[lane]].js) that fetches the
+# Supabase edge fn server-side, so the shareable URL stays tropesmith.com. _redirects
+# is evaluated BEFORE Functions, so re-adding a /lane-score/* rule here silently sends
+# every shared link back off-site and re-breaks the link magnet (TS-0540 regression class).
 
 # Renamed/removed lane (GSC 404 IN-0699)
 /market/mystery-cozy-tropes/  /market/mystery-cozy/  301

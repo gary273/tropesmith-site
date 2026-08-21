@@ -16,6 +16,13 @@
   ! X-Frame-Options
   Content-Security-Policy: frame-ancestors 'self' https://plotprose.com https://www.plotprose.com https://coralhart.com https://www.coralhart.com
 
+# The Live Board embed is meant to be framed by anyone (IN-0778) — the attribution
+# link inside it is the licence.
+/embed/*
+  ! X-Frame-Options
+  Content-Security-Policy: frame-ancestors *
+  Access-Control-Allow-Origin: *
+
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 

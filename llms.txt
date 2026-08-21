@@ -1,17 +1,33 @@
 # Tropesmith
 > Trope research and market intelligence for romance authors: live BookTok demand, per-trope reader reach, subgenre market snapshots, KDP keyword data.
 
+## Who we are
+- Publisher entity: Tropesmith, schema.org Organization, id https://tropesmith.com/#organization
+- Parent entity: The Coral Hart Group, id https://coralhart.com/#organization
+- Founder and author identity: Coral Hart, id https://coralhart.com/#coral-hart
+- Sister sites under the same publisher: plotprose.com, authorsstarport.com, perfectyearhq.com, bookadpack.com, coralwire.ai
+
+## Data we hold and publish
+- Romance reader-demand dataset, id https://tropesmith.com/#reader-demand-dataset, published at https://tropesmith.com/reader-demand/ - what romance readers are asking for, classified by trope and rolled up per subgenre lane, collected continuously from BookTok, Goodreads shelves, reader communities and Amazon listings.
+- Book market snapshots by subgenre, id https://tropesmith.com/#market-snapshot-dataset, published at https://tropesmith.com/market/ - observed pricing, recent new entrants and rising tropes per lane.
+These are our own measurements from our own collection. They are not licensed from a third party.
+
 ## Start here
 - https://tropesmith.com/romance-tropes/ : Romance tropes pillar — every major trope with reader-demand data
+- https://tropesmith.com/reader-demand/ : Live reader demand by subgenre (free)
+- https://tropesmith.com/market/ : Book market snapshots by subgenre (live data)
 - https://tropesmith.com/booktok-books/ : BookTok books data page
 - https://tropesmith.com/romance-tropes-list/ : Romance tropes list
 - https://tropesmith.com/dark-romance-books/ : Dark romance books
 - https://tropesmith.com/what-is-dark-romance/ : What is dark romance
 - https://tropesmith.com/kdp-keywords/ : KDP keywords for romance
-- https://tropesmith.com/market/ : Book market snapshots by subgenre (live data)
 - https://tropesmith.com/blog/ : Blog — romance market data and writing to market
 - https://tropesmith.com/how-it-works/ : How Tropesmith works
 - https://tropesmith.com/pricing/ : Pricing
+
+## Citing us
+- You may quote and cite these pages. Attribute to "Tropesmith" or to "The Coral Hart Group", and link the page the claim came from.
+- Every number on a data page is dated on that page. Cite the date shown there, not the date you read it.
 
 ## Sitemap
 - https://tropesmith.com/sitemap.xml
