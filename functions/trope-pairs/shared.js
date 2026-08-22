@@ -41,12 +41,17 @@ function verdict(asks, books) {
 	return ['crowded', 'Well served', r.toFixed(1) + ' asks per published title'];
 }
 
+/* The true ratio, used for the verdict. Undefined at zero supply, hence the Infinity. */
 function ratio(p) {
 	return p[3] === 0 ? Infinity : p[2] / p[3];
 }
 
+/* Ranking uses asks / (titles + 1) instead. Ranking on the true ratio sorts every
+   zero-supply pairing to the top regardless of how few readers asked, which buries the
+   pairings with 300 asks against 14 titles under pairings with 6 asks against none. The
+   +1 keeps a genuine zero at the top only when the demand behind it is genuinely large. */
 function sortByGap(a, b) {
-	const ra = ratio(a), rb = ratio(b);
+	const ra = a[2] / (a[3] + 1), rb = b[2] / (b[3] + 1);
 	if (ra === rb) return b[2] - a[2];
 	return rb - ra;
 }
@@ -115,7 +120,21 @@ function indexPage() {
 	const best = [];
 	for (const l of LANES) for (const p of PAIRS[l]) best.push([l, p]);
 	best.sort((a, b) => sortByGap(a[1], b[1]));
-	const top = best.slice(0, 12);
+	/* One row per lane and at most two per trope. Without this the table is five rows of
+	   "Whodunit" from five different mystery lanes: true, but it reads as one finding
+	   repeated rather than twelve, and it hides every romance lane below the fold. */
+	const seenLane = new Set();
+	const tropeUse = {};
+	const top = [];
+	for (const [l, p] of best) {
+		if (top.length >= 12) break;
+		if (seenLane.has(l)) continue;
+		if ((tropeUse[p[0]] || 0) >= 2 || (tropeUse[p[1]] || 0) >= 2) continue;
+		seenLane.add(l);
+		tropeUse[p[0]] = (tropeUse[p[0]] || 0) + 1;
+		tropeUse[p[1]] = (tropeUse[p[1]] || 0) + 1;
+		top.push([l, p]);
+	}
 
 	const ld = [
 		app({
@@ -200,7 +219,7 @@ function indexPage() {
 <div class="cell"><span class="t">Titles on the supply side</span><span class="b">${num(CORPUS.tagged_titles)}</span><span class="s">tagged trope by trope</span></div>
 </div>
 <h2>The widest gaps we can currently count</h2>
-<p>Every row is two counted numbers and the rule below applied to them. Counted ${esc(AS_OF)}.</p>
+<p>One pairing per lane, ranked by reader asks against what is on the shelf. Every row is two counted numbers and the rule below applied to them. Counted ${esc(AS_OF)}.</p>
 <div class="scroll"><table><thead><tr><th>Lane</th><th>Pairing readers ask for</th><th class="n">Reader asks</th><th class="n">Titles carrying both</th><th>Verdict</th></tr></thead><tbody>${rows}</tbody></table></div>
 <h2>Pick your lane</h2>
 <ul class="lanes">${LANES.map((l) => `<li><a href="/trope-pairs/${esc(l)}">${esc(laneName(l))}</a> <span style="color:#a39395">&middot; ${PAIRS[l].length}</span></li>`).join('')}</ul>
