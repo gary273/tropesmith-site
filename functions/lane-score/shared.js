@@ -538,7 +538,28 @@ export async function handle(context) {
 
 	const meta = LANES[raw];
 	const name = (meta && meta[0]) || d.display_name || raw;
-	const st = (await stP) || { data: null };
+	/* IN-0800: never block the page on public-stats.
+	   stP was fired in parallel above, but awaiting it outright put its full
+	   AbortSignal.timeout(20000) on the visitor's critical path — 20.147s TTFB measured on
+	   /lane-score/romance.dark, and the corpus paragraph then degraded to "millions of
+	   Goodreads reviews" regardless, so the reader waited 20s AND got the vague copy.
+	   Wait a short budget; if the numbers are not back, render without them and let the fetch
+	   finish in the background so it warms the cache for the next visitor. */
+	const STATS_BUDGET_MS = 1200;
+	let st = { data: null };
+	if (stP) {
+		const settled = stP.catch(() => ({ data: null }));
+		const raced = await Promise.race([
+			settled,
+			new Promise((res) => setTimeout(() => res(null), STATS_BUDGET_MS))
+		]);
+		if (raced) {
+			st = raced;
+		} else if (context && typeof context.waitUntil === 'function') {
+			/* still in flight: keep it alive past this response so cachedJson's cache.put lands */
+			context.waitUntil(settled);
+		}
+	}
 
 	return new Response(lanePage(raw, name, d, st.data, !!(meta && meta[1])), {
 		headers: {
