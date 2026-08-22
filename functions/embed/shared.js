@@ -17,6 +17,9 @@
  *   ?theme=light|dark
  */
 
+import { PAIRS as TP_PAIRS, TROPES as TP_TROPES, LANE_NAMES as TP_LANES, AS_OF as TP_AS_OF } from '../trope-pairs/data.js';
+import { TAGS as BT_TAGS, LANE_NAMES as BT_LANES, AS_OF as BT_AS_OF } from '../booktok-hashtags/data.js';
+
 const EDGE = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/lane-score';
 const STATS = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/public-stats';
 const SITE = 'https://tropesmith.com';
@@ -109,6 +112,74 @@ ${cells || `<div style="padding:14px 12px;font:400 13px/1.6 system-ui,sans-serif
 </div>`;
 }
 
+
+/* ---------- IN-0790: two more widgets, same licence ---------------------------------
+   Both render from data baked into the bundle, so a publisher's page never waits on an
+   upstream and never shows an empty card. The "Data: Tropesmith" link is written in
+   server-side and is the condition of use. */
+
+function shell(title, sub, rowsHtml, href, credit, theme) {
+	const dark = theme === 'dark';
+	const bg = dark ? '#141636' : '#FFFEFB';
+	const ink = dark ? '#f4f1ff' : '#10122F';
+	const dim = dark ? '#b3aad6' : '#5b4a59';
+	const line = dark ? 'rgba(255,255,255,.14)' : 'rgba(16,18,47,.12)';
+	const accent = '#8B5CF6';
+	return `<div class="ts-w" style="max-width:460px;background:${bg};border:1px solid ${line};border-radius:16px;overflow:hidden;box-shadow:0 12px 30px -20px rgba(20,22,54,.5)">
+<div style="padding:12px 12px 10px;background:linear-gradient(135deg,${accent},#FF6B7A)">
+<div style="font:700 10px/1.4 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85)">${esc(sub)}</div>
+<div style="font:700 17px/1.3 system-ui,sans-serif;color:#fff;margin-top:2px">${esc(title)}</div>
+</div>
+${rowsHtml || `<div style="padding:14px 12px;font:400 13px/1.6 system-ui,sans-serif;color:${dim}">No data for this lane yet.</div>`}
+<div style="padding:9px 12px;border-top:1px solid ${line};font:400 11.5px/1.5 system-ui,sans-serif;color:${dim}">Data: <a href="${esc(
+		href
+	)}" rel="noopener" style="color:${accent};font-weight:700;text-decoration:none">Tropesmith</a> &middot; ${esc(credit)} &middot; <a href="${esc(
+		SITE
+	)}/free-tools/?utm_source=embed" rel="noopener" style="color:${accent};text-decoration:none">free tools</a></div>
+</div>`;
+}
+
+function wRow(left, right, note, theme) {
+	const dark = theme === 'dark';
+	const ink = dark ? '#f4f1ff' : '#10122F';
+	const dim = dark ? '#b3aad6' : '#5b4a59';
+	const line = dark ? 'rgba(255,255,255,.14)' : 'rgba(16,18,47,.12)';
+	return `<div style="padding:9px 12px;border-top:1px solid ${line};display:flex;justify-content:space-between;gap:10px;align-items:baseline">
+<div style="font:600 13.5px/1.4 system-ui,sans-serif;color:${ink}">${esc(left)}${
+		note ? `<div style="font:400 11.5px/1.4 system-ui,sans-serif;color:${dim};margin-top:1px">${esc(note)}</div>` : ''
+	}</div>
+<div style="font:700 14px/1.3 system-ui,sans-serif;color:${ink};white-space:nowrap">${esc(right)}</div></div>`;
+}
+
+function tropePairsCard(lane, theme) {
+	const rows = TP_PAIRS[lane] || [];
+	const scored = rows
+		.slice()
+		.sort((a, b) => (b[3] === 0 ? Infinity : b[2] / b[3]) - (a[3] === 0 ? Infinity : a[2] / a[3]))
+		.slice(0, 5);
+	const name = TP_LANES[lane] || lane;
+	const href = SITE + '/trope-pairs/' + encodeURIComponent(lane) + '?utm_source=embed&utm_medium=widget&utm_campaign=trope-pairs';
+	const html = scored
+		.map((p) => {
+			const a = TP_TROPES[p[0]] || p[0];
+			const b = TP_TROPES[p[1]] || p[1];
+			const note = p[3] === 0 ? 'no published title carries both' : p[3] + ' published title' + (p[3] === 1 ? '' : 's') + ' carry both';
+			return wRow(a + ' + ' + b, num(p[2]) + ' asks', note, theme);
+		})
+		.join('');
+	return shell(name + ' — what readers ask for', 'Trope pairings · counted', html, href, 'counted ' + TP_AS_OF, theme);
+}
+
+function booktokCard(lane, theme) {
+	let rows = BT_TAGS.filter((t) => (lane ? t[1] === lane : !t[1]));
+	if (!rows.length) rows = BT_TAGS.filter((t) => !t[1]);
+	rows = rows.slice().sort((a, b) => b[6] - a[6]).slice(0, 5);
+	const name = lane ? (BT_LANES[lane] || lane) + ' — BookTok hashtags' : 'BookTok hashtags by measured reach';
+	const href = SITE + '/booktok-hashtags/' + (lane ? encodeURIComponent(lane) : '') + '?utm_source=embed&utm_medium=widget&utm_campaign=booktok-tags';
+	const html = rows.map((t) => wRow('#' + t[0], num(t[6]) + ' plays/video', t[3] + ' videos scanned · ' + t[2], theme)).join('');
+	return shell(name, 'Dated snapshot · measured', html, href, 'snapshot ' + BT_AS_OF, theme);
+}
+
 function docsPage() {
 	const snip = `<div id="tropesmith-live-board"></div>\n<script src="${SITE}/embed/live-board.js?lane=romance.dark" async></script>`;
 	const ld = [
@@ -149,6 +220,12 @@ table{width:100%;border-collapse:collapse;font-size:14.5px}th,td{text-align:left
 <tr><td><code>lane</code></td><td>Any lane from <a href="/lane-score/">the scored lane list</a>, e.g. <code>romance.dark</code>. Defaults to <code>${DEFAULT_LANE}</code>.</td></tr>
 <tr><td><code>theme</code></td><td><code>light</code> (default) or <code>dark</code>.</td></tr>
 </tbody></table>
+<h2>Two more free widgets</h2>
+<p><b>Trope pairings</b> &mdash; the trope pairings readers in a lane ask for, with how many published titles actually carry both. Counted, not estimated.</p>
+<pre>${esc('<div id="tropesmith-trope-pairs"></div>\n<script src="' + SITE + '/embed/trope-pairs.js?lane=romance.dark" async></script>')}</pre>
+<p><b>BookTok hashtags</b> &mdash; measured plays per video for the hashtags in a lane, each with its scan date. A dated snapshot, never presented as live.</p>
+<pre>${esc('<div id="tropesmith-booktok-tags"></div>\n<script src="' + SITE + '/embed/booktok-tags.js?lane=romance.dark" async></script>')}</pre>
+<p>Both take the same <code>lane</code> and <code>theme</code> parameters, both have iframe equivalents at <code>/embed/trope-pairs</code> and <code>/embed/booktok-tags</code>, and both carry the same one condition: keep the visible credit link.</p>
 <h2>Prefer an iframe?</h2>
 <pre>${esc('<iframe src="' + SITE + '/embed/live-board?lane=romance.dark" width="100%" height="320" style="border:0" loading="lazy" title="Tropesmith live lane board"></iframe>')}</pre>
 <h2>The licence</h2>
@@ -174,6 +251,29 @@ export async function handle(context) {
 
 	if (!what) {
 		return new Response(docsPage(), { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=3600' } });
+	}
+
+	/* IN-0790 */
+	if (what === 'trope-pairs' || what === 'trope-pairs.js' || what === 'booktok-tags' || what === 'booktok-tags.js') {
+		const isPairs = what.indexOf('trope-pairs') === 0;
+		const html2 = isPairs ? tropePairsCard(lane, theme) : booktokCard(url.searchParams.get('lane') ? lane : '', theme);
+		if (what.slice(-3) === '.js') {
+			const id = isPairs ? 'tropesmith-trope-pairs' : 'tropesmith-booktok-tags';
+			const js2 =
+				'(function(){var h=' +
+				JSON.stringify(html2) +
+				';var s=document.currentScript;var t=document.getElementById(' +
+				JSON.stringify(id) +
+				');if(!t&&s){t=document.createElement("div");s.parentNode.insertBefore(t,s);}if(t){t.innerHTML=h;}})();';
+			return new Response(js2, { headers: Object.assign({ 'content-type': 'application/javascript; charset=utf-8' }, common) });
+		}
+		const page2 = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tropesmith widget</title><meta name="robots" content="noindex">
+<style>body{margin:0;padding:8px;background:transparent;font-family:system-ui,-apple-system,sans-serif}a{text-decoration:none}</style></head>
+<body>${html2.replace(/<a /g, '<a target="_top" ')}</body></html>`;
+		return new Response(page2, {
+			headers: Object.assign({ 'content-type': 'text/html; charset=utf-8', 'content-security-policy': 'frame-ancestors *' }, common)
+		});
 	}
 
 	if (what !== 'live-board' && what !== 'live-board.js') {

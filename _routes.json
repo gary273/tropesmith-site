@@ -5,7 +5,11 @@
     "/lane-score/*",
     "/embed",
     "/embed/*",
-    "/pulse/*"
+    "/pulse/*",
+    "/trope-pairs",
+    "/trope-pairs/*",
+    "/booktok-hashtags",
+    "/booktok-hashtags/*"
   ],
   "exclude": [
     "/pulse/",
