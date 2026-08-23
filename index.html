@@ -45,61 +45,7 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
   <link rel="apple-touch-icon" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png" />
 
   <!-- Structured data: Organization, WebSite, Product -->
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://tropesmith.com/#organization",
-      "name": "Tropesmith",
-      "url": "https://tropesmith.com/",
-      "logo": "https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png",
-      "description": "Trope research and market intelligence for indie romance authors. Built from BookTok, Goodreads, Reddit, and Amazon data.",
-      "parentOrganization": {
-        "@id": "https://coralhart.com/#organization",
-        "@type": "Organization",
-        "name": "The Coral Hart Group",
-        "url": "https://coralhart.com/"
-      },
-      "founder": {
-        "@id": "https://coralhart.com/#coral-hart",
-        "@type": "Person",
-        "name": "Coral Hart",
-        "url": "https://coralhart.com/story"
-      }
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://tropesmith.com/#website",
-      "url": "https://tropesmith.com/",
-      "name": "Tropesmith",
-      "publisher": {
-        "@id": "https://tropesmith.com/#organization"
-      },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "Product",
-      "name": "Tropesmith Map",
-      "description": "A complete pre-launch blueprint for a single romance novel: a go/no-go opportunity score, ranked trope stack with demand-vs-supply, FMC + MMC archetypes, the open market gap, comp titles three ways, cover and title direction, character and place names, book-length sweet spot, market economics, risk flags and a step-by-step plan. Built from BookTok, Goodreads, Reddit, and Amazon data.",
-      "brand": {
-        "@id": "https://tropesmith.com/#organization"
-      },
-      "image": "https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png",
-      "url": "https://tropesmith.com/pricing/",
-      "offers": {
-        "@type": "AggregateOffer",
-        "priceCurrency": "USD",
-        "lowPrice": "10.50",
-        "highPrice": "15.00",
-        "offerCount": "4",
-        "url": "https://tropesmith.com/pricing/"
-      }
-    }
-  ]
-}
-</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://tropesmith.com/#organization", "name": "Tropesmith", "url": "https://tropesmith.com/", "logo": "https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png", "description": "Trope research and market intelligence for indie romance authors. Built from BookTok, Goodreads, Reddit, and Amazon data.", "parentOrganization": {"@id": "https://coralhart.com/#organization", "@type": "Organization", "name": "The Coral Hart Group", "url": "https://coralhart.com/"}, "founder": {"@id": "https://coralhart.com/#coral-hart", "@type": "Person", "name": "Coral Hart", "url": "https://coralhart.com/story"}}, {"@type": "WebSite", "@id": "https://tropesmith.com/#website", "url": "https://tropesmith.com/", "name": "Tropesmith", "publisher": {"@id": "https://tropesmith.com/#organization"}, "inLanguage": "en"}, {"@type": "Product", "name": "Tropesmith Map", "description": "A complete pre-launch blueprint for a single romance novel: a go/no-go opportunity score, ranked trope stack with demand-vs-supply, FMC + MMC archetypes, the open market gap, comp titles three ways, cover and title direction, character and place names, book-length sweet spot, market economics, risk flags and a step-by-step plan. Built from BookTok, Goodreads, Reddit, and Amazon data.", "brand": {"@id": "https://tropesmith.com/#organization"}, "image": "https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png", "url": "https://tropesmith.com/pricing/", "offers": {"@type": "AggregateOffer", "priceCurrency": "USD", "lowPrice": "10.50", "highPrice": "15.00", "offerCount": "4", "url": "https://tropesmith.com/pricing/"}}]}</script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -184,7 +130,7 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
 </div>
 <!-- CTK:END -->
 <!-- CTKDS:START IN-0778 ticker Dataset — injected from marketing-line/ticker/out/dataset.jsonld -->
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "@id": "https://tropesmith.com/reader-demand/#dataset", "name": "TropeSmith romance reader-demand data", "description": "Share of tracked romance reader conversation held by each of 18 romance subgenre lanes over a rolling eight-week window, with the change in that share versus the preceding eight weeks in percentage points. Derived from reader reviews across 155,043 tracked mentions.", "url": "https://tropesmith.com/reader-demand/", "creator": {"@id": "https://coralhart.com/#organization"}, "publisher": {"@id": "https://coralhart.com/#organization"}, "isAccessibleForFree": true, "temporalCoverage": "2026-03-23/2026-07-06", "dateModified": "2026-08-21", "measurementTechnique": "Each romance lane's share of all tracked romance trope mentions over an 8-week window, plus the change in that share versus the preceding 8 weeks, in percentage points. The window ends at least 6 weeks back because a market week keeps accruing mentions for 6+ capture-weeks, so recent weeks are the least mature. Lanes are selected by share size, never by movement.", "variableMeasured": [{"@type": "PropertyValue", "name": "share_of_romance_reader_conversation", "unitText": "percent", "description": "Percentage of all tracked romance trope mentions in the window that belong to this lane."}, {"@type": "PropertyValue", "name": "share_change", "unitText": "percentage points", "description": "Change in that share versus the preceding eight-week window."}, {"@type": "PropertyValue", "name": "mentions", "unitText": "count", "description": "Tracked reader mentions for the lane in the window."}], "distribution": [{"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://coral-ticker.plotprose-scraper.workers.dev/trope-ticker.json"}], "subjectOf": {"@type": "WebPage", "url": "https://tropesmith.com/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "@id": "https://tropesmith.com/reader-demand/#dataset", "name": "TropeSmith romance reader-demand data", "description": "Share of tracked romance reader conversation held by each of 18 romance subgenre lanes over a rolling eight-week window, with the change in that share versus the preceding eight weeks in percentage points. Derived from reader reviews across 155,043 tracked mentions.", "url": "https://tropesmith.com/reader-demand/", "creator": {"@id": "https://coralhart.com/#organization", "@type": "Organization", "name": "Coral Hart Group", "url": "https://coralhart.com/"}, "publisher": {"@id": "https://coralhart.com/#organization", "@type": "Organization", "name": "Coral Hart Group", "url": "https://coralhart.com/"}, "isAccessibleForFree": true, "temporalCoverage": "2026-03-23/2026-07-06", "dateModified": "2026-08-21", "measurementTechnique": "Each romance lane's share of all tracked romance trope mentions over an 8-week window, plus the change in that share versus the preceding 8 weeks, in percentage points. The window ends at least 6 weeks back because a market week keeps accruing mentions for 6+ capture-weeks, so recent weeks are the least mature. Lanes are selected by share size, never by movement.", "variableMeasured": [{"@type": "PropertyValue", "name": "share_of_romance_reader_conversation", "unitText": "percent", "description": "Percentage of all tracked romance trope mentions in the window that belong to this lane."}, {"@type": "PropertyValue", "name": "share_change", "unitText": "percentage points", "description": "Change in that share versus the preceding eight-week window."}, {"@type": "PropertyValue", "name": "mentions", "unitText": "count", "description": "Tracked reader mentions for the lane in the window."}], "distribution": [{"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://coral-ticker.plotprose-scraper.workers.dev/trope-ticker.json"}], "subjectOf": {"@type": "WebPage", "url": "https://tropesmith.com/"}, "license": "https://tropesmith.com/terms/"}</script>
 <!-- CTKDS:END -->
 
 
