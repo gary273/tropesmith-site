@@ -93,6 +93,37 @@ function enrich(html, canonical, feedName, date) {
 	return out;
 }
 
+
+/* IN-0860: is this dated issue still the CURRENT one?
+   /pulse/<lane> serves the latest issue, so while a dated copy is byte-identical to it the two
+   URLs are the same page and only one may claim to be canonical. Returns the latest issue's
+   HTML, or null if it cannot be established — in which case the caller keeps the old
+   self-canonical behaviour rather than guessing. Shares the cache key that real undated
+   requests populate, so this is normally a cache hit rather than a second origin call. */
+async function latestHtml(slug, subgenre, cache) {
+	const ck = new Request(SITE + '/__cache/pulse-' + slug + '-latest', { method: 'GET' });
+	try {
+		const hit = await cache.match(ck);
+		if (hit) return await hit.text();
+	} catch (_e) {}
+	const q = new URLSearchParams();
+	if (subgenre) q.set('subgenre', subgenre);
+	try {
+		const r = await fetch(ARCHIVE + (q.toString() ? '?' + q.toString() : ''), {
+			signal: AbortSignal.timeout(8000),
+			cf: { cacheTtl: 900, cacheEverything: true }
+		});
+		if (!r.ok) return null;
+		const t = await r.text();
+		try {
+			await cache.put(ck, new Response(t, { headers: { 'content-type': 'text/html', 'cache-control': 'public, max-age=900' } }));
+		} catch (_e) {}
+		return t;
+	} catch (_e) {
+		return null;
+	}
+}
+
 export async function handle(context) {
 	const { request } = context;
 	const url = new URL(request.url);
@@ -141,7 +172,16 @@ export async function handle(context) {
 	/* upstream says there is no issue -> pass the 404 through, do NOT publish a thin page */
 	if (status !== 200) return notFound(slug);
 
-	const canonical = SITE + '/pulse/' + slug + (date ? '/' + date : '');
+	/* IN-0860: a dated copy that is byte-identical to the live page is the SAME page, and two
+	   URLs cannot both be the original. Point it at the undated page while that is true; once the
+	   next issue publishes it stops matching and self-canonicalises again on its own. Superseded
+	   archives are untouched — the control page /pulse/romance/2026-08-10 indexes cleanly today
+	   precisely because it is self-canonical, so this must not become a blanket rule. */
+	let canonical = SITE + '/pulse/' + slug + (date ? '/' + date : '');
+	if (date) {
+		const latest = await latestHtml(slug, subgenre, cache);
+		if (latest && latest === html) canonical = SITE + '/pulse/' + slug;
+	}
 	return new Response(enrich(html, canonical, subgenre, date), {
 		headers: {
 			'content-type': 'text/html; charset=utf-8',
