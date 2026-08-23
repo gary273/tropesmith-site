@@ -7,7 +7,16 @@
  * JavaScript off and there is no cold start to hide behind a spinner.
  */
 export const SITE = 'https://tropesmith.com';
-export const ORG = { '@id': 'https://coralhart.com/#organization' };
+// IN-0873: the @id alone is a cross-domain reference Google will not resolve — it saw an
+// untyped object on 88 Dataset nodes. The type and name now travel WITH the @id rather
+// than replacing it: repointing this at a local tropesmith org node would clear the alert
+// and undo IN-0781's one-organisation-one-@id graph across the estate.
+export const ORG = {
+	'@id': 'https://coralhart.com/#organization',
+	'@type': 'Organization',
+	name: 'Coral Hart Group',
+	url: 'https://coralhart.com/'
+};
 export const REPORT = 'https://plotprose.com/classroom/2026-romance-demand-report.html';
 
 export function esc(s) {

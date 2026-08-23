@@ -358,7 +358,15 @@ function lanePage(lane, name, d, stats, hasMarket) {
 			distribution: [
 				{ '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: canonical + '?format=json' }
 			],
-			isPartOf: { '@type': 'Dataset', name: 'Tropesmith lane scores', url: SITE + '/lane-score/' }
+			// IN-0873: the parent's licence is a real property of it, so stating it here is true
+			// rather than invented. This is the only Dataset in the tree without one, and it is a
+			// REFERENCE to the lane-score index rather than a separate dataset.
+			isPartOf: {
+				'@type': 'Dataset',
+				name: 'Tropesmith lane scores',
+				url: SITE + '/lane-score/',
+				license: 'https://tropesmith.com/terms/'
+			}
 		},
 		{
 			'@context': 'https://schema.org',
