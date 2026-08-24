@@ -234,17 +234,20 @@ function embedBlock(lane) {
    far as Google is concerned — which is exactly the alert this fixes. Every clause below
    is a restatement of what the pages already publish, not a new claim. */
 function laneScoreCollectionDataset() {
-	/* Every lane in LANES is scored and served at /lane-score/<lane>. LANES[k][1] is a
-	   different fact - whether a /market/<slug>/ page exists to link on to - so it is the
-	   wrong number to describe the dataset with. */
-	const scored = Object.keys(LANES).length;
+	/* Every lane in LANES is published at /lane-score/<lane>. LANES[k][1] is a different
+	   fact - whether a /market/<slug>/ page exists to link on to - so it is the wrong number
+	   to describe the dataset with. And "published" is not "scored": the opportunity engine
+	   ranks across more lanes than the site publishes pages for (the lane pages themselves
+	   print "rank N of 44"), so this figure describes what this dataset holds, not what the
+	   engine covers. */
+	const published = Object.keys(LANES).length;
 	return {
 		'@type': 'Dataset',
 		'@id': LANE_SCORE_DATASET_ID,
 		name: 'Tropesmith lane scores',
 		description:
-			'Lane score and market economics for each of the ' + scored +
-			' fiction subgenre lanes Tropesmith scores: opportunity score and rank across every scored lane, greenlight band with confidence, typical list price, Kindle Unlimited share, reader demand counted over the trailing 30 days, the reader heat-expectation mix and the length and series shape that sell in the lane. Every figure is counted from the Tropesmith corpus — Goodreads reviews and shelf signals, parsed reader demand signals, BookTok video metadata and Amazon category economics — and is restated when the corpus is recounted.',
+			'Lane score and market economics for each of the ' + published +
+			' fiction subgenre lanes Tropesmith publishes a lane score for: opportunity score and rank across every scored lane, greenlight band with confidence, typical list price, Kindle Unlimited share, reader demand counted over the trailing 30 days, the reader heat-expectation mix and the length and series shape that sell in the lane. Every figure is counted from the Tropesmith corpus — Goodreads reviews and shelf signals, parsed reader demand signals, BookTok video metadata and Amazon category economics — and is restated when the corpus is recounted.',
 		url: SITE + '/lane-score/',
 		isAccessibleForFree: true,
 		inLanguage: 'en',
@@ -258,7 +261,7 @@ function laneScoreCollectionDataset() {
 		   one more Dataset node per lane with no description and no creator - the very defect this
 		   fixes. The index page's ItemList already enumerates every lane. */
 		variableMeasured: [
-			{ '@type': 'PropertyValue', name: 'Subgenre lanes scored', value: scored, unitText: 'lanes', description: 'Fiction subgenre lanes with a live lane score' }
+			{ '@type': 'PropertyValue', name: 'Subgenre lanes published', value: published, unitText: 'lanes', description: 'Fiction subgenre lanes with a published lane-score page' }
 		]
 	};
 }
