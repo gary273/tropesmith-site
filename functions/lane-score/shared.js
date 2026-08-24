@@ -20,6 +20,11 @@
 
 const EDGE = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/lane-score';
 const SITE = 'https://tropesmith.com';
+/* IN-0781 / IN-0873: one organisation, one @id across the estate. The type and name
+   travel WITH the @id so a crawler that will not resolve the cross-domain reference
+   still sees a named Organization. */
+const ORG = { '@id': 'https://coralhart.com/#organization', '@type': 'Organization', name: 'Coral Hart Group', url: 'https://coralhart.com/' };
+const LANE_SCORE_DATASET_ID = SITE + '/lane-score/#dataset';
 const REPORT = 'https://plotprose.com/classroom/2026-romance-demand-report.html';
 const STATS = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/public-stats';
 
@@ -222,6 +227,42 @@ function embedBlock(lane) {
 <p style="font-size:14px">Prefer an iframe? <code>&lt;iframe src="${esc(SITE + '/embed/live-board?lane=' + encodeURIComponent(lane))}" width="100%" height="320" style="border:0" loading="lazy" title="Tropesmith live lane board"&gt;&lt;/iframe&gt;</code></p>`;
 }
 
+
+/* TS-0578 — the collection every per-lane score belongs to. Published in full on the
+   /lane-score/ index AND carried inline by each lane page's isPartOf, because a Dataset
+   node that is only a name + a url is a Dataset with no description and no creator as
+   far as Google is concerned — which is exactly the alert this fixes. Every clause below
+   is a restatement of what the pages already publish, not a new claim. */
+function laneScoreCollectionDataset() {
+	/* Every lane in LANES is scored and served at /lane-score/<lane>. LANES[k][1] is a
+	   different fact - whether a /market/<slug>/ page exists to link on to - so it is the
+	   wrong number to describe the dataset with. */
+	const scored = Object.keys(LANES).length;
+	return {
+		'@type': 'Dataset',
+		'@id': LANE_SCORE_DATASET_ID,
+		name: 'Tropesmith lane scores',
+		description:
+			'Lane score and market economics for each of the ' + scored +
+			' fiction subgenre lanes Tropesmith scores: opportunity score and rank across every scored lane, greenlight band with confidence, typical list price, Kindle Unlimited share, reader demand counted over the trailing 30 days, the reader heat-expectation mix and the length and series shape that sell in the lane. Every figure is counted from the Tropesmith corpus — Goodreads reviews and shelf signals, parsed reader demand signals, BookTok video metadata and Amazon category economics — and is restated when the corpus is recounted.',
+		url: SITE + '/lane-score/',
+		isAccessibleForFree: true,
+		inLanguage: 'en',
+		license: 'https://tropesmith.com/terms/',
+		creator: ORG,
+		publisher: ORG,
+		keywords: ['lane score', 'subgenre opportunity', 'reader demand', 'Kindle Unlimited', 'book market data'],
+		measurementTechnique:
+			'Counted from the Tropesmith corpus: Goodreads reviews and shelf signals, parsed reader demand signals, BookTok video metadata and Amazon category economics, aggregated per subgenre lane. Counted rows only — nothing is modelled or estimated.',
+		/* No hasPart[]: listing each lane as a bare {'@type':'Dataset', name, url} would mint
+		   one more Dataset node per lane with no description and no creator - the very defect this
+		   fixes. The index page's ItemList already enumerates every lane. */
+		variableMeasured: [
+			{ '@type': 'PropertyValue', name: 'Subgenre lanes scored', value: scored, unitText: 'lanes', description: 'Fiction subgenre lanes with a live lane score' }
+		]
+	};
+}
+
 /* ---------- index page ------------------------------------------------------- */
 
 function indexPage(stats) {
@@ -250,9 +291,12 @@ function indexPage(stats) {
 				'Reader heat-level expectation mix',
 				'Length and series-shape sweet spot'
 			],
-			publisher: { '@type': 'Organization', name: 'Coral Hart Group', url: 'https://coralhart.com/' }
+			publisher: ORG
 		},
 		{ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Tropesmith lane scores', numberOfItems: covered.length, itemListElement: items },
+		// TS-0578: the collection node lives at its own URL so the @id every lane page's
+		// isPartOf carries resolves to a real, described, credited Dataset.
+		Object.assign({ '@context': 'https://schema.org' }, laneScoreCollectionDataset()),
 		{
 			'@context': 'https://schema.org',
 			'@type': 'BreadcrumbList',
@@ -347,8 +391,8 @@ function lanePage(lane, name, d, stats, hasMarket) {
 			url: canonical,
 			isAccessibleForFree: true,
 			license: 'https://tropesmith.com/terms/',
-			creator: { '@type': 'Organization', name: 'Coral Hart Group', url: 'https://coralhart.com/' },
-			publisher: { '@type': 'Organization', name: 'Coral Hart Group', url: 'https://coralhart.com/' },
+			creator: ORG,
+			publisher: ORG,
 			temporalCoverage: iso(from) + '/' + iso(now),
 			dateModified: now.toISOString(),
 			keywords: [name, 'reader demand', 'subgenre opportunity', 'Kindle Unlimited', 'book market data'],
@@ -358,15 +402,13 @@ function lanePage(lane, name, d, stats, hasMarket) {
 			distribution: [
 				{ '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: canonical + '?format=json' }
 			],
-			// IN-0873: the parent's licence is a real property of it, so stating it here is true
-			// rather than invented. This is the only Dataset in the tree without one, and it is a
-			// REFERENCE to the lane-score index rather than a separate dataset.
-			isPartOf: {
-				'@type': 'Dataset',
-				name: 'Tropesmith lane scores',
-				url: SITE + '/lane-score/',
-				license: 'https://tropesmith.com/terms/'
-			}
+			// TS-0578: this is a REFERENCE to the lane-score collection, but it is typed
+			// Dataset, so Google validates it as one — name + url + licence alone read as a
+			// Dataset missing description and creator. It now carries the collection node in
+			// full (same @id as the copy published on /lane-score/), so the reference is
+			// complete wherever it is read. Nothing is invented: every clause restates what
+			// the index page and these lane pages already publish.
+			isPartOf: laneScoreCollectionDataset()
 		},
 		{
 			'@context': 'https://schema.org',
@@ -385,7 +427,7 @@ function lanePage(lane, name, d, stats, hasMarket) {
 				'Length and series-shape sweet spot',
 				'Embeddable widget with attribution'
 			],
-			publisher: { '@type': 'Organization', name: 'Coral Hart Group', url: 'https://coralhart.com/' }
+			publisher: ORG
 		},
 		{
 			'@context': 'https://schema.org',
