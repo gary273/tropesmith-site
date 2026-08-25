@@ -20,10 +20,16 @@
  * 2. THE PAGE IS SERVER-RENDERED AND WORKS WITH JAVASCRIPT OFF. authorsstarport starved
  *    because its content was JS-only. Every number a crawler needs is in the HTML.
  *
- * 3. THE DEPTH GATE CANNOT BE OPENED ON PRODUCTION BY A FLAG. free-requires-signup means
- *    the full readout is behind a free account; the headline is not. `isProd` is computed
- *    from the request hostname, and the staging unlock is `!isProd && ...`, so no constant
- *    in this file — set wrongly or edited later — can open the gate on tropesmith.com.
+ * 3. THE DEPTH GATE IS OFF BY RULING, NOT BY ACCIDENT. Gary, 2026-08-25, in chat:
+ *    "PUBLISH" — the Trope Demand Checker goes public, no-signup-to-view. That is
+ *    STRATEGY-NEXT D3 option (b) and the shape IN-0913 §3/C1 asked for: a depth gate taxes
+ *    exactly the linking behaviour this tool is being published to buy. `PUBLIC_VIEW`
+ *    below carries the ruling and the whole readout is served to everyone, signed in or
+ *    not. free-requires-signup is satisfied by gating SAVE and EXPORT, not viewing.
+ *    The gate code is left standing rather than deleted: set PUBLIC_VIEW back to false and
+ *    the depth gate returns exactly as it was, staging unlock and all. That unlock is
+ *    still `!isProd && STAGE`, so no constant in this file can open anything on
+ *    tropesmith.com that the ruling has not already opened.
  *
  * HONESTY RULES THIS FILE ENFORCES
  *   - Direction is computed from SHARE, never a raw weekly move (the ticker-share ruling
@@ -40,10 +46,13 @@
 import { AS_OF, WIN, WEEKS, CORPUS, FLOORS, TROPES, LANES, D, S, SW, SUPPLY, ADJ, T, LS } from './data.js';
 import { SITE, ORG, esc, num, head, foot, breadcrumb, app, pv, tieBack, jsonResponse, wantsJson } from '../_gen/chrome.js';
 
-/* STAGING: TS-0587 ships on a preview branch, unlinked and noindex, until Gary says go.
-   Flip to false in the same commit that merges to main. Note that flipping it is NOT what
+/* STAGING: false since the publish commit (Gary GO 2026-08-25). Left in place because the
+   preview branch still needs its noindex when it is rebuilt. Flipping it is NOT what
    protects production — `isProd` below is. */
-const STAGE = true;
+const STAGE = false;
+/* THE RULING. Gary, 2026-08-25, in chat: "PUBLISH" — no signup required to VIEW.
+   One constant, one place, reversible: false restores the depth gate byte for byte. */
+const PUBLIC_VIEW = true;
 const PATH = '/trope-demand';
 /* The window START we print is the first week the rail actually holds. WIN.from is the
    band boundary the arithmetic uses; printing that would claim a week we do not have. */
@@ -607,7 +616,7 @@ export async function handle(context) {
 		if (!lane || !trope) return jsonResponse({ ok: false, error: 'lane and trope required' }, 400);
 		const hit = rowFor(lane, trope);
 		if (!hit) return jsonResponse({ ok: false, error: 'no readout for that trope in that genre' }, 404);
-		const s = await session(request, url, isProd);
+		const s = PUBLIC_VIEW ? { ok: true } : await session(request, url, isProd);
 		if (!s.ok)
 			return new Response(
 				JSON.stringify({ ok: false, gated: true, degraded: !!s.degraded, signup: '/login/?next=' + encodeURIComponent(PATH + '/' + lane + '/' + trope) }),
@@ -705,7 +714,9 @@ export async function handle(context) {
 			mentions: hit.row[1], lane_total_mentions: L.tot, share_pct: L.tot ? Number(((hit.row[1] / L.tot) * 100).toFixed(3)) : null,
 			rank: hit.rank, of: hit.of, weeks_seen: hit.row[4], direction: d.state, direction_label: d.label,
 			advisory: L.adv,
-			full_readout: { gated: true, free_account_required: true, signup: SITE + '/login/?next=' + encodeURIComponent(PATH + '/' + lane + '/' + trope) }
+			full_readout: PUBLIC_VIEW
+				? { gated: false, free_account_required: false, url: canonical + '?depth=1' }
+				: { gated: true, free_account_required: true, signup: SITE + '/login/?next=' + encodeURIComponent(PATH + '/' + lane + '/' + trope) }
 		});
 	}
 
@@ -722,7 +733,7 @@ export async function handle(context) {
 
 	return htmlOut(
 		stageHead(tropeName(trope) + ' in ' + laneName(lane) + ' — reader demand | Tropesmith', desc, canonical, ld, isProd) +
-			readoutBody(lane, trope, hit, s.ok, gateNote) +
+			readoutBody(lane, trope, hit, PUBLIC_VIEW || s.ok, gateNote) +
 			foot(),
 		{ noindex, private: s.ok }
 	);
