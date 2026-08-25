@@ -37,7 +37,7 @@
  *     vocabulary from subgenre_id and the two do not join.
  *   - A thin or sparse lane says it is thin. Scarcity is the finding, not a hole to fill.
  */
-import { AS_OF, WIN, WEEKS, CORPUS, FLOORS, TROPES, LANES, D, S, SW, SUPPLY, ADJ, T } from './data.js';
+import { AS_OF, WIN, WEEKS, CORPUS, FLOORS, TROPES, LANES, D, S, SW, SUPPLY, ADJ, T, LS } from './data.js';
 import { SITE, ORG, esc, num, head, foot, breadcrumb, app, pv, tieBack, jsonResponse, wantsJson } from '../_gen/chrome.js';
 
 /* STAGING: TS-0587 ships on a preview branch, unlinked and noindex, until Gary says go.
@@ -50,6 +50,30 @@ const PATH = '/trope-demand';
 const WFROM = WIN.observed_from || WIN.from;
 
 const LANE_IDS = Object.keys(D).sort((a, b) => LANES[a].n.localeCompare(LANES[b].n));
+/* Genres that actually have a /lane-score/ page. The list is read out of the deployed
+   lane-score Function at bake time, not copied here, so these links cannot rot into 404s
+   when that Function's coverage changes. */
+const LANE_SCORE = new Set(LS || []);
+
+/* Tropes that already have a guide page on the site. Linking to them from the readouts is
+   the point of the whole exercise as much as the tool is: internal links from a page that
+   earns external ones are how a free tool lifts the pages that sell. Verified present in
+   the repo 2026-08-25; a wrong entry costs a 404, so add only directories that exist. */
+const TROPE_PAGE = {
+	'age-gap': '/age-gap-trope/',
+	'dark-romance': '/dark-romance-tropes/',
+	'enemies-to-lovers': '/enemies-to-lovers-trope/',
+	'fake-dating': '/fake-dating-trope/',
+	'fated-mates': '/fated-mates-trope/',
+	'forbidden-romance': '/forbidden-romance/',
+	'forced-proximity': '/forced-proximity-trope/',
+	'friends-to-lovers': '/friends-to-lovers-trope/',
+	'grumpy-sunshine': '/grumpy-sunshine-trope/',
+	'marriage-of-convenience': '/marriage-of-convenience-trope/',
+	'second-chance': '/second-chance-romance/',
+	'slow-burn': '/slow-burn-romance/',
+	'small-town': '/small-town-romance/'
+};
 
 /* ------------------------------------------------------------------ small helpers --- */
 
@@ -58,6 +82,13 @@ function laneName(id) {
 }
 function tropeName(id) {
 	return TROPES[id] || id;
+}
+/* A growing corpus count is printed as a floor with a "+" (estate convention IN-0803 /
+   PP-4425): an exact figure is false the moment the next row lands, a floor only gets more
+   conservative. The per-trope mention counts are NOT floored - they sit inside a closed,
+   dated window, they do not grow, and the window is printed beside them. */
+function floorNum(n) {
+	return num(n) + '+';
 }
 function pct(x, dp) {
 	return (x * 100).toFixed(dp == null ? 2 : dp) + '%';
@@ -88,19 +119,27 @@ function supplyRank(lane, trope) {
 /* DIRECTION. Share of the lane's trope mentions in the recent 12 weeks against the 12
    weeks before it. Share, not count: a lane that simply got noisier would otherwise read
    as every trope rising. Refuses to call it under the floor. */
+/* Both bands must carry real counts, not just their sum. A trope that went 2 -> 40 has a
+   share change north of +1,500%, and printing that as "rising fastest" is how a page ends
+   up publishing a number nobody can defend. The sum floor alone let exactly that through
+   on the first cut of the index board. */
+const DIR_BAND_MIN = 10;
+/* The index board is the most quotable surface on the tool, so its floors are higher than
+   an individual readout's: a genre with a small lane total can swing on one busy week. */
+const MOVER_BAND_MIN = 30;
+const MOVER_LANE_MIN = 500;
+
 function direction(lane, row) {
 	const L = LANES[lane];
 	const mR = row[2], mP = row[3];
-	if (!L || !L.totR || !L.totP || mR + mP < FLOORS.dir_mentions) {
+	if (!L || !L.totR || !L.totP || mR + mP < FLOORS.dir_mentions || mR < DIR_BAND_MIN || mP < DIR_BAND_MIN) {
 		return {
 			state: 'unknown',
 			label: 'Not enough dated signal to call it',
 			why:
-				'A direction here would be noise. We call one only when the two twelve-week bands hold at least ' +
-				FLOORS.dir_mentions +
-				' mentions between them; this trope has ' +
-				num(mR + mP) +
-				'.'
+				'A direction here would be noise. We call one only when each twelve-week band holds at least ' +
+				DIR_BAND_MIN + ' mentions and the two hold ' + FLOORS.dir_mentions +
+				' between them; this trope has ' + num(mR) + ' and ' + num(mP) + '.'
 		};
 	}
 	const sR = mR / L.totR, sP = mP / L.totP;
@@ -259,7 +298,7 @@ function readoutBody(lane, trope, hit, unlocked, gateNote) {
 
 <h2>What is already on the shelf</h2>
 <div class="grid">
-<div class="cell"><span class="t">Tagged titles carrying it</span><span class="b">${titles == null ? '&mdash;' : num(titles)}</span><span class="s">across our whole trope-tagged registry of ${num(CORPUS.tagged_titles)} titles</span></div>
+<div class="cell"><span class="t">Tagged titles carrying it</span><span class="b">${titles == null ? '&mdash;' : num(titles)}</span><span class="s">across our whole trope-tagged registry of ${floorNum(CORPUS.tagged_titles_floor)} titles</span></div>
 <div class="cell"><span class="t">Demand rank vs supply rank</span><span class="b">${gap == null ? '&mdash;' : (gap > 0 ? '+' + gap : gap)}</span><span class="s">places of daylight between the asks and the shelf</span></div>
 </div>
 <p>${gapRead}</p>
@@ -308,12 +347,16 @@ ${depth}
 <h2>Where these numbers come from</h2>
 <p>Mentions are counted rows, not estimates and not a model. We read reader demand from Goodreads reviews and shelves, parsed reader requests, BookTok video metadata and Reddit, resolve each one to a subgenre lane and to tropes in our published taxonomy, and total them by week. This page shows the ${WIN.weeks} weeks from ${esc(WFROM)} to ${esc(WIN.to)}; ${esc(tn)} appeared in ${weeksSeen} of the ${WIN.weeks}.</p>
 <p>Only tropes from our <b>canonical taxonomy</b> of ${num(CORPUS.tropes_taxonomy)} appear here, and only the ${num(CORPUS.tropes_published)} of them that clear our publication floor somewhere. Raw scrape labels are excluded on purpose: publish those and the same trope ends up listed twice under two spellings and the ranking becomes fiction.</p>
-<p>Direction is a change in <b>share</b>, never a raw weekly move, because a lane that simply gets busier would otherwise make every trope in it look like it is rising. We do not state a direction at all below ${FLOORS.dir_mentions} mentions across the two bands.</p>
+<p>Direction is a change in <b>share</b>, never a raw weekly move, because a genre that simply gets busier would otherwise make every trope in it look like it is rising. We state no direction at all unless each ${WIN.band_weeks}-week band holds at least ${DIR_BAND_MIN} mentions and the two hold ${FLOORS.dir_mentions} between them &mdash; a trope that went from two mentions to forty is a small number moving, not a trend.</p>
 <p>Figures restate each time the corpus is recounted. This page: <b>${esc(AS_OF)}</b>.</p>
 
 <h2>Check another trope</h2>
 ${picker(lane, trope)}
-${tieBack('<li><a href="' + PATH + '/' + esc(lane) + '">Every trope we publish for ' + esc(ln) + '</a> &mdash; ranked by counted reader demand.</li>')}
+${tieBack(
+	'<li><a href="' + PATH + '/' + esc(lane) + '">Every trope we publish for ' + esc(ln) + '</a> &mdash; ranked by counted reader demand.</li>' +
+	(TROPE_PAGE[trope] ? '<li><a href="' + TROPE_PAGE[trope] + '">The ' + esc(tn) + ' guide</a> &mdash; what the trope is, how it is written, and the titles that own it.</li>' : '') +
+	(LANE_SCORE.has(lane) ? '<li><a href="/lane-score/' + esc(lane) + '">Lane score for ' + esc(ln) + '</a> &mdash; is the genre worth writing at all?</li>' : '')
+)}
 <div class="cta-row"><a class="btn" href="/intake/">Build my ${esc(ln)} Map &rarr;</a> &nbsp; <a href="/pricing/">See pricing</a></div>
 </div>`;
 }
@@ -369,7 +412,7 @@ ${picker(lane, rows.length ? rows[0][0] : '')}
 ${caveat ? '<div class="note"><b>About this lane:</b> ' + caveat + '</div>' : ''}
 <div class="scroll"><table><thead><tr><th class="n">#</th><th>Trope</th><th class="n">Mentions</th><th class="n">Share of lane</th><th>Direction</th><th class="n">Tagged titles</th></tr></thead><tbody>${body}</tbody></table></div>
 <p style="font-size:13.5px;color:#5b4a59">Direction is the change in each trope&rsquo;s <b>share</b> of the lane between the last ${WIN.band_weeks} weeks and the ${WIN.band_weeks} before &mdash; never a raw weekly move. &ldquo;Not called&rdquo; means the two bands hold fewer than ${FLOORS.dir_mentions} mentions between them and we will not pretend otherwise. Tagged titles are counted across our whole registry, not just this lane.</p>
-${tieBack('<li><a href="/lane-score/' + esc(lane) + '">Lane score for ' + esc(ln) + '</a> &mdash; is the subgenre worth writing at all?</li>')}
+${tieBack(LANE_SCORE.has(lane) ? '<li><a href="/lane-score/' + esc(lane) + '">Lane score for ' + esc(ln) + '</a> &mdash; is the genre worth writing at all?</li>' : '')}
 <div class="cta-row"><a class="btn" href="/intake/">Build my ${esc(ln)} Map &rarr;</a> &nbsp; <a href="${PATH}/">All genres</a></div>
 </div>`;
 }
@@ -380,39 +423,52 @@ function indexBody() {
 	/* The movers list is computed from the same data every readout uses. It is a view, not
 	   a second source of truth. */
 	const movers = [];
-	for (const lane of LANE_IDS)
+	for (const lane of LANE_IDS) {
+		const L = LANES[lane];
+		/* A lane whose own volume swung between the bands makes every share in it move.
+		   Both lane totals have to be big enough for a share to mean something. */
+		if (L.totR < MOVER_LANE_MIN || L.totP < MOVER_LANE_MIN) continue;
 		for (const r of laneRows(lane)) {
 			const d = direction(lane, r);
-			if (d.state === 'up' && r[1] >= 60) movers.push([lane, r[0], r[1], d.delta]);
+			if (d.state === 'up' && r[2] >= MOVER_BAND_MIN && r[3] >= MOVER_BAND_MIN)
+				movers.push([lane, r[0], r[1], d.delta, d.sR, d.sP]);
 		}
+	}
 	movers.sort((a, b) => b[3] - a[3]);
 	const top = movers.slice(0, 12);
 
 	return `<div class="wrap">
 <div class="eyebrow">Free tool &middot; No card needed &middot; as of ${esc(AS_OF)}</div>
 <h1>The Trope Demand Checker</h1>
-<p class="lede">Pick your genre and a trope. We tell you how many readers actually asked for it, what share of the genre that is, and whether it is rising or cooling &mdash; counted from ${num(CORPUS.signals)} reader-demand signals, not guessed. ${num(CORPUS.readouts)} trope-and-genre readouts across ${num(CORPUS.lanes_published)} genres.</p>
+<p class="lede">Pick your genre and a trope. We tell you how many readers actually asked for it, what share of the genre that is, and whether it is rising or cooling &mdash; counted from ${floorNum(CORPUS.signals_floor)} reader-demand signals, not guessed. ${num(CORPUS.readouts)} trope-and-genre readouts across ${num(CORPUS.lanes_published)} genres.</p>
 ${picker(LANE_IDS[0], (laneRows(LANE_IDS[0])[0] || [''])[0])}
 <div class="grid">
-<div class="cell"><span class="t">Reader-demand signals held</span><span class="b">${num(CORPUS.signals)}</span><span class="s">reviews, shelves, BookTok and reader requests</span></div>
+<div class="cell"><span class="t">Reader-demand signals held</span><span class="b">${floorNum(CORPUS.signals_floor)}</span><span class="s">reviews, shelves, BookTok and reader requests</span></div>
 <div class="cell"><span class="t">Mentions counted in this window</span><span class="b">${num(CORPUS.mentions_counted)}</span><span class="s">${WIN.weeks} weeks, ${esc(WFROM)} to ${esc(WIN.to)}</span></div>
 <div class="cell"><span class="t">Tropes in our taxonomy</span><span class="b">${num(CORPUS.tropes_taxonomy)}</span><span class="s">canonical only &mdash; no raw scrape labels</span></div>
 <div class="cell"><span class="t">Genres covered</span><span class="b">${num(CORPUS.lanes_published)}</span><span class="s">each with its own counted lane total</span></div>
 </div>
 
 <h2>Rising fastest right now</h2>
-<p>Biggest gains in <b>share</b> of their own genre between the last ${WIN.band_weeks} weeks and the ${WIN.band_weeks} before, among tropes with at least 60 counted mentions.</p>
-<div class="scroll"><table><thead><tr><th>Trope</th><th>Genre</th><th class="n">Mentions</th><th class="n">Share change</th></tr></thead><tbody>
-${top.map((m) => `<tr><td><a href="${PATH}/${esc(m[0])}/${esc(m[1])}">${esc(tropeName(m[1]))}</a></td><td>${esc(laneName(m[0]))}</td><td class="n">${num(m[2])}</td><td class="n">+${(m[3] * 100).toFixed(0)}%</td></tr>`).join('')}
+<p>Biggest gains in <b>share</b> of their own genre between the last ${WIN.band_weeks} weeks and the ${WIN.band_weeks} before. Both halves of the comparison are printed, so you can do the division yourself.</p>
+${top.length >= 5
+	? `<div class="scroll"><table><thead><tr><th>Trope</th><th>Genre</th><th class="n">Mentions</th><th class="n">Share, last ${WIN.band_weeks}w</th><th class="n">Share, ${WIN.band_weeks}w before</th><th class="n">Change</th></tr></thead><tbody>
+${top.map((m) => `<tr><td><a href="${PATH}/${esc(m[0])}/${esc(m[1])}">${esc(tropeName(m[1]))}</a></td><td>${esc(laneName(m[0]))}</td><td class="n">${num(m[2])}</td><td class="n">${pct(m[4])}</td><td class="n">${pct(m[5])}</td><td class="n">+${(m[3] * 100).toFixed(0)}%</td></tr>`).join('')}
 </tbody></table></div>
+<p style="font-size:13.5px;color:#5b4a59">Only tropes with at least ${MOVER_BAND_MIN} counted mentions in <i>each</i> twelve-week band, in genres holding at least ${num(MOVER_LANE_MIN)} trope mentions in each band. Without those floors a trope that went from two mentions to forty tops this table with a four-figure percentage, and that is not a trend &mdash; it is a small number moving.</p>`
+	: `<p class="note">Fewer than five tropes clear our floors for a rising call this week, so there is no board to show. The floors are ${MOVER_BAND_MIN} counted mentions in <i>each</i> twelve-week band, in a genre holding at least ${num(MOVER_LANE_MIN)} trope mentions in each. We would rather show nothing than pad it.</p>`}
 
 <h2>Pick your genre</h2>
 <ul class="lanes">${LANE_IDS.map((id) => `<li><a href="${PATH}/${esc(id)}">${esc(laneName(id))}</a> <span style="color:#a39395">&middot; ${laneRows(id).length} tropes</span></li>`).join('')}</ul>
 
 <h2>What this is, and what it is not</h2>
-<p>It is a count. When it says ${esc(tropeName((laneRows(LANE_IDS[0])[0] || [''])[0]))} was mentioned a certain number of times in a genre, that is rows we hold, over a window we name, from sources we name. Nothing on these pages is modelled, extrapolated or rounded up for effect, and every figure carries the date it was counted.</p>
+<p>It is a count. Every mention figure on these pages is rows we hold, over a window we name, from sources we name &mdash; and each readout shows you the week-by-week table those mentions add up from, so you can check the arithmetic yourself. Nothing is modelled, extrapolated or rounded up for effect, and every figure carries the date it was counted.</p>
 <p>It is <b>not</b> a sales forecast. Reader demand is not the same thing as money, and a trope readers shout about is not automatically a trope that sells &mdash; that depends on the price, the shelf and the competition in your lane, which is what a <a href="/pricing/">Tropesmith Map</a> is for. It is also not a complete census of the internet: it is our corpus, and where a genre is thin the page says so instead of filling the gap.</p>
-${tieBack('')}
+${tieBack(
+	'<li><a href="/romance-tropes/">The romance trope list</a> &mdash; every romance trope we track, explained.</li>' +
+	'<li><a href="/book-tropes-list/">Book tropes across every genre</a> &mdash; the wider list this tool counts against.</li>' +
+	'<li><a href="/booktok-books/">BookTok books</a> &mdash; what is actually moving on BookTok right now.</li>'
+)}
 <div class="cta-row"><a class="btn" href="/intake/">Build my Map &rarr;</a> &nbsp; <a href="/lane-score/">Lane scores</a></div>
 </div>`;
 }
@@ -589,7 +645,7 @@ export async function handle(context) {
 			stageHead(
 				'Trope Demand Checker — what readers actually ask for | Tropesmith',
 				'Free: pick a genre and a trope, see the reader demand we counted for it — mentions, share of the genre and direction of travel, from ' +
-					num(CORPUS.signals).replace(/&mdash;/, '') + ' reader-demand signals. No card needed.',
+					num(CORPUS.signals_floor) + '+ reader-demand signals. No card needed.',
 				canonical, ld, isProd
 			) + indexBody() + foot(),
 			{ noindex }
