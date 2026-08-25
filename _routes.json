@@ -9,7 +9,9 @@
     "/trope-pairs",
     "/trope-pairs/*",
     "/booktok-hashtags",
-    "/booktok-hashtags/*"
+    "/booktok-hashtags/*",
+    "/trope-demand",
+    "/trope-demand/*"
   ],
   "exclude": [
     "/pulse/",
