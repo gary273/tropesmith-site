@@ -238,7 +238,7 @@ function htmlOut(body, opts) {
  * NO EMAIL IS SENT FROM HERE. The signed-out state links to the existing /login/ page,
  * which owns the magic-link rail. This tool adds no ESP integration of its own.
  */
-async function session(request, url, isProd) {
+async function entitlement(request, url, isProd) {
 	const cookie = request.headers.get('cookie') || '';
 	if (!isProd) {
 		/* Preview hosts only — a pages.dev host never receives the tropesmith.com cookie,
@@ -248,27 +248,51 @@ async function session(request, url, isProd) {
 		   silently retired the unlocked render path and its test coverage with it.
 		   isProd is derived from the hostname, so this branch is unreachable on
 		   tropesmith.com no matter what any constant in this file is set to. */
-		if (url.searchParams.get('stage_signedin') === '1') return { ok: true, staged: true };
+		const t = url.searchParams.get('stage_tier');
+		if (t === 'free') return { signedIn: true, liveBoard: false, paidMap: false, staged: true };
+		if (t === 'paid') return { signedIn: true, liveBoard: true, paidMap: true, staged: true };
+		if (url.searchParams.get('stage_signedin') === '1') return { signedIn: true, liveBoard: true, paidMap: true, staged: true };
 	}
-	if (!/(^|;\s*)tsm_session=/.test(cookie)) return { ok: false };
+	if (!/(^|;\s*)tsm_session=/.test(cookie)) return OUT;
 	try {
-		const r = await fetch(SITE + '/api/functions/v1/library/me', {
+		/* Same-origin on purpose: a preview host must not resolve entitlement against
+		   production. On tropesmith.com this is the same URL it always was. */
+		const r = await fetch(url.origin + '/api/functions/v1/library/me', {
 			headers: { cookie, accept: 'application/json' },
 			signal: AbortSignal.timeout(4000)
 		});
-		if (!r.ok) return { ok: false };
+		if (!r.ok) return OUT;
 		const d = await r.json();
-		return d && d.ok ? { ok: true, email: d.email } : { ok: false };
+		if (!d || !d.ok) return OUT;
+		/* THE ENTITLEMENT PREDICATES (Gary 2026-08-25, option B). Resolved server-side,
+		   per request, from the real records. Nothing tier-related is ever read from the
+		   cookie — the cookie only identifies who is asking, and even that is verified by
+		   HMAC upstream, not parsed here.
+		     liveBoard — an ACTIVE app_subscriptions row. That is the $7/mo Live Board,
+		       which is what the week-by-week rise/cool table is.
+		     paidMap   — paid_map_count > 0, i.e. app_maps with tier='paid' AND
+		       status='delivered'. NOT delivered_map_count (it counts 153 free_demo
+		       deliveries estate-wide) and NOT credit_balance (109 authors carry
+		       free-demo grants). Neither is evidence anyone paid. */
+		return {
+			signedIn: true,
+			email: d.email,
+			liveBoard: !!(d.subscription && d.subscription.status === 'active'),
+			paidMap: typeof d.paid_map_count === 'number' && d.paid_map_count > 0
+		};
 	} catch (_e) {
-		/* Auth unreachable is not "signed out for good" and is certainly not "signed in".
-		   Show the locked state and say why, rather than silently downgrading. */
-		return { ok: false, degraded: true };
+		/* FAIL CLOSED. Auth unreachable is not "signed out for good" and is certainly not
+		   "entitled". Show the locked state and say why, rather than guessing upward. */
+		return { signedIn: false, liveBoard: false, paidMap: false, degraded: true };
 	}
 }
 
+/* Every locked state is this object: nothing is granted unless a record says so. */
+const OUT = { signedIn: false, liveBoard: false, paidMap: false };
+
 /* ------------------------------------------------------------------ page: readout --- */
 
-function readoutBody(lane, trope, hit, unlocked, gateNote) {
+function readoutBody(lane, trope, hit, ent, gateNote) {
 	const L = LANES[lane], row = hit.row;
 	const mAll = row[1], weeksSeen = row[4];
 	const share = L.tot ? mAll / L.tot : 0;
@@ -283,8 +307,21 @@ function readoutBody(lane, trope, hit, unlocked, gateNote) {
 		`<div class="cell"><span class="t">Direction</span><span class="b">${esc(dir.label)}</span><span class="s">${esc(dir.why)}</span></div>`
 	].join('');
 
-	let depth;
-	if (unlocked) {
+	/* THE THREE-STATE GATE (Gary 2026-08-25, option B). Each block is keyed to the
+	   entitlement that actually pays for it, resolved server-side:
+	     week-by-week   -> LIVE BOARD, an active subscription   (ent.liveBoard)
+	     shelf / supply -> a delivered PAID MAP                 (ent.paidMap)
+	     co-asked       -> a free Tropesmith account            (ent.signedIn)
+	     evidence strip -> a free Tropesmith account            (ent.signedIn)
+	   PUBLIC_VIEW is the emergency kill-switch and is false; the nightly rail refuses to
+	   push to main while it is true. */
+	const showLive = PUBLIC_VIEW || ent.liveBoard;
+	const showMap = PUBLIC_VIEW || ent.paidMap;
+	const showFree = PUBLIC_VIEW || ent.signedIn;
+	const nextArg = esc(encodeURIComponent(PATH + '/' + lane + '/' + trope));
+	const degradedNote = gateNote ? '<p style="font-size:13px;color:#8B2942;margin:12px 0 0">' + esc(gateNote) + '</p>' : '';
+
+	const liveBlock = () => {
 		const series = (S[lane] && S[lane][trope]) || [];
 		const laneWeeks = SW[lane] || [];
 		const rowsHtml = WEEKS.map((w, i) => {
@@ -292,6 +329,13 @@ function readoutBody(lane, trope, hit, unlocked, gateNote) {
 			return `<tr><td>${esc(w)}</td><td class="n">${num(m)}</td><td class="n">${num(p)}</td><td class="n">${p ? pct(m / p) : '&mdash;'}</td></tr>`;
 		}).join('');
 
+		return `
+<h2>Week by week, and the share behind it</h2>
+<p>Every direction on this page is this table divided out. ${WIN.band_weeks} weeks to ${esc(WIN.to)}.</p>
+<div class="scroll"><table><thead><tr><th>Week beginning</th><th class="n">${esc(tn)} mentions</th><th class="n">All trope mentions in lane</th><th class="n">Share</th></tr></thead><tbody>${rowsHtml}</tbody></table></div>`;
+	};
+
+	const mapBlock = () => {
 		const titles = SUPPLY[trope];
 		const sRank = supplyRank(lane, trope);
 		const gap = sRank == null ? null : sRank - hit.rank;
@@ -306,6 +350,17 @@ function readoutBody(lane, trope, hit, unlocked, gateNote) {
 						  ' by tagged titles</b> — better served on the shelf than the asks alone would suggest.'
 						: 'Demand rank and supply rank are the same (<b>#' + hit.rank + '</b>): the shelf and the asks agree about this one.';
 
+		return `
+<h2>What is already on the shelf</h2>
+<div class="grid">
+<div class="cell"><span class="t">Tagged titles carrying it</span><span class="b">${titles == null ? '&mdash;' : num(titles)}</span><span class="s">across our whole trope-tagged registry of ${floorNum(CORPUS.tagged_titles_floor)} titles</span></div>
+<div class="cell"><span class="t">Demand rank vs supply rank</span><span class="b">${gap == null ? '&mdash;' : (gap > 0 ? '+' + gap : gap)}</span><span class="s">places of daylight between the asks and the shelf</span></div>
+</div>
+<p>${gapRead}</p>
+<p style="font-size:13.5px;color:#5b4a59"><b>Read this carefully.</b> The title count is <b>registry-wide, not lane-scoped</b>. Our tagged-title records use a different subgenre vocabulary from the reader-ask records and the two do not join, so we count titles carrying the trope <i>anywhere</i> rather than fake a lane join and print &ldquo;nobody has written it&rdquo; about books that exist.</p>`;
+	};
+
+	const freeBlock = () => {
 		const adj = ((ADJ[lane] || {})[trope] || []).filter((a) => a[0] !== trope);
 		const adjHtml = adj.length
 			? `<div class="scroll"><table><thead><tr><th>Asked for alongside</th><th class="n">Reader asks naming both</th></tr></thead><tbody>` +
@@ -314,19 +369,7 @@ function readoutBody(lane, trope, hit, unlocked, gateNote) {
 			  `<p style="font-size:13.5px;color:#5b4a59">These are a <b>different count</b> from the mentions above: reader asks in ${esc(ln)} naming both tropes in the same request, across the whole ask corpus rather than the dated weekly window. Do not add the two together.</p>`
 			: `<p class="note">No co-asked trope clears our floor for this one in ${esc(ln)}. That is an absence of counted pairs, not proof that readers never ask for them together.</p>`;
 
-		depth = `
-<h2>Week by week, and the share behind it</h2>
-<p>Every direction on this page is this table divided out. ${WIN.band_weeks} weeks to ${esc(WIN.to)}.</p>
-<div class="scroll"><table><thead><tr><th>Week beginning</th><th class="n">${esc(tn)} mentions</th><th class="n">All trope mentions in lane</th><th class="n">Share</th></tr></thead><tbody>${rowsHtml}</tbody></table></div>
-
-<h2>What is already on the shelf</h2>
-<div class="grid">
-<div class="cell"><span class="t">Tagged titles carrying it</span><span class="b">${titles == null ? '&mdash;' : num(titles)}</span><span class="s">across our whole trope-tagged registry of ${floorNum(CORPUS.tagged_titles_floor)} titles</span></div>
-<div class="cell"><span class="t">Demand rank vs supply rank</span><span class="b">${gap == null ? '&mdash;' : (gap > 0 ? '+' + gap : gap)}</span><span class="s">places of daylight between the asks and the shelf</span></div>
-</div>
-<p>${gapRead}</p>
-<p style="font-size:13.5px;color:#5b4a59"><b>Read this carefully.</b> The title count is <b>registry-wide, not lane-scoped</b>. Our tagged-title records use a different subgenre vocabulary from the reader-ask records and the two do not join, so we count titles carrying the trope <i>anywhere</i> rather than fake a lane join and print &ldquo;nobody has written it&rdquo; about books that exist.</p>
-
+		return `
 <h2>Asked for alongside, in ${esc(ln)}</h2>
 ${adjHtml}
 
@@ -342,21 +385,45 @@ ${adjHtml}
 <tr><td>Lane scorecard last recomputed</td><td class="n"><b>${esc(L.ref || 'unknown')}</b></td></tr>
 </tbody></table></div>
 <p style="font-size:13.5px;color:#5b4a59">We print the recompute time because the job behind it does occasionally fail. If that date is old, this strip is old, and you should read it as such.</p>`;
-	} else {
-		depth = `
-<h2 id="full">The full readout</h2>
+	};
+
+	/* LOCKED STATES. Each says what is behind it and why, and links to the thing that
+	   opens it. No prices are printed here - /pricing/ is the one place that sells. */
+	const lockedLive = () => `
+<h2>Week by week, and the share behind it</h2>
 <div class="note">
-<p style="margin-top:0"><b>Four more things sit behind a free Tropesmith account</b>, for ${esc(tn)} in ${esc(ln)}:</p>
+<p style="margin-top:0">The <b>week-by-week table</b> this direction is divided out of &mdash; ${WIN.band_weeks} weeks of ${esc(tn)} mentions and lane totals side by side, so you can check our arithmetic &mdash; is part of the <b>Live Board</b>, which keeps your lane updated as tropes rise and cool.</p>
+<p style="margin-bottom:0"><a class="btn" href="/pricing/">See the Live Board &rarr;</a></p>
+</div>`;
+
+	const lockedMap = () => `
+<h2>What is already on the shelf</h2>
+<div class="note">
+<p style="margin-top:0">How many <b>tagged titles already carry ${esc(tn)}</b>, and how far its demand rank sits from its supply rank, is part of every <b>Tropesmith Map</b> &mdash; the ranked trope stack with demand-vs-supply for your lane.</p>
+<p style="margin-bottom:0"><a class="btn" href="/pricing/">See what a Map includes &rarr;</a></p>
+</div>`;
+
+	const lockedAll = () => `
+<h2 id="full">The rest of this readout</h2>
+<div class="note">
+<p style="margin-top:0"><b>Two more things are free with a Tropesmith account</b>, for ${esc(tn)} in ${esc(ln)}:</p>
 <ul style="margin:8px 0 14px">
-<li>the <b>week-by-week table</b> the direction above is divided out of — ${WIN.band_weeks} weeks, mentions and lane total side by side, so you can check our arithmetic</li>
-<li>how many <b>tagged titles already carry this trope</b>, and how far its demand rank sits from its supply rank</li>
 <li>the tropes readers <b>ask for alongside it</b> in ${esc(ln)}, with the counts</li>
 <li>the <b>evidence strip for ${esc(ln)}</b>: signals held, signals this week, newest signal, tagging coverage, and when we last recomputed it</li>
 </ul>
-<p style="margin-bottom:0"><a class="btn" href="/login/?next=${esc(encodeURIComponent(PATH + '/' + lane + '/' + trope))}">Get the full readout &mdash; free</a></p>
-${gateNote ? '<p style="font-size:13px;color:#8B2942;margin:12px 0 0">' + esc(gateNote) + '</p>' : ''}
+<p><a class="btn" href="/login/?next=${nextArg}">Create a free account</a></p>
+<p style="margin-bottom:6px"><b>Two are part of what Tropesmith sells:</b></p>
+<ul style="margin:8px 0 14px">
+<li>the <b>week-by-week table</b> behind the direction above &mdash; part of the <b>Live Board</b></li>
+<li><b>tagged titles</b> carrying it, and its <b>demand rank vs supply rank</b> &mdash; part of every <b>Map</b></li>
+</ul>
+<p style="margin-bottom:0"><a class="btn" href="/pricing/">See what Tropesmith sells &rarr;</a></p>
+${degradedNote}
 </div>`;
-	}
+
+	const depth = showFree
+		? [showLive ? liveBlock() : lockedLive(), showMap ? mapBlock() : lockedMap(), freeBlock()].join('\n')
+		: lockedAll();
 
 	return `<div class="wrap">
 <div class="eyebrow">Free tool &middot; Counted, not estimated &middot; as of ${esc(AS_OF)}</div>
@@ -630,10 +697,10 @@ export async function handle(context) {
 		if (!lane || !trope) return jsonResponse({ ok: false, error: 'lane and trope required' }, 400);
 		const hit = rowFor(lane, trope);
 		if (!hit) return jsonResponse({ ok: false, error: 'no readout for that trope in that genre' }, 404);
-		const s = PUBLIC_VIEW ? { ok: true } : await session(request, url, isProd);
-		if (!s.ok)
+		const ent = PUBLIC_VIEW ? { signedIn: true, liveBoard: true, paidMap: true } : await entitlement(request, url, isProd);
+		if (!ent.signedIn)
 			return new Response(
-				JSON.stringify({ ok: false, gated: true, degraded: !!s.degraded, signup: '/login/?next=' + encodeURIComponent(PATH + '/' + lane + '/' + trope) }),
+				JSON.stringify({ ok: false, gated: true, degraded: !!ent.degraded, signup: '/login/?next=' + encodeURIComponent(PATH + '/' + lane + '/' + trope) }),
 				{ status: 401, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'private, no-store' } }
 			);
 		return new Response(
@@ -641,11 +708,15 @@ export async function handle(context) {
 				ok: true, as_of: AS_OF, window: WIN, weeks: WEEKS,
 				lane, lane_name: laneName(lane), trope, trope_name: tropeName(trope),
 				mentions: hit.row[1], rank: hit.rank, of: hit.of,
-				series: (S[lane] || {})[trope] || [], lane_weekly_total: SW[lane] || [],
-				titles_registry_wide: SUPPLY[trope] == null ? null : SUPPLY[trope],
-				supply_rank: supplyRank(lane, trope),
+				/* Per-rail, exactly as the HTML gates it. A field the caller has not paid
+				   for is absent and declared in `gated`, never quietly zeroed. */
+				series: ent.liveBoard ? ((S[lane] || {})[trope] || []) : null,
+				lane_weekly_total: ent.liveBoard ? (SW[lane] || []) : null,
+				titles_registry_wide: ent.paidMap ? (SUPPLY[trope] == null ? null : SUPPLY[trope]) : null,
+				supply_rank: ent.paidMap ? supplyRank(lane, trope) : null,
 				co_asked: (ADJ[lane] || {})[trope] || [],
-				lane_evidence: LANES[lane]
+				lane_evidence: LANES[lane],
+				gated: { week_by_week: !ent.liveBoard, demand_vs_supply: !ent.paidMap }
 			}),
 			{ status: 200, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'private, no-store' } }
 		);
@@ -715,8 +786,8 @@ export async function handle(context) {
 			'. Either it is not in our canonical taxonomy, or it has fewer than ' + FLOORS.mentions +
 			' counted mentions in this genre — and we would rather say so than print a number we cannot stand behind.');
 	}
-	const s = await session(request, url, isProd);
-	const gateNote = s.degraded ? 'Our sign-in service did not answer just now, so we cannot tell whether you are signed in. Nothing below has been guessed in its place.' : '';
+	const ent = await entitlement(request, url, isProd);
+	const gateNote = ent.degraded ? 'Our sign-in service did not answer just now, so we cannot tell what your account carries. Nothing below has been guessed in its place.' : '';
 	const canonical = SITE + PATH + '/' + lane + '/' + trope;
 
 	if (json) {
@@ -728,9 +799,18 @@ export async function handle(context) {
 			mentions: hit.row[1], lane_total_mentions: L.tot, share_pct: L.tot ? Number(((hit.row[1] / L.tot) * 100).toFixed(3)) : null,
 			rank: hit.rank, of: hit.of, weeks_seen: hit.row[4], direction: d.state, direction_label: d.label,
 			advisory: L.adv,
+			/* Mirrors the HTML gate exactly - the Accept header is not a way around it. */
 			full_readout: PUBLIC_VIEW
 				? { gated: false, free_account_required: false, url: canonical + '?depth=1' }
-				: { gated: true, free_account_required: true, signup: SITE + '/login/?next=' + encodeURIComponent(PATH + '/' + lane + '/' + trope) }
+				: {
+						gated: true,
+						free_account_required: true,
+						signup: SITE + '/login/?next=' + encodeURIComponent(PATH + '/' + lane + '/' + trope),
+						co_asked_and_lane_evidence: 'free Tropesmith account',
+						week_by_week: 'Live Board subscription',
+						demand_vs_supply: 'a delivered paid Map',
+						pricing: SITE + '/pricing/'
+					}
 		});
 	}
 
@@ -747,9 +827,9 @@ export async function handle(context) {
 
 	return htmlOut(
 		stageHead(tropeName(trope) + ' in ' + laneName(lane) + ' — reader demand | Tropesmith', desc, canonical, ld, isProd) +
-			readoutBody(lane, trope, hit, PUBLIC_VIEW || s.ok, gateNote) +
+			readoutBody(lane, trope, hit, ent, gateNote) +
 			foot(),
-		{ noindex, private: s.ok }
+		{ noindex, private: ent.signedIn }
 	);
 }
 
