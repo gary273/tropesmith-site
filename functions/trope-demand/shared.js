@@ -255,9 +255,7 @@ async function entitlement(request, url, isProd) {
 	}
 	if (!/(^|;\s*)tsm_session=/.test(cookie)) return OUT;
 	try {
-		/* Same-origin on purpose: a preview host must not resolve entitlement against
-		   production. On tropesmith.com this is the same URL it always was. */
-		const r = await fetch(url.origin + '/api/functions/v1/library/me', {
+		const r = await fetch(AUTH_API + '/library/me', {
 			headers: { cookie, accept: 'application/json' },
 			signal: AbortSignal.timeout(4000)
 		});
@@ -289,6 +287,18 @@ async function entitlement(request, url, isProd) {
 
 /* Every locked state is this object: nothing is granted unless a record says so. */
 const OUT = { signedIn: false, liveBoard: false, paidMap: false };
+
+/* THE AUTH/ENTITLEMENT BACKEND, called DIRECTLY - not through this site's own
+   /api/functions/v1/... path. DO NOT "tidy" this back to a same-origin URL.
+   /api/* on tropesmith.com is a ZONE WORKER ROUTE, and Cloudflare does not re-run zone
+   Worker routes for a subrequest issued from inside a Worker on the same zone: the
+   subrequest falls through to the Pages project, 404s, and entitlement() then correctly
+   fails closed - so EVERY signed-in visitor silently renders as anonymous.
+   Proven live 2026-08-25 under TS-0592: cf-cache-status DYNAMIC (so it reached the
+   origin), depth=1 returned degraded:false (so nothing threw), and the page still served
+   the anonymous block while /me answered 200 with paid_map_count=28 to the same cookie
+   from outside. This host is public, not a secret. */
+const AUTH_API = 'https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1';
 
 /* ------------------------------------------------------------------ page: readout --- */
 
