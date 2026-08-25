@@ -20,16 +20,24 @@
  * 2. THE PAGE IS SERVER-RENDERED AND WORKS WITH JAVASCRIPT OFF. authorsstarport starved
  *    because its content was JS-only. Every number a crawler needs is in the HTML.
  *
- * 3. THE DEPTH GATE IS OFF BY RULING, NOT BY ACCIDENT. Gary, 2026-08-25, in chat:
- *    "PUBLISH" — the Trope Demand Checker goes public, no-signup-to-view. That is
- *    STRATEGY-NEXT D3 option (b) and the shape IN-0913 §3/C1 asked for: a depth gate taxes
- *    exactly the linking behaviour this tool is being published to buy. `PUBLIC_VIEW`
- *    below carries the ruling and the whole readout is served to everyone, signed in or
- *    not. free-requires-signup is satisfied by gating SAVE and EXPORT, not viewing.
- *    The gate code is left standing rather than deleted: set PUBLIC_VIEW back to false and
- *    the depth gate returns exactly as it was, staging unlock and all. That unlock is
- *    still `!isProd && STAGE`, so no constant in this file can open anything on
- *    tropesmith.com that the ruling has not already opened.
+ * 3. THE DEPTH GATE IS ON, AND IT IS A BUSINESS RULE. Two Gary rulings, both 2026-08-25,
+ *    in chat, and the second BOUNDS the first:
+ *      (i)  "PUBLISH" — the checker goes public, no-signup-to-view.
+ *      (ii) "make sure it does NOT give away all our products for free, that's not a
+ *           business model."
+ *    So: PUBLISHED (STAGE=false, indexable, the 404 is fixed) but NOT wide open.
+ *    The public layer is the TEASER — mentions, share of lane, rank, direction, and how
+ *    much evidence sits behind it. That is what earns the citations and the links, and it
+ *    is deliberately enough to prove we hold the data.
+ *    The depth is THE PRODUCT and tropesmith.com charges for it today:
+ *      - the week-by-week rise/cool table is the $7/mo LIVE BOARD, whose own pricing copy
+ *        is "keeps that exact lane updated as tropes rise and cool";
+ *      - demand-rank-vs-supply-rank and the tagged-title supply side are sold inside the
+ *        $15 MAP, whose own pricing copy is "the ranked trope stack with demand-vs-supply".
+ *    `PUBLIC_VIEW` below is the switch. It is false, and flipping it to true re-opens
+ *    paid product to anonymous readers — do not flip it without Gary's word.
+ *    The preview unlock is `!isProd && ...`, so no constant in this file can open the gate
+ *    on tropesmith.com.
  *
  * HONESTY RULES THIS FILE ENFORCES
  *   - Direction is computed from SHARE, never a raw weekly move (the ticker-share ruling
@@ -50,9 +58,12 @@ import { SITE, ORG, esc, num, head, foot, breadcrumb, app, pv, tieBack, jsonResp
    preview branch still needs its noindex when it is rebuilt. Flipping it is NOT what
    protects production — `isProd` below is. */
 const STAGE = false;
-/* THE RULING. Gary, 2026-08-25, in chat: "PUBLISH" — no signup required to VIEW.
-   One constant, one place, reversible: false restores the depth gate byte for byte. */
-const PUBLIC_VIEW = true;
+/* THE GATE SWITCH. Gary, 2026-08-25, in chat: "make sure it does NOT give away all our
+   products for free, that's not a business model." false = the depth gate is ON, which is
+   the shipped and tested behaviour. true would serve the $7/mo Live Board's week-by-week
+   rise/cool table and the $15 Map's demand-vs-supply ranking to anyone, for nothing.
+   DO NOT FLIP THIS WITHOUT GARY'S WORD. */
+const PUBLIC_VIEW = false;
 const PATH = '/trope-demand';
 /* The window START we print is the first week the rail actually holds. WIN.from is the
    band boundary the arithmetic uses; printing that would claim a week we do not have. */
@@ -229,11 +240,14 @@ function htmlOut(body, opts) {
  */
 async function session(request, url, isProd) {
 	const cookie = request.headers.get('cookie') || '';
-	if (!isProd && STAGE) {
-		/* Staging preview only — the pages.dev host never receives the tropesmith.com
-		   cookie, so Gary could not otherwise see the unlocked readout. isProd is derived
-		   from the hostname, so this branch is unreachable on tropesmith.com no matter
-		   what STAGE is set to. */
+	if (!isProd) {
+		/* Preview hosts only — a pages.dev host never receives the tropesmith.com cookie,
+		   so the unlocked readout could not otherwise be reviewed or regression-tested.
+		   Deliberately NOT tied to STAGE any more: since the publish, STAGE only drives the
+		   noindex and on production it must stay false, so gating this on it would have
+		   silently retired the unlocked render path and its test coverage with it.
+		   isProd is derived from the hostname, so this branch is unreachable on
+		   tropesmith.com no matter what any constant in this file is set to. */
 		if (url.searchParams.get('stage_signedin') === '1') return { ok: true, staged: true };
 	}
 	if (!/(^|;\s*)tsm_session=/.test(cookie)) return { ok: false };
