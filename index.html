@@ -862,6 +862,39 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
 
 </main>
 
+<!-- ─── EMAIL CAPTURE (PP-3889) ──────────────────────────────────── -->
+<section class="section tight" data-screen-label="01 Home · Pulse signup" aria-label="Trope Pulse newsletter signup">
+  <div class="wrap">
+    <div class="card" id="pulsecard" style="background:linear-gradient(135deg,#f6efff,#fff4ef);max-width:640px;margin:0 auto">
+      <h3 style="margin-top:0;font-family:Fraunces,Georgia,serif;font-size:21px">Get the weekly Trope Pulse in your inbox</h3>
+      <p style="font-size:15px;color:#3a3450;margin:6px 0 14px">Which tropes are rising and cooling in the lanes you care about — free, from the same live engine that powers every Map. Unsubscribe anytime.</p>
+      <form id="pulseform" style="display:flex;gap:10px;flex-wrap:wrap">
+        <input type="email" id="pulseemail" required placeholder="you@authorname.com" style="flex:1;min-width:220px;padding:13px 14px;border:1px solid rgba(16,18,47,.16);border-radius:11px;font-size:16px;font-family:inherit">
+        <button type="submit" class="btn" style="border:0;cursor:pointer" id="pulsebtn">Send me the trends &rarr;</button>
+      </form>
+      <p id="pulsemsg" style="display:none;font-size:14px;margin:10px 0 0"></p>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var f=document.getElementById('pulseform'),e=document.getElementById('pulseemail'),
+      b=document.getElementById('pulsebtn'),m=document.getElementById('pulsemsg');
+  f.addEventListener('submit',function(ev){
+    ev.preventDefault();b.disabled=true;b.textContent='Sending…';
+    fetch('https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-subscribe',{
+      method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({email:e.value,site:'homepage'})
+    }).then(function(r){return r.json();}).then(function(d){
+      m.style.display='block';
+      if(d&&d.ok){m.style.color='#0e7a4f';m.textContent=d.already?'You’re already subscribed — thanks!':'Almost there — check your email to confirm.';f.querySelector('input').value='';}
+      else{m.style.color='#c2274b';m.textContent=(d&&d.message)||'Something went wrong — please try again.';}
+      b.disabled=false;b.textContent='Send me the trends →';
+    }).catch(function(){m.style.display='block';m.style.color='#c2274b';m.textContent='Network error — please try again.';b.disabled=false;b.textContent='Send me the trends →';});
+  });
+})();
+</script>
+
 <!-- ─── PARTNERS BANNER ──────────────────────────────────────────── -->
 <section class="section tight ts-partners" aria-label="Partner services">
   <div class="wrap ts-partners-row">
