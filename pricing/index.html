@@ -119,6 +119,67 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
   </div>
 </section>
 
+<!-- ─── FREE LITE MAP (TS-0309: lower first-purchase risk) ──────────────────────── -->
+<section class="section tight" style="padding-top:0" data-screen-label="Pricing · Free Lite Map">
+  <div class="wrap">
+    <div class="ts-lite-card">
+      <div class="ts-lite-head">
+        <span class="label" style="color:var(--ts-violet-dk)">Free · No card · No account</span>
+        <h4 style="margin:6px 0 4px">Try your lane free first — the Lite Map</h4>
+        <p>See your subgenre's live opportunity score, greenlight band, market economics and length sweet spot before you spend a cent. Then decide if the full $15 Map — the ranked trope stack, comps, cover direction and a step-by-step plan for your specific book — is worth it.</p>
+      </div>
+      <form id="ts-lite-form" class="ts-lite-form">
+        <label for="ts-lite-subgenre" class="visually-hidden">Your subgenre</label>
+        <select id="ts-lite-subgenre" required>
+          <option value="" disabled selected>Choose your subgenre&hellip;</option>
+          <option value="romance.contemporary">Contemporary</option>
+          <option value="romance.contemporary.billionaire">Billionaire</option>
+          <option value="romance.contemporary.small_town">Small Town</option>
+          <option value="romance.contemporary.workplace">Workplace</option>
+          <option value="romance.contemporary.sports.hockey">Sports (Hockey)</option>
+          <option value="romance.contemporary.single_parent">Single Parent</option>
+          <option value="romance.dark">Dark Romance</option>
+          <option value="romance.romantasy">Romantasy</option>
+          <option value="romance.paranormal">Paranormal</option>
+          <option value="romance.historical.regency">Historical (Regency)</option>
+          <option value="romance.historical.scottish">Historical (Scottish)</option>
+          <option value="romance.suspense">Romantic Suspense</option>
+          <option value="romance.scifi">Sci-Fi Romance</option>
+          <option value="romance.lgbtq.mm">LGBTQ &middot; MM</option>
+          <option value="romance.lgbtq.sapphic">LGBTQ &middot; Sapphic</option>
+          <option value="romance.clean_wholesome">Clean &amp; Wholesome</option>
+          <option value="romance.romcom">Rom-Com</option>
+          <option value="romance.western">Western</option>
+        </select>
+        <button class="btn btn-primary btn-lg" type="submit">See my free Lite Map <span class="arrow">&rarr;</span></button>
+      </form>
+      <p class="ts-credits-fine" style="margin-top:10px">Live engine data, no email required. This is the free preview — the paid Map goes deeper for your exact book.</p>
+    </div>
+    <style>
+      .ts-lite-card{background:#FFFEFB;border:1px solid rgba(16,18,47,0.10);border-left:4px solid #1E7A43;border-radius:14px;padding:26px 28px;box-shadow:0 8px 24px rgba(16,18,47,0.06)}
+      .ts-lite-head h4{font-family:'Fraunces',Georgia,serif;font-size:24px;color:#10122F;font-weight:700;line-height:1.15}
+      .ts-lite-head .label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#1E7A43}
+      .ts-lite-head p{color:#5b4a59;font-size:15px;line-height:1.55;margin:6px 0 0;max-width:600px}
+      .ts-lite-form{display:flex;align-items:stretch;gap:12px;flex-wrap:wrap;margin-top:18px}
+      .ts-lite-form select{flex:1 1 260px;min-width:220px;padding:13px 14px;border:1px solid rgba(16,18,47,0.16);border-radius:11px;font-size:16px;font-family:inherit;background:#fff;color:#10122F}
+      @media (max-width:560px){.ts-lite-form{flex-direction:column}}
+    </style>
+    <script>
+    (function () {
+      var form = document.getElementById('ts-lite-form');
+      var select = document.getElementById('ts-lite-subgenre');
+      if (!form || !select) return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var lane = select.value;
+        if (!lane) return;
+        window.location.href = '../lane-score/' + encodeURIComponent(lane);
+      });
+    })();
+    </script>
+  </div>
+</section>
+
 <!-- Credit redeem panel (only shown when /pricing?unlock={map_id} is present AND eligible) -->
 <section id="tsm-redeem-panel" class="section tight" style="display:none;padding-top:0">
   <div class="wrap">
@@ -199,8 +260,8 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
     <div class="ts-credits-card">
       <div class="ts-credits-head">
         <span class="label" style="color:var(--ts-violet-dk)">1 credit = 1 Map · credits never expire</span>
-        <h4 style="margin:6px 0 4px">Buy credits</h4>
-        <p>Choose how many Maps you want. Bigger quantities drop the per-credit price automatically — no packs to pick. Use them whenever you like.</p>
+        <h4 style="margin:6px 0 4px">Buy credits — the volume plan</h4>
+        <p>Choose how many Maps you want. Bigger quantities drop the per-credit price automatically — no packs to pick, no plan to lock into. Write 3, 6 or 12 books a year and Tropesmith gets <em>cheaper per book</em> the more you write. Compare that to a one-time desktop tool: pay once, and the read is frozen the day you bought it. Every Tropesmith credit reads the market as it stands right now.</p>
       </div>
       <div class="ts-credits-controls">
         <div class="ts-qty" role="group" aria-label="Number of credits">
@@ -215,6 +276,7 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
         <button class="btn btn-primary btn-lg" id="ts-buy-credits" type="button">Buy <span id="ts-buy-qty-label">1 credit</span> <span class="arrow">→</span></button>
       </div>
       <div class="ts-credits-ladder" aria-label="Volume pricing">
+        <span style="font-weight:700;color:#10122F">Volume plan:</span>
         <span>1 = <b>$15</b></span>
         <span>2–5 = <b>$13</b> ea</span>
         <span>6–10 = <b>$11.50</b> ea</span>
