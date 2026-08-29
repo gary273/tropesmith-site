@@ -15,7 +15,9 @@ These are our own measurements from our own collection. They are not licensed fr
 ## Start here
 - https://tropesmith.com/romance-tropes/ : Romance tropes pillar — every major trope with reader-demand data
 - https://tropesmith.com/reader-demand/ : Live reader demand by subgenre (free)
+- https://tropesmith.com/trope-demand/ : Trope Demand Checker — pick a genre and a trope, see counted reader demand, rank and direction (free)
 - https://tropesmith.com/market/ : Book market snapshots by subgenre (live data)
+- https://tropesmith.com/free-tools/ : Every free Tropesmith tool — trope pairs, BookTok hashtags, lane score, category checker and more
 - https://tropesmith.com/booktok-books/ : BookTok books data page
 - https://tropesmith.com/romance-tropes-list/ : Romance tropes list
 - https://tropesmith.com/dark-romance-books/ : Dark romance books

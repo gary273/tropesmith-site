@@ -216,6 +216,7 @@ ${extra || ''}
 <li><a href="${REPORT}">The 2026 Romance Demand Report</a> &mdash; the full year&rsquo;s read on where romance demand is heading, from the same engine.</li>
 <li><a href="/trending/">Free Romance Trope Opportunity Check</a> &mdash; the tropes to write into in this lane right now.</li>
 <li><a href="/reader-demand/">Reader demand by subgenre</a> &mdash; what readers are actually asking for.</li>
+<li><a href="/trope-demand/">Trope Demand Checker</a> &mdash; pick a genre and a trope, see the counted reader demand.</li>
 </ul>`;
 }
 
