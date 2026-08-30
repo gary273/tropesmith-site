@@ -11,7 +11,9 @@
     "/booktok-hashtags",
     "/booktok-hashtags/*",
     "/trope-demand",
-    "/trope-demand/*"
+    "/trope-demand/*",
+    "/trending",
+    "/trending/*"
   ],
   "exclude": [
     "/pulse/",
