@@ -1022,3 +1022,42 @@ html body{
   .ts-partner--dark img{ height:64px; }
   .ts-partner--light img{ height:44px; }
 }
+/* ─────────────────────────────────────────────────────────────────────────
+   IN-1144 · Phase 3 AC-3 — MOTION SAFETY (WCAG 2.3.3)
+   Staged 2026-09-06. Append to the END of the surface's last-loaded stylesheet.
+
+   WHY A BLANKET RESET AND NOT ANOTHER SELECTOR:
+   tropesmith.com already ships a reduced-motion block (assets/styles.css:984)
+   that names four classes:
+       .eyebrow, .grad-text, .stat .n, .btn-primary { animation: none; }
+   Measured 2026-09-06 with a Chromium context at reduced_motion="reduce",
+   6 infinite-loop animations still ran: ts-vibe-pan (on .tsu-kicker .tsu-grad,
+   .tsu-h, .tsu-tag.tsu-nowtag, .tsu-card.tsu-now .tsu-cardh — all declared in
+   index.html's inline <style>, none of them on the allow-list) and tsmPulse
+   (index.html:624) and pulse (styles.css:255).
+
+   A hand-maintained allow-list cannot track new animated components: every
+   component added since the block was written silently opted out of motion
+   safety. That is the class defect. The fix is to invert the default — stop
+   ALL looping motion under `reduce`, and let a component opt back IN
+   deliberately via .motion-safe-exempt if it ever has a real reason to.
+   ───────────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Deliberate, documented exemption hook. Nothing uses it today; adding a
+     class here is a design-team decision, not a drive-by. */
+  .motion-safe-exempt, .motion-safe-exempt *, .motion-safe-exempt *::before {
+    animation-duration: revert !important;
+    animation-iteration-count: revert !important;
+    transition-duration: revert !important;
+  }
+}
