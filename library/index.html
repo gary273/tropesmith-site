@@ -88,6 +88,7 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
   </nav>
   <div class="nav-cta">
     <a id="signout-link" class="btn btn-link" href="#" style="margin-right:12px;">Sign out</a>
+    <a id="manage-sub-link" class="btn btn-sm" href="/api/functions/v1/billing-portal" style="display:none;margin-right:8px;">Manage subscription</a>
     <a class="btn btn-sm" href="../pricing/" style="margin-right:8px;">Buy credits</a>
     <a class="btn btn-primary btn-sm" href="../intake/">Make a Map <span class="arrow">→</span></a>
   </div>
@@ -207,6 +208,7 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
   const mapsList = document.getElementById('maps-list');
   const emptyState = document.getElementById('empty-state');
   const signoutLink = document.getElementById('signout-link');
+  const manageSubLink = document.getElementById('manage-sub-link');
 
   function nameFromEmail(email) {
     const local = (email || '').split('@')[0] || 'there';
@@ -290,6 +292,9 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
       if (!data.ok) throw new Error(data.error || 'failed');
       var name = nameFromEmail(data.email);
       greetH.innerHTML = 'Hi <span class="grad-text">' + name + '.</span>';
+      if (data.subscription && data.subscription.status === 'active' && data.subscription.product_id === 'live_board_monthly') {
+        manageSubLink.style.display = '';
+      }
       var mapCount = data.delivered_map_count || 0;
       var credits = data.credit_balance || 0;
       creditBalance = credits;
