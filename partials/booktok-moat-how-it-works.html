@@ -159,46 +159,15 @@
     }
     return n.toLocaleString('en-US');
   }
-  function animateStat(el) {
-    var target = parseInt(el.dataset.target, 10);
-    var mode = el.dataset.format || 'comma';
-    var duration = 1800;
-    var start = performance.now();
-    function frame(now) {
-      var elapsed = now - start;
-      var progress = Math.min(elapsed / duration, 1);
-      var eased = 1 - Math.pow(1 - progress, 3);
-      var current = Math.floor(target * eased);
-      el.textContent = formatNumber(current, mode);
-      if (progress < 1) requestAnimationFrame(frame);
-      else el.textContent = formatNumber(target, mode);
-    }
-    requestAnimationFrame(frame);
-  }
-  if ('IntersectionObserver' in window) {
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting && !entry.target.dataset.animated) {
-          entry.target.dataset.animated = '1';
-          animateStat(entry.target);
-        }
-      });
-    }, { threshold: 0.4 });
-    var tsmReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.querySelectorAll('.tsm-corpus-card-stat').forEach(function(el) {
-      // IN-0778: the final value ships in the HTML so a no-JS crawler reads a real number.
-      // Reset to zero HERE, where only a browser sees it, so the count-up still starts at zero
-      // and the tile never flashes final -> 0 -> final.
-      if (tsmReduce) { el.dataset.animated = '1'; return; }
-      el.textContent = formatNumber(0, el.dataset.format || 'comma');
-      observer.observe(el);
-    });
-  } else {
-    document.querySelectorAll('.tsm-corpus-card-stat').forEach(function(el) {
-      var target = parseInt(el.dataset.target, 10);
-      var mode = el.dataset.format || 'comma';
-      el.textContent = formatNumber(target, mode);
-    });
-  }
+  // TS-0917 (class of TS-0905): this used to reset every .tsm-corpus-card-stat to "0" synchronously
+  // on load, then rely on an IntersectionObserver (threshold 0.4) to animate back up once the tile
+  // scrolled into view. A render that never scrolls that section into view never intersects, so the
+  // tile is stuck at "0" forever -- a real false number (measured on the homepage, TS-0899/TS-0905).
+  // The element's baked textContent is already the correct real number (IN-0778 ships it there for a
+  // no-JS crawler), so per the standing "never start from zero, never publish a false number" rule
+  // this no longer clobbers it; there is no count-up left to race, so no code path here can render 0.
+  document.querySelectorAll('.tsm-corpus-card-stat').forEach(function(el) {
+    el.dataset.animated = '1';
+  });
 })();
 </script>
