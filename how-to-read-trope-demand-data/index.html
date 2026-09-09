@@ -1,0 +1,98 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Read Trope Demand Data Before You Write | Tropesmith</title>
+<meta name="description" content="What reader-request count, underserved %, market state and 14-day momentum actually mean — and how to use them together before picking a trope stack.">
+<link rel="canonical" href="https://tropesmith.com/how-to-read-trope-demand-data/">
+<meta property="og:type" content="article"><meta property="og:site_name" content="Tropesmith">
+<meta property="og:title" content="How to Read Trope Demand Data Before You Write | Tropesmith">
+<meta property="og:description" content="What reader-request count, underserved %, market state and 14-day momentum actually mean — and how to use them together before picking a trope stack.">
+<meta property="og:url" content="https://tropesmith.com/how-to-read-trope-demand-data/">
+<meta property="og:image" content="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Read Trope Demand Data Before You Write | Tropesmith", "description": "What reader-request count, underserved %, market state and 14-day momentum actually mean \u2014 and how to use them together before picking a trope stack.", "datePublished": "2026-08-29", "dateModified": "2026-08-29", "author": {"@type": "Organization", "name": "Tropesmith"}, "publisher": {"@type": "Organization", "name": "Tropesmith", "logo": {"@type": "ImageObject", "url": "https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png"}}, "mainEntityOfPage": "https://tropesmith.com/how-to-read-trope-demand-data/"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does a high request count mean I should write that trope?", "acceptedAnswer": {"@type": "Answer", "text": "Not by itself. Found Family has 267,433 requests logged and is classified \"balanced\" \u2014 real demand, but real competing supply too. The number tells you the trope is wanted; it doesn't tell you the lane is open."}}, {"@type": "Question", "name": "What does \"underserved\" actually measure?", "acceptedAnswer": {"@type": "Answer", "text": "The share of tracked demand for a trope that Tropesmith's registry has no matching tagged supply for. It's a gap measure, not a quality measure \u2014 a high underserved % says the shelf hasn't caught up to requests, not that any specific unmet request is easy or profitable to satisfy."}}]}</script>
+<style>*{box-sizing:border-box}body{margin:0;background:#FFF9F3;color:#10122F;font-family:Inter,-apple-system,sans-serif;line-height:1.7}
+a{color:#6D28D9}
+.topnav{background:linear-gradient(180deg,#141636,#1b1d40);padding:14px 0}
+.topnav .in{max-width:960px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.topnav img{height:34px;width:auto}
+.topnav nav a{color:#e8e5ff;text-decoration:none;font-size:14px;font-weight:600;margin-left:18px}
+.topnav .cta{background:linear-gradient(135deg,#8B5CF6,#FF6B7A);color:#fff;padding:9px 16px;border-radius:999px}
+.wrap{max-width:760px;margin:0 auto;padding:34px 22px 40px}
+.back{color:#6D28D9;text-decoration:none;font-size:13px;font-weight:600}
+.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#8B5CF6;font-weight:700;margin-top:18px}
+h1{font-family:Fraunces,Georgia,serif;font-size:34px;line-height:1.12;margin:8px 0 6px}
+.meta{color:#a39395;font-size:13px;margin-bottom:22px}
+h2{font-family:Fraunces,serif;font-size:24px;margin:36px 0 8px}
+h3{font-family:Fraunces,serif;font-size:19px;margin:22px 0 4px}
+p{font-size:16.5px;color:#221f33;max-width:68ch}
+li{font-size:16.5px;color:#221f33;max-width:66ch;margin-bottom:8px}
+.stat-row{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.stat{flex:1;min-width:150px;background:#FFFEFB;border:1px solid rgba(16,18,47,.09);border-radius:14px;padding:16px 18px;text-align:center}
+.stat b{display:block;font-family:'JetBrains Mono',monospace;font-size:26px;color:#6D28D9;line-height:1}
+.stat span{font-size:12.5px;color:#5b4a59;margin-top:5px;display:block}
+.tcard{background:#FFFEFB;border:1px solid rgba(16,18,47,.09);border-radius:14px;padding:14px 20px 16px;margin:12px 0}
+.tcard .th{display:flex;align-items:baseline;gap:10px}
+.tcard .th b{font-family:Fraunces,serif;font-size:19px}
+.tcard .th a{color:#10122F;text-decoration:none}
+.tcard .td{margin:6px 0 10px}
+.tcard .stats{display:flex;flex-wrap:wrap;gap:8px}
+.tcard .stats span{background:#F3EEFF;border-radius:8px;padding:5px 11px;font-size:13px;color:#4c357d}
+.tcard .stats b{color:#6D28D9}
+.callout{background:#141636;color:#fff;border-radius:16px;padding:22px 24px;margin:28px 0}
+.callout .l{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#c4b5fd;font-weight:700}
+.callout p{color:#e8e5ff;margin:8px 0 0;max-width:none}
+.reject{background:#FFFEFB;border:1px solid rgba(16,18,47,.09);border-left:4px solid #FF6B7A;border-radius:10px;padding:12px 18px;margin:10px 0}
+.reject b{color:#c2185b}
+.cta-box{background:#FFFEFB;border:1px solid rgba(16,18,47,.1);border-radius:16px;padding:24px;margin:34px 0;text-align:center}
+.cta{display:inline-block;background:linear-gradient(135deg,#8B5CF6,#FF6B7A);color:#fff;font-weight:700;padding:13px 26px;border-radius:999px;text-decoration:none;font-size:15px;margin-top:8px}
+.cta2{display:block;color:#6D28D9;font-weight:600;text-decoration:none;font-size:14px;margin-top:12px}
+.note{font-size:13px;color:#a39395;margin-top:30px}
+.foot{max-width:760px;margin:0 auto;padding:0 22px 50px;color:#a39395;font-size:13px}
+.foot a{color:#6D28D9;text-decoration:none}
+.faq-item{background:#FFFEFB;border:1px solid rgba(16,18,47,.09);border-radius:14px;padding:4px 22px 12px;margin:12px 0}
+.mkt-wrap{overflow-x:auto;margin:18px 0;-webkit-overflow-scrolling:touch}
+table.mkt{width:100%;min-width:520px;border-collapse:collapse;margin:0}
+table.mkt td,table.mkt th{padding:8px 10px;border-bottom:1px solid rgba(16,18,47,.08);font-size:14.5px;text-align:left;white-space:nowrap}
+table.mkt th{color:#5b4a59;font-size:12px;text-transform:uppercase;letter-spacing:.05em}</style><script src="/assets/analytics.js?v=20260627" defer></script></head>
+<body>
+<div class="topnav"><div class="in">
+  <a href="/"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith"></a>
+  <nav><a href="/how-it-works/">How it works</a><a href="/sample/">Sample Maps</a><a href="/pricing/">Pricing</a><a href="/blog/">Blog</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
+</div></div>
+<div class="wrap">
+<div class="eyebrow">Playbook &middot; Methodology</div>
+<h1>How to Read Trope Demand Data Before You Write</h1>
+<div class="meta">Updated 9 September 2026 &middot; Source: Tropesmith reader-demand engine</div>
+
+<p>Every trope hub page on this site shows the same four numbers: reader requests, underserved %, market state, and 14-day momentum. Here's what each one actually means, and — more importantly — what it doesn't.</p>
+
+<h2>Reader requests: volume, not validation</h2>
+<p>This is a raw count of individual reader asks pulled from BookTok, Reddit, Goodreads, StoryGraph and AO3 and classified against a trope. <a href="/found-family-hub/">Found Family</a> leads Tropesmith's whole corpus at 267,433 requests. That tells you the trope is wanted at scale — it says nothing about whether the specific angle you'd write is one of the ones being asked for. Read the underlying reader-ask summaries on a trope hub page, not just the headline count, before committing to a stack.</p>
+
+<h2>Underserved %: a gap, not a guarantee</h2>
+<p>Underserved is the share of tracked demand with no matching tagged supply in Tropesmith's registry. <a href="/historical-fiction-hub/">Historical Fiction</a> in the romance corpus sits at 100% underserved with essentially zero tagged supply — Tropesmith calls this a "novel-gap" rather than merely "underserved," and the distinction matters: a novel-gap can mean nobody has shown up yet, or it can mean the demand is real but too diffuse for any single book to satisfy. Treat a novel-gap as a research lead, not a green light.</p>
+
+<h2>Market state: balanced, developing, underserved, novel-gap</h2>
+<p>This is Tropesmith's coverage-maturity label for a trope, built from the ratio of tagged supply to demand. "Balanced" doesn't mean stop looking — it means the opportunity is in a specific angle or pairing, not in the trope's bare existence. "Developing" and "underserved" mean thinner competition. "Novel-gap" means almost no tagged competition at all, which is the highest-variance signal of the four.</p>
+
+<h2>14-day momentum: direction, at small scale</h2>
+<p>The <a href="/trope-demand-radar/">demand radar</a> shows what share of a trope's all-time volume landed in just the last two weeks. It's the closest thing to a velocity read this dataset supports on a single trope, but it's still a short window — treat one strong 14-day reading as a thing to watch, not a trend to bet a book on. Watch it move over a few refresh cycles before treating it as a real signal, and prefer it on high-volume tropes, where a 14-day share is built on hundreds or thousands of requests rather than a handful.</p>
+
+<div class="callout"><div class="l">The one-line version</div>
+<p>Use request count to find scale, underserved % and market state to find the gap, and 14-day momentum to time it — then read the actual reader-ask summaries and rejection data on the trope hub page before you commit, because none of these four numbers tells you whether you can execute the specific angle readers are asking for.</p></div>
+
+<h2>Frequently asked questions</h2>
+<div class="faq-item"><h3>Does a high request count mean I should write that trope?</h3><p>Not by itself. Found Family has 267,433 requests logged and is classified "balanced" — real demand, but real competing supply too. The number tells you the trope is wanted; it doesn't tell you the lane is open.</p></div><div class="faq-item"><h3>What does &quot;underserved&quot; actually measure?</h3><p>The share of tracked demand for a trope that Tropesmith's registry has no matching tagged supply for. It's a gap measure, not a quality measure — a high underserved % says the shelf hasn't caught up to requests, not that any specific unmet request is easy or profitable to satisfy.</p></div>
+
+<div class="cta-box">
+<div style="font-family:Fraunces,serif;font-size:20px;font-weight:600">See where your book sits on this map</div>
+<p style="margin:8px auto 0;max-width:48ch;color:#5b4a59;font-size:15px">A Tropesmith Map scores your exact trope stack on live demand versus supply &mdash; and names the gap you can own.</p>
+<a class="cta" href="/intake/">Build my Map &rarr;</a>
+<a class="cta2" href="/sample/">See a real sample Map first &rarr;</a>
+</div>
+<p class="note">See it applied: <a href="/found-family-hub/">Found Family</a>, <a href="/cozy-mystery-hub/">Cozy Mystery</a>, <a href="/top-trending-romance-tropes/">the romance roundup</a>.</p>
+</div>
+<div class="foot">&copy; 2026 Tropesmith &middot; <a href="/romance-tropes/">Romance tropes</a> &middot; <a href="/market/">Live market snapshots</a> &middot; <a href="/intel/">Market intelligence</a></div>
+</body></html>
