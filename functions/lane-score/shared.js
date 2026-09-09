@@ -483,9 +483,9 @@ function lanePage(lane, name, d, stats, hasMarket) {
 		const rows = [];
 		if (f.kindle_median_pages != null) rows.push(['Median Kindle length', num(f.kindle_median_pages) + ' pages']);
 		if (f.overall_median_pages != null) rows.push(['Median length, all formats', num(f.overall_median_pages) + ' pages']);
-		if (t.recent_median_pages != null) rows.push(['Recent releases', num(t.recent_median_pages) + ' pages (was ' + num(t.older_median_pages) + ')']);
+		if (t.recent_median_pages != null) rows.push(['Recent releases', num(t.recent_median_pages) + ' pages' + (t.older_median_pages != null ? ' (was ' + num(t.older_median_pages) + ')' : '')]);
 		if (t.direction) rows.push(['Length is trending', String(t.direction)]);
-		if (t.recent_novella_pct != null) rows.push(['Novella-length share, recent', t.recent_novella_pct + '% (was ' + t.older_novella_pct + '%)']);
+		if (t.recent_novella_pct != null) rows.push(['Novella-length share, recent', t.recent_novella_pct + '%' + (t.older_novella_pct != null ? ' (was ' + t.older_novella_pct + '%)' : '')]);
 		if (se.dominant_shape) rows.push(['Dominant series shape', String(se.dominant_shape)]);
 		if (rows.length)
 			lenBlock =
