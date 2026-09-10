@@ -321,14 +321,22 @@ h1 em{font-style:normal;background:var(--tr-grad);-webkit-background-clip:text;b
   });
 
   // ── Scroll reveal (subtle, IntersectionObserver) ──
+  // Belt-and-suspenders: a section a stranger never scrolls to (a full-page screenshot, a
+  // print, a slow/no-scroll session, prefers-reduced-motion, or IntersectionObserver simply
+  // not firing yet) must never stay invisible -- opacity:0 still occupies layout space, so a
+  // static capture would show real blank gaps, not just skipped motion. A 1.4s fallback timer
+  // force-reveals anything the observer hasn't caught yet; reduced-motion skips the animation
+  // outright.
   var reveals = document.querySelectorAll(".reveal");
-  if("IntersectionObserver" in window){
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduceMotion || !("IntersectionObserver" in window)){
+    reveals.forEach(function(el){ el.classList.add("in"); });
+  } else {
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
     reveals.forEach(function(el){ io.observe(el); });
-  } else {
-    reveals.forEach(function(el){ el.classList.add("in"); });
+    setTimeout(function(){ reveals.forEach(function(el){ el.classList.add("in"); }); }, 1400);
   }
 })();
 </script>
