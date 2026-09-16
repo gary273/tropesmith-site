@@ -24,3 +24,4 @@ https://tropesmith-site.pages.dev/*  https://tropesmith.com/:splat  301
 
 # Renamed/removed lane (GSC 404 IN-0699)
 /market/mystery-cozy-tropes/  /market/mystery-cozy/  301
+/market-report   /market/   301
