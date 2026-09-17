@@ -935,6 +935,43 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
     </div>
   </div>
 </footer>
+<!-- fix:OP-0174-FOOTER -->
+<div class="family-strip" role="navigation" aria-label="From the same team">
+  <div class="wrap family-strip__inner">
+    <span class="family-strip__label">From the same team</span>
+    <ul class="family-strip__links">
+      <li class="family-strip__item family-strip__item--current"><span>Tropesmith</span></li>
+      <li class="family-strip__sep" aria-hidden="true">&middot;</li>
+      <li class="family-strip__item"><a href="https://authorsstarport.com/?utm_source=tropesmith&amp;utm_medium=family&amp;utm_campaign=family_strip">Authors Starport</a></li>
+      <li class="family-strip__sep" aria-hidden="true">&middot;</li>
+      <li class="family-strip__item"><a href="https://plotprose.com/?utm_source=tropesmith&amp;utm_medium=family&amp;utm_campaign=family_strip">PlotProse</a></li>
+      <li class="family-strip__sep" aria-hidden="true">&middot;</li>
+      <li class="family-strip__item"><a href="https://perfectyearhq.com/?utm_source=tropesmith&amp;utm_medium=family&amp;utm_campaign=family_strip">Perfect Year</a></li>
+    </ul>
+  </div>
+  <style>
+    .family-strip{ background: var(--ts-ink-soft, #1f2347); border-top: 1px solid var(--ts-rule-on-ink, rgba(255,249,243,.14)); padding: 14px 0; container-type: inline-size; container-name: family-strip; }
+    .family-strip__inner{ display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:10px 22px; font-family: var(--ts-sans, 'Inter', system-ui, -apple-system, sans-serif); }
+    .family-strip__label{ font-family: var(--ts-mono, 'JetBrains Mono', ui-monospace, monospace); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color: var(--ts-coral, #FF6B7A); font-weight:500; white-space:nowrap; }
+    .family-strip__links{ display:flex; align-items:center; justify-content:center; flex-wrap:wrap; list-style:none; margin:0; padding:0; gap:6px 10px; max-width:100%; }
+    .family-strip__item, .family-strip__sep{ display:flex; align-items:center; }
+    .family-strip__item a, .family-strip__item span{ font-size:13px; line-height:1.4; color: rgba(255,249,243,.78); text-decoration:none; white-space:nowrap; }
+    .family-strip__item a:hover, .family-strip__item a:focus-visible{ color: var(--ts-cream, #FFF9F3); text-decoration: underline; text-decoration-color: var(--ts-coral, #FF6B7A); text-underline-offset: 3px; }
+    .family-strip__item--current span{ color: var(--ts-cream, #FFF9F3); font-weight:600; }
+    .family-strip__sep{ color: rgba(255,249,243,.35); font-size:13px; line-height:1.4; }
+    @media (max-width:480px){
+      .family-strip{ padding:16px 0; }
+      .family-strip__inner{ flex-direction:column; gap:10px; text-align:center; }
+      .family-strip__links{ row-gap:8px; }
+    }
+    @container family-strip (max-width:480px){
+      .family-strip{ padding:16px 0; }
+      .family-strip__inner{ flex-direction:column; gap:10px; text-align:center; }
+      .family-strip__links{ row-gap:8px; }
+    }
+  </style>
+</div>
+<!-- /fix:OP-0174-FOOTER -->
 <script src="assets/hero-map-carousel.js?v=20260514-9" defer></script>
 <script src="assets/page-event-tracker.js?v=20260514-9" defer></script>
 <script src="https://coral-ticker.plotprose-scraper.workers.dev/ticker.embed.js" defer></script>
