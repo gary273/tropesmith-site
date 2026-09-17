@@ -266,7 +266,7 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
           btnHtml = '<button class="unlock-btn" data-map-id="' + m.id + '" data-mode="paid" data-email="' + (m.email || '') + '">' + lockSvg + 'Unlock $15</button>';
         }
       } else {
-        btnHtml = '<button class="unlock-btn unlock-btn--disabled" disabled aria-disabled="true" title="We are still preparing this book. Refresh in a moment."><span class="dot-spin"></span>Preparing…</button>';
+        btnHtml = '<button class="unlock-btn unlock-btn--disabled" disabled aria-disabled="true" title="This book\'s Map unlocks once your earlier book\'s Map is delivered. That can take a while -- no action needed, it opens on its own.">Waiting on an earlier book</button>';
       }
       row.innerHTML = '<div class="map-row-main"><div class="map-row-title">' + (bookLabel || 'Locked') + '</div>' + teaserHtml + '</div><div>' + btnHtml + '</div>';
     } else {
