@@ -91,7 +91,7 @@ ${ld.map((o) => '<script type="application/ld+json">' + JSON.stringify(o).replac
 <style>${CSS}</style></head><body>
 <div class="topnav"><div class="in">
 <a href="/"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith"></a>
-<nav><a href="/free-tools/">Free tools</a><a href="/trending/">Trending</a><a href="/reader-demand/">Reader Demand</a><a href="/pricing/">Pricing</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
+<nav><a href="/free-tools/">Free tools</a><a href="/finder/">Opportunity Finder</a><a href="/trending/">Trending</a><a href="/reader-demand/">Reader Demand</a><a href="/pricing/">Pricing</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
 </div></div>`;
 }
 
@@ -143,6 +143,7 @@ export function tieBack(extra) {
 	return `<h2>Keep going &mdash; free</h2>
 <ul>
 ${extra || ''}
+<li><a href="/finder/">Opportunity Finder</a> &mdash; every romance lane, ranked by one Green-Light verdict.</li>
 <li><a href="/free-tools/">Every free Tropesmith tool</a> &mdash; lane scores, trope opportunity check, reader demand, category &amp; rank checker, Hook Lab.</li>
 <li><a href="${REPORT}">The 2026 Romance Demand Report</a> &mdash; the full year&rsquo;s read on where romance demand is heading, from the same engine.</li>
 <li><a href="/lane-score/">Lane Score</a> &mdash; is the subgenre worth writing at all?</li>

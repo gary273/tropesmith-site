@@ -65,7 +65,13 @@ td a:hover{text-decoration:underline}
 .credits{font-size:12px;color:var(--ink3);margin-top:10px}
 .cta{margin-top:20px;background:linear-gradient(120deg,var(--cta1),var(--cta2));color:var(--ctaink);border-radius:16px;padding:18px 20px}
 .cta h3{margin:0 0 4px;font-size:16px}
-.cta p{margin:0;font-size:13.5px;color:var(--ctasub)}
+.cta p{margin:0 0 10px;font-size:13.5px;color:var(--ctasub)}
+.cta .btn{display:inline-block;background:#fff;color:var(--cta1);font-weight:800;text-decoration:none;border-radius:999px;padding:10px 18px;font-size:13.5px}
+.softgate{margin-top:14px}
+.softgate form{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.softgate input[type=email]{flex:1;min-width:180px}
+.softgate .pulselink{display:block;margin-top:8px;font-size:12.5px;color:var(--ink3)}
+.softgate .pulselink a{color:var(--accent)}
 .foot{margin-top:26px;font-size:12.5px;color:var(--ink3);text-align:center;line-height:1.7}
 .foot b{color:var(--ink2)}
 .spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(0,0,0,.15);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:7px}
@@ -88,8 +94,8 @@ td a:hover{text-decoration:underline}
 <div class="hint">Tip: paste the whole <b>amazon.com/dp/…</b> link — we'll find the ASIN for you.</div>
 <div id="out" aria-live="polite"></div>
 </div>
-<div class="cta"><h3>Was this useful?</h3><p>This is a taste of the Tropesmith engine — live category, rank &amp; trope-demand data for romance authors, powering your covers, categories and launch timing.</p></div>
-<div class="foot"><b>Powered by Tropesmith</b> — a continuously-refreshed crawl index of hundreds of thousands of books, plus live on-demand Amazon lookup for anything new.<br>Looking for the BKLNK category checker? It's retiring — this is the free, always-updated replacement.<br><a href="/free-tools/">All free Tropesmith tools</a> · <a href="/lane-score/">Lane Score</a> · <a href="https://plotprose.com/classroom/2026-romance-demand-report.html">The 2026 Romance Demand Report</a></div>
+<div class="cta" id="ctaBox"><h3 id="ctaH">Was this useful?</h3><p id="ctaP">This is a taste of the Tropesmith engine — live category, rank &amp; trope-demand data for romance authors, powering your covers, categories and launch timing.</p><a class="btn" id="ctaBtn" href="/intake/">Build my Map &rarr;</a></div>
+<div class="foot"><b>Powered by Tropesmith</b> — a continuously-refreshed crawl index of hundreds of thousands of books, plus live on-demand Amazon lookup for anything new.<br>Looking for the BKLNK category checker? It's retiring — this is the free, always-updated replacement.<br><a href="/free-tools/">All free Tropesmith tools</a> · <a href="/finder/">Opportunity Finder</a> · <a href="/lane-score/">Lane Score</a> · <a href="https://plotprose.com/classroom/2026-romance-demand-report.html">The 2026 Romance Demand Report</a></div>
 </div>
 <script>
 document.documentElement.dataset.brand=(new URLSearchParams(location.search).get("brand")||"").toLowerCase();
@@ -99,12 +105,44 @@ const out=document.getElementById("out"),btn=document.getElementById("go");
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 let sessEmail=(QS.get("email")||"").trim().toLowerCase();   // Perfect Year embed can prefill a member
+const storedEmail=(localStorage.getItem("ts_cc_email")||"").trim().toLowerCase();
+if(!sessEmail&&storedEmail)sessEmail=storedEmail;
 
+// TS-0342: soft email gate — captured emails join the same list as the on-demand
+// gate below (booklookup's own newsletter), not the TropeSmith Pulse list: Pulse
+// (ts-trope-pulse) only accepts a curated romance.* lane, and there is no reliable
+// map from an Amazon BISAC category to a TS trope lane, so faking one here would be
+// a fabricated join. The Pulse link alongside the gate sends the reader to the real
+// capture instead of pretending this page can feed it directly.
+function updateCta(d){
+  const h=document.getElementById("ctaH"),p=document.getElementById("ctaP"),b=document.getElementById("ctaBtn");
+  if(!d){return;}
+  h.textContent="Build a Map for "+(d.title||"your book")+"’s lane";
+  p.textContent="You just saw one book's categories and rank. A Tropesmith Map goes deeper: trope demand, pricing and launch timing for the whole lane this book sits in.";
+  b.textContent="Build my Map →";
+}
+function softGateHtml(){
+  if(sessEmail)return"";
+  return '<div class="gate softgate"><h4>Want alerts when this ranks change?</h4><p>Enter your email — free author newsletter, unsubscribe anytime. This does not use your lookup credits.</p><form id="sgf"><input id="sge" type="email" placeholder="you@email.com" aria-label="Email"><button type="submit">Notify me</button></form><span class="pulselink">Prefer trope demand over rank alerts? <a href="/pulse/">Get the weekly Trope Pulse</a> instead.</span></div>';
+}
+out.addEventListener("submit",async ev=>{
+  const form=ev.target;
+  if(form.id!=="sgf")return;
+  ev.preventDefault();
+  const email=(document.getElementById("sge").value||"").trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return;
+  const gateEl=form.closest(".softgate");
+  try{await fetch(API+"/signup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email})});}catch(e){}
+  sessEmail=email;
+  try{localStorage.setItem("ts_cc_email",email);}catch(e){}
+  if(gateEl)gateEl.outerHTML='<p class="hint">Thanks — you\'re on the list.</p>';
+});
 function renderBook(d){
   const crumb=(d.category_path||[]).map((c,i,a)=>'<b>'+esc(c)+'</b>'+(i<a.length-1?'<span class="sep">›</span>':'')).join(" ");
   const ranks=(d.bestseller_ranks||[]).slice().sort((a,b)=>(a.rank||1e9)-(b.rank||1e9));
   const rows=ranks.map(r=>'<tr><td class="rank"><span class="hash">#</span>'+(r.rank!=null?Number(r.rank).toLocaleString():"—")+'</td><td>'+(r.url?'<a href="'+esc(r.url)+'" target="_blank" rel="noopener">'+esc(r.category||"—")+'</a>':esc(r.category||"—"))+'</td></tr>').join("");
-  return '<div class="bookhead"><div class="bt">'+esc(d.title||"(untitled)")+' <span class="pill">'+esc(d.marketplace||"amazon.com")+'</span></div>'+(d.author?'<div class="ba">by '+esc(d.author)+'</div>':'')+'</div>'+(crumb?'<div class="crumb">'+crumb+'</div>':'')+(ranks.length?'<table><thead><tr><th>Rank</th><th>Category ('+ranks.length+')</th></tr></thead><tbody>'+rows+'</tbody></table>':'<div class="msg warn">No bestseller-category ranks in our latest snapshot.</div>');
+  updateCta(d);
+  return '<div class="bookhead"><div class="bt">'+esc(d.title||"(untitled)")+' <span class="pill">'+esc(d.marketplace||"amazon.com")+'</span></div>'+(d.author?'<div class="ba">by '+esc(d.author)+'</div>':'')+'</div>'+(crumb?'<div class="crumb">'+crumb+'</div>':'')+(ranks.length?'<table><thead><tr><th>Rank</th><th>Category ('+ranks.length+')</th></tr></thead><tbody>'+rows+'</tbody></table>':'<div class="msg warn">No bestseller-category ranks in our latest snapshot.</div>')+softGateHtml();
 }
 async function renderFromCache(asin){
   try{const d=await (await fetch(API+"?asin="+encodeURIComponent(asin))).json();
