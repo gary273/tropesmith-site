@@ -499,6 +499,11 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
             return;
           }
           subgenreSelect.innerHTML = '<option value="">Choose…</option>';
+          // The API returns lanes in creation order (Contemporary, ..., Western, then the 2026 additions), so
+          // families were split across the list. Sorting by lane id keeps every child under its parent.
+          data.subgenres = data.subgenres.slice().sort(function(a, b) {
+            return String(a.id || '').localeCompare(String(b.id || ''), 'en');
+          });
           data.subgenres.forEach(function(sg) {
             var opt = document.createElement('option');
             opt.value = sg.id;

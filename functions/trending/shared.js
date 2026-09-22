@@ -31,6 +31,27 @@ function laneLabel(id) {
 	return SUBGENRES[id] || id;
 }
 
+// 'Dark Romance' + ' romance' read as 'Dark Romance romance' on 5 of 18 lane pages; only append the word when the label lacks it.
+const ROMANCE_WORD = /\b(romance|romances|romantasy|rom-?com|romantic)\b/i;
+export function lanePhrase(label) {
+	const s = String(label == null ? '' : label).trim();
+	if (!s) return 'romance';
+	return ROMANCE_WORD.test(s) ? s : s + ' romance';
+}
+
+// The nightly bake title-cases slugs, so 'ddlg' arrives as 'Ddlg'. Restore the acronyms readers actually write.
+const ACRONYMS = new Set(['DDLG', 'MFM', 'MMF', 'FFM', 'MMC', 'FMC', 'MM', 'FF', 'BDSM', 'HEA', 'HFN', 'CEO', 'MC', 'CNC', 'LGBTQ', 'YA', 'NA', 'PNR', 'RH']);
+export function tropeLabel(name) {
+	return String(name == null ? '' : name).replace(/\b([A-Za-z]{2,5})\b/g, (w) => (ACRONYMS.has(w.toUpperCase()) ? w.toUpperCase() : w));
+}
+
+// A lane's own name is a genre label, not a trope; keep it out of that lane's trope lists.
+export function isLaneSelfLabel(name, laneLabelText) {
+	const a = String(name == null ? '' : name).trim().toLowerCase();
+	const b = String(laneLabelText == null ? '' : laneLabelText).trim().toLowerCase();
+	return !!a && a === b;
+}
+
 function toolApp(url) {
 	return app({
 		url,
@@ -66,15 +87,17 @@ function datasetFor(id) {
 	};
 }
 
-function opBlock(cls, emoji, label, arr) {
-	if (!arr || !arr.length) return '';
-	return `<div class="ob ${cls}"><div class="lab">${emoji} ${esc(label)}</div>${arr.map((n) => `<span class="chip">${esc(n)}</span>`).join('')}</div>`;
+function opBlock(cls, emoji, label, arr, laneLabelText) {
+	const items = (arr || []).filter((n) => !isLaneSelfLabel(n, laneLabelText));
+	if (!items.length) return '';
+	return `<div class="ob ${cls}"><div class="lab">${emoji} ${esc(label)}</div>${items.map((n) => `<span class="chip">${esc(tropeLabel(n))}</span>`).join('')}</div>`;
 }
 
-function trendList(tropes) {
-	if (!tropes || !tropes.length) return '<p class="note">Not enough dated signal to call a top-5 for this lane yet.</p>';
-	return `<ul class="trlist">${tropes
-		.map((t) => `<li>${t.rising ? '<b>&#9650; </b>' : ''}${esc(t.name)} <span style="color:#a39395">(${num(t.mentions)} mentions, ${t.share_pct}% share)</span></li>`)
+function trendList(tropes, laneLabelText) {
+	const items = (tropes || []).filter((t) => t && !isLaneSelfLabel(t.name, laneLabelText));
+	if (!items.length) return '<p class="note">Not enough dated signal to call a top-5 for this lane yet.</p>';
+	return `<ul class="trlist">${items
+		.map((t) => `<li>${t.rising ? '<b>&#9650; </b>' : ''}${esc(tropeLabel(t.name))} <span style="color:#a39395">(${num(t.mentions)} mentions, ${t.share_pct}% share)</span></li>`)
 		.join('')}</ul>`;
 }
 
@@ -130,11 +153,11 @@ function lanePicker(current) {
 function opportunityCard(id) {
 	const d = DATA[id];
 	return `<div class="opwrap">
-${opBlock('w', '&#9989;', 'Write into these — rising, not yet crowded', d.opportunity.rising)}
-${opBlock('c', '&#9888;&#65039;', 'Hot but crowded — enter only with a twist', d.opportunity.crowded)}
-${opBlock('k', '&#128309;', 'Cooling off — think twice', d.opportunity.cooling)}
+${opBlock('w', '&#9989;', 'Write into these — rising, not yet crowded', d.opportunity.rising, laneLabel(id))}
+${opBlock('c', '&#9888;&#65039;', 'Hot but crowded — enter only with a twist', d.opportunity.crowded, laneLabel(id))}
+${opBlock('k', '&#128309;', 'Cooling off — think twice', d.opportunity.cooling, laneLabel(id))}
 <h2 style="margin-top:22px">Top 5 trending in ${esc(laneLabel(id))} this month</h2>
-${trendList(d.tropes)}
+${trendList(d.tropes, laneLabel(id))}
 </div>`;
 }
 
@@ -143,7 +166,7 @@ function pageBody(id) {
 	const ln = laneLabel(id);
 	return `<div class="wrap">
 <div class="eyebrow">Free tool &middot; Baked nightly from live engine data &middot; No card needed</div>
-<h1>Which tropes should your next ${esc(ln)} romance lean into?</h1>
+<h1>Which tropes should your next ${esc(lanePhrase(ln))} lean into?</h1>
 <p class="lede">Reader-demand mentions counted this month across ${num(d.month_total_mentions)} total mentions in ${esc(ln)}. As of ${esc(d.data_as_of)}.</p>
 ${lanePicker(id)}
 ${opportunityCard(id)}

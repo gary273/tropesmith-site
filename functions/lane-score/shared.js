@@ -90,6 +90,21 @@ function esc(s) {
 	return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+export function ordinal(n) {
+	const v = Math.round(Number(n));
+	if (!Number.isFinite(v)) return String(n);
+	const a = Math.abs(v);
+	if (a % 100 >= 11 && a % 100 <= 13) return v + 'th';
+	const last = a % 10;
+	return v + (last === 1 ? 'st' : last === 2 ? 'nd' : last === 3 ? 'rd' : 'th');
+}
+
+export function lengthTrendRow(direction) {
+	const d = String(direction == null ? '' : direction).trim();
+	if (!d || /^(unknown|null|undefined|n\/a|none)$/i.test(d)) return null;
+	return ['Length is trending', d];
+}
+
 function num(n) {
 	if (n == null || isNaN(n)) return null;
 	return Number(n).toLocaleString('en-US');
@@ -484,7 +499,8 @@ function lanePage(lane, name, d, stats, hasMarket) {
 		if (f.kindle_median_pages != null) rows.push(['Median Kindle length', num(f.kindle_median_pages) + ' pages']);
 		if (f.overall_median_pages != null) rows.push(['Median length, all formats', num(f.overall_median_pages) + ' pages']);
 		if (t.recent_median_pages != null) rows.push(['Recent releases', num(t.recent_median_pages) + ' pages' + (t.older_median_pages != null ? ' (was ' + num(t.older_median_pages) + ')' : '')]);
-		if (t.direction) rows.push(['Length is trending', String(t.direction)]);
+		const trendRow = lengthTrendRow(t.direction);
+		if (trendRow) rows.push(trendRow);
 		if (t.recent_novella_pct != null) rows.push(['Novella-length share, recent', t.recent_novella_pct + '%' + (t.older_novella_pct != null ? ' (was ' + t.older_novella_pct + '%)' : '')]);
 		if (se.dominant_shape) rows.push(['Dominant series shape', String(se.dominant_shape)]);
 		if (rows.length)
@@ -506,10 +522,10 @@ ${
 	o.demand_pctl != null
 		? `<h2>Where the score comes from</h2>
 <table><thead><tr><th>Component</th><th>Percentile in this lane</th></tr></thead><tbody>
-<tr><td>Reader demand</td><td>${Math.round(o.demand_pctl * 100)}th</td></tr>
-<tr><td>Revenue</td><td>${Math.round(o.revenue_pctl * 100)}th</td></tr>
-<tr><td>Scarcity (how little is published against that demand)</td><td>${Math.round(o.scarcity_pctl * 100)}th</td></tr>
-<tr><td>Momentum</td><td>${Math.round(o.momentum_pctl * 100)}th</td></tr>
+<tr><td>Reader demand</td><td>${ordinal(o.demand_pctl * 100)}</td></tr>
+<tr><td>Revenue</td><td>${ordinal(o.revenue_pctl * 100)}</td></tr>
+<tr><td>Scarcity (how little is published against that demand)</td><td>${ordinal(o.scarcity_pctl * 100)}</td></tr>
+<tr><td>Momentum</td><td>${ordinal(o.momentum_pctl * 100)}</td></tr>
 </tbody></table>`
 		: ''
 }
