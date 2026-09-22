@@ -163,6 +163,7 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
       loadingEl.style.display = 'none';
       if (data && data.ok) {
         // Signed-in path
+        try { window.sessionStorage.removeItem('tsm_nav_anon_until'); } catch (e) { /* storage unavailable */ }
         const name = nameFromEmail(data.email);
         nameEl.textContent = name;
         const credits = data.credit_balance || 0;

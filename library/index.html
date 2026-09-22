@@ -290,6 +290,7 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
     })
     .then(data => {
       if (!data.ok) throw new Error(data.error || 'failed');
+      try { window.sessionStorage.removeItem('tsm_nav_anon_until'); } catch (e) { /* storage unavailable */ }
       var name = nameFromEmail(data.email);
       greetH.innerHTML = 'Hi <span class="grad-text">' + name + '.</span>';
       if (data.subscription && data.subscription.status === 'active' && data.subscription.product_id === 'live_board_monthly') {
