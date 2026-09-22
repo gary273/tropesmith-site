@@ -124,6 +124,7 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
       .then(resp => resp.json().then(data => ({ ok: resp.ok, data: data })))
       .then(r => {
         if (r.ok) {
+          try { window.sessionStorage.removeItem('tsm_nav_anon_until'); } catch (e) { /* storage unavailable */ }
           loadingEl.style.display = 'none';
           successEl.style.display = 'block';
           setTimeout(() => { window.location.href = next; }, 600);

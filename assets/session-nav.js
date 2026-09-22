@@ -56,8 +56,27 @@
     }
   }
 
+  // Every page view by a logged-out visitor used to cost one 401 (the only console error on the
+  // site, ~53 a day in the function log). Remember an anonymous answer per tab for ten minutes;
+  // a sign-in (verify page) or a 200 anywhere clears it, so a signed-in customer is never shown
+  // "Sign in" for longer than that window.
+  var NAV_KEY = 'tsm_nav_anon_until';
+  function anonymousRecently() {
+    try {
+      var until = Number(window.sessionStorage.getItem(NAV_KEY) || 0);
+      return until > Date.now();
+    } catch (e) { return false; }
+  }
+  function remember(isAnonymous) {
+    try {
+      if (isAnonymous) window.sessionStorage.setItem(NAV_KEY, String(Date.now() + 10 * 60 * 1000));
+      else window.sessionStorage.removeItem(NAV_KEY);
+    } catch (e) { /* storage unavailable - fall back to checking every page */ }
+  }
+  if (anonymousRecently()) return;
+
   fetch(API + '/functions/v1/library/me', { credentials: 'include' })
-    .then(function (resp) { return resp.ok ? resp.json() : null; })
+    .then(function (resp) { remember(resp.status === 401); return resp.ok ? resp.json() : null; })
     .then(function (data) { if (data && data.ok) swapNav(); })
     .catch(function () { /* anonymous or network error - leave nav as-is */ });
 })();

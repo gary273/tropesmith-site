@@ -119,7 +119,8 @@ a{color:var(--teal)}
 		if (!r.ok) { $("formMsg").textContent = "Couldn't load lanes — refresh to try again."; return; }
 		var sel = $("lane");
 		sel.innerHTML = '<option value="">Pick your lane…</option>';
-		r.lanes.forEach(function (l) {
+		// Same order as the intake picker: by lane id, so children sit under their parent.
+		r.lanes.slice().sort(function (a, b) { return String(a.lane || '').localeCompare(String(b.lane || ''), 'en'); }).forEach(function (l) {
 			var o = document.createElement("option");
 			o.value = l.lane; o.textContent = l.display_name;
 			sel.appendChild(o);
