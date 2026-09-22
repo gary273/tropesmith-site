@@ -42,7 +42,8 @@ export function lanePhrase(label) {
 // The nightly bake title-cases slugs, so 'ddlg' arrives as 'Ddlg'. Restore the acronyms readers actually write.
 const ACRONYMS = new Set(['DDLG', 'MFM', 'MMF', 'FFM', 'MMC', 'FMC', 'MM', 'FF', 'BDSM', 'HEA', 'HFN', 'CEO', 'MC', 'CNC', 'LGBTQ', 'YA', 'NA', 'PNR', 'RH']);
 export function tropeLabel(name) {
-	return String(name == null ? '' : name).replace(/\b([A-Za-z]{2,5})\b/g, (w) => (ACRONYMS.has(w.toUpperCase()) ? w.toUpperCase() : w));
+	// A token counts only when nothing letter-like or an apostrophe touches it ("Na'vi" stays "Na'vi").
+	return String(name == null ? '' : name).replace(/(?<![A-Za-z'\u2019])([A-Za-z]{2,5})(?![A-Za-z'\u2019])/g, (w) => (ACRONYMS.has(w.toUpperCase()) ? w.toUpperCase() : w));
 }
 
 // A lane's own name is a genre label, not a trope; keep it out of that lane's trope lists.
