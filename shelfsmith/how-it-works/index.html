@@ -3,19 +3,13 @@
 <head>
 <!-- Meta Pixel Code -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1319927140123427');
-fbq('track', 'PageView');
+/* TS-1066: consent-gated. fbevents.js loads only after the visitor accepts cookies
+   (assets/analytics.js?v=20260925 grantConsent() calls window.tsMetaPixel()). */
+window.tsMetaPixel=function(){if(window.fbq)return;
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1319927140123427');fbq('track','PageView');};
+(function(){try{if(localStorage.getItem('ts_analytics_consent')==='granted')window.tsMetaPixel();}catch(e){}})();
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel Code -->
 
 <meta charset="utf-8">
@@ -77,7 +71,7 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
   .tag2{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 10px;border-radius:999px}
   .tag2.free{background:var(--green-tint);color:var(--green)}.tag2.pay{background:var(--violet-tint);color:var(--violet)}
 </style>
-<script src="/assets/analytics.js?v=20260627" defer></script><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png"><script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
+<script src="/assets/analytics.js?v=20260925" defer></script><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png"><script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
 <link rel="canonical" href="https://tropesmith.com/shelfsmith/how-it-works/">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://tropesmith.com/shelfsmith/how-it-works/", "name": "How Shelfsmith works — and what “BISAC” means for your book", "publisher": {"@id": "https://tropesmith.com/#organization","@type": "Organization", "name": "Tropesmith", "url": "https://tropesmith.com"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tropesmith","item":"https://tropesmith.com/"},{"@type":"ListItem","position":2,"name":"Shelfsmith","item":"https://tropesmith.com/shelfsmith/"},{"@type":"ListItem","position":3,"name":"How Shelfsmith works — and what “BISAC” means for your book","item":"https://tropesmith.com/shelfsmith/how-it-works/"}]}</script>

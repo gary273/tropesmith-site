@@ -1,19 +1,13 @@
 <!doctype html><html lang="en"><head>
 <!-- Meta Pixel Code -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1319927140123427');
-fbq('track', 'PageView');
+/* TS-1066: consent-gated. fbevents.js loads only after the visitor accepts cookies
+   (assets/analytics.js?v=20260925 grantConsent() calls window.tsMetaPixel()). */
+window.tsMetaPixel=function(){if(window.fbq)return;
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1319927140123427');fbq('track','PageView');};
+(function(){try{if(localStorage.getItem('ts_analytics_consent')==='granted')window.tsMetaPixel();}catch(e){}})();
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel Code -->
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Romance Tropes List: 25 Ranked by Demand | Tropesmith</title>
@@ -72,12 +66,12 @@ li{font-size:16.5px;color:#221f33;max-width:66ch;margin-bottom:8px}
 .htable th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#8B5CF6;border-bottom:2px solid rgba(16,18,47,.1);padding:8px 10px}
 .htable td{border-bottom:1px solid rgba(16,18,47,.07);padding:9px 10px;color:#221f33}
 .htable td.n{font-family:'JetBrains Mono',monospace;color:#6D28D9;font-weight:700}
-.htable td.tag{font-weight:600}</style><script src="/assets/analytics.js?v=20260627" defer></script><script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
+.htable td.tag{font-weight:600}</style><script src="/assets/analytics.js?v=20260925" defer></script><script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
 </head>
 <body>
 <div class="topnav"><div class="in">
   <a href="/"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith"></a>
-  <nav><a href="/how-it-works/">How it works</a><a href="/sample/">Sample Maps</a><a href="/pricing/">Pricing</a><a href="/blog/">Blog</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
+  <nav><a href="/free-tools/">Free tools</a><a href="/how-it-works/">How it works</a><a href="/sample/">Sample Maps</a><a href="/pricing/">Pricing</a><a href="/blog/">Blog</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
 </div></div>
 <div class="wrap">
 <a class="back" href="/romance-tropes/">&larr; Romance tropes, ranked by demand</a>

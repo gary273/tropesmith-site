@@ -1,19 +1,13 @@
 <!doctype html><html lang="en"><head>
 <!-- Meta Pixel Code -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1319927140123427');
-fbq('track', 'PageView');
+/* TS-1066: consent-gated. fbevents.js loads only after the visitor accepts cookies
+   (assets/analytics.js?v=20260925 grantConsent() calls window.tsMetaPixel()). */
+window.tsMetaPixel=function(){if(window.fbq)return;
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1319927140123427');fbq('track','PageView');};
+(function(){try{if(localStorage.getItem('ts_analytics_consent')==='granted')window.tsMetaPixel();}catch(e){}})();
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel Code -->
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trend Radar (beta) | Tropesmith</title>
@@ -44,7 +38,7 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
 {"@type":"Question","name":"How is this different from the Trope Pulse or a Tropesmith Map?","acceptedAnswer":{"@type":"Answer","text":"The Trope Pulse reports what's already moving this week. A Map reads today's demand-vs-supply for a lane you specify. The Trend Radar is the leading-indicator layer underneath both: it exists to catch a rise before it shows up in either of those, using signals measured to lead demand by weeks, not to describe the present."}},
 {"@type":"Question","name":"What do I get free versus as a member?","acceptedAnswer":{"@type":"Answer","text":"Free: the top 10 active forecasts, refreshed continuously — trope, rise label, lead time and confidence, no signup required. Members (any active Live Board subscription, or a Map credit balance) get the full active radar, the measured lift for every forecast, the underlying evidence line (what fired, when, how strong) and the current backtest headline."}}
 ]}</script>
-<script src="/assets/analytics.js?v=20260627" defer></script><script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
+<script src="/assets/analytics.js?v=20260925" defer></script><script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
 <style>
 :root{
   --tr-bg:#0A0B1F; --tr-bg2:#0E1030; --tr-card:#141636; --tr-card2:#181A42; --tr-line:rgba(232,229,255,.10); --tr-line2:rgba(232,229,255,.16);

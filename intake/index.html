@@ -3,19 +3,13 @@
 <head>
 <!-- Meta Pixel Code -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1319927140123427');
-fbq('track', 'PageView');
+/* TS-1066: consent-gated. fbevents.js loads only after the visitor accepts cookies
+   (assets/analytics.js?v=20260925 grantConsent() calls window.tsMetaPixel()). */
+window.tsMetaPixel=function(){if(window.fbq)return;
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1319927140123427');fbq('track','PageView');};
+(function(){try{if(localStorage.getItem('ts_analytics_consent')==='granted')window.tsMetaPixel();}catch(e){}})();
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel Code -->
 
 <meta charset="UTF-8" />
@@ -43,10 +37,10 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/styles.css?v=20260906a" />
+<link rel="stylesheet" href="../assets/styles.css?v=20260925" />
 <script src="/assets/tropesmith.js?v=20260528-utm"></script>
 <script defer src="../assets/site.js"></script>
-  <script src="/assets/analytics.js?v=20260627" defer></script>
+  <script src="/assets/analytics.js?v=20260925" defer></script>
 <style>
 .ts-focus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
 .ts-focus{display:flex;align-items:center;gap:8px;cursor:pointer;border:1px solid var(--ts-rule,#e3dccf);border-radius:8px;padding:9px 11px;font-size:.9rem;line-height:1.3;background:var(--ts-cream,#fffdf8);transition:border-color .12s,background .12s}
@@ -64,12 +58,14 @@ src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></
 
 <div class="nav-shell"><div class="wrap nav">
   <a class="brand" href="../" aria-label="Tropesmith — home"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith" class="brand-logo" width="160" height="113" /></a>
-  <nav class="nav-links">
-    <a href="../">Home</a>
-    <a href="../how-it-works/">How it works</a>
-    <a href="../sample/">Sample Maps</a>
-    <a href="../pricing/">Pricing</a>
-  </nav>
+  <nav class="nav-links" aria-label="Primary">
+        <a href="/free-tools/">Free tools</a>
+        <a href="/how-it-works/">How it works</a>
+        <a href="/sample/">Sample Maps</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/trend-radar/">Trend Radar</a>
+        <a href="/blog/">Blog</a>
+      </nav>
   <div class="nav-cta">
     <a class="btn btn-link" href="../login/" style="margin-right:12px;">Sign in</a><a class="btn btn-sm" href="../sample/">See a real Map</a>
   </div>

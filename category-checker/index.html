@@ -2,19 +2,13 @@
 <html lang="en"><head>
 <!-- Meta Pixel Code -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1319927140123427');
-fbq('track', 'PageView');
+/* TS-1066: consent-gated. fbevents.js loads only after the visitor accepts cookies
+   (assets/analytics.js?v=20260925 grantConsent() calls window.tsMetaPixel()). */
+window.tsMetaPixel=function(){if(window.fbq)return;
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1319927140123427');fbq('track','PageView');};
+(function(){try{if(localStorage.getItem('ts_analytics_consent')==='granted')window.tsMetaPixel();}catch(e){}})();
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel Code -->
 
 <meta charset="utf-8">
@@ -76,7 +70,7 @@ td a:hover{text-decoration:underline}
 .foot b{color:var(--ink2)}
 .spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(0,0,0,.15);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:7px}
 @keyframes sp{to{transform:rotate(360deg)}}
-</style><script src="/assets/analytics.js?v=20260627" defer></script><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png"><meta property="og:type" content="website"><meta property="og:site_name" content="Tropesmith"><meta property="og:title" content="Free Book Category &amp; Rank Checker — Tropesmith"><meta property="og:description" content="Paste any Amazon book link or ASIN. Instant results for the hundreds of thousands of books already in our index — anything else, we fetch it live from Amazon free (just needs your email). A replacement for BKLNK."><meta property="og:url" content="https://tropesmith.com/category-checker/"><meta property="og:image" content="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png"><meta name="twitter:card" content="summary_large_image"><script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
+</style><script src="/assets/analytics.js?v=20260925" defer></script><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png"><meta property="og:type" content="website"><meta property="og:site_name" content="Tropesmith"><meta property="og:title" content="Free Book Category &amp; Rank Checker — Tropesmith"><meta property="og:description" content="Paste any Amazon book link or ASIN. Instant results for the hundreds of thousands of books already in our index — anything else, we fetch it live from Amazon free (just needs your email). A replacement for BKLNK."><meta property="og:url" content="https://tropesmith.com/category-checker/"><meta property="og:image" content="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-og-image.png"><meta name="twitter:card" content="summary_large_image"><script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
 <link rel="canonical" href="https://tropesmith.com/category-checker/">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Tropesmith Book Category & Rank Checker", "applicationCategory": "BusinessApplication", "operatingSystem": "Any (web)", "url": "https://tropesmith.com/category-checker/", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Paste any Amazon book link or ASIN. Instant results for the hundreds of thousands of books already in our index — anything else, we fetch it live from Amazon free (just needs your email). A replacement for BKLNK.", "featureList": ["Every Amazon category a title ranks in", "Rank within each category", "Works from an Amazon URL or a bare ASIN", "Instant results from a continuously-refreshed crawl index of hundreds of thousands of books", "On-demand live Amazon fetch for any book not yet indexed (free, email required, usually under 2 minutes)", "Free replacement for the retiring BKLNK category checker"], "publisher": {"@type": "Organization", "name": "Coral Hart Group", "url": "https://coralhart.com/"}, "creator": {"@type": "Organization", "name": "Coral Hart Group", "url": "https://coralhart.com/"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Tropesmith", "item": "https://tropesmith.com/"}, {"@type": "ListItem", "position": 2, "name": "Free tools", "item": "https://tropesmith.com/free-tools/"}, {"@type": "ListItem", "position": 3, "name": "Category & Rank Checker", "item": "https://tropesmith.com/category-checker/"}]}</script>

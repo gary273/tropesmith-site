@@ -1,19 +1,13 @@
 <!DOCTYPE html><html><head>
 <!-- Meta Pixel Code -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1319927140123427');
-fbq('track', 'PageView');
+/* TS-1066: consent-gated. fbevents.js loads only after the visitor accepts cookies
+   (assets/analytics.js?v=20260925 grantConsent() calls window.tsMetaPixel()). */
+window.tsMetaPixel=function(){if(window.fbq)return;
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1319927140123427');fbq('track','PageView');};
+(function(){try{if(localStorage.getItem('ts_analytics_consent')==='granted')window.tsMetaPixel();}catch(e){}})();
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1319927140123427&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel Code -->
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Hook Lab sample report — The Devil in Winter | Tropesmith</title><style>
@@ -29,7 +23,7 @@ h1{font-size:26px;margin:6px 0 2px} .k{font-size:12px;letter-spacing:.12em;text-
 .seg{font-size:13px;color:#2b6cb0;margin-top:6px} .why{font-size:13.5px;color:#39424c;margin-top:3px}
 .obj{font-size:13px;color:#7a4a42;background:#fdf5f3;border-radius:8px;padding:8px 12px;margin-top:8px} .obj ul{margin:4px 0 0;padding-left:18px}
 .foot{color:#8b96a2;font-size:12px;margin-top:24px;border-top:1px solid #e4e7eb;padding-top:12px}
-</style><script src="/assets/analytics.js?v=20260627" defer></script><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png"><meta name="description" content="Sample Hook Lab pre-flight report for The Devil in Winter — how a reader panel reacts to each hook before you post it.">
+</style><script src="/assets/analytics.js?v=20260925" defer></script><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png"><meta name="description" content="Sample Hook Lab pre-flight report for The Devil in Winter — how a reader panel reacts to each hook before you post it.">
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
 <link rel="canonical" href="https://tropesmith.com/hook-lab/sample/">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://tropesmith.com/hook-lab/sample/", "name": "Hook Lab sample report — The Devil in Winter | Tropesmith", "publisher": {"@id": "https://tropesmith.com/#organization","@type": "Organization", "name": "Tropesmith", "url": "https://tropesmith.com"}, "description": "Sample Hook Lab pre-flight report for The Devil in Winter — how a reader panel reacts to each hook before you post it."}</script>
