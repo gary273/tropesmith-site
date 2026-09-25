@@ -21,7 +21,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/styles.css?v=20260925" />
+<link rel="stylesheet" href="../assets/styles.css?v=20260925b" />
 
 <style>
   .oc-card { background:#fff; border:1px solid rgba(26,18,8,0.1); border-radius:16px; padding:48px 40px; max-width:640px; margin:0 auto; text-align:center; }
@@ -222,5 +222,22 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 })();
 </script>
 
+<script>
+/* TS-1069: after paying, point the author back at the brief they just wrote (set on /pricing/?unlock=). */
+(function(){
+  var id = null;
+  try { id = sessionStorage.getItem('ts_pending_unlock'); } catch (e) {}
+  var href = id ? '/pricing/?unlock=' + encodeURIComponent(id) : null;
+  var ctas = [document.getElementById('oc-build-now')].concat([].slice.call(document.querySelectorAll('a.btn-primary[href="../intake/"]')));
+  ctas.forEach(function(a){
+    if (!a) return;
+    if (href) { a.href = href; a.innerHTML = 'Unlock the Map you just briefed <span class="arrow">\u2192</span>'; }
+    var p = document.createElement('p'); p.className = 'oc-body'; p.style.cssText = 'margin-top:10px;font-size:0.95rem';
+    p.textContent = href ? 'Your brief is saved. One click uses your new credit to build the full Map \u2014 usually ready within the hour, and we email you when it is.'
+                         : 'Once you send your brief, your Map is usually ready within the hour \u2014 we email you when it is.';
+    if (a.parentNode && !a.parentNode.querySelector('.oc-eta')) { p.classList.add('oc-eta'); a.parentNode.parentNode.insertBefore(p, a.parentNode.nextSibling); }
+  });
+})();
+</script>
 </body>
 </html>

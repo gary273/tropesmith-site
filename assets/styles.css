@@ -934,6 +934,9 @@ html body{
   animation: ts-vibe-pan 6s linear infinite alternate;
   box-shadow: 0 1px 0 rgba(255,255,255,.22) inset, 0 10px 26px -10px rgba(124,58,237,.60);
 }
+/* TS-1069: the panned gradient repeated with a hard #FF6B7A|#7C3AED seam, which showed as a pink block on the
+   left of "Build my Map". A mirrored gradient tiles seamlessly. */
+.btn-primary, .btn-primary:hover{ background-image: linear-gradient(100deg, #7C3AED 0%, #A855F7 15%, #EC4899 32%, #FF6B7A 50%, #EC4899 68%, #A855F7 85%, #7C3AED 100%); }
 .btn-primary:hover{
   background: var(--ts-grad); background-size: 200% auto;
   transform: translateY(-2px);
