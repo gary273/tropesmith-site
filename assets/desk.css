@@ -109,3 +109,5 @@ html body .ts-partners{background:transparent !important;}
 /* the live trope ticker (IN-0778 CTK block, re-baked by marketing jobs) on paper instead of navy */
 html body .ctk{--ctk-bg:#FFFDF7;--ctk-fg:#1B1633;--ctk-dim:#4A4360;--ctk-up:#1F7A55;--ctk-dn:#B0303F;background:#FFFDF7 !important;color:#1B1633 !important;border-bottom:1px solid var(--desk-rule);}
 html body .ctk a{color:var(--desk-rose) !important;}
+/* wide data tables scroll inside themselves on phones instead of widening the page */
+@media (max-width:760px){html body table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}}
