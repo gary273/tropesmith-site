@@ -55,6 +55,8 @@
     });
     loadGA();
     wireConversions();
+    // TS-1066: the Meta Pixel is consent-gated too; pages define window.tsMetaPixel.
+    try { if (window.tsMetaPixel) window.tsMetaPixel(); } catch (e) {}
   }
 
   // --- Public helper: fire a GA4 event (no-op until consent granted) ---
@@ -118,8 +120,8 @@
     bar.setAttribute('aria-label', 'Cookie consent');
     bar.innerHTML =
       '<div class="ts-consent-inner">' +
-        '<p class="ts-consent-text">We use Google Analytics to understand how the site is used. ' +
-          'Analytics cookies load only if you accept. ' +
+        '<p class="ts-consent-text">We use Google Analytics and the Meta Pixel to understand how the site is used. ' +
+          'Both load only if you accept; Ahrefs counts page views without cookies. ' +
           '<a href="/privacy/">Privacy policy</a>.</p>' +
         '<div class="ts-consent-btns">' +
           '<button type="button" id="ts-consent-decline" class="ts-consent-btn ts-consent-decline">Decline</button>' +
