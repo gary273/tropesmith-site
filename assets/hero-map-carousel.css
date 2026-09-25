@@ -44,7 +44,7 @@
 }
 
 .hero-map-head .hero-map-genre {
-  color: var(--ts-coral, #FF6B7A);
+  color: var(--ts-coral, #C23A5B);
   transition: opacity 0.3s ease;
 }
 
@@ -76,7 +76,7 @@
 }
 
 .hero-map-source b {
-  color: var(--ts-coral, #FF6B7A);
+  color: var(--ts-coral, #C23A5B);
   font-weight: 600;
 }
 
@@ -84,7 +84,7 @@
   font-size: 9.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ts-coral, #FF6B7A);
+  color: var(--ts-coral, #C23A5B);
   font-weight: 600;
   margin-bottom: 8px;
   font-family: 'Inter', system-ui, sans-serif;
@@ -128,7 +128,7 @@
 .hero-map-trope .hero-map-rank {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 9.5px;
-  color: var(--ts-coral, #FF6B7A);
+  color: var(--ts-coral, #C23A5B);
   font-weight: 600;
 }
 
@@ -152,7 +152,7 @@
 
 .hero-map-lane.hero-map-lane-hot {
   background: rgba(255,107,122,0.15);
-  color: var(--ts-coral, #FF6B7A);
+  color: var(--ts-coral, #C23A5B);
 }
 
 .hero-map-lane.hero-map-lane-warm {

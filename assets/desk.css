@@ -111,3 +111,56 @@ html body .ctk{--ctk-bg:#FFFDF7;--ctk-fg:#1B1633;--ctk-dim:#4A4360;--ctk-up:#1F7
 html body .ctk a{color:var(--desk-rose) !important;}
 /* wide data tables scroll inside themselves on phones instead of widening the page */
 @media (max-width:760px){html body table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}}
+
+/* ---------- UAT round 1 fixes (TS-1073) ---------- */
+/* former navy panels -> index cards on the desk (light only; the one chalkboard stays on home/how/pricing, framed) */
+html body .radar,html body #ts-moat,html body .moat,html body .dr-magnet,html body .memberlock,html body #ctaBox.cta,html body .lean,html body .rd-band,html body .lock{background:var(--desk-card) !important;background-image:none !important;color:var(--desk-ink) !important;border:1px solid var(--desk-rule) !important;border-top:5px solid var(--desk-chalk) !important;border-radius:8px !important;box-shadow:var(--desk-shadow) !important;overflow:visible !important;}
+html body .radar *:not(a):not(button),html body #ts-moat *:not(a):not(button),html body .moat *:not(a):not(button),html body .dr-magnet *:not(a):not(button):not(input),html body .memberlock *:not(a):not(button):not(input),html body #ctaBox.cta *:not(a):not(button),html body .lean *:not(a):not(button),html body .rd-band *:not(a):not(button),html body .lock *:not(a):not(button):not(input){color:var(--desk-ink) !important;-webkit-text-fill-color:currentColor !important;text-shadow:none !important;}
+html body .radar .l,html body #ts-moat > div:first-child,html body .moat > div:first-child,html body .dr-magnet [class*=eyebrow],html body .memberlock [class*=eyebrow],html body .memberlock [class*=kicker]{color:var(--desk-rose) !important;}
+html body .radar .row > div > div,html body #ts-moat p,html body .moat p{color:var(--desk-ink-2) !important;}
+html body .memberlock .blur,html body .memberlock [class*=blur]{opacity:.35;}
+html body .memberlock a,html body .memberlock button,html body #ctaBox.cta a.btn,html body .dr-magnet button,html body .lock button{background:var(--desk-rose) !important;background-image:none !important;color:#fff !important;border:0 !important;border-radius:999px !important;}
+/* code block on the free-tools embed -> typed index card */
+html body pre{background:var(--desk-card) !important;color:var(--desk-ink) !important;border:1px dashed #8A7FA3 !important;border-radius:6px !important;font-family:'Special Elite','Courier New',monospace !important;white-space:pre-wrap;word-break:break-all;}
+/* callouts turned sticky: everything inside in ink */
+html body .callout *:not(a),html body .note-box *:not(a),html body .tip *:not(a){color:var(--desk-ink) !important;-webkit-text-fill-color:currentColor !important;}
+html body .callout .l,html body .callout strong:first-child{color:#8A1F3A !important;}
+/* the chalkboard band is a framed board on the desk, not a full-bleed dark section */
+html body .tsm-corpus{max-width:1240px;margin:48px auto !important;border:14px solid #9A6A3E !important;border-radius:16px !important;box-shadow:inset 0 0 40px rgba(0,0,0,.25),0 18px 30px -18px rgba(60,40,10,.45) !important;}
+html body .tsm-corpus .tsm-corpus-eyebrow,html body .tsm-corpus [class*=-label],html body .tsm-corpus [class*=-tag],html body .tsm-corpus .tsm-hashtag-name,html body .tsm-corpus em{color:#FFE58F !important;-webkit-text-fill-color:#FFE58F !important;background:none !important;}
+@media (max-width:760px){html body .tsm-corpus{margin:28px 10px !important;border-width:8px !important;}}
+/* estate strips on home -> paper */
+html body #estate-nav,html body .family-strip{background:#EFE6D6 !important;color:var(--desk-ink) !important;border-bottom:1px solid var(--desk-rule) !important;}
+html body #estate-nav *,html body .family-strip *{color:var(--desk-ink) !important;}
+html body #estate-nav a:hover,html body .family-strip a:hover{color:var(--desk-rose) !important;}
+/* ticker never widens the page */
+html body .ctk,html body .ctk-viewport{max-width:100%;overflow:hidden !important;}
+/* form controls: selects never stretch tall inside column flex */
+html body select{max-width:100%;min-width:0;}
+html body #ts-lite-subgenre{flex:0 0 auto !important;height:auto !important;width:100%;}
+/* consent banner in the desk rose */
+html body .ts-consent-accept{background:var(--desk-rose) !important;color:#fff !important;}
+html body .ts-consent-text a{color:var(--desk-rose) !important;}
+/* partner logo tile sits on a light card */
+html body .ts-partners img{background:var(--desk-card);padding:8px;border-radius:8px;}
+/* one body font site-wide */
+html body.desk-on{font-family:var(--desk-sans) !important;}
+/* phone: keep the Build my Map button visible next to the menu button */
+@media (max-width:900px){
+  .desk-header:not(.open) .desk-nav{display:flex;margin-left:auto;margin-right:10px;gap:0;}
+  .desk-header:not(.open) .desk-nav a:not(.desk-btn){display:none;}
+  .desk-header:not(.open) .desk-nav .desk-btn{padding:10px 14px;font-size:13.5px;white-space:nowrap;}
+}
+@media (max-width:360px){.desk-header:not(.open) .desk-nav .desk-btn{font-size:12.5px;padding:9px 10px;}}
+@media (max-width:480px){
+  .desk-header .in{padding:0 14px !important;gap:8px !important;}
+  .desk-header .desk-brand{gap:7px;min-width:0;}
+  .desk-header .desk-brand b{font-size:19px !important;}
+  .desk-header .desk-brand .desk-tile{width:30px !important;height:30px !important;font-size:17px !important;}
+  .desk-header:not(.open) .desk-nav{margin-right:6px;}
+  .desk-header:not(.open) .desk-nav .desk-btn{padding:9px 11px;font-size:12.5px;}
+  .desk-menu{flex:0 0 46px;}
+}
+@media (max-width:374px){.desk-header .desk-brand b{font-size:17px !important;}.desk-header:not(.open) .desk-nav .desk-btn{padding:8px 9px;font-size:12px;}}
+html body .callout a,html body .note-box a,html body .tip a{color:#8A1F3A !important;}
+html body .desk-home form > div{min-width:0;}html body .desk-home form select{min-width:0;width:100%;}

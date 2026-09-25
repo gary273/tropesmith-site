@@ -36,22 +36,22 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 
   .maps-section h2 { font-family: var(--ts-serif); font-size: 1.5rem; font-weight: 700; color: var(--ts-ink); margin: 0 0 18px 0; }
   .map-row { background: #fff; border: 1px solid rgba(26,18,8,0.1); border-radius: 12px; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 12px; transition: border-color 0.15s, box-shadow 0.15s; }
-  .map-row:hover { border-color: rgba(124,58,237,0.3); box-shadow: 0 2px 8px rgba(26,18,8,0.04); }
+  .map-row:hover { border-color: rgba(194,58,91,0.3); box-shadow: 0 2px 8px rgba(26,18,8,0.04); }
   .map-row-main { flex: 1; min-width: 0; }
   .map-row-title { font-family: var(--ts-serif); font-size: 1.15rem; font-weight: 700; color: var(--ts-ink); margin: 0 0 4px 0; }
   .map-row-meta { color: var(--ts-ink-soft); font-size: 0.9rem; }
   .pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
-  .pill-paid { background: rgba(124,58,237,0.1); color: var(--ts-grad-start); }
+  .pill-paid { background: rgba(194,58,91,0.1); color: var(--ts-grad-start); }
   .pill-ready { background: rgba(34,160,107,0.12); color: #1c7a52; }
   .pill-pending { background: rgba(184,134,11,0.12); color: #8a6508; }
   .pill-locked { background: rgba(26,18,8,0.06); color: var(--ts-ink-soft); }
 
   .map-row-locked { background: #faf9f7; border: 1px dashed rgba(26,18,8,0.15); opacity: 0.85; }
-  .map-row-locked:hover { border-color: rgba(124,58,237,0.25); opacity: 1; }
+  .map-row-locked:hover { border-color: rgba(194,58,91,0.25); opacity: 1; }
   .map-row-locked .map-row-title { color: var(--ts-ink-soft); }
   .map-row-locked .map-row-teaser { font-size: 0.88rem; color: var(--ts-ink-soft); margin-top: 4px; font-style: italic; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .unlock-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--ts-grad-start, #7c3aed); color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: background 0.15s; text-decoration: none; }
-  .unlock-btn:hover { background: #6d28d9; }
+  .unlock-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--ts-grad-start, #C23A5B); color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: background 0.15s; text-decoration: none; }
+  .unlock-btn:hover { background: #C23A5B; }
   .unlock-btn svg { width: 14px; height: 14px; }
   .unlock-btn--disabled { background: #cbc6d4; color: #fff; cursor: not-allowed; }
   .unlock-btn--disabled:hover { background: #cbc6d4; }
@@ -67,7 +67,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 <script src="https://js.stripe.com/v3/"></script>
 <script src="/assets/tropesmith.js?v=20260528-utm"></script>
   <script src="/assets/analytics.js?v=20260925" defer></script>
-<link rel="stylesheet" href="/assets/desk.css?v=20260926b" data-desk-theme>
+<link rel="stylesheet" href="/assets/desk.css?v=20260926c" data-desk-theme>
 </head>
 <body class="desk-on">
 <!-- DESK-THEME header -->
@@ -117,13 +117,13 @@ fbq('init','1319927140123427');fbq('track','PageView');};
   </div>
 </section>
 <style>
-  .ts-verify-card{display:flex;align-items:center;gap:20px;flex-wrap:wrap;text-decoration:none;background:linear-gradient(120deg,#7C3AED,#a855f7);border-radius:16px;padding:22px 26px;box-shadow:0 8px 24px rgba(124,58,237,.28);transition:transform .2s ease,box-shadow .2s ease}
-  .ts-verify-card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(124,58,237,.38)}
+  .ts-verify-card{display:flex;align-items:center;gap:20px;flex-wrap:wrap;text-decoration:none;background:linear-gradient(120deg,#C23A5B,#C23A5B);border-radius:16px;padding:22px 26px;box-shadow:0 8px 24px rgba(194,58,91,.28);transition:transform .2s ease,box-shadow .2s ease}
+  .ts-verify-card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(194,58,91,.38)}
   .ts-verify-badge{align-self:flex-start;background:rgba(255,255,255,.22);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:6px 12px;border-radius:999px;white-space:nowrap}
   .ts-verify-body{flex:1;min-width:260px}
   .ts-verify-title{display:block;font-family:'Fraunces',Georgia,serif;font-size:20px;line-height:1.25;color:#fff;font-weight:700}
   .ts-verify-sub{display:block;color:#f1e9ff;font-size:14px;margin-top:6px;max-width:640px;line-height:1.5}
-  .ts-verify-cta{background:#fff;color:#6d28d9;border-radius:10px;padding:12px 20px;font-weight:700;white-space:nowrap}
+  .ts-verify-cta{background:#fff;color:#C23A5B;border-radius:10px;padding:12px 20px;font-weight:700;white-space:nowrap}
   @media(max-width:640px){.ts-verify-card{padding:18px}.ts-verify-cta{width:100%;text-align:center}}
 </style>
 
@@ -141,11 +141,11 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 </section>
 <style>
   .ts-finder-card{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;text-decoration:none;background:linear-gradient(180deg,#171221,#1f1830);border:1px solid #2c2342;border-radius:14px;padding:20px 24px;transition:border-color .2s ease,transform .2s ease}
-  .ts-finder-card:hover{border-color:#7C3AED;transform:translateY(-2px)}
+  .ts-finder-card:hover{border-color:#C23A5B;transform:translateY(-2px)}
   .ts-finder-eyebrow{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#c9a6ff;margin-bottom:4px}
   .ts-finder-title{display:block;font-family:'Fraunces',Georgia,serif;font-size:22px;color:#f3eefb;font-weight:700}
   .ts-finder-sub{display:block;color:#a99fc4;font-size:14px;margin-top:4px;max-width:560px;line-height:1.5}
-  .ts-finder-arrow{color:#fff;background:#7C3AED;border-radius:10px;padding:10px 18px;font-weight:700;white-space:nowrap}
+  .ts-finder-arrow{color:#fff;background:#C23A5B;border-radius:10px;padding:10px 18px;font-weight:700;white-space:nowrap}
 </style>
 
 <section class="section" style="padding-top:0">

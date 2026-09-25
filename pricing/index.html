@@ -77,7 +77,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 <script defer src="../assets/site.js"></script>
   <script src="/assets/analytics.js?v=20260925" defer></script>
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
-<link rel="stylesheet" href="/assets/desk.css?v=20260926b" data-desk-theme>
+<link rel="stylesheet" href="/assets/desk.css?v=20260926c" data-desk-theme>
 </head>
 <body class="desk-on">
 <!-- DESK-THEME header -->
@@ -106,7 +106,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 <section class="section page-head">
   <div class="wrap">
     <div id="tsm-need-credits" style="display:none;background:rgba(255,107,122,0.10);border:1px solid rgba(255,107,122,0.30);border-radius:10px;padding:10px 16px;margin-bottom:18px;color:#10122F;font-size:0.92rem">You need a credit to build that Map. Grab one below — it lands in your library instantly, then head back to build.</div>
-    <div id="tsm-pricing-auth" style="display:none;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.18);border-radius:10px;padding:10px 16px;margin-bottom:18px;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+    <div id="tsm-pricing-auth" style="display:none;background:rgba(194,58,91,0.08);border:1px solid rgba(194,58,91,0.18);border-radius:10px;padding:10px 16px;margin-bottom:18px;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
         <span style="color:var(--ts-ink);font-size:0.92rem">Signed in as <b id="tsm-pricing-email"></b> &middot; <span style="color:var(--ts-ink-soft)">credits will be added to your library instantly</span></span>
         <a href="../library/" style="color:var(--ts-grad-start);font-size:0.85rem;text-decoration:none;font-weight:600">My library &rarr;</a>
       </div>
@@ -222,7 +222,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
       </div>
 
       <div class="ts-redeem-state" id="redeem-state-error" hidden>
-        <span class="ts-redeem-eyebrow" style="color:#FF6B7A">Couldn't redeem</span>
+        <span class="ts-redeem-eyebrow" style="color:#C23A5B">Couldn't redeem</span>
         <p id="redeem-error-msg" class="ts-redeem-h" style="font-size:18px"></p>
         <p style="font-size:13px;color:var(--ts-mauve,#5b4a59)">You can still pay below &mdash; your credit will remain on your account.</p>
       </div>
@@ -232,19 +232,19 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 </section>
 
 <style>
-  .ts-redeem-card { background: #F7F3FD; border: 1px solid rgba(124,58,237,0.18); border-left: 4px solid #7C3AED; border-radius: 12px; padding: 24px 28px; box-shadow: 0 8px 24px rgba(16,18,47,0.06); font-family: 'Inter', sans-serif; }
+  .ts-redeem-card { background: #FBF3EA; border: 1px solid rgba(194,58,91,0.18); border-left: 4px solid #C23A5B; border-radius: 12px; padding: 24px 28px; box-shadow: 0 8px 24px rgba(16,18,47,0.06); font-family: 'Inter', sans-serif; }
   .ts-redeem-state[hidden] { display: none; }
-  .ts-redeem-eyebrow { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #7C3AED; margin-bottom: 8px; }
+  .ts-redeem-eyebrow { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #C23A5B; margin-bottom: 8px; }
   .ts-redeem-eyebrow b { color: #10122F; font-weight: 700; }
   .ts-redeem-h { margin: 4px 0 8px; font-family: 'Fraunces', Georgia, serif; font-size: 24px; line-height: 1.2; color: #10122F; font-weight: 700; }
   .ts-redeem-card p { margin: 0 0 14px; color: #5b4a59; font-size: 15px; line-height: 1.55; }
   .ts-redeem-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: stretch; margin-top: 6px; }
   .ts-redeem-form input { flex: 1 1 240px; min-width: 200px; padding: 10px 14px; border: 1px solid rgba(16,18,47,0.18); border-radius: 8px; font: inherit; background: #fff; }
-  .ts-redeem-form input:focus { outline: none; border-color: #7C3AED; box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
+  .ts-redeem-form input:focus { outline: none; border-color: #C23A5B; box-shadow: 0 0 0 3px rgba(194,58,91,0.15); }
   .ts-redeem-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 4px; }
-  .ts-redeem-link { background: none; border: none; color: #7C3AED; cursor: pointer; font: inherit; text-decoration: underline; padding: 0; font-size: 14px; }
+  .ts-redeem-link { background: none; border: none; color: #C23A5B; cursor: pointer; font: inherit; text-decoration: underline; padding: 0; font-size: 14px; }
   .ts-redeem-link:hover { color: #5b21b6; }
-  .ts-redeem-spinner { width: 16px; height: 16px; border: 2px solid rgba(124,58,237,0.25); border-top-color: #7C3AED; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 10px; animation: tsRedeemSpin 0.8s linear infinite; }
+  .ts-redeem-spinner { width: 16px; height: 16px; border: 2px solid rgba(194,58,91,0.25); border-top-color: #C23A5B; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 10px; animation: tsRedeemSpin 0.8s linear infinite; }
   @keyframes tsRedeemSpin { to { transform: rotate(360deg); } }
   #redeem-state-loading, #redeem-state-redeeming { display: flex; align-items: center; color: #10122F; font-size: 15px; }
   #redeem-state-loading[hidden], #redeem-state-redeeming[hidden] { display: none; }
@@ -281,18 +281,18 @@ fbq('init','1319927140123427');fbq('track','PageView');};
         <span>11+ = <b>$10.50</b> ea</span>
       </div>
       <p class="ts-credits-fine">Every credit unlocks one full Map — a complete pre-launch blueprint: a go/no-go opportunity score, the ranked trope stack with demand-vs-supply, FMC + MMC archetypes, the open gap, comps three ways, cover &amp; title direction, character &amp; place names, the book-length sweet spot, reader vocabulary, market economics, risk flags and a step-by-step plan.</p>
-      <p class="ts-credits-fine" style="margin-top:10px;"><span style="background:#F3ECFF;color:#7C3AED;font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;">✨ New</span> Every Map now includes a <strong>launch-video toolkit</strong> &mdash; the trending hashtags &amp; sounds for your lane, ready for your BookTok and Reels.</p>
+      <p class="ts-credits-fine" style="margin-top:10px;"><span style="background:#FBF3EA;color:#C23A5B;font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;">✨ New</span> Every Map now includes a <strong>launch-video toolkit</strong> &mdash; the trending hashtags &amp; sounds for your lane, ready for your BookTok and Reels.</p>
     </div>
 
     <style>
-      .ts-credits-card{background:#F7F3FD;border:1px solid rgba(124,58,237,0.18);border-left:4px solid #7C3AED;border-radius:14px;padding:26px 28px;box-shadow:0 8px 24px rgba(16,18,47,0.06);margin-top:8px}
+      .ts-credits-card{background:#FBF3EA;border:1px solid rgba(194,58,91,0.18);border-left:4px solid #C23A5B;border-radius:14px;padding:26px 28px;box-shadow:0 8px 24px rgba(16,18,47,0.06);margin-top:8px}
       .ts-credits-head h4{font-family:'Fraunces',Georgia,serif;font-size:26px;color:#10122F;font-weight:700;line-height:1.15}
       .ts-credits-head .label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
       .ts-credits-head p{color:#5b4a59;font-size:15px;line-height:1.55;margin:6px 0 0;max-width:560px}
       .ts-credits-controls{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin:22px 0 6px}
       .ts-qty{display:inline-flex;align-items:stretch;border:1px solid rgba(16,18,47,0.18);border-radius:10px;overflow:hidden;background:#fff}
-      .ts-qty-btn{width:46px;border:none;background:#fff;font-size:22px;line-height:1;color:#7C3AED;cursor:pointer;font-weight:600}
-      .ts-qty-btn:hover{background:rgba(124,58,237,0.08)}
+      .ts-qty-btn{width:46px;border:none;background:#fff;font-size:22px;line-height:1;color:#C23A5B;cursor:pointer;font-weight:600}
+      .ts-qty-btn:hover{background:rgba(194,58,91,0.08)}
       .ts-qty-input{width:64px;border:none;border-left:1px solid rgba(16,18,47,0.12);border-right:1px solid rgba(16,18,47,0.12);text-align:center;font:600 18px 'Fraunces',serif;color:#10122F;background:#fff;-moz-appearance:textfield}
       .ts-qty-input::-webkit-outer-spin-button,.ts-qty-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
       .ts-qty-input:focus{outline:none}
@@ -300,7 +300,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
       .ts-credits-total{font-family:'Fraunces',Georgia,serif;font-size:34px;font-weight:700;color:#10122F;line-height:1}
       .ts-credits-rate{font-size:13px;color:#5b4a59;margin-top:3px}
       #ts-buy-credits{margin-left:auto}
-      .ts-credits-ladder{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:14px;padding-top:14px;border-top:1px dashed rgba(124,58,237,0.25)}
+      .ts-credits-ladder{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:14px;padding-top:14px;border-top:1px dashed rgba(194,58,91,0.25)}
       .ts-credits-ladder span{font-size:13px;color:#5b4a59}
       .ts-credits-ladder b{color:#10122F}
       .ts-credits-fine{font-size:13px;color:#5b4a59;line-height:1.55;margin:14px 0 0}
@@ -367,7 +367,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 -->
 <!-- ─── LIVE BOARD add-on ──────────────────────── -->
 <style>
-  .lbp{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center;background:linear-gradient(135deg,rgba(139,92,246,.10),rgba(255,107,122,.10));border:1px solid var(--ts-rule);border-radius:20px;padding:32px}
+  .lbp{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center;background:linear-gradient(135deg,rgba(194,58,91,.10),rgba(255,107,122,.10));border:1px solid var(--ts-rule);border-radius:20px;padding:32px}
   .lbp .k{font-family:var(--ts-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ts-violet-dk)}
   .lbp h3{font-family:var(--ts-serif);font-size:clamp(24px,2.4vw,32px);margin:10px 0 8px;color:var(--ts-ink);line-height:1.12}
   .lbp p{color:var(--ts-mauve);font-size:16px;line-height:1.55;margin:0}
@@ -492,29 +492,29 @@ fbq('init','1319927140123427');fbq('track','PageView');};
   </div>
 </section>
 <!-- IN-0778 moat disclosure -->
-<div id="ts-moat" style="background:#141636;color:#fff;border-radius:18px;padding:24px 26px 20px;margin:30px auto;max-width:760px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#c4b5fd;font-weight:700">By the numbers</div><h2 style="font-family:Fraunces,Georgia,serif;font-size:21px;color:#fff;margin:6px 0 4px">What Tropesmith has actually read</h2><p style="color:#c9c3e8;max-width:none;font-size:14.5px;margin:0 0 14px">Every figure on this page is a row count against our own corpus, not an estimate. The counters above animate for visitors but ship their final values in the page source, so a search engine or an AI assistant reads exactly the same numbers you do. Here is the whole set in one place.</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:10px"><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">450,000+</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">titles in the book registry</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">881,000+</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">book&ndash;trope tags extracted</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">105,000+</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">titles tagged with tropes</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">5,070+</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">tropes in the book-tag set</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">3,950,000+</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">Goodreads reviews read</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">2,810,000+</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">Goodreads shelf signals held</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="demand_signals">2,390,000+</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">demand signals ingested</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">933,316</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">reader requests classed underserved or novel</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">41,210</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">of those, read from BookTok</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="demand_lanes">140+</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">demand lanes scored</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="booktok_hashtags_tracked">710+</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">BookTok hashtags scanned hourly</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">122,000+</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">BookTok videos parsed</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">35.2B+</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">BookTok plays across tracked videos</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">9,290,000+</b><span style="display:block;font-size:11.5px;color:#c4b5fd;margin-top:4px;line-height:1.35">reader signals in total</span></div></div><p style="font-size:12px;color:#8d86b8;margin:14px 0 0">Counted 2026-09-25 09:42&nbsp;UTC by direct query against the Tropesmith corpus. Method: <a style="color:#c4b5fd" href="/reader-demand/">how we read reader demand</a> &middot; <a style="color:#c4b5fd" href="/how-it-works/">how a Map is built</a>.</p></div>
+<div id="ts-moat" style="background:#FFFDF7;color:#fff;border-radius:18px;padding:24px 26px 20px;margin:30px auto;max-width:760px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#C23A5B;font-weight:700">By the numbers</div><h2 style="font-family:Fraunces,Georgia,serif;font-size:21px;color:#fff;margin:6px 0 4px">What Tropesmith has actually read</h2><p style="color:#5E5872;max-width:none;font-size:14.5px;margin:0 0 14px">Every figure on this page is a row count against our own corpus, not an estimate. The counters above animate for visitors but ship their final values in the page source, so a search engine or an AI assistant reads exactly the same numbers you do. Here is the whole set in one place.</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:10px"><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">450,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">titles in the book registry</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">881,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">book&ndash;trope tags extracted</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">105,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">titles tagged with tropes</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">5,070+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">tropes in the book-tag set</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">3,950,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">Goodreads reviews read</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">2,810,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">Goodreads shelf signals held</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="demand_signals">2,390,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">demand signals ingested</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">933,316</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">reader requests classed underserved or novel</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">41,210</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">of those, read from BookTok</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="demand_lanes">140+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">demand lanes scored</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="booktok_hashtags_tracked">710+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">BookTok hashtags scanned hourly</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">122,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">BookTok videos parsed</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">35.2B+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">BookTok plays across tracked videos</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">9,290,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">reader signals in total</span></div></div><p style="font-size:12px;color:#5E5872;margin:14px 0 0">Counted 2026-09-25 09:42&nbsp;UTC by direct query against the Tropesmith corpus. Method: <a style="color:#C23A5B" href="/reader-demand/">how we read reader demand</a> &middot; <a style="color:#C23A5B" href="/how-it-works/">how a Map is built</a>.</p></div>
 
 
 <style>
-  .tsm-corpus { background: linear-gradient(180deg, #10122F 0%, #1a1f4f 100%); color: #FFF9F3; padding: 96px 24px; position: relative; overflow: hidden; font-family: 'Fraunces', Georgia, serif; }
-  .tsm-corpus::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 60%); pointer-events: none; }
+  .tsm-corpus { background: linear-gradient(180deg, #10122F 0%, #FFFDF7 100%); color: #FFF9F3; padding: 96px 24px; position: relative; overflow: hidden; font-family: 'Fraunces', Georgia, serif; }
+  .tsm-corpus::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(194,58,91,0.15) 0%, transparent 60%); pointer-events: none; }
   .tsm-corpus::after { content: ''; position: absolute; bottom: -300px; right: -100px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,107,122,0.10) 0%, transparent 60%); pointer-events: none; }
   .tsm-corpus-shell { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
-  .tsm-corpus-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #FF6B7A; margin-bottom: 24px; }
-  .tsm-corpus-eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: #FF6B7A; box-shadow: 0 0 12px rgba(255,107,122,0.7); animation: tsmPulse 2s ease-in-out infinite; }
+  .tsm-corpus-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #C23A5B; margin-bottom: 24px; }
+  .tsm-corpus-eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: #A8324F; box-shadow: 0 0 12px rgba(255,107,122,0.7); animation: tsmPulse 2s ease-in-out infinite; }
   @keyframes tsmPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } }
   .tsm-corpus-heading { font-family: 'Fraunces', Georgia, serif; font-size: clamp(32px, 5vw, 56px); font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; margin: 0 0 24px; color: #FFF9F3; }
-  .tsm-corpus-heading em { font-style: italic; padding-right:.14em; margin-right:-.14em; background: linear-gradient(135deg, #8B5CF6 0%, #FF6B7A 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+  .tsm-corpus-heading em { font-style: italic; padding-right:.14em; margin-right:-.14em; background: linear-gradient(135deg, #C23A5B 0%, #A8324F 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
   .tsm-corpus-sub { font-family: 'Fraunces', Georgia, serif; font-size: 18px; line-height: 1.6; color: rgba(255,249,243,0.75); max-width: 720px; margin: 0 0 56px; }
-  .tsm-corpus-sub em { font-style: italic; color: #FF6B7A; font-weight: 600; }
+  .tsm-corpus-sub em { font-style: italic; color: #C23A5B; font-weight: 600; }
   .tsm-corpus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 48px; }
   .tsm-corpus-card { padding: 28px 24px; border-radius: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(8px); transition: transform 0.3s ease, border-color 0.3s ease; position: relative; overflow: hidden; }
-  .tsm-corpus-card:hover { transform: translateY(-4px); border-color: rgba(139,92,246,0.4); }
+  .tsm-corpus-card:hover { transform: translateY(-4px); border-color: rgba(194,58,91,0.4); }
   .tsm-corpus-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), transparent); }
-  .tsm-corpus-card--booktok   { --accent: #FF6B7A; }
-  .tsm-corpus-card--goodreads { --accent: #8B5CF6; }
-  .tsm-corpus-card--amazon    { --accent: #FFB84D; }
-  .tsm-corpus-card--reddit    { --accent: #4DD0E1; }
+  .tsm-corpus-card--booktok   { --accent: #C23A5B; }
+  .tsm-corpus-card--goodreads { --accent: #C23A5B; }
+  .tsm-corpus-card--amazon    { --accent: #9A5B00; }
+  .tsm-corpus-card--reddit    { --accent: #0E7490; }
   .tsm-corpus-card-label { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; font-weight: 500; }
   .tsm-corpus-card-stat { font-family: 'Fraunces', Georgia, serif; font-size: clamp(36px, 4vw, 48px); font-weight: 700; line-height: 1; letter-spacing: -0.02em; color: #FFF9F3; margin-bottom: 6px; font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
   .tsm-corpus-card-unit { font-family: 'Fraunces', Georgia, serif; font-size: 14px; color: rgba(255,249,243,0.7); margin-bottom: 16px; font-style: italic; }
@@ -523,13 +523,13 @@ fbq('init','1319927140123427');fbq('track','PageView');};
   .tsm-corpus-hashtag-track { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
   .tsm-hashtag { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,107,122,0.2); border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 13px; transition: transform 0.2s ease, background 0.2s ease; }
   .tsm-hashtag:hover { transform: translateY(-2px); background: rgba(255,107,122,0.12); }
-  .tsm-hashtag-name { color: #FF6B7A; font-weight: 600; }
+  .tsm-hashtag-name { color: #C23A5B; font-weight: 600; }
   .tsm-hashtag-plays { color: rgba(255,249,243,0.55); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; }
-  .tsm-corpus-mechanism { padding: 32px 32px; background: rgba(255,255,255,0.03); border-left: 3px solid #FF6B7A; border-radius: 0 12px 12px 0; margin-bottom: 32px; }
-  .tsm-corpus-mechanism-tag { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #FF6B7A; margin-bottom: 12px; }
+  .tsm-corpus-mechanism { padding: 32px 32px; background: rgba(255,255,255,0.03); border-left: 3px solid #C23A5B; border-radius: 0 12px 12px 0; margin-bottom: 32px; }
+  .tsm-corpus-mechanism-tag { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #C23A5B; margin-bottom: 12px; }
   .tsm-corpus-mechanism p { font-family: 'Fraunces', Georgia, serif; font-size: 16px; line-height: 1.65; color: rgba(255,249,243,0.85); margin: 0; }
   .tsm-corpus-mechanism strong { color: #FFF9F3; font-weight: 700; }
-  .tsm-corpus-mechanism em { color: #FF6B7A; font-style: italic; }
+  .tsm-corpus-mechanism em { color: #C23A5B; font-style: italic; }
   .tsm-corpus-footnote { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,249,243,0.35); text-align: center; margin: 0; letter-spacing: 0.04em; }
   @media (max-width: 640px) {
     .tsm-corpus { padding: 64px 18px; }
