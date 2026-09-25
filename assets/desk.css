@@ -188,3 +188,8 @@ html body a.cta + a.cta2{margin-left:12px;}@media (max-width:560px){html body a.
   .desk-home figure[style*="height: 600px"] > div:nth-child(4){z-index:3;}
 }
 html body .ts-partners a{background:var(--desk-card) !important;border:1px solid var(--desk-rule) !important;}
+html body .cta-box a.cta2,html body a.cta2{padding:12px 22px !important;align-items:center;}
+html body .ts-partners a{min-width:200px;display:inline-flex !important;align-items:center;justify-content:center;}
+html body .ts-partners a img{max-height:56px;width:auto;}
+html body .pill.over{color:#8A1F3A !important;}html body .tag2.free,html body span.up{color:#176B45 !important;}
+.desk-home [style*="#F3E3B8"] a,.desk-home [style*="#CFE3F5"] a,.desk-home [style*="#CFE3F5"] span,.desk-home [style*="#F3E3B8"] span{color:#8A1F3A !important;}
