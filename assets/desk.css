@@ -1,0 +1,111 @@
+/* TS-1073 — "Writer's Desk" theme for every tropesmith.com page.
+   Loaded LAST in <head> so it restyles both page families without touching their content:
+   - site pages   (header .nav / .nav-links, main#main, footer.foot, assets/styles.css)
+   - generated    (div.topnav > .in, div.wrap, .eyebrow, .stat(s), .tcard, .callout, .cta-box, .faq-item, div.foot)
+   Palette: paper #F7F2EA · card #FFFDF7 · desk wood #E2CBA6 · ink #1B1633 · coral-rose #C23A5B
+            chalk green #2F4A3E · sticky yellow #FFE58F · pink #FFD3E0 · blue #CFE3F5 · mint #D6EBDD · manila #EBD49B */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,650;0,9..144,800;1,9..144,500&family=Archivo:wght@400;500;600;700&family=Caveat:wght@600;700&family=Special+Elite&display=swap");
+
+:root{
+  --desk-paper:#F7F2EA; --desk-card:#FFFDF7; --desk-wood:#E2CBA6; --desk-wood-2:#EAD9BE; --desk-frame:#9A6A3E;
+  --desk-ink:#1B1633; --desk-ink-2:#4A4360; --desk-mute:#6A6180; --desk-rule:#E6DCCB;
+  --desk-rose:#C23A5B; --desk-rose-dk:#9E2A48; --desk-rose-tint:#FFE3EA;
+  --desk-chalk:#2F4A3E; --desk-chalk-ink:#F4F1E6;
+  --desk-sticky:#FFE58F; --desk-pink:#FFD3E0; --desk-blue:#CFE3F5; --desk-mint:#D6EBDD; --desk-manila:#EBD49B;
+  --desk-serif:'Fraunces',Georgia,serif; --desk-sans:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --desk-hand:'Caveat',cursive; --desk-type:'Special Elite',ui-monospace,monospace;
+  --desk-shadow:0 10px 20px rgba(60,40,10,.10);
+  /* old tokens used by assets/styles.css + page styles, remapped onto the desk */
+  --ts-cream:#F7F2EA; --ts-ink:#1B1633; --ts-violet:#C23A5B; --ts-coral:#C23A5B;
+  --ts-grad:linear-gradient(90deg,#C23A5B,#C23A5B);
+}
+
+/* ---------- base ---------- */
+html body{background:var(--desk-paper) !important;color:var(--desk-ink) !important;font-family:var(--desk-sans) !important;-webkit-font-smoothing:antialiased;}
+html body h1,html body h2,html body h3{font-family:var(--desk-serif) !important;color:inherit;letter-spacing:-0.015em;}
+html body h1{font-weight:650 !important;}
+html body h2,html body h3{font-weight:650 !important;}
+html body a{color:var(--desk-rose);}
+html body a:hover{color:var(--desk-rose-dk);}
+html body a:focus-visible,html body button:focus-visible,html body input:focus-visible,html body select:focus-visible,html body textarea:focus-visible{outline:3px solid #6D3FD9 !important;outline-offset:3px;}
+html body p,html body li{line-height:1.6;}
+html body .grad-text,html body .grad{background:none !important;-webkit-text-fill-color:currentColor !important;color:var(--desk-rose) !important;}
+html body em{color:inherit;}
+
+/* ---------- the shared desk header (injected on every page) ---------- */
+.desk-header{position:sticky;top:0;z-index:50;background:rgba(247,242,234,.96);backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid var(--desk-rule);}
+.desk-header .in{max-width:1296px;margin:0 auto;height:72px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.desk-brand{display:flex;align-items:center;gap:10px;text-decoration:none !important;color:var(--desk-ink) !important;}
+.desk-tile{width:32px;height:34px;border-radius:6px;background:linear-gradient(180deg,#F8E8C8,#E6C58E);box-shadow:inset 0 -4px 0 #C9A66B;display:inline-flex;align-items:center;justify-content:center;font-family:var(--desk-serif);font-weight:800;font-size:21px;color:var(--desk-ink);}
+.desk-brand b{font-family:var(--desk-serif);font-weight:650;font-size:24px;letter-spacing:-0.01em;}
+.desk-nav{display:flex;align-items:center;gap:22px;font-size:15.5px;font-weight:500;}
+.desk-nav a{color:var(--desk-ink) !important;text-decoration:none;}
+.desk-nav a:hover{color:var(--desk-rose) !important;}
+.desk-nav a[aria-current="page"]{color:var(--desk-rose) !important;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px;}
+.desk-btn,html body a.desk-btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border-radius:999px;background:var(--desk-rose);color:#fff !important;font-weight:600;text-decoration:none !important;border:0;font-family:var(--desk-sans);}
+.desk-btn:hover{background:var(--desk-rose-dk);}
+.desk-btn.ghost{background:transparent;color:var(--desk-ink) !important;box-shadow:inset 0 0 0 1.5px var(--desk-ink);}
+.desk-menu{display:none;}
+@media (max-width:900px){
+  .desk-nav{display:none;}
+  .desk-menu{display:inline-flex;width:46px;height:46px;border-radius:12px;border:1.5px solid var(--desk-ink);background:var(--desk-card);align-items:center;justify-content:center;cursor:pointer;}
+  .desk-header.open .desk-nav{display:flex;position:absolute;top:72px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:0;background:var(--desk-card);border-bottom:1px solid var(--desk-rule);padding:8px 24px 18px;box-shadow:var(--desk-shadow);}
+  .desk-header.open .desk-nav a{padding:12px 0;width:100%;border-bottom:1px dashed var(--desk-rule);}
+  .desk-header.open .desk-nav .desk-btn{margin-top:12px;width:100%;}
+}
+/* the old headers are hidden once the desk header is in place */
+body.desk-on > .topnav, body.desk-on .nav-shell, body.desk-on header.nav, body.desk-on > header:not(.desk-header):not(.hero), body.desk-on .site-header{display:none !important;}
+
+/* ---------- the shared desk footer ---------- */
+.desk-footer{margin-top:96px;background:linear-gradient(160deg,var(--desk-wood-2),var(--desk-wood));color:var(--desk-ink);}
+.desk-footer .in{max-width:1296px;margin:0 auto;padding:56px 24px 40px;display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:32px;}
+.desk-footer h6{font-family:var(--desk-hand);font-size:24px;font-weight:700;margin:0 0 10px;color:var(--desk-ink);text-transform:none;letter-spacing:0;}
+.desk-footer a{display:block;color:var(--desk-ink) !important;text-decoration:none;font-size:15px;padding:4px 0;}
+.desk-footer a:hover{color:var(--desk-rose) !important;}
+.desk-footer .fine{grid-column:1/-1;border-top:1px solid rgba(27,22,51,.15);padding-top:18px;font-size:14px;color:var(--desk-ink-2);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+@media (max-width:900px){.desk-footer .in{grid-template-columns:1fr 1fr;}.desk-footer .in > div:first-child{grid-column:1/-1;}}
+body.desk-on > .foot, body.desk-on footer.foot{display:none !important;}
+
+/* ---------- page families restyled as desk objects ---------- */
+/* containers */
+html body .wrap{max-width:880px;margin:0 auto;padding:40px 24px 24px;}
+html body .container,html body .shell{max-width:1296px;}
+/* eyebrow / labels */
+html body .eyebrow,html body .kicker,html body .label{font-family:var(--desk-sans) !important;font-size:13px !important;font-weight:600 !important;letter-spacing:.14em !important;text-transform:uppercase !important;color:var(--desk-rose) !important;background:none !important;-webkit-text-fill-color:currentColor !important;}
+/* back link */
+html body a.back{font-family:var(--desk-hand);font-size:22px;font-weight:700;text-decoration:none;}
+/* stat tiles -> library cards */
+html body .stat,html body .tcard,html body .card,html body .tsm-card{background:var(--desk-card) !important;border:1px solid var(--desk-rule) !important;border-top:5px solid var(--desk-rose) !important;border-radius:6px !important;box-shadow:var(--desk-shadow) !important;color:var(--desk-ink) !important;}
+html body .stat:nth-child(4n+2),html body .tcard:nth-child(4n+2){border-top-color:#6D8FC7 !important;}
+html body .stat:nth-child(4n+3),html body .tcard:nth-child(4n+3){border-top-color:#D8A13A !important;}
+html body .stat:nth-child(4n+4),html body .tcard:nth-child(4n+4){border-top-color:#4E8C74 !important;}
+html body .stat .n,html body .stat b,html body .stat strong{font-family:var(--desk-serif) !important;color:var(--desk-ink) !important;-webkit-text-fill-color:currentColor !important;}
+/* callouts -> sticky notes */
+html body .callout,html body .note-box,html body .tip{background:var(--desk-sticky) !important;border:0 !important;border-radius:2px !important;box-shadow:0 10px 18px rgba(60,40,10,.14) !important;color:var(--desk-ink) !important;transform:rotate(-0.4deg);}
+/* CTA boxes -> desk tray */
+html body .cta-box,html body .cta-band{background:linear-gradient(160deg,var(--desk-wood-2),var(--desk-wood)) !important;border:0 !important;border-radius:24px !important;color:var(--desk-ink) !important;}
+html body .cta-box *{color:var(--desk-ink);}
+/* buttons */
+html body a.cta,html body .btn-primary,html body a.btn-primary,html body button.btn-primary,html body .cta-btn,html body a.button{background:var(--desk-rose) !important;background-image:none !important;color:#fff !important;border:0 !important;border-radius:999px !important;animation:none !important;box-shadow:none !important;font-family:var(--desk-sans) !important;font-weight:600 !important;}
+html body a.cta:hover,html body .btn-primary:hover{background:var(--desk-rose-dk) !important;}
+html body a.cta2,html body .btn:not(.btn-primary):not(.desk-btn){background:transparent !important;color:var(--desk-ink) !important;border:1.5px solid var(--desk-ink) !important;border-radius:999px !important;}
+/* FAQ -> margin notes */
+html body .faq-item{border:0 !important;border-left:2px solid #F3A8BD !important;background:transparent !important;padding:4px 0 4px 22px !important;margin:18px 0 !important;box-shadow:none !important;}
+html body .faq-item h3,html body .faq-item summary,html body .faq-item .q{font-family:var(--desk-hand) !important;font-size:26px !important;font-weight:700 !important;color:var(--desk-rose) !important;letter-spacing:0 !important;}
+/* tables -> ledger paper */
+html body table{background:var(--desk-card);border-collapse:collapse;box-shadow:var(--desk-shadow);border-radius:8px;overflow:hidden;}
+html body th{background:#F3EAD9 !important;color:var(--desk-ink) !important;font-family:var(--desk-sans);font-weight:600;}
+html body td,html body th{border-bottom:1px solid var(--desk-rule) !important;}
+/* dark sections on site pages -> chalkboard (stays readable: light chalk on green) */
+html body .section.ink,html body section.ink,html body .dark,html body .tsm-corpus{background:radial-gradient(ellipse at 25% 15%,#3D5C4E 0%,var(--desk-chalk) 55%,#283F35 100%) !important;color:var(--desk-chalk-ink) !important;}
+html body .section.ink h1,html body .section.ink h2,html body .section.ink h3,html body .tsm-corpus h2{color:var(--desk-chalk-ink) !important;}
+html body .section.ink a{color:#FFE58F !important;}
+/* forms */
+html body input[type=text],html body input[type=email],html body select,html body textarea{border:1.5px solid #8A7FA3 !important;border-radius:10px !important;background:#fff !important;color:var(--desk-ink) !important;font-family:var(--desk-sans) !important;min-height:48px;}
+html body fieldset,html body .fset{background:var(--desk-card) !important;border:1px solid var(--desk-rule) !important;border-radius:16px !important;box-shadow:var(--desk-shadow);}
+/* partners strip stays neutral */
+html body .ts-partners{background:transparent !important;}
+
+/* the live trope ticker (IN-0778 CTK block, re-baked by marketing jobs) on paper instead of navy */
+html body .ctk{--ctk-bg:#FFFDF7;--ctk-fg:#1B1633;--ctk-dim:#4A4360;--ctk-up:#1F7A55;--ctk-dn:#B0303F;background:#FFFDF7 !important;color:#1B1633 !important;border-bottom:1px solid var(--desk-rule);}
+html body .ctk a{color:var(--desk-rose) !important;}
