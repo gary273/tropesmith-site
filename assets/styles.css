@@ -505,7 +505,7 @@ h1,h2,h3,h4,h5,h6{ font-family: var(--ts-serif); font-weight: 600; letter-spacin
   border-top: 1px solid var(--ts-rule-on-ink);
   padding: 18px 0 28px;
   display:flex; justify-content: space-between; gap: 14px; flex-wrap: wrap;
-  font-family: var(--ts-mono); font-size: 10.5px; letter-spacing: .08em; color: rgba(255,249,243,.45);
+  font-family: var(--ts-mono); font-size: 12px; letter-spacing: .08em; color: rgba(255,249,243,.6); /* TS-1066: AA */
   text-transform: uppercase;
 }
 @media (max-width: 720px){ .foot-grid{ grid-template-columns: 1fr 1fr; gap: 28px; } }
@@ -763,13 +763,13 @@ h1,h2,h3,h4,h5,h6{ font-family: var(--ts-serif); font-weight: 600; letter-spacin
     padding: 6px 0 2px;
     margin-top: 4px;
     border-top: 1px solid var(--ts-rule);
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    font-size: 13px;
+    flex-wrap: wrap;                 /* TS-1066: wrap to two centred rows instead of a clipped scroller */
+    justify-content: center;
+    row-gap: 2px;
+    column-gap: 16px;
+    font-size: 12px;
   }
-  .nav-links::-webkit-scrollbar{ display: none; }
-  .nav-links a{ white-space: nowrap; flex: 0 0 auto; }
+  .nav-links a{ white-space: nowrap; flex: 0 0 auto; padding: 8px 0; } /* taller tap target */
 
   /* ── hero: stacked, smaller type, full-bleed CTAs ──────── */
   .hero{ padding: 22px 0 32px; }
@@ -908,6 +908,13 @@ html body{
 }
 .eyebrow::before{ width: 22px; height: 2px; border-radius: 2px; }
 .section.ink .eyebrow{ color: transparent; }   /* gradient is bright enough on dark */
+/* TS-1066: AA contrast. The coral->violet gradient is ~2.5-4:1 on the light lavender/cream
+   grounds at 11px. On light sections use the same hues, darkened (>=5.3:1), at 12px;
+   dark (.ink) sections keep the bright gradient, which already passes there. */
+.eyebrow{ font-size: 12px; }
+.section:not(.ink) .eyebrow, .hero .eyebrow, .page-head .eyebrow{
+  background-image: linear-gradient(90deg, #B8285A, #6D3FD9, #B8285A);
+}
 
 /* gradient text: brighter + alive */
 .grad-text, .stat .n{
