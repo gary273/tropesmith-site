@@ -114,7 +114,7 @@ html body .ctk a{color:var(--desk-rose) !important;}
 
 /* ---------- UAT round 1 fixes (TS-1073) ---------- */
 /* former navy panels -> index cards on the desk (light only; the one chalkboard stays on home/how/pricing, framed) */
-html body .radar,html body #ts-moat,html body .moat,html body .dr-magnet,html body .memberlock,html body #ctaBox.cta,html body .lean,html body .rd-band,html body .lock{background:var(--desk-card) !important;background-image:none !important;color:var(--desk-ink) !important;border:1px solid var(--desk-rule) !important;border-top:5px solid var(--desk-chalk) !important;border-radius:8px !important;box-shadow:var(--desk-shadow) !important;overflow:visible !important;}
+html body .radar,html body #ts-moat,html body .moat,html body .dr-magnet,html body .memberlock .locktxt,html body #ctaBox.cta,html body .lean,html body .rd-band,html body .lock{background:var(--desk-card) !important;background-image:none !important;color:var(--desk-ink) !important;border:1px solid var(--desk-rule) !important;border-top:5px solid var(--desk-chalk) !important;border-radius:8px !important;box-shadow:var(--desk-shadow) !important;overflow:visible !important;}
 html body .radar *:not(a):not(button),html body #ts-moat *:not(a):not(button),html body .moat *:not(a):not(button),html body .dr-magnet *:not(a):not(button):not(input),html body .memberlock *:not(a):not(button):not(input),html body #ctaBox.cta *:not(a):not(button),html body .lean *:not(a):not(button),html body .rd-band *:not(a):not(button),html body .lock *:not(a):not(button):not(input){color:var(--desk-ink) !important;-webkit-text-fill-color:currentColor !important;text-shadow:none !important;}
 html body .radar .l,html body #ts-moat > div:first-child,html body .moat > div:first-child,html body .dr-magnet [class*=eyebrow],html body .memberlock [class*=eyebrow],html body .memberlock [class*=kicker]{color:var(--desk-rose) !important;}
 html body .radar .row > div > div,html body #ts-moat p,html body .moat p{color:var(--desk-ink-2) !important;}
@@ -164,3 +164,27 @@ html body.desk-on{font-family:var(--desk-sans) !important;}
 @media (max-width:374px){.desk-header .desk-brand b{font-size:17px !important;}.desk-header:not(.open) .desk-nav .desk-btn{padding:8px 9px;font-size:12px;}}
 html body .callout a,html body .note-box a,html body .tip a{color:#8A1F3A !important;}
 html body .desk-home form > div{min-width:0;}html body .desk-home form select{min-width:0;width:100%;}
+/* trend radar members box: the lock card sits in flow over the blurred preview, so the box grows to fit it */
+html body .memberwrap{background:var(--desk-card) !important;border:1px solid var(--desk-rule) !important;overflow:hidden;}
+html body .memberwrap .memberpreview{position:absolute;inset:0;}
+html body .memberwrap .memberlock{position:relative !important;inset:auto !important;padding:40px 22px !important;background:linear-gradient(180deg,rgba(247,242,234,.35),rgba(247,242,234,.92) 40%) !important;border:0 !important;box-shadow:none !important;}
+html body .memberlock .locktxt{max-width:560px;padding:26px 28px !important;text-align:center;}
+html body .memberlock .memberform{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0 8px;}
+html body .memberlock .memberform input{flex:1 1 220px;min-width:0;}
+html body .memberlock a.upsellcta{background:none !important;color:var(--desk-rose) !important;padding:0 !important;text-decoration:underline;}
+/* partner logos: a light card with the logo contained */
+html body .ts-partners img{background:var(--desk-card) !important;object-fit:contain;padding:10px;border-radius:10px;}
+/* body copy is sans on every page; serif stays for headings */
+html body.desk-on p,html body.desk-on li,html body.desk-on td{font-family:var(--desk-sans);}
+/* market snapshot CTAs + trope ghost button */
+html body .wrap > a + a,html body .ctas a + a{margin-left:12px;}
+@media (max-width:560px){html body .wrap > a + a{margin-left:0;margin-top:10px;}}
+html body a.ghost,html body .cta-box a.cta2{width:auto !important;display:inline-flex !important;align-self:center;}
+html body a.cta + a.cta2{margin-left:12px;}@media (max-width:560px){html body a.cta + a.cta2{margin-left:0;margin-top:10px;}}
+/* home hero score disc on phone: label stays inside the disc */
+@media (max-width:900px){
+  .desk-home figure[style*="height: 600px"] > div:nth-child(4) span:nth-child(3){display:none !important;}
+  .desk-home figure[style*="height: 600px"] > div:nth-child(4) span:nth-child(2){font-size:11px !important;text-align:center;max-width:80px;line-height:1.15;}
+  .desk-home figure[style*="height: 600px"] > div:nth-child(4){z-index:3;}
+}
+html body .ts-partners a{background:var(--desk-card) !important;border:1px solid var(--desk-rule) !important;}

@@ -85,7 +85,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 </style>
 <!-- CTKCSS:END -->
 <script src="https://plotprose.com/estate/nav.js" defer></script>
-<link rel="stylesheet" href="/assets/desk.css?v=20260926c" data-desk-theme>
+<link rel="stylesheet" href="/assets/desk.css?v=20260926d" data-desk-theme>
 </head>
 <body class="desk-on">
 <!-- DESK-THEME header -->
@@ -383,11 +383,11 @@ fbq('init','1319927140123427');fbq('track','PageView');};
       <span style="font-size: 14px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #C23A5B;">Trend Radar · beta · free</span>
       <h2 id="radar" style="margin: 0; font-family: 'Fraunces', serif; font-weight: 650; font-size: 50px; line-height: 1.04; letter-spacing: -0.02em;">Stuck to the monitor this week.</h2>
       <p style="margin: 0; font-size: 19px; line-height: 1.6; color: #4A4360;">The tropes gaining and losing the most ground in reader conversation, with a direction and a confidence level for each.</p>
-      <a href="/trend-radar/" style="font-weight: 600; font-size: 17px;">See this week's top 10 →</a>
+      <a href="/trend-radar/" style="font-weight: 600; font-size: 17px;">See the full Trend Radar →</a>
     </div>
     <div style="grid-column: 7 / span 6; display: flex; gap: 22px;">
-      <div style="flex: 1; min-height: 240px; padding: 22px 24px; background: #FFE58F; box-shadow: 0 12px 20px rgba(60,40,10,.16); transform: rotate(-2.5deg); font-family: 'Caveat', cursive; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 32px; font-weight: 700;">↑ Rising</span><span style="font-size: 26px;">[TROPE FROM RADAR]</span><span style="font-size: 26px;">[TROPE FROM RADAR]</span><span style="font-size: 26px;">[TROPE FROM RADAR]</span></div>
-      <div style="flex: 1; min-height: 240px; padding: 22px 24px; background: #CFE3F5; box-shadow: 0 12px 20px rgba(60,40,10,.16); transform: rotate(2deg); font-family: 'Caveat', cursive; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 32px; font-weight: 700;">↓ Cooling</span><span style="font-size: 26px;">[TROPE FROM RADAR]</span><span style="font-size: 26px;">[TROPE FROM RADAR]</span><span style="font-size: 26px;">[TROPE FROM RADAR]</span></div>
+      <div style="flex: 1; min-height: 240px; padding: 22px 24px; background: #FFE58F; box-shadow: 0 12px 20px rgba(60,40,10,.16); transform: rotate(-2.5deg); font-family: 'Caveat', cursive; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 32px; font-weight: 700;">↑ Rising</span><span style="font-size: 26px;" data-rise="up" data-rise-i="0">Enemies to Lovers</span><span style="font-size: 26px;" data-rise="up" data-rise-i="1">Black &amp; African American</span><span style="font-size: 26px;" data-rise="up" data-rise-i="2">Romantic Fantasy</span></div>
+      <div style="flex: 1; min-height: 240px; padding: 22px 24px; background: #CFE3F5; box-shadow: 0 12px 20px rgba(60,40,10,.16); transform: rotate(2deg); font-family: 'Caveat', cursive; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 32px; font-weight: 700;">↓ Cooling</span><span style="font-size: 26px;" data-rise="dn" data-rise-i="0">Bi Romance</span><span style="font-size: 26px;" data-rise="dn" data-rise-i="1">Small Town</span><span style="font-size: 26px;" data-rise="dn" data-rise-i="2">Contemporary</span></div>
     </div>
   </section>
 <section aria-labelledby="faq" style="padding: 104px 72px 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 32px;">
@@ -917,5 +917,6 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 <!-- DESK-THEME footer -->
 <footer class="desk-footer"><div class="in"><div><a class="desk-brand" href="/"><span class="desk-tile" aria-hidden="true">T</span><b>TropeSmith</b></a><p style="margin:12px 0 0;max-width:320px;color:#4A4360">Market intelligence for romance authors. We read the readers so you can write the book.</p></div><div><h6>Product</h6><a href="/how-it-works/">How it works</a><a href="/sample/">Sample Maps</a><a href="/pricing/">Pricing</a><a href="/intake/">Build my Map</a></div><div><h6>Free tools</h6><a href="/lane-score/">Lane Score</a><a href="/trope-demand/">Trope Demand</a><a href="/trope-pairs/">Trope Pairs</a><a href="/trend-radar/">Trend Radar</a><a href="/free-tools/">All twelve</a></div><div><h6>Read</h6><a href="/romance-tropes/">Romance tropes</a><a href="/booktok-books/">BookTok books</a><a href="/market/">Market snapshots</a><a href="/blog/">Blog</a></div><div><h6>Company</h6><a href="mailto:support@tropesmith.com">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div class="fine"><span>&copy; 2026 TropeSmith · Data updated weekly · For indie romance</span><span>Part of the Coral Hart family of author tools</span></div></div></footer>
 <script>(function(){var h=document.getElementById("desk-header");if(!h)return;var b=h.querySelector(".desk-menu");b&&b.addEventListener("click",function(){var o=h.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");});})();</script>
+<script>/* DESK-RISING: rising/cooling notes follow the live ticker */(function(){try{var it=[].slice.call(document.querySelectorAll(".ctk-item")),m={};it.forEach(function(e){var n=(e.querySelector(".ctk-name")||{}).textContent,mv=e.querySelector(".ctk-move");if(!n||!mv||m[n])return;var v=parseFloat((mv.textContent.match(/[0-9.]+/)||[0])[0]);m[n]={d:mv.classList.contains("ctk-up")?"up":"dn",v:v};});function top(d){return Object.keys(m).filter(function(k){return m[k].d===d}).sort(function(a,b){return m[b].v-m[a].v}).slice(0,3)}function t(n){return n.toLowerCase().replace(/(^|\s)\S/g,function(c){return c.toUpperCase()}).replace(/\bMm\b/g,"MM").replace(/ (To|And|Of|The|In) /g,function(w){return w.toLowerCase()})}["up","dn"].forEach(function(d){var l=top(d);[].slice.call(document.querySelectorAll("[data-rise="+d+"]")).forEach(function(el){var i=+el.getAttribute("data-rise-i");if(l[i])el.textContent=t(l[i]);});});}catch(e){}})();</script>
 </body>
 </html>
