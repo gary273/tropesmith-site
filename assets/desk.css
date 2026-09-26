@@ -193,3 +193,26 @@ html body .ts-partners a{min-width:200px;display:inline-flex !important;align-it
 html body .ts-partners a img{max-height:56px;width:auto;}
 html body .pill.over{color:#8A1F3A !important;}html body .tag2.free,html body span.up{color:#176B45 !important;}
 .desk-home [style*="#F3E3B8"] a,.desk-home [style*="#CFE3F5"] a,.desk-home [style*="#CFE3F5"] span,.desk-home [style*="#F3E3B8"] span{color:#8A1F3A !important;}
+/* ---------- Coral Hart Group band (DESK-GROUP) ---------- */
+body.desk-on .ts-partners,body.desk-on .family-strip{display:none !important;}
+.grp{margin-top:96px;padding:56px 24px 60px;background:#EFE6D6;border-top:1px solid var(--desk-rule);}
+.grp + .desk-footer{margin-top:0;}
+.grp-in{max-width:1296px;margin:0 auto;}
+.grp-head{display:flex;align-items:center;gap:32px;margin-bottom:30px;flex-wrap:wrap;}
+.grp-lockup img{height:56px;width:auto;display:block;}
+.grp-head h2{margin:0 0 6px;font-family:var(--desk-serif);font-weight:650;font-size:30px;letter-spacing:-.01em;color:var(--desk-ink);}
+.grp-head p{margin:0;max-width:62ch;color:var(--desk-ink-2);font-size:16px;}
+.grp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+.grp-co{position:relative;display:flex;flex-direction:column;gap:12px;padding:20px 18px 16px;background:var(--desk-card);border:1px solid var(--desk-rule);border-radius:12px;
+  text-decoration:none !important;color:var(--desk-ink) !important;box-shadow:0 8px 18px -16px rgba(60,40,10,.55);transition:transform .15s ease,box-shadow .15s ease;}
+.grp-co:hover,.grp-co:focus-visible{transform:translateY(-2px);box-shadow:0 14px 24px -16px rgba(60,40,10,.6);}
+.grp-logo{height:48px;display:flex;align-items:center;}
+.grp-logo img{max-height:48px;max-width:100%;width:auto;display:block;}
+.grp-line{font-size:14px;line-height:1.4;color:var(--desk-ink-2);}
+.grp-co.here{border:2px solid var(--desk-rose);}
+.grp-here{position:absolute;top:-11px;right:14px;background:var(--desk-rose);color:#fff;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:999px;}
+.grp-fine{margin:22px 0 0;font-size:14px;color:var(--desk-ink-2);}
+.grp-fine a{color:var(--desk-rose) !important;font-weight:600;}
+@media (max-width:760px){.grp{padding:40px 16px 44px;margin-top:64px}.grp-lockup img{height:44px}.grp-head{gap:18px}.grp-head h2{font-size:24px}.grp-grid{grid-template-columns:1fr 1fr;gap:12px}.grp-co{padding:16px 12px 12px}.grp-logo{height:40px}.grp-logo img{max-height:40px}}
+@media (max-width:380px){.grp-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.grp-co{transition:none}.grp-co:hover{transform:none}}
