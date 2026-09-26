@@ -192,7 +192,7 @@ html body .cta-box a.cta2,html body a.cta2{padding:12px 22px !important;align-it
 html body .ts-partners a{min-width:200px;display:inline-flex !important;align-items:center;justify-content:center;}
 html body .ts-partners a img{max-height:56px;width:auto;}
 html body .pill.over{color:#8A1F3A !important;}html body .tag2.free,html body span.up{color:#176B45 !important;}
-.desk-home [style*="#F3E3B8"] a,.desk-home [style*="#CFE3F5"] a,.desk-home [style*="#CFE3F5"] span,.desk-home [style*="#F3E3B8"] span{color:#8A1F3A !important;}
+.desk-home [style*="background: #F3E3B8"] a,.desk-home [style*="background: #CFE3F5"] a,.desk-home [style*="background: #CFE3F5"] span,.desk-home [style*="background: #F3E3B8"] span{color:#8A1F3A !important;}
 /* ---------- Coral Hart Group band (DESK-GROUP) ---------- */
 body.desk-on .ts-partners,body.desk-on .family-strip{display:none !important;}
 .grp{margin-top:96px;padding:56px 24px 60px;background:#EFE6D6;border-top:1px solid var(--desk-rule);}
@@ -216,4 +216,5 @@ body.desk-on .ts-partners,body.desk-on .family-strip{display:none !important;}
 @media (max-width:760px){.grp{padding:40px 16px 44px;margin-top:64px}.grp-lockup img{height:44px}.grp-head{gap:18px}.grp-head h2{font-size:24px}.grp-grid{grid-template-columns:1fr 1fr;gap:12px}.grp-co{padding:16px 12px 12px}.grp-logo{height:40px}.grp-logo img{max-height:40px}}
 @media (max-width:380px){.grp-grid{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.grp-co{transition:none}.grp-co:hover{transform:none}}
-.grp-fine a{color:#8A1F3A !important;}.desk-home [style*="#FFD3E0"] span,.desk-home [style*="#FFD3E0"] a{color:#8A1F3A !important;}
+.grp-fine a{color:#8A1F3A !important;}.desk-home [style*="background: #FFD3E0"] span,.desk-home [style*="background: #FFD3E0"] a{color:#8A1F3A !important;}
+.sm-card .sm-btn{color:#fff !important}.sm-card .sm-title{color:#1B1633 !important}.sm-card .sm-tags i,.sm-card .sm-peek span:not(.sm-peek-h){color:#1B1633 !important}
