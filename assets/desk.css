@@ -218,3 +218,8 @@ body.desk-on .ts-partners,body.desk-on .family-strip{display:none !important;}
 @media (prefers-reduced-motion:reduce){.grp-co{transition:none}.grp-co:hover{transform:none}}
 .grp-fine a{color:#8A1F3A !important;}.desk-home [style*="background: #FFD3E0"] span,.desk-home [style*="background: #FFD3E0"] a{color:#8A1F3A !important;}
 .sm-card .sm-btn{color:#fff !important}.sm-card .sm-title{color:#1B1633 !important}.sm-card .sm-tags i,.sm-card .sm-peek span:not(.sm-peek-h){color:#1B1633 !important}
+/* the real Tropesmith logo in the desk header and footer (was a text tile) */
+.desk-brand img.desk-logo{height:66px;width:auto;display:block}
+.desk-footer .desk-brand img.desk-logo-foot{height:72px}
+@media (max-width:480px){.desk-header .desk-brand img.desk-logo{height:50px}}
+@media (max-width:374px){.desk-header .desk-brand img.desk-logo{height:44px}}
