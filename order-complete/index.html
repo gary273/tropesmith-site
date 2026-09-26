@@ -38,6 +38,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
   .oc-credits-pill { display:inline-block; padding:6px 14px; border-radius:999px; background:rgba(194,58,91,0.1); color:var(--ts-grad-start); font-size:0.92rem; font-weight:600; margin-bottom:6px; }
 </style>
   <script src="/assets/analytics.js?v=20260925" defer></script>
+<style>.oc-receipt{display:flex;flex-direction:column;gap:2px;margin:0 auto 16px;padding:12px 18px;max-width:420px;background:#FFE58F;border-radius:3px;box-shadow:0 8px 16px -8px rgba(60,40,10,.35);transform:rotate(-.6deg);text-align:center}.oc-receipt-k{font-family:Caveat,cursive;font-size:22px;color:#8A1F3A}.oc-receipt b{font-size:17px;color:#1B1633}</style>
 <link rel="stylesheet" href="/assets/desk.css?v=20260926d" data-desk-theme>
 </head>
 <body class="desk-on">
@@ -176,6 +177,29 @@ fbq('init','1319927140123427');fbq('track','PageView');};
           creditsLine.innerHTML = '<span class="oc-credits-pill">' + credits + ' ' + (credits === 1 ? 'credit' : 'credits') + ' in your library</span>';
         }
         signedInEl.style.display = 'block';
+        // TS-1075: show exactly what was just bought (from the Stripe session on the return URL).
+        var sid = new URLSearchParams(location.search).get('session_id');
+        if (sid) {
+          fetch(SUPABASE_URL + '/functions/v1/library/order?session_id=' + encodeURIComponent(sid), { credentials: 'include' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (o) {
+              if (!o || !o.ok) return;
+              var money = o.amount_total_cents == null ? '' : new Intl.NumberFormat('en-US', { style: 'currency', currency: (o.currency || 'usd').toUpperCase() }).format(o.amount_total_cents / 100);
+              var what;
+              if (o.kind === 'live_board') what = 'Live Board membership' + (money ? ' \u00b7 ' + money + ' a month' : '');
+              else if (o.kind === 'subscription') what = (o.item || 'Membership') + (money ? ' \u00b7 ' + money + ' a month' : '');
+              else if (o.credits_added > 0) what = o.credits_added + ' Map ' + (o.credits_added === 1 ? 'credit' : 'credits') + ' added' + (money ? ' \u00b7 ' + money + ' paid' : '');
+              else what = (o.item || 'Your order') + (money ? ' \u00b7 ' + money : '');
+              var box = document.createElement('div');
+              box.className = 'oc-receipt';
+              box.innerHTML = '<span class="oc-receipt-k">You bought</span><b></b>';
+              box.querySelector('b').textContent = what;
+              creditsLine.parentNode.insertBefore(box, creditsLine);
+            }).catch(function () {});
+        }
+        // After paying, the header button spends the credit instead of selling another one.
+        var hb = document.querySelector('.desk-header .desk-btn');
+        if (hb && credits > 0) { hb.textContent = 'Use my credit \u2192'; hb.href = document.getElementById('oc-build-now').href; }
         // Update nav to show "Sign out" + "My library"
         navCta.innerHTML = '<a class="btn btn-link" href="../library/" style="margin-right:12px">My library</a>';
       } else {
@@ -233,6 +257,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
   try { id = sessionStorage.getItem('ts_pending_unlock'); } catch (e) {}
   var href = id ? '/pricing/?unlock=' + encodeURIComponent(id) : null;
   var ctas = [document.getElementById('oc-build-now')].concat([].slice.call(document.querySelectorAll('a.btn-primary[href="../intake/"]')));
+  ctas = ctas.filter(function(a, i){ return a && ctas.indexOf(a) === i; });
   ctas.forEach(function(a){
     if (!a) return;
     if (href) { a.href = href; a.innerHTML = 'Unlock the Map you just briefed <span class="arrow">\u2192</span>'; }
