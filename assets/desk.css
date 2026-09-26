@@ -216,3 +216,4 @@ body.desk-on .ts-partners,body.desk-on .family-strip{display:none !important;}
 @media (max-width:760px){.grp{padding:40px 16px 44px;margin-top:64px}.grp-lockup img{height:44px}.grp-head{gap:18px}.grp-head h2{font-size:24px}.grp-grid{grid-template-columns:1fr 1fr;gap:12px}.grp-co{padding:16px 12px 12px}.grp-logo{height:40px}.grp-logo img{max-height:40px}}
 @media (max-width:380px){.grp-grid{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.grp-co{transition:none}.grp-co:hover{transform:none}}
+.grp-fine a{color:#8A1F3A !important;}.desk-home [style*="#FFD3E0"] span,.desk-home [style*="#FFD3E0"] a{color:#8A1F3A !important;}
