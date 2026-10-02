@@ -219,7 +219,7 @@ ${ld.map((o) => '<script type="application/ld+json">' + JSON.stringify(o) + '</s
 }
 
 function foot() {
-	return `<div class="foot">&copy; 2026 Tropesmith &middot; <a href="/">Home</a> &middot; <a href="/free-tools/">Free tools</a> &middot; <a href="/pricing/">Pricing</a> &middot; <a href="/blog/">Blog</a><br>
+	return `<div class="foot">&copy; 2026 Tropesmith &middot; <a href="/">Home</a> &middot; <a href="/free-tools/">Free tools</a> &middot; <a href="/pricing/">Pricing</a> &middot; <a href="/blog/">Blog</a> &middot; <a href="https://www.facebook.com/1127938723743976" target="_blank" rel="noopener">Facebook</a> &middot; <a href="https://www.instagram.com/tropesmith/" target="_blank" rel="noopener">Instagram</a><br>
 Scores are produced by the Tropesmith demand engine and move as the market moves. Published by Coral Hart Group.</div></body></html>`;
 }
 
