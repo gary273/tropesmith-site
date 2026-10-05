@@ -61,11 +61,19 @@ fbq('init','1319927140123427');fbq('track','PageView');};
   .series-group-title { font-family: var(--ts-serif); font-size: 1.25rem; font-weight: 700; color: var(--ts-ink); margin: 0 0 6px 0; }
   .series-group-subtitle { font-size: 0.9rem; color: var(--ts-ink-soft); margin: 0 0 14px 0; }
 
+  .credit-banner-wrap { margin-bottom: 20px; }
+  .credit-banner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; text-decoration: none; background: linear-gradient(120deg,#C23A5B,#a02c4a); color: #fff; border-radius: 14px; padding: 18px 24px; box-shadow: 0 8px 24px rgba(194,58,91,.28); font-size: 1.1rem; transition: transform .2s ease, box-shadow .2s ease; }
+  .credit-banner:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(194,58,91,.38); }
+  .credit-banner strong { font-family: var(--ts-serif); font-size: 1.25rem; }
+  .credit-banner-cta { background: #fff; color: #C23A5B; border-radius: 10px; padding: 10px 18px; font-weight: 700; white-space: nowrap; }
+  @media (max-width: 640px) { .credit-banner { padding: 16px; } .credit-banner-cta { width: 100%; text-align: center; } }
+
   .empty-state { background: #fff; border: 1px dashed rgba(26,18,8,0.15); border-radius: 12px; padding: 40px 24px; text-align: center; color: var(--ts-ink-soft); }
   .empty-state h3 { font-family: var(--ts-serif); color: var(--ts-ink); margin: 0 0 8px 0; }
 </style>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="/assets/tropesmith.js?v=20260528-utm"></script>
+<script src="/assets/library-credit-banner.js?v=20261005"></script>
   <script src="/assets/analytics.js?v=20260925" defer></script>
 <link rel="stylesheet" href="/assets/desk.css?v=20260926g" data-desk-theme>
 </head>
@@ -98,6 +106,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 
 <section class="section page-head">
   <div class="wrap">
+    <div class="credit-banner-wrap" id="credit-banner" style="display:none" aria-live="polite"></div>
     <span class="eyebrow">Your Tropesmith library</span>
     <h1 class="h-display" id="greet-heading">Hi <span class="grad-text">there.</span></h1>
     <p class="lede lg" style="margin-top:14px" id="stats-line">Loading your library…</p>
@@ -305,6 +314,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
     .then(resp => resp.json())
     .then(data => {
       var maps = (data && data.maps) || [];
+      if (window.TSLibraryBanner) TSLibraryBanner.render(document.getElementById('credit-banner'), creditBalance, maps);
       if (maps.length === 0) { emptyState.style.display = 'block'; return; }
       mapsSection.style.display = 'block';
       var result = groupMapsBySeries(maps);
