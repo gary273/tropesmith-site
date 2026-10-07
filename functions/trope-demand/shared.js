@@ -165,8 +165,8 @@ function direction(lane, row) {
 	const sR = mR / L.totR, sP = mP / L.totP;
 	const delta = sP === 0 ? null : (sR - sP) / sP;
 	let state = 'steady', label = 'Holding steady';
-	if (delta != null && delta >= 0.15) { state = 'up'; label = 'Rising'; }
-	else if (delta != null && delta <= -0.15) { state = 'down'; label = 'Cooling'; }
+	if (delta != null && delta >= 0.15) { state = 'up'; label = 'Share up'; }
+	else if (delta != null && delta <= -0.15) { state = 'down'; label = 'Share down'; }
 	return {
 		state, label, sR, sP, delta,
 		why:
@@ -190,7 +190,7 @@ function evidence(row) {
 		return 'That is a modest sample &mdash; ' + num(m) + ' mentions across ' + w + ' of the ' + WIN.weeks +
 			' weeks. Enough to rank it, not enough to bet a series on by itself.';
 	return 'That is a <b>small sample</b> &mdash; ' + num(m) + ' mentions across ' + w + ' of the ' + WIN.weeks +
-		' weeks. Read it as a hint, not a verdict. Scarcity of asks is itself a finding: it can mean a niche nobody is serving, or a niche nobody wants.';
+		' weeks. Read it as a hint, not a verdict.';
 }
 
 /* Thin-lane honesty. mv_lane_scorecard already encodes the doctrine per lane; we restate
@@ -354,20 +354,20 @@ function readoutBody(lane, trope, hit, ent, gateNote) {
 				? 'We hold no tagged-title count for this trope yet, so there is no supply side to compare against. That is a gap in our tagging, not evidence that nobody writes it.'
 				: gap > 0
 					? 'It ranks <b>#' + hit.rank + ' by mentions counted</b> in this lane but only <b>#' + sRank +
-					  ' by how many tagged titles carry it</b> — ' + gap + ' places further down the shelf than it sits in the asks.'
+					  ' by how many tagged titles carry it</b> — ' + gap + ' places further down the tagged-title ranking than it sits in the mention ranking.'
 					: gap < 0
 						? 'It ranks <b>#' + hit.rank + ' by mentions counted</b> and <b>#' + sRank +
-						  ' by tagged titles</b> — better served on the shelf than the asks alone would suggest.'
-						: 'Demand rank and supply rank are the same (<b>#' + hit.rank + '</b>): the shelf and the asks agree about this one.';
+						  ' by tagged titles</b> — more tagged titles than its mention rank alone would suggest.'
+						: 'Demand rank and supply rank are the same (<b>#' + hit.rank + '</b>): the two rankings agree about this one.';
 
 		return `
 <h2>What is already on the shelf</h2>
 <div class="grid">
 <div class="cell"><span class="t">Tagged titles carrying it</span><span class="b">${titles == null ? '&mdash;' : num(titles)}</span><span class="s">across our whole trope-tagged registry of ${floorNum(CORPUS.tagged_titles_floor)} titles</span></div>
-<div class="cell"><span class="t">Demand rank vs supply rank</span><span class="b">${gap == null ? '&mdash;' : (gap > 0 ? '+' + gap : gap)}</span><span class="s">places of daylight between the asks and the shelf</span></div>
+<div class="cell"><span class="t">Demand rank vs supply rank</span><span class="b">${gap == null ? '&mdash;' : (gap > 0 ? '+' + gap : gap)}</span><span class="s">places between the mention rank and the tagged-title rank</span></div>
 </div>
 <p>${gapRead}</p>
-<p style="font-size:13.5px;color:#5b4a59"><b>Read this carefully.</b> The title count is <b>registry-wide, not lane-scoped</b>. Our tagged-title records use a different subgenre vocabulary from the reader-ask records and the two do not join, so we count titles carrying the trope <i>anywhere</i> rather than fake a lane join and print &ldquo;nobody has written it&rdquo; about books that exist.</p>`;
+<p style="font-size:13.5px;color:#5b4a59"><b>Read this carefully.</b> The title count is <b>registry-wide, not lane-scoped</b>. Our tagged-title records use a different subgenre vocabulary from the demand-signal records and the two do not join, so we count titles carrying the trope <i>anywhere</i> rather than fake a lane join and print &ldquo;nobody has written it&rdquo; about books that exist.</p>`;
 	};
 
 	const freeBlock = () => {
@@ -448,6 +448,7 @@ ${depth}
 <p>Mentions are counted rows, not estimates and not a model. We read reader conversation volume from Goodreads reviews and shelves, parsed demand signals (specific things readers asked for or praised), BookTok video metadata and Reddit, resolve each one to a subgenre lane and to tropes in our published taxonomy, and total them by week. This page shows the ${WIN.weeks} weeks from ${esc(WFROM)} to ${esc(WIN.to)}; ${esc(tn)} appeared in ${weeksSeen} of the ${WIN.weeks}.</p>
 <p>Only tropes from our <b>canonical taxonomy</b> of ${num(CORPUS.tropes_taxonomy)} appear here, and only the ${num(CORPUS.tropes_published)} of them that clear our publication floor somewhere. Raw scrape labels are excluded on purpose: publish those and the same trope ends up listed twice under two spellings and the ranking becomes fiction.</p>
 <p>Direction is a change in <b>share</b>, never a raw weekly move, because a genre that simply gets busier would otherwise make every trope in it look like it is rising. We state no direction at all unless each ${WIN.band_weeks}-week band holds at least ${DIR_BAND_MIN} mentions and the two hold ${FLOORS.dir_mentions} between them &mdash; a trope that went from two mentions to forty is a small number moving, not a trend.</p>
+<p>Reviews and posts are read some time after they are written, so the latest weeks are under-counted. Because direction compares shares it is less exposed than raw counts, but treat it as a hint, not a trend.</p>
 <p>Figures restate each time the corpus is recounted. This page: <b>${esc(AS_OF)}</b>.</p>
 
 <h2>Check another trope</h2>
@@ -540,23 +541,23 @@ function indexBody() {
 	return `<div class="wrap">
 <div class="eyebrow">Free tool &middot; No card needed &middot; as of ${esc(AS_OF)}</div>
 <h1>The Trope Demand Checker</h1>
-<p class="lede">Pick your genre and a trope. We tell you how many times readers mention it, what share of the genre that is, and whether that share is rising or cooling &mdash; counted from ${floorNum(CORPUS.signals_floor)} conversation-volume signals, not guessed. ${num(CORPUS.readouts)} trope-and-genre readouts across ${num(CORPUS.lanes_published)} genres.</p>
+<p class="lede">Pick your genre and a trope. We tell you how many times readers mention it, what share of the genre that is, and whether its share of the genre went up or down between the last two twelve-week bands &mdash; counted from ${floorNum(CORPUS.signals_floor)} demand-signal records, not guessed. ${num(CORPUS.readouts)} trope-and-genre readouts across ${num(CORPUS.lanes_published)} genres.</p>
 ${picker(LANE_IDS[0], (laneRows(LANE_IDS[0])[0] || [''])[0])}
 <div class="grid">
-<div class="cell"><span class="t">Conversation-volume signals held</span><span class="b">${floorNum(CORPUS.signals_floor)}</span><span class="s">reviews, shelves, BookTok and demand signals</span></div>
+<div class="cell"><span class="t">Demand-signal records held</span><span class="b">${floorNum(CORPUS.signals_floor)}</span><span class="s">rows parsed from reviews, comments and posts</span></div>
 <div class="cell"><span class="t">Mentions counted in this window</span><span class="b">${num(CORPUS.mentions_counted)}</span><span class="s">${WIN.weeks} weeks, ${esc(WFROM)} to ${esc(WIN.to)}</span></div>
 <div class="cell"><span class="t">Tropes in our taxonomy</span><span class="b">${num(CORPUS.tropes_taxonomy)}</span><span class="s">canonical only &mdash; no raw scrape labels</span></div>
 <div class="cell"><span class="t">Genres covered</span><span class="b">${num(CORPUS.lanes_published)}</span><span class="s">each with its own counted lane total</span></div>
 </div>
 
-<h2>Rising fastest right now</h2>
+<h2>Biggest share gains in the latest twelve weeks</h2>
 <p>Biggest gains in <b>share</b> of their own genre between the last ${WIN.band_weeks} weeks and the ${WIN.band_weeks} before. Both halves of the comparison are printed, so you can do the division yourself.</p>
 ${top.length >= 5
 	? `<div class="scroll"><table><thead><tr><th>Trope</th><th>Genre</th><th class="n">Mentions</th><th class="n">Share, last ${WIN.band_weeks}w</th><th class="n">Share, ${WIN.band_weeks}w before</th><th class="n">Change</th></tr></thead><tbody>
 ${top.map((m) => `<tr><td><a href="${PATH}/${esc(m[0])}/${esc(m[1])}">${esc(tropeName(m[1]))}</a></td><td>${esc(laneName(m[0]))}</td><td class="n">${num(m[2])}</td><td class="n">${pct(m[4])}</td><td class="n">${pct(m[5])}</td><td class="n">+${(m[3] * 100).toFixed(0)}%</td></tr>`).join('')}
 </tbody></table></div>
 <p style="font-size:13.5px;color:#5b4a59">Only tropes with at least ${MOVER_BAND_MIN} counted mentions in <i>each</i> twelve-week band, in genres holding at least ${num(MOVER_LANE_MIN)} trope mentions in each band. Without those floors a trope that went from two mentions to forty tops this table with a four-figure percentage, and that is not a trend &mdash; it is a small number moving.</p>`
-	: `<p class="note">Fewer than five tropes clear our floors for a rising call this week, so there is no board to show. The floors are ${MOVER_BAND_MIN} counted mentions in <i>each</i> twelve-week band, in a genre holding at least ${num(MOVER_LANE_MIN)} trope mentions in each. We would rather show nothing than pad it.</p>`}
+	: `<p class="note">Fewer than five tropes clear our floors for a share-gain call this week, so there is no board to show. The floors are ${MOVER_BAND_MIN} counted mentions in <i>each</i> twelve-week band, in a genre holding at least ${num(MOVER_LANE_MIN)} trope mentions in each. We would rather show nothing than pad it.</p>`}
 
 <h2>Pick your genre</h2>
 <ul class="lanes">${LANE_IDS.map((id) => `<li><a href="${PATH}/${esc(id)}">${esc(laneName(id))}</a> <span style="color:#a39395">&middot; ${laneRows(id).length} tropes</span></li>`).join('')}</ul>
@@ -644,12 +645,12 @@ function toolApp(url) {
 		url,
 		name: 'Tropesmith Trope Demand Checker',
 		description:
-			'Free tool: pick a genre and a trope and get the conversation volume Tropesmith has counted for it - mentions, share of the genre, direction of travel and how many tagged titles already carry it.',
+			'Free tool: pick a genre and a trope and get the conversation volume Tropesmith has counted for it - mentions, share of the genre, change in share and how many tagged titles already carry it.',
 		featureList: [
 			'Counted conversation-volume mentions for a trope in a genre',
 			'That trope’s share of all trope mentions in the genre',
 			'Rank against every other trope published for the genre',
-			'Direction of travel measured on share, not raw counts',
+			'Change in share, not raw counts',
 			'Week-by-week working behind the direction',
 			'Tagged titles already carrying the trope',
 			'Tropes named alongside it'
@@ -748,7 +749,7 @@ export async function handle(context) {
 		return htmlOut(
 			stageHead(
 				'Trope Demand Checker — how often readers mention each trope | Tropesmith',
-				'Free: pick a genre and a trope, see the conversation volume we counted for it — mentions, share of the genre and direction of travel, from ' +
+				'Free: pick a genre and a trope, see the conversation volume we counted for it — mentions, share of the genre and change in share, from ' +
 					num(CORPUS.signals_floor) + '+ conversation-volume signals. No card needed.',
 				canonical, ld, isProd
 			) + indexBody() + foot(),
@@ -781,7 +782,7 @@ export async function handle(context) {
 			stageHead(
 				ln + ' trope demand — what readers are asking for | Tropesmith',
 				'Every trope we publish for ' + ln + ', ranked by conversation-volume mentions counted over the ' + WIN.weeks +
-					' weeks to ' + WIN.to + ', with share of the genre and direction of travel. Free.',
+					' weeks to ' + WIN.to + ', with share of the genre and change in share. Free.',
 				canonical, ld, isProd
 			) + laneBody(lane, nfTrope) + foot(),
 			{ noindex }

@@ -404,7 +404,7 @@ function indexPage(stats) {
 <p>Every lane score is composed from engines that already run nightly: relative opportunity across every covered lane, the absolute greenlight board used by the Opportunity Finder, the reader heat-expectation profile, and the length/series sweet spot. Nothing here is an opinion or an estimate typed in by hand &mdash; each number is counted from the corpus below and moves when the corpus moves.</p>
 <div class="grid">
 <div class="cell"><span class="t">Reviews read</span><span class="b">${num(s.reviews_analyzed) || '&mdash;'}</span><span class="s">Goodreads reviews held</span></div>
-<div class="cell"><span class="t">Reviews, comments and posts parsed</span><span class="b">${num(s.demand_signals_analyzed) || '&mdash;'}</span><span class="s">for demand signals</span></div>
+<div class="cell"><span class="t">Demand-signal records</span><span class="b">${num(s.demand_signals_analyzed) || '&mdash;'}</span><span class="s">from reviews, comments and posts</span></div>
 <div class="cell"><span class="t">Tropes tracked</span><span class="b">${num(s.tropes_tracked) || '&mdash;'}</span><span class="s">distinct tropes in the tag set</span></div>
 <div class="cell"><span class="t">BookTok videos</span><span class="b">${num(s.booktok_videos_analyzed) || '&mdash;'}</span><span class="s">parsed for what readers shout about</span></div>
 </div>
@@ -587,7 +587,7 @@ ${
 ${heatTable}
 ${lenBlock}
 <h2>How this number is measured</h2>
-<p>Counted &mdash; not estimated &mdash; from the Tropesmith corpus, and recounted as the corpus grows: ${num(s.reviews_analyzed) || 'millions of'} Goodreads reviews, ${num(s.shelf_signals_analyzed) || 'over a million'} shelf signals, ${num(s.demand_signals_analyzed) || 'over a million'} reviews, comments and posts parsed for demand signals and ${num(s.booktok_videos_analyzed) || 'tens of thousands of'} BookTok videos, across ${num(s.books_analyzed) || 'thousands of'} trope-tagged titles and ${num(s.tropes_tracked) || 'thousands of'} distinct tropes in ${num(s.romance_lanes_tracked) || '138'} demand lanes. The raw response for this lane is available as <a href="${esc(canonical)}?format=json">JSON</a>.</p>
+<p>Counted &mdash; not estimated &mdash; from the Tropesmith corpus, and recounted as the corpus grows: ${num(s.reviews_analyzed) || 'millions of'} Goodreads reviews, ${num(s.shelf_signals_analyzed) || 'over a million'} shelf signals, ${num(s.demand_signals_analyzed) || 'over a million'} demand-signal records and ${num(s.booktok_videos_analyzed) || 'tens of thousands of'} BookTok videos, across ${num(s.books_analyzed) || 'thousands of'} trope-tagged titles and ${num(s.tropes_tracked) || 'thousands of'} distinct tropes in ${num(s.romance_lanes_tracked) || '138'} demand lanes. The raw response for this lane is available as <a href="${esc(canonical)}?format=json">JSON</a>.</p>
 ${embedBlock(lane)}
 ${tieBack(hasMarket ? `<li><a href="/market/${esc(marketSlug(lane))}/">${esc(name)} market snapshot</a> &mdash; price, Kindle Unlimited share, entrants and rising tropes for this exact lane.</li>` : '')}
 <div class="cta-row"><a class="btn" href="/intake/">Build my ${esc(name)} Map &rarr;</a> &nbsp; <a href="/pricing/">See pricing</a> &nbsp; <a href="/lane-score/">All lane scores</a></div>

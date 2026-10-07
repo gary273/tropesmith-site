@@ -15,7 +15,7 @@
  * of its tropes carry at least 5 tagged titles on their own, so a zero in the "carry both"
  * column is a pairing absent from the TAGGED registry, not proof that no book on the shelf has it.
  *
- * TS-1095: "asks" / "reader asks" / "Open gap" / "Well served" were wrong words for what is counted (rows are signals from
+ * TS-1095: the old labels (asks, reader asks, gap verdicts) were wrong words for what is counted (rows are signals from
  * reviews and posts, 95% reviews; the supply side is a registry of tagged titles). The verdicts now name the ratio they apply.
  *
  * Demand in a lane against supply on the shelf. A word-list generator cannot produce a single
@@ -39,9 +39,9 @@ function tropeName(id) {
 function verdict(asks, books) {
 	if (books === 0) return ['open', 'No tagged title carries both', 'both tropes have tagged titles; none of them carries both'];
 	const r = asks / books;
-	if (r >= 10) return ['open', 'Few tagged titles', r.toFixed(1) + ' demand signals per tagged title'];
-	if (r >= 3) return ['tight', 'Some tagged titles', r.toFixed(1) + ' demand signals per tagged title'];
-	return ['crowded', 'Many tagged titles', r.toFixed(1) + ' demand signals per tagged title'];
+	if (r >= 10) return ['open', '10+ signals per tagged title', r.toFixed(1) + ' demand signals per tagged title'];
+	if (r >= 3) return ['tight', '3-10 signals per tagged title', r.toFixed(1) + ' demand signals per tagged title'];
+	return ['crowded', 'under 3 signals per tagged title', r.toFixed(1) + ' demand signals per tagged title'];
 }
 
 /* The true ratio, used for the verdict. Undefined at zero supply, hence the Infinity. */
@@ -108,7 +108,7 @@ function methodBlock() {
 		CORPUS.tagged_titles
 	)} distinct titles, ${num(CORPUS.tag_rows)} trope tags. Neither number is modelled, sampled or estimated.</p>
 <p>Two things to be straight about. The supply count is <b>registry-wide, not lane-scoped</b> &mdash; our demand data and our title tagging use different subgenre vocabularies, and rather than fake a join we count titles carrying both tropes anywhere in the tagged registry. And a pairing is only listed when <b>both of its tropes carry at least five tagged titles on their own</b> (the two figures are printed under each pairing), so a zero in the &ldquo;carrying both&rdquo; column means no title in our tagged registry carries the pairing &mdash; not that no book on the shelf does, since the registry holds only the titles Tropesmith has tagged.</p>
-<p>The verdict column is a <b>rule</b>, printed here so you can apply it yourself: ten or more demand signals per tagged title is <b>few tagged titles</b>; three to ten is <b>some tagged titles</b>; below three is <b>many tagged titles</b>; and a pairing that no tagged title carries at all is called out as such. It describes the ratio of two counts, not the market. Pairings with fewer than three signals are not listed &mdash; too few to mean anything.</p>
+<p>The verdict column is a <b>rule</b>, printed here so you can apply it yourself: ten or more demand signals per tagged title is the top band, three to ten the middle band and below three the bottom band; and a pairing that no tagged title carries at all is called out as such. It describes the ratio of two counts, not the market. Pairings with fewer than three signals are not listed &mdash; too few to mean anything.</p>
 <p><b>What it is not.</b> It is not a sales forecast and it is not advice to write anything. A low count of tagged titles can mean few books deliver the pairing, that few titles have been tagged, or that the pairing does not work. That judgement is yours; the counting is ours. Counted ${esc(
 		AS_OF
 	)} and restated whenever the corpus is recounted &mdash; the raw JSON behind any lane is one query string away.</p>`;
@@ -149,7 +149,7 @@ function indexPage() {
 				'Trope pairings ranked by demand signals against tagged titles',
 				'Counted demand signals per pairing, not estimates',
 				'Counted tagged titles carrying the same pairing',
-				'Few / some / many tagged titles verdict from a published rule',
+				'Signals-per-tagged-title band from a published rule',
 				'Embeddable widget with attribution',
 				'JSON output',
 				'No account, no card, works with JavaScript off'
@@ -221,7 +221,7 @@ function indexPage() {
 <div class="cell"><span class="t">Demand signals behind them</span><span class="b">${num(CORPUS.signals)}</span><span class="s">from reviews, comments and posts</span></div>
 <div class="cell"><span class="t">Titles on the supply side</span><span class="b">${num(CORPUS.tagged_titles)}</span><span class="s">tagged trope by trope</span></div>
 </div>
-<h2>Pairings with the fewest tagged titles per demand signal</h2>
+<h2>Pairings with the most demand signals per tagged title</h2>
 <p>One pairing per lane, ranked by demand signals against tagged titles. Every row is two counted numbers and the rule below applied to them. Counted ${esc(AS_OF)}.</p>
 <div class="scroll"><table><thead><tr><th>Lane</th><th>Pairing named together</th><th class="n">Demand signals</th><th class="n">Tagged titles carrying both</th><th>Verdict</th></tr></thead><tbody>${rows}</tbody></table></div>
 <h2>Pick your lane</h2>
@@ -243,7 +243,7 @@ function lanePage(lane) {
 
 	const desc =
 		name + ': ' + rows.length + ' trope pairings named together in reader reviews, comments and posts, each with the counted demand signals in this lane naming both tropes and the counted trope-tagged titles carrying both. ' +
-		(openCount ? openCount + ' have few tagged titles per demand signal. ' : '') + 'Free, no sign-up.';
+		(openCount ? openCount + ' have 10 or more demand signals per tagged title. ' : '') + 'Free, no sign-up.';
 
 	const ld = [
 		app({
@@ -254,7 +254,7 @@ function lanePage(lane) {
 				'Trope pairings for ' + name + ' ranked by demand signals against tagged titles',
 				'Counted demand signals per pairing',
 				'Counted tagged titles carrying the same pairing',
-				'Few / some / many tagged titles verdict from a published rule',
+				'Signals-per-tagged-title band from a published rule',
 				'Embeddable widget with attribution',
 				'JSON output'
 			],
@@ -286,7 +286,7 @@ function lanePage(lane) {
 <p class="lede">${esc(desc)}</p>
 <div class="grid">
 <div class="cell"><span class="t">Pairings counted</span><span class="b">${num(rows.length)}</span><span class="s">in this lane, three demand signals or more</span></div>
-<div class="cell"><span class="t">Few tagged titles</span><span class="b">${num(openCount)}</span><span class="s">ten or more demand signals per tagged title</span></div>
+<div class="cell"><span class="t">10+ signals per tagged title</span><span class="b">${num(openCount)}</span><span class="s">pairings in this lane</span></div>
 <div class="cell"><span class="t">No tagged title carries both</span><span class="b">${num(unwritten)}</span><span class="s">both tropes have tagged titles, none carries both</span></div>
 </div>
 <div class="scroll"><table><thead><tr><th>Pairing named together</th><th class="n">Demand signals<br>in this lane</th><th class="n">Tagged titles<br>carrying both</th><th>Verdict</th></tr></thead><tbody>${body}</tbody></table></div>

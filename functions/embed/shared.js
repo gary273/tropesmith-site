@@ -163,7 +163,7 @@ function tropePairsCard(lane, theme) {
 		.map((p) => {
 			const a = TP_TROPES[p[0]] || p[0];
 			const b = TP_TROPES[p[1]] || p[1];
-			const note = p[3] === 0 ? 'no published title carries both' : p[3] + ' published title' + (p[3] === 1 ? '' : 's') + ' carry both';
+			const note = p[3] === 0 ? 'no tagged title carries both' : p[3] + ' tagged title' + (p[3] === 1 ? '' : 's') + ' carry both';
 			return wRow(a + ' + ' + b, num(p[2]) + ' signals', note, theme);
 		})
 		.join('');

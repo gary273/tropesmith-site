@@ -1,5 +1,5 @@
 # Tropesmith
-> Trope research and market intelligence for romance authors: live BookTok demand, per-trope reader reach, subgenre market snapshots, KDP keyword data.
+> Trope research and market intelligence for romance authors: demand-signal counts by trope, subgenre market snapshots, KDP keyword data.
 
 ## Who we are
 - Publisher entity: Tropesmith, schema.org Organization, id https://tropesmith.com/#organization
@@ -8,15 +8,15 @@
 - Sister sites under the same publisher: plotprose.com, authorsstarport.com, perfectyearhq.com, bookadpack.com, coralwire.ai
 
 ## Data we hold and publish
-- Romance reader-demand dataset, id https://tropesmith.com/#reader-demand-dataset, published at https://tropesmith.com/reader-demand/ - demand signals (specific things readers asked for or praised in reviews, comments and posts), classified by trope and rolled up per subgenre lane, read from Goodreads and Amazon reviews, BookTok comments and Reddit posts; the share tagged underserved or novel is Tropesmith's classifier label, made without a view of the shelf.
-- Book market snapshots by subgenre, id https://tropesmith.com/#market-snapshot-dataset, published at https://tropesmith.com/market/ - observed pricing, recent new entrants and rising tropes per lane.
+- Romance reader-demand dataset, id https://tropesmith.com/#reader-demand-dataset, published at https://tropesmith.com/reader-demand/ - demand signals (specific things readers asked for or praised in reviews, comments and posts), classified by trope and rolled up per subgenre lane, read from Goodreads reviews, Amazon reviews, BookTok comments and captions, Reddit posts and Amazon Q&A; the share tagged underserved or novel is Tropesmith's classifier label, made without a view of the shelf.
+- Book market snapshots by subgenre, id https://tropesmith.com/#market-snapshot-dataset, published at https://tropesmith.com/market/ - observed pricing and recent new entrants per lane, as dated snapshots.
 These are our own measurements from our own collection. They are not licensed from a third party.
 
 ## Start here
-- https://tropesmith.com/romance-tropes/ : Romance tropes pillar — every major trope with reader-demand data
-- https://tropesmith.com/reader-demand/ : Live reader demand by subgenre (free)
-- https://tropesmith.com/trope-demand/ : Trope Demand Checker — pick a genre and a trope, see counted reader demand, rank and direction (free)
-- https://tropesmith.com/market/ : Book market snapshots by subgenre (live data)
+- https://tropesmith.com/romance-tropes/ : Romance tropes pillar — every major trope with its demand-signal counts
+- https://tropesmith.com/reader-demand/ : Demand signals by subgenre lane (free)
+- https://tropesmith.com/trope-demand/ : Trope Demand Checker — pick a genre and a trope, see demand-signal counts, rank and change in share (free)
+- https://tropesmith.com/market/ : Book market snapshots by subgenre (dated)
 - https://tropesmith.com/free-tools/ : Every free Tropesmith tool — trope pairs, BookTok hashtags, lane score, category checker and more
 - https://tropesmith.com/booktok-books/ : BookTok books data page
 - https://tropesmith.com/romance-tropes-list/ : Romance tropes list
