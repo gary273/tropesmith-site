@@ -16,11 +16,11 @@
     </div>
 
     <h2 id="tsm-corpus-heading-hiw" class="tsm-corpus-heading">
-      Four signal layers, weighted by <em>how loudly readers actually speak</em>.
+      Four signal layers, each <em>counted</em>.
     </h2>
 
     <p class="tsm-corpus-sub">
-      A Map isn't a guess about what's selling. It's a triangulation across four independent reader-voice channels &mdash; each scraped, structured, and ranked by signal strength. Here's what feeds the engine right now.
+      A Map isn't a guess about what's selling. It's a triangulation across four independent reader-voice channels &mdash; each scraped and structured. Here's what feeds the engine.
     </p>
 
     <div class="tsm-corpus-grid">
@@ -37,11 +37,11 @@
       </div>
 
       <div class="tsm-corpus-card tsm-corpus-card--reddit">
-        <div class="tsm-corpus-card-label">Layer 2 · Explicit demand</div>
-        <div class="tsm-corpus-card-stat" data-target="1819684" data-stat="demand_signals_analyzed" data-format="comma">2,810,000+</div>
-        <div class="tsm-corpus-card-unit">structured reader asks</div>
+        <div class="tsm-corpus-card-label">Layer 2 · Demand signals</div>
+        <div class="tsm-corpus-card-stat" data-format="comma" data-moat="demand_signals">2,590,000+</div>
+        <div class="tsm-corpus-card-unit">demand signals analyzed</div>
         <div class="tsm-corpus-card-meta">
-          <span>Reddit + Goodreads + BookTok</span>
+          <span>Goodreads + Amazon reviews, BookTok, Reddit</span>
           <span aria-hidden="true">·</span>
           <span>Parsed by Claude into trope + heat + setting</span>
         </div>
@@ -87,14 +87,14 @@
     </div>
 
     <div class="tsm-corpus-mechanism">
-      <div class="tsm-corpus-mechanism-tag">How the weighting works</div>
+      <div class="tsm-corpus-mechanism-tag">Where the signals come from</div>
       <p>
-        Each demand signal is scored on <strong>strength</strong> (how many readers, how recently, how unambiguously). BookTok virality wins on volume &mdash; a video with millions of plays compresses thousands of reader endorsements into one data point. Reddit asks score next: lower volume, but each post is an <em>explicit reader request</em>. Goodreads adds depth per book. Amazon tells us where the market is over-supplied &mdash; that's the gap your Map points you toward.
+        Demand signals come from Goodreads reviews, Amazon reviews, BookTok comments and captions, Reddit posts and Amazon Q&amp;A. 95.6% come from Goodreads and Amazon reviews, 4.1% from BookTok comments and captions and 0.3% from Reddit posts. BookTok play counts are tracked as their own layer. Amazon tells us where the market is over-supplied &mdash; that's the gap your Map points you toward.
       </p>
     </div>
 
     <p class="tsm-corpus-footnote">
-      Pipeline runs continuously. Numbers reflect the live corpus as of <time datetime="2026-05-12">12 May 2026</time>.
+      The demand signals figure was counted <span data-stamp-for="demand_signals">2026-10-07 17:24</span>&nbsp;UTC. A demand signal is one specific thing a reader asked for or praised in a review, comment or post, picked out by Tropesmith's classifier. One review can give several. <a href="/how-to-read-trope-demand-data/">How we count</a>. Other numbers as of <time datetime="2026-05-12">12 May 2026</time>.
     </p>
 
   </div>

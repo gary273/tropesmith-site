@@ -22,7 +22,7 @@
     </h2>
 
     <p class="tsm-corpus-sub">
-      Most "trope intelligence" tools recycle 2022 bestseller lists. Tropesmith ingests live BookTok virality, Goodreads reader shelves, Amazon supply, and Reddit asks &mdash; weighted by what readers are reaching for <em>this month</em>.
+      Most "trope intelligence" tools recycle 2022 bestseller lists. Tropesmith ingests BookTok virality, Goodreads and Amazon reviews, Goodreads reader shelves, Amazon supply, and Reddit posts.
     </p>
 
     <div class="tsm-corpus-grid">
@@ -61,11 +61,11 @@
       </div>
 
       <div class="tsm-corpus-card tsm-corpus-card--reddit">
-        <div class="tsm-corpus-card-label">Direct reader asks</div>
-        <div class="tsm-corpus-card-stat" data-target="1819684" data-stat="demand_signals_analyzed" data-format="comma">2,810,000+</div>
-        <div class="tsm-corpus-card-unit">demand signals</div>
+        <div class="tsm-corpus-card-label">Demand signals</div>
+        <div class="tsm-corpus-card-stat" data-format="comma" data-moat="demand_signals">2,590,000+</div>
+        <div class="tsm-corpus-card-unit">demand signals analyzed</div>
         <div class="tsm-corpus-card-meta">
-          <span>BookTok + Reddit + Goodreads</span>
+          <span>Goodreads + Amazon reviews, BookTok, Reddit</span>
           <span aria-hidden="true">·</span>
           <span>Structured by Claude</span>
         </div>
@@ -91,12 +91,12 @@
     <div class="tsm-corpus-mechanism">
       <div class="tsm-corpus-mechanism-tag">The mechanism</div>
       <p>
-        Our recommendation engine weights <strong>BookTok signals highest</strong> &mdash; a viral video carrying millions of plays is the strongest social-proof signal in the corpus. Reddit asks come second (explicit reader requests). Goodreads reviews come third (single-reader praise). Then we cross-reference what's <em>over-supplied</em> on Amazon to find the gap. That's what your Map reflects.
+        Demand signals come from Goodreads reviews, Amazon reviews, BookTok comments and captions, Reddit posts and Amazon Q&amp;A. 95.6% come from Goodreads and Amazon reviews, 4.1% from BookTok comments and captions and 0.3% from Reddit posts. Then we cross-reference what's <em>over-supplied</em> on Amazon to find the gap. That's what your Map reflects.
       </p>
     </div>
 
     <p class="tsm-corpus-footnote">
-      Data updated weekly. Numbers above current as of <time datetime="2026-05-12">12 May 2026</time>.
+      The demand signals figure was counted <span data-stamp-for="demand_signals">2026-10-07 17:24</span>&nbsp;UTC. A demand signal is one specific thing a reader asked for or praised in a review, comment or post, picked out by Tropesmith's classifier. One review can give several. <a href="/how-to-read-trope-demand-data/">How we count</a>. Other numbers above as of <time datetime="2026-05-12">12 May 2026</time>.
     </p>
 
   </div>

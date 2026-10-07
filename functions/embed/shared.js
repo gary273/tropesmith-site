@@ -96,7 +96,7 @@ function card(lane, d, stats, theme) {
 		)
 		.join('');
 
-	const corpus = stats && stats.reader_signals_total ? num(stats.reader_signals_total) + ' reader signals' : 'live reader signals';
+	const corpus = stats && stats.reader_signals_total ? num(stats.reader_signals_total) + ' records analyzed' : 'live records';
 
 	return `<div class="ts-lb" style="max-width:420px;background:${bg};border:1px solid ${line};border-radius:16px;overflow:hidden;box-shadow:0 12px 30px -20px rgba(20,22,54,.5)">
 <div style="padding:12px 12px 10px;background:linear-gradient(135deg,${accent},#FF6B7A)">
