@@ -164,10 +164,10 @@ function tropePairsCard(lane, theme) {
 			const a = TP_TROPES[p[0]] || p[0];
 			const b = TP_TROPES[p[1]] || p[1];
 			const note = p[3] === 0 ? 'no published title carries both' : p[3] + ' published title' + (p[3] === 1 ? '' : 's') + ' carry both';
-			return wRow(a + ' + ' + b, num(p[2]) + ' asks', note, theme);
+			return wRow(a + ' + ' + b, num(p[2]) + ' signals', note, theme);
 		})
 		.join('');
-	return shell(name + ' — what readers ask for', 'Trope pairings · counted', html, href, 'counted ' + TP_AS_OF, theme);
+	return shell(name + ' — trope pairings in reader reviews', 'Trope pairings · counted', html, href, 'counted ' + TP_AS_OF, theme);
 }
 
 function booktokCard(lane, theme) {
@@ -221,7 +221,7 @@ table{width:100%;border-collapse:collapse;font-size:14.5px}th,td{text-align:left
 <tr><td><code>theme</code></td><td><code>light</code> (default) or <code>dark</code>.</td></tr>
 </tbody></table>
 <h2>Two more free widgets</h2>
-<p><b>Trope pairings</b> &mdash; the trope pairings readers in a lane ask for, with how many published titles actually carry both. Counted, not estimated.</p>
+<p><b>Trope pairings</b> &mdash; the trope pairings named together in reader reviews and posts in a lane, with how many tagged titles carry both. Counted, not estimated.</p>
 <pre>${esc('<div id="tropesmith-trope-pairs"></div>\n<script src="' + SITE + '/embed/trope-pairs.js?lane=romance.dark" async></script>')}</pre>
 <p><b>BookTok hashtags</b> &mdash; measured plays per video for the hashtags in a lane, each with its scan date. A dated snapshot, never presented as live.</p>
 <pre>${esc('<div id="tropesmith-booktok-tags"></div>\n<script src="' + SITE + '/embed/booktok-tags.js?lane=romance.dark" async></script>')}</pre>

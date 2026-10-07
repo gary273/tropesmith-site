@@ -404,7 +404,7 @@ function indexPage(stats) {
 <p>Every lane score is composed from engines that already run nightly: relative opportunity across every covered lane, the absolute greenlight board used by the Opportunity Finder, the reader heat-expectation profile, and the length/series sweet spot. Nothing here is an opinion or an estimate typed in by hand &mdash; each number is counted from the corpus below and moves when the corpus moves.</p>
 <div class="grid">
 <div class="cell"><span class="t">Reviews read</span><span class="b">${num(s.reviews_analyzed) || '&mdash;'}</span><span class="s">Goodreads reviews held</span></div>
-<div class="cell"><span class="t">Demand signals</span><span class="b">${num(s.demand_signals_analyzed) || '&mdash;'}</span><span class="s">reader asks parsed</span></div>
+<div class="cell"><span class="t">Demand signals</span><span class="b">${num(s.demand_signals_analyzed) || '&mdash;'}</span><span class="s">from reviews, comments and posts</span></div>
 <div class="cell"><span class="t">Tropes tracked</span><span class="b">${num(s.tropes_tracked) || '&mdash;'}</span><span class="s">distinct tropes in the tag set</span></div>
 <div class="cell"><span class="t">BookTok videos</span><span class="b">${num(s.booktok_videos_analyzed) || '&mdash;'}</span><span class="s">parsed for what readers shout about</span></div>
 </div>

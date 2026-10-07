@@ -198,7 +198,7 @@ function evidence(row) {
 function laneCaveat(lane) {
 	const adv = (LANES[lane] && LANES[lane].adv) || '';
 	if (/^SPARSE/i.test(adv))
-		return 'This is an underserved niche. The counts below are real but small, and the scarcity is itself the finding — treat a direction here as a hint, not a verdict.';
+		return 'This is a small niche. The counts below are real but small, and the scarcity is itself the finding — treat a direction here as a hint, not a verdict.';
 	if (/^THIN/i.test(adv))
 		return 'This lane is thin on its own and is supplemented from its parent lane elsewhere in Tropesmith. The mentions counted below are exact-lane only, so they are a floor on the real picture, not the whole of it.';
 	return '';
@@ -373,14 +373,14 @@ function readoutBody(lane, trope, hit, ent, gateNote) {
 	const freeBlock = () => {
 		const adj = ((ADJ[lane] || {})[trope] || []).filter((a) => a[0] !== trope);
 		const adjHtml = adj.length
-			? `<div class="scroll"><table><thead><tr><th>Asked for alongside</th><th class="n">Reader asks naming both</th></tr></thead><tbody>` +
+			? `<div class="scroll"><table><thead><tr><th>Named alongside</th><th class="n">Demand signals naming both</th></tr></thead><tbody>` +
 			  adj.map((a) => `<tr><td>${esc(tropeName(a[0]))}</td><td class="n">${num(a[1])}</td></tr>`).join('') +
 			  '</tbody></table></div>' +
-			  `<p style="font-size:13.5px;color:#5b4a59">These are a <b>different count</b> from the mentions above: reader asks in ${esc(ln)} naming both tropes in the same request, across the whole ask corpus rather than the dated weekly window. Do not add the two together.</p>`
-			: `<p class="note">No co-asked trope clears our floor for this one in ${esc(ln)}. That is an absence of counted pairs, not proof that readers never ask for them together.</p>`;
+			  `<p style="font-size:13.5px;color:#5b4a59">These are a <b>different count</b> from the mentions above: demand signals in ${esc(ln)} naming both tropes, across the whole signal corpus rather than the dated weekly window. Do not add the two together.</p>`
+			: `<p class="note">No trope named alongside this one clears our floor in ${esc(ln)}. That is an absence of counted pairs, not proof that readers never name them together.</p>`;
 
 		return `
-<h2>Asked for alongside, in ${esc(ln)}</h2>
+<h2>Named alongside, in ${esc(ln)}</h2>
 ${adjHtml}
 
 <h2>What we actually read for ${esc(ln)}</h2>
@@ -418,7 +418,7 @@ ${adjHtml}
 <div class="note">
 <p style="margin-top:0"><b>Two more things are free with a Tropesmith account</b>, for ${esc(tn)} in ${esc(ln)}:</p>
 <ul style="margin:8px 0 14px">
-<li>the tropes readers <b>ask for alongside it</b> in ${esc(ln)}, with the counts</li>
+<li>the tropes readers <b>name alongside it</b> in ${esc(ln)}, with the counts</li>
 <li>the <b>evidence strip for ${esc(ln)}</b>: signals held, signals this week, newest signal, tagging coverage, and when we last recomputed it</li>
 </ul>
 <p><a class="btn" href="/login/?next=${nextArg}">Create a free account</a></p>
@@ -445,7 +445,7 @@ ${caveat ? '<div class="note"><b>About this lane:</b> ' + caveat + '</div>' : ''
 ${depth}
 
 <h2>Where these numbers come from</h2>
-<p>Mentions are counted rows, not estimates and not a model. We read reader conversation volume from Goodreads reviews and shelves, parsed reader requests, BookTok video metadata and Reddit, resolve each one to a subgenre lane and to tropes in our published taxonomy, and total them by week. This page shows the ${WIN.weeks} weeks from ${esc(WFROM)} to ${esc(WIN.to)}; ${esc(tn)} appeared in ${weeksSeen} of the ${WIN.weeks}.</p>
+<p>Mentions are counted rows, not estimates and not a model. We read reader conversation volume from Goodreads reviews and shelves, parsed demand signals (specific things readers asked for or praised), BookTok video metadata and Reddit, resolve each one to a subgenre lane and to tropes in our published taxonomy, and total them by week. This page shows the ${WIN.weeks} weeks from ${esc(WFROM)} to ${esc(WIN.to)}; ${esc(tn)} appeared in ${weeksSeen} of the ${WIN.weeks}.</p>
 <p>Only tropes from our <b>canonical taxonomy</b> of ${num(CORPUS.tropes_taxonomy)} appear here, and only the ${num(CORPUS.tropes_published)} of them that clear our publication floor somewhere. Raw scrape labels are excluded on purpose: publish those and the same trope ends up listed twice under two spellings and the ranking becomes fiction.</p>
 <p>Direction is a change in <b>share</b>, never a raw weekly move, because a genre that simply gets busier would otherwise make every trope in it look like it is rising. We state no direction at all unless each ${WIN.band_weeks}-week band holds at least ${DIR_BAND_MIN} mentions and the two hold ${FLOORS.dir_mentions} between them &mdash; a trope that went from two mentions to forty is a small number moving, not a trend.</p>
 <p>Figures restate each time the corpus is recounted. This page: <b>${esc(AS_OF)}</b>.</p>
@@ -540,10 +540,10 @@ function indexBody() {
 	return `<div class="wrap">
 <div class="eyebrow">Free tool &middot; No card needed &middot; as of ${esc(AS_OF)}</div>
 <h1>The Trope Demand Checker</h1>
-<p class="lede">Pick your genre and a trope. We tell you how many readers actually asked for it, what share of the genre that is, and whether it is rising or cooling &mdash; counted from ${floorNum(CORPUS.signals_floor)} conversation-volume signals, not guessed. ${num(CORPUS.readouts)} trope-and-genre readouts across ${num(CORPUS.lanes_published)} genres.</p>
+<p class="lede">Pick your genre and a trope. We tell you how many times readers mention it, what share of the genre that is, and whether that share is rising or cooling &mdash; counted from ${floorNum(CORPUS.signals_floor)} conversation-volume signals, not guessed. ${num(CORPUS.readouts)} trope-and-genre readouts across ${num(CORPUS.lanes_published)} genres.</p>
 ${picker(LANE_IDS[0], (laneRows(LANE_IDS[0])[0] || [''])[0])}
 <div class="grid">
-<div class="cell"><span class="t">Conversation-volume signals held</span><span class="b">${floorNum(CORPUS.signals_floor)}</span><span class="s">reviews, shelves, BookTok and reader requests</span></div>
+<div class="cell"><span class="t">Conversation-volume signals held</span><span class="b">${floorNum(CORPUS.signals_floor)}</span><span class="s">reviews, shelves, BookTok and demand signals</span></div>
 <div class="cell"><span class="t">Mentions counted in this window</span><span class="b">${num(CORPUS.mentions_counted)}</span><span class="s">${WIN.weeks} weeks, ${esc(WFROM)} to ${esc(WIN.to)}</span></div>
 <div class="cell"><span class="t">Tropes in our taxonomy</span><span class="b">${num(CORPUS.tropes_taxonomy)}</span><span class="s">canonical only &mdash; no raw scrape labels</span></div>
 <div class="cell"><span class="t">Genres covered</span><span class="b">${num(CORPUS.lanes_published)}</span><span class="s">each with its own counted lane total</span></div>
@@ -587,7 +587,7 @@ function datasetFor(lane, trope, hit) {
 		dateModified: AS_OF,
 		temporalCoverage: WFROM + '/' + WIN.to,
 		measurementTechnique:
-			'Conversation-volume signals (Goodreads reviews and shelves, parsed reader requests, BookTok video metadata, Reddit) resolved to a subgenre lane and to tropes in the published Tropesmith taxonomy, then totalled by week. Counted rows only - nothing modelled or estimated.'
+			'Conversation-volume signals (Goodreads reviews and shelves, parsed demand signals, BookTok video metadata, Reddit) resolved to a subgenre lane and to tropes in the published Tropesmith taxonomy, then totalled by week. Counted rows only - nothing modelled or estimated.'
 	};
 	if (!lane) {
 		return Object.assign(base, {
@@ -652,7 +652,7 @@ function toolApp(url) {
 			'Direction of travel measured on share, not raw counts',
 			'Week-by-week working behind the direction',
 			'Tagged titles already carrying the trope',
-			'Tropes readers ask for alongside it'
+			'Tropes named alongside it'
 		],
 		asOf: AS_OF,
 		dataset: SITE + PATH + '/#dataset'
@@ -747,7 +747,7 @@ export async function handle(context) {
 		];
 		return htmlOut(
 			stageHead(
-				'Trope Demand Checker — what readers actually ask for | Tropesmith',
+				'Trope Demand Checker — how often readers mention each trope | Tropesmith',
 				'Free: pick a genre and a trope, see the conversation volume we counted for it — mentions, share of the genre and direction of travel, from ' +
 					num(CORPUS.signals_floor) + '+ conversation-volume signals. No card needed.',
 				canonical, ld, isProd

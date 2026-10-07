@@ -5,7 +5,7 @@
  * links with generators over a word list; this one is over two counted corpora and the
  * answer changes as the market changes:
  *
- *   asks  — reader asks IN THIS LANE naming both tropes in the same request (app_demand_signals)
+ *   signals — demand signals IN THIS LANE naming both tropes (app_demand_signals; a demand signal is one specific thing a reader asked for or praised in a review, comment or post)
  *   books — published titles carrying BOTH tropes, REGISTRY-WIDE            (app_book_tropes)
  *
  * The supply side is deliberately registry-wide and not lane-scoped: app_demand_signals
@@ -13,7 +13,10 @@
  * vocabulary, so the two do not join. Faking that join would have printed "nobody has
  * written it" about pairings that are written. A pairing is also only published when both
  * of its tropes carry at least 5 tagged titles on their own, so a zero in the "carry both"
- * column is a real absence rather than a hole in our tagging.
+ * column is a pairing absent from the TAGGED registry, not proof that no book on the shelf has it.
+ *
+ * TS-1095: "asks" / "reader asks" / "Open gap" / "Well served" were wrong words for what is counted (rows are signals from
+ * reviews and posts, 95% reviews; the supply side is a registry of tagged titles). The verdicts now name the ratio they apply.
  *
  * Demand in a lane against supply on the shelf. A word-list generator cannot produce a single
  * row of it. Data is baked at build time by /root/in0790-gen/export_gen_data.py — see the
@@ -34,11 +37,11 @@ function tropeName(id) {
 /* The verdict is a RULE applied to two counted numbers, and the rule is printed on the
    page. It is not a score, not a model, and nothing about it is tuned by hand per lane. */
 function verdict(asks, books) {
-	if (books === 0) return ['open', 'Never written together', 'both tropes are published; no tagged title carries both'];
+	if (books === 0) return ['open', 'No tagged title carries both', 'both tropes have tagged titles; none of them carries both'];
 	const r = asks / books;
-	if (r >= 10) return ['open', 'Open gap', r.toFixed(1) + ' asks per published title'];
-	if (r >= 3) return ['tight', 'Thin on the shelf', r.toFixed(1) + ' asks per published title'];
-	return ['crowded', 'Well served', r.toFixed(1) + ' asks per published title'];
+	if (r >= 10) return ['open', 'Few tagged titles', r.toFixed(1) + ' demand signals per tagged title'];
+	if (r >= 3) return ['tight', 'Some tagged titles', r.toFixed(1) + ' demand signals per tagged title'];
+	return ['crowded', 'Many tagged titles', r.toFixed(1) + ' demand signals per tagged title'];
 }
 
 /* The true ratio, used for the verdict. Undefined at zero supply, hence the Infinity. */
@@ -46,9 +49,9 @@ function ratio(p) {
 	return p[3] === 0 ? Infinity : p[2] / p[3];
 }
 
-/* Ranking uses asks / (titles + 1) instead. Ranking on the true ratio sorts every
-   zero-supply pairing to the top regardless of how few readers asked, which buries the
-   pairings with 300 asks against 14 titles under pairings with 6 asks against none. The
+/* Ranking uses signals / (titles + 1) instead. Ranking on the true ratio sorts every
+   zero-supply pairing to the top regardless of how few signals sit behind it, which buries the
+   pairings with 300 signals against 14 titles under pairings with 6 signals against none. The
    +1 keeps a genuine zero at the top only when the demand behind it is genuinely large. */
 function sortByGap(a, b) {
 	const ra = a[2] / (a[3] + 1), rb = b[2] / (b[3] + 1);
@@ -62,10 +65,10 @@ function laneDataset(lane, rows) {
 		'@context': 'https://schema.org',
 		'@type': 'Dataset',
 		'@id': url + '#dataset',
-		name: laneName(lane) + ' - trope pairings by reader demand and published supply',
+		name: laneName(lane) + ' - trope pairings by demand signals and tagged titles',
 		description:
-			'For every trope pairing readers ask for in ' + laneName(lane) +
-			', the number of parsed reader asks in that lane naming both tropes together and the number of trope-tagged published titles carrying both anywhere in the registry. ' +
+			'For every trope pairing named together in reader reviews, comments and posts in ' + laneName(lane) +
+			', the number of demand signals in that lane naming both tropes and the number of trope-tagged titles carrying both anywhere in the registry. ' +
 			rows.length + ' pairings, counted ' + AS_OF + '.',
 		url,
 		isAccessibleForFree: true,
@@ -75,13 +78,13 @@ function laneDataset(lane, rows) {
 		temporalCoverage: '2001-08-06/' + AS_OF,
 		dateModified: AS_OF,
 		measurementTechnique:
-			'Reader posts and reviews are parsed one at a time into a structured ask and resolved to a subgenre lane and to canonical tropes; every unordered pair of tropes named in the same ask is counted once. Published supply is counted the same way over titles tagged trope by trope, across the whole registry rather than per lane, because the demand and tagging vocabularies do not join. A pairing is published only when both of its tropes carry at least five tagged titles independently. Both sides are counted rows - nothing is modelled, sampled or estimated.',
-		keywords: [laneName(lane), 'trope pairings', 'reader demand', 'underserved tropes', 'book market data'],
+			'Reader reviews, comments and posts are parsed one at a time into demand signals (a specific thing a reader asked for or praised) and resolved to a subgenre lane and to canonical tropes; every unordered pair of tropes named in the same signal is counted once. Published supply is counted the same way over titles tagged trope by trope, across the whole registry rather than per lane, because the demand and tagging vocabularies do not join. A pairing is published only when both of its tropes carry at least five tagged titles independently. Both sides are counted rows - nothing is modelled, sampled or estimated.',
+		keywords: [laneName(lane), 'trope pairings', 'demand signals', 'tagged titles', 'book market data'],
 		variableMeasured: [
 			pv('Trope pairings listed', rows.length, 'pairings', 'Pairings shown for this lane'),
-			pv('Reader asks behind the top pairing', rows[0][2], 'asks', 'Asks naming ' + tropeName(rows[0][0]) + ' and ' + tropeName(rows[0][1]) + ' together'),
+			pv('Demand signals behind the top pairing', rows[0][2], 'signals', 'Signals naming ' + tropeName(rows[0][0]) + ' and ' + tropeName(rows[0][1]) + ' together'),
 			pv('Published titles carrying the top pairing', rows[0][3], 'titles', 'Trope-tagged titles carrying both, counted across the whole registry'),
-			pv('Reader demand signals in the corpus', CORPUS.signals, 'signals', 'Total parsed reader asks the pairing counts are drawn from'),
+			pv('Demand signals in the corpus', CORPUS.signals, 'signals', 'Total demand signals the pairing counts are drawn from'),
 			pv('Trope-tagged titles in the corpus', CORPUS.tagged_titles, 'titles', 'Distinct published titles tagged trope by trope')
 		],
 		distribution: [{ '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: url + '?format=json' }],
@@ -99,14 +102,14 @@ function embedBlock(lane) {
 
 function methodBlock() {
 	return `<h2>How these numbers are made</h2>
-<p><b>Reader asks</b> is a counted number: parsed reader requests &mdash; from Goodreads and Amazon reviews and Q&amp;A, Reddit and BookTok &mdash; in which a reader writing about <em>this lane</em> named <em>both</em> tropes in the same request. ${num(
+<p><b>Demand signals</b> is a counted number: specific things readers asked for or praised &mdash; picked out of Goodreads and Amazon reviews and Q&amp;A, Reddit posts and BookTok comments &mdash; in which a reader writing about <em>this lane</em> named <em>both</em> tropes. Most come from reviews, not from readers asking for a book. ${num(
 		CORPUS.signals
-	)} reader signals sit behind it. <b>Titles carrying both</b> is counted the same way over published titles tagged trope by trope: ${num(
+	)} demand signals sit behind it. <b>Titles carrying both</b> is counted the same way over published titles tagged trope by trope: ${num(
 		CORPUS.tagged_titles
 	)} distinct titles, ${num(CORPUS.tag_rows)} trope tags. Neither number is modelled, sampled or estimated.</p>
-<p>Two things to be straight about. The supply count is <b>registry-wide, not lane-scoped</b> &mdash; our demand data and our title tagging use different subgenre vocabularies, and rather than fake a join we count titles carrying both tropes anywhere in the tagged registry. And a pairing is only listed when <b>both of its tropes carry at least five tagged titles on their own</b> (the two figures are printed under each pairing), so a zero in the &ldquo;carrying both&rdquo; column means the pairing really is unwritten in what we have tagged, not that we simply never tagged the trope.</p>
-<p>The verdict column is a <b>rule</b>, printed here so you can apply it yourself: ten or more asks per published title is an <b>open gap</b>; three to ten is <b>thin on the shelf</b>; below three is <b>well served</b>; and a pairing readers ask for that no tagged title in the lane carries at all is called out as such. Pairings with fewer than three asks are not listed &mdash; too few to mean anything.</p>
-<p><b>What it is not.</b> It is not a sales forecast and it is not advice to write anything. A gap can be a gap because readers ask and nobody delivers, or because the pairing does not work. That judgement is yours; the counting is ours. Counted ${esc(
+<p>Two things to be straight about. The supply count is <b>registry-wide, not lane-scoped</b> &mdash; our demand data and our title tagging use different subgenre vocabularies, and rather than fake a join we count titles carrying both tropes anywhere in the tagged registry. And a pairing is only listed when <b>both of its tropes carry at least five tagged titles on their own</b> (the two figures are printed under each pairing), so a zero in the &ldquo;carrying both&rdquo; column means no title in our tagged registry carries the pairing &mdash; not that no book on the shelf does, since the registry holds only the titles Tropesmith has tagged.</p>
+<p>The verdict column is a <b>rule</b>, printed here so you can apply it yourself: ten or more demand signals per tagged title is <b>few tagged titles</b>; three to ten is <b>some tagged titles</b>; below three is <b>many tagged titles</b>; and a pairing that no tagged title carries at all is called out as such. It describes the ratio of two counts, not the market. Pairings with fewer than three signals are not listed &mdash; too few to mean anything.</p>
+<p><b>What it is not.</b> It is not a sales forecast and it is not advice to write anything. A low count of tagged titles can mean few books deliver the pairing, that few titles have been tagged, or that the pairing does not work. That judgement is yours; the counting is ours. Counted ${esc(
 		AS_OF
 	)} and restated whenever the corpus is recounted &mdash; the raw JSON behind any lane is one query string away.</p>`;
 }
@@ -141,12 +144,12 @@ function indexPage() {
 			name: 'Trope Pair Finder',
 			url: canonical,
 			description:
-				'Free tool: for any fiction subgenre, the trope pairings readers ask for together and how many published titles in our trope-tagged registry actually deliver them - counted reader asks against counted published supply.',
+				'Free tool: for any fiction subgenre, the trope pairings named together in reader reviews, comments and posts and how many titles in our trope-tagged registry carry both - counted demand signals against counted tagged titles.',
 			featureList: [
-				'Trope pairings ranked by reader demand against published supply',
-				'Counted reader asks per pairing, not estimates',
-				'Counted published titles carrying the same pairing',
-				'Open-gap / thin / well-served verdict from a published rule',
+				'Trope pairings ranked by demand signals against tagged titles',
+				'Counted demand signals per pairing, not estimates',
+				'Counted tagged titles carrying the same pairing',
+				'Few / some / many tagged titles verdict from a published rule',
 				'Embeddable widget with attribution',
 				'JSON output',
 				'No account, no card, works with JavaScript off'
@@ -161,7 +164,7 @@ function indexPage() {
 			name: 'Tropesmith trope-pairing demand-vs-supply index',
 			description:
 				totalPairs + ' trope pairings across ' + LANES.length +
-				' fiction subgenre lanes, each with the number of parsed reader asks naming both tropes together and the number of trope-tagged published titles carrying both. Counted ' + AS_OF + '.',
+				' fiction subgenre lanes, each with the number of demand signals naming both tropes together and the number of trope-tagged titles carrying both. Counted ' + AS_OF + '.',
 			url: canonical,
 			isAccessibleForFree: true,
 			license: SITE + '/terms/',
@@ -170,15 +173,15 @@ function indexPage() {
 			temporalCoverage: '2001-08-06/' + AS_OF,
 			dateModified: AS_OF,
 			measurementTechnique:
-				'Reader posts and reviews are parsed into structured asks, resolved to a subgenre lane and to canonical tropes; every unordered pair named in the same ask is counted once. Published supply is counted the same way over trope-tagged titles. Counted rows only.',
-			keywords: ['trope pairings', 'reader demand', 'underserved tropes', 'book market data', 'romance tropes'],
+				'Reader reviews, comments and posts are parsed into demand signals, resolved to a subgenre lane and to canonical tropes; every unordered pair named in the same signal is counted once. Tagged titles are counted the same way over trope-tagged titles. Counted rows only.',
+			keywords: ['trope pairings', 'demand signals', 'tagged titles', 'book market data', 'romance tropes'],
 			variableMeasured: [
 				pv('Trope pairings published', totalPairs, 'pairings', 'Pairings listed across all covered lanes'),
 				pv('Subgenre lanes covered', LANES.length, 'lanes', 'Lanes with enough pairings to publish'),
-				pv('Reader demand signals in the corpus', CORPUS.signals, 'signals', 'Parsed reader asks the demand side is counted from'),
+				pv('Demand signals in the corpus', CORPUS.signals, 'signals', 'Demand signals the demand side is counted from'),
 				pv('Named tropes in the taxonomy', CORPUS.tropes_taxonomy, 'tropes', 'Canonical tropes a pairing can be built from'),
 				pv('Trope-tagged titles in the corpus', CORPUS.tagged_titles, 'titles', 'Published titles the supply side is counted from'),
-				pv('Distinct pairings counted on the demand side', CORPUS.pair_demand_rows, 'pairings', 'Lane-and-pair combinations with at least one reader ask')
+				pv('Distinct pairings counted on the demand side', CORPUS.pair_demand_rows, 'pairings', 'Lane-and-pair combinations with at least one demand signal')
 			],
 			distribution: [{ '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: canonical + '?format=json' }]
 		},
@@ -203,28 +206,28 @@ function indexPage() {
 
 	return (
 		head(
-			'Trope Pair Finder - what readers ask for and nobody writes | Tropesmith',
+			'Trope Pair Finder - trope pairings in reader reviews vs tagged titles | Tropesmith',
 			'Free trope pairing tool: ' + totalPairs + ' trope pairings across ' + LANES.length +
-				' subgenres, each with the counted reader asks naming both tropes together and the counted published titles that carry both.',
+				' subgenres, each with the counted demand signals naming both tropes together and the counted tagged titles that carry both.',
 			canonical,
 			ld
 		) +
 		`<div class="wrap">
 <div class="eyebrow">Free tool &middot; Counted, not estimated &middot; No account</div>
 <h1>Trope Pair Finder</h1>
-<p class="lede">Readers do not ask for one trope. They ask for two at once &mdash; and the pairing they ask for is very often not the pairing on the shelf. This puts the two counts side by side: how many readers in a lane asked for both tropes together, and how many published titles in our trope-tagged registry actually carry both.</p>
+<p class="lede">Readers rarely write about one trope at a time. This puts two counts side by side: how many demand signals in a lane name both tropes together, and how many titles in our trope-tagged registry carry both. A demand signal is one specific thing a reader asked for or praised in a review, comment or post.</p>
 <div class="grid">
 <div class="cell"><span class="t">Pairings published</span><span class="b">${num(totalPairs)}</span><span class="s">across ${LANES.length} subgenre lanes</span></div>
-<div class="cell"><span class="t">Reader signals behind them</span><span class="b">${num(CORPUS.signals)}</span><span class="s">parsed reader asks</span></div>
+<div class="cell"><span class="t">Demand signals behind them</span><span class="b">${num(CORPUS.signals)}</span><span class="s">from reviews, comments and posts</span></div>
 <div class="cell"><span class="t">Titles on the supply side</span><span class="b">${num(CORPUS.tagged_titles)}</span><span class="s">tagged trope by trope</span></div>
 </div>
-<h2>The widest gaps we can currently count</h2>
-<p>One pairing per lane, ranked by reader asks against what is on the shelf. Every row is two counted numbers and the rule below applied to them. Counted ${esc(AS_OF)}.</p>
-<div class="scroll"><table><thead><tr><th>Lane</th><th>Pairing readers ask for</th><th class="n">Reader asks</th><th class="n">Titles carrying both</th><th>Verdict</th></tr></thead><tbody>${rows}</tbody></table></div>
+<h2>Pairings with the fewest tagged titles per demand signal</h2>
+<p>One pairing per lane, ranked by demand signals against tagged titles. Every row is two counted numbers and the rule below applied to them. Counted ${esc(AS_OF)}.</p>
+<div class="scroll"><table><thead><tr><th>Lane</th><th>Pairing named together</th><th class="n">Demand signals</th><th class="n">Tagged titles carrying both</th><th>Verdict</th></tr></thead><tbody>${rows}</tbody></table></div>
 <h2>Pick your lane</h2>
 <ul class="lanes">${LANES.map((l) => `<li><a href="/trope-pairs/${esc(l)}">${esc(laneName(l))}</a> <span style="color:#a39395">&middot; ${PAIRS[l].length}</span></li>`).join('')}</ul>
 ${methodBlock()}
-${tieBack('<li><a href="/trending/">Free Romance Trope Opportunity Check</a> &mdash; single tropes rising, crowded and cooling in your lane.</li><li><a href="/booktok-hashtags/">BookTok Hashtag Picker</a> &mdash; measured reach per book hashtag.</li>')}
+${tieBack('<li><a href="/trending/">Free Romance Trope Opportunity Check</a> &mdash; single tropes in your lane.</li><li><a href="/booktok-hashtags/">BookTok Hashtag Picker</a> &mdash; measured reach per book hashtag.</li>')}
 <div class="cta-row"><a class="btn" href="/intake/">Build my Map &rarr;</a> &nbsp; <a href="/pricing/">See pricing</a></div>
 </div>` +
 		foot()
@@ -239,8 +242,8 @@ function lanePage(lane) {
 	const unwritten = rows.filter((p) => p[3] === 0).length;
 
 	const desc =
-		name + ': ' + rows.length + ' trope pairings readers ask for, each with the counted reader asks in this lane naming both tropes together and the counted trope-tagged titles carrying both. ' +
-		(openCount ? openCount + ' are open gaps. ' : '') + 'Free, no sign-up.';
+		name + ': ' + rows.length + ' trope pairings named together in reader reviews, comments and posts, each with the counted demand signals in this lane naming both tropes and the counted trope-tagged titles carrying both. ' +
+		(openCount ? openCount + ' have few tagged titles per demand signal. ' : '') + 'Free, no sign-up.';
 
 	const ld = [
 		app({
@@ -248,10 +251,10 @@ function lanePage(lane) {
 			url: canonical,
 			description: desc,
 			featureList: [
-				'Trope pairings for ' + name + ' ranked by demand against supply',
-				'Counted reader asks per pairing',
-				'Counted published titles carrying the same pairing',
-				'Open-gap / thin / well-served verdict from a published rule',
+				'Trope pairings for ' + name + ' ranked by demand signals against tagged titles',
+				'Counted demand signals per pairing',
+				'Counted tagged titles carrying the same pairing',
+				'Few / some / many tagged titles verdict from a published rule',
 				'Embeddable widget with attribution',
 				'JSON output'
 			],
@@ -276,17 +279,17 @@ function lanePage(lane) {
 	const others = LANES.filter((l) => l !== lane).slice(0, 12);
 
 	return (
-		head(name + ' trope pairings - reader demand vs what is published | Tropesmith', desc, canonical, ld) +
+		head(name + ' trope pairings - demand signals vs tagged titles | Tropesmith', desc, canonical, ld) +
 		`<div class="wrap">
 <div class="eyebrow">Free tool &middot; Counted, not estimated &middot; No account</div>
-<h1>${esc(name)} &mdash; trope pairings readers ask for</h1>
+<h1>${esc(name)} &mdash; trope pairings in reader reviews and posts</h1>
 <p class="lede">${esc(desc)}</p>
 <div class="grid">
-<div class="cell"><span class="t">Pairings counted</span><span class="b">${num(rows.length)}</span><span class="s">in this lane, three asks or more</span></div>
-<div class="cell"><span class="t">Open gaps</span><span class="b">${num(openCount)}</span><span class="s">ten or more asks per published title</span></div>
-<div class="cell"><span class="t">Never written together</span><span class="b">${num(unwritten)}</span><span class="s">both tropes published, no tagged title carries both</span></div>
+<div class="cell"><span class="t">Pairings counted</span><span class="b">${num(rows.length)}</span><span class="s">in this lane, three demand signals or more</span></div>
+<div class="cell"><span class="t">Few tagged titles</span><span class="b">${num(openCount)}</span><span class="s">ten or more demand signals per tagged title</span></div>
+<div class="cell"><span class="t">No tagged title carries both</span><span class="b">${num(unwritten)}</span><span class="s">both tropes have tagged titles, none carries both</span></div>
 </div>
-<div class="scroll"><table><thead><tr><th>Pairing readers ask for</th><th class="n">Reader asks<br>in this lane</th><th class="n">Titles carrying<br>both</th><th>Verdict</th></tr></thead><tbody>${body}</tbody></table></div>
+<div class="scroll"><table><thead><tr><th>Pairing named together</th><th class="n">Demand signals<br>in this lane</th><th class="n">Tagged titles<br>carrying both</th><th>Verdict</th></tr></thead><tbody>${body}</tbody></table></div>
 ${methodBlock()}
 ${embedBlock(lane)}
 ${tieBack(
@@ -308,7 +311,7 @@ function laneJson(lane) {
 		lane,
 		display_name: laneName(lane),
 		as_of: AS_OF,
-		method: 'reader_asks = parsed reader requests in this lane naming both tropes together. published_titles_carrying_both = trope-tagged titles carrying both, counted across the whole registry (demand and tagging use different subgenre vocabularies and are not joined). A pairing is only published when both tropes carry at least 5 tagged titles independently. Counted rows, not estimates.',
+		method: 'demand_signals = demand signals (specific things readers asked for or praised in reviews, comments and posts) in this lane naming both tropes together. tagged_titles_carrying_both = trope-tagged titles carrying both, counted across the whole registry (demand and tagging use different subgenre vocabularies and are not joined). A pairing is only published when both tropes carry at least 5 tagged titles independently. Counted rows, not estimates.',
 		attribution: { source: 'Tropesmith', url: SITE + '/trope-pairs/' + lane, publisher: 'Coral Hart Group' },
 		corpus: CORPUS,
 		pairs: rows.map((p) => {
@@ -318,11 +321,11 @@ function laneJson(lane) {
 				trope_a_name: tropeName(p[0]),
 				trope_b: p[1],
 				trope_b_name: tropeName(p[1]),
-				reader_asks: p[2],
-				published_titles_carrying_both: p[3],
-				published_titles_with_trope_a: p[4],
-				published_titles_with_trope_b: p[5],
-				asks_per_title: p[3] === 0 ? null : Number((p[2] / p[3]).toFixed(2)),
+				demand_signals: p[2],
+				tagged_titles_carrying_both: p[3],
+				tagged_titles_with_trope_a: p[4],
+				tagged_titles_with_trope_b: p[5],
+				demand_signals_per_tagged_title: p[3] === 0 ? null : Number((p[2] / p[3]).toFixed(2)),
 				verdict: v[1]
 			};
 		})
@@ -359,7 +362,7 @@ export async function handle(context) {
 		return htmlResponse(
 			head('Lane not covered | Tropesmith', 'We do not publish trope pairings for that lane yet.', SITE + '/trope-pairs/', []) +
 				`<div class="wrap"><h1>No pairings for that lane yet</h1>
-<p class="lede">We publish pairings for ${LANES.length} lanes. A lane appears here once it carries at least eight pairings with three or more reader asks each &mdash; below that the numbers are too thin to mean anything, and we would rather show you nothing than something invented.</p>
+<p class="lede">We publish pairings for ${LANES.length} lanes. A lane appears here once it carries at least eight pairings with three or more demand signals each &mdash; below that the numbers are too thin to mean anything, and we would rather show you nothing than something invented.</p>
 <p><a href="/trope-pairs/">See every lane we do cover &rarr;</a></p>${tieBack('')}</div>` +
 				foot(),
 			404

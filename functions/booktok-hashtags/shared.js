@@ -182,7 +182,7 @@ ${table(top)}
 <ul class="lanes">${LANES.map((l) => `<li><a href="/booktok-hashtags/${esc(l)}">${esc(laneName(l))}</a> <span style="color:#a39395">&middot; ${BY_LANE[l].length}</span></li>`).join('')}</ul>
 ${methodBlock()}
 ${embedBlock('')}
-${tieBack('<li><a href="/trope-pairs/">Trope Pair Finder</a> &mdash; the trope pairings readers ask for that nobody has written.</li>')}
+${tieBack('<li><a href="/trope-pairs/">Trope Pair Finder</a> &mdash; the trope pairings named together in reader reviews and posts, set against the tagged titles that carry both.</li>')}
 <div class="cta-row"><a class="btn" href="/intake/">Build my Map &rarr;</a> &nbsp; <a href="/pricing/">See pricing</a></div>
 </div>` +
 		foot()
@@ -243,7 +243,7 @@ ${table(general)}
 ${methodBlock()}
 ${embedBlock(lane)}
 ${tieBack(
-	`<li><a href="/trope-pairs/${esc(lane)}">${esc(name)} trope pairings</a> &mdash; what readers in this lane ask for that nobody has written.</li>` +
+	`<li><a href="/trope-pairs/${esc(lane)}">${esc(name)} trope pairings</a> &mdash; the trope pairings named together in reader reviews and posts in this lane, set against the tagged titles that carry both.</li>` +
 		`<li><a href="/lane-score/${esc(lane)}">${esc(name)} lane score</a> &mdash; is the lane worth writing at all.</li>`
 )}
 <div class="cta-row"><a class="btn" href="/intake/">Build my ${esc(name)} Map &rarr;</a> &nbsp; <a href="/booktok-hashtags/">All hashtags</a></div>
