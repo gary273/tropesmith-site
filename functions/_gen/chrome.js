@@ -91,7 +91,7 @@ ${ld.map((o) => '<script type="application/ld+json">' + JSON.stringify(o).replac
 <style>${CSS}</style></head><body>
 <div class="topnav"><div class="in">
 <a href="/"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith"></a>
-<nav><a href="/free-tools/">Free tools</a><a href="/finder/">Opportunity Finder</a><a href="/trending/">Trending</a><a href="/reader-demand/">Reader Demand</a><a href="/pricing/">Pricing</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
+<nav><a href="/free-tools/">Free tools</a><a href="/finder/">Opportunity Finder</a><a href="/trending/">Trope check</a><a href="/reader-demand/">Reader Demand</a><a href="/pricing/">Pricing</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
 </div></div>`;
 }
 

@@ -6,8 +6,8 @@
  * against trope_trend_history) — JS-only, so a crawler saw an empty form and nothing else
  * (the authorsstarport starvation pattern, TS-0591 finding).
  *
- * NOW: every subgenre's opportunity read (write-into / hot-but-crowded / cooling, plus the
- * top-5 trending tropes) is baked nightly by /root/ts0591/export_trending_data.py, calling
+ * NOW: every subgenre's read (the tropes near the top of the lane's ranking by likes and upvotes, plus the five tropes
+ * with the most demand signals in the latest month of the lane trend table) is baked nightly by /root/ts0591/export_trending_data.py, calling
  * the SAME two SQL functions the edge function called, into ./data.js. This file only
  * renders what is already in memory. Zero database reads per visitor.
  *
@@ -18,6 +18,9 @@
  * drop the trend-computation from that POST entirely (a Supabase function deploy is a live
  * flip and is out of scope for this WO — reserved surface, stopped at staged).
  */
+/* TS-1095: every label below is literally what the SQL does (see patchers/patch_f10_trending.py). plotmap_opportunity_window ranks a lane's tropes each month by the likes and
+   upvotes attached to their demand signals; it has no measure of books or supply, and its rising/cooling lists and the share-vs-last-month arrow compare recent windows that
+   read low (CONTRACT.md RECENCY CORRECTION), so they are not rendered. data.js is generated: never edit it. */
 import { AS_OF, SUBGENRES, DATA } from './data.js';
 import { SITE, ORG, esc, num, head, foot, breadcrumb, app, jsonResponse, wantsJson } from '../_gen/chrome.js';
 
@@ -53,18 +56,21 @@ export function isLaneSelfLabel(name, laneLabelText) {
 	return !!a && a === b;
 }
 
+const SOURCES = 'Goodreads reviews, BookTok comments and captions, and Reddit posts';
+const RECENT_MONTHS = 'Recent months read low: reviews and posts are read in some time after they are written, so compare tropes with each other, not one month with another.';
+const GLOSS_UNIT = "A demand signal is one specific thing a reader asked for or praised in a review, comment or post, picked out by Tropesmith's classifier. One review can give several.";
+const METHOD = '/how-to-read-trope-demand-data/';
+
 function toolApp(url) {
 	return app({
 		url,
 		name: 'Tropesmith Trope Opportunity Check',
 		description:
-			'Free tool: for a romance subgenre, which tropes to write into (rising, not yet crowded), which are hot but crowded, and which are cooling off — plus the top-5 trending tropes this month.',
+			'Free tool: for a romance subgenre, the tropes with the most demand signals in the latest month of the lane trend table, and the tropes near the top of the lane’s ranking by likes and upvotes. Counts and ranks are from the trend table; reviews are read some time after they are posted, so recent months read low.',
 		featureList: [
-			'Write-into trope list for the exact subgenre',
-			'Hot-but-crowded warnings',
-			'Cooling-off list',
-			'Top-5 trending tropes this month',
-			'Baked nightly from the Tropesmith demand engine'
+			'The tropes with the most demand signals in the lane trend table’s latest month',
+			'Tropes near the top of the lane’s ranking by likes and upvotes, with little change from earlier months',
+			'Counts and ranks from the lane trend table, rebuilt nightly'
 		],
 		asOf: AS_OF,
 		dataset: SITE + PATH + '/#dataset'
@@ -75,15 +81,14 @@ function datasetFor(id) {
 	const d = id ? DATA[id] : null;
 	return {
 		'@type': 'Dataset',
-		name: 'Romance trope momentum by subgenre' + (d ? ' — ' + laneLabel(id) : ''),
-		description: 'Which tropes are rising, crowded or cooling in each romance subgenre, counted from reader reviews, shelf signals, parsed reader demand and BookTok video metadata.',
+		name: 'Romance trope demand signals and ranking by subgenre' + (d ? ' — ' + laneLabel(id) : ''),
+		description: 'For each romance subgenre: the tropes with the most demand signals in the latest month of the lane trend table, and the tropes near the top of the lane’s ranking by likes and upvotes. Demand signals come from Goodreads reviews, BookTok comments and captions, and Reddit posts.',
 		url: SITE + PATH + (id ? '/' + id : '/'),
 		isAccessibleForFree: true,
 		license: SITE + '/terms/',
 		creator: ORG,
 		publisher: ORG,
-		temporalCoverage: '2026-01-01/..',
-		measurementTechnique: 'Counted from the Tropesmith corpus and re-aggregated per subgenre lane; no estimates.',
+		measurementTechnique: 'Demand signals that name the trope as a main trope, counted per lane and calendar month in the Tropesmith lane trend table; ranks are percentile ranks within each month by the likes and upvotes attached to the signals.',
 		dateModified: d ? d.data_as_of : AS_OF
 	};
 }
@@ -96,9 +101,9 @@ function opBlock(cls, emoji, label, arr, laneLabelText) {
 
 function trendList(tropes, laneLabelText) {
 	const items = (tropes || []).filter((t) => t && !isLaneSelfLabel(t.name, laneLabelText));
-	if (!items.length) return '<p class="note">Not enough dated signal to call a top-5 for this lane yet.</p>';
+	if (!items.length) return '<p class="note">No tropes have three or more demand signals in this lane’s latest month.</p>';
 	return `<ul class="trlist">${items
-		.map((t) => `<li>${t.rising ? '<b>&#9650; </b>' : ''}${esc(tropeLabel(t.name))} <span style="color:#a39395">(${num(t.mentions)} mentions, ${t.share_pct}% share)</span></li>`)
+		.map((t) => `<li>${esc(tropeLabel(t.name))} <span style="color:#a39395">(${num(t.mentions)} demand signals, ${t.share_pct}% of the lane’s main-trope tags)</span></li>`)
 		.join('')}</ul>`;
 }
 
@@ -127,7 +132,7 @@ function leadForm(subgenreId) {
 <input type="email" id="lp-em" placeholder="you@email.com" required autocomplete="email">
 <button type="submit">Send me the weekly Trope Pulse &rarr;</button>
 </form>
-<div class="leadnote">Free. One email a week with the rising tropes across every lane. Unsubscribe anytime. <span id="lp-err" style="color:#C2334A"></span></div>
+<div class="leadnote">Free. One email a week: the Trope Pulse. Unsubscribe anytime. <span id="lp-err" style="color:#C2334A"></span></div>
 <div class="leadok" id="lp-ok">&#10003; You're in — check your inbox.</div>
 </div>
 <script>(function(){
@@ -153,12 +158,14 @@ function lanePicker(current) {
 
 function opportunityCard(id) {
 	const d = DATA[id];
+	const near = opBlock('c', '&#9670;', 'Near the top of the lane’s ranking by likes and upvotes, with little change from earlier months', d.opportunity.crowded, laneLabel(id));
+	const how = near ? `<p class="note">How the list above is worked out: each month, every trope in a lane is ranked by the likes and upvotes attached to its demand signals (a post’s likes count once for each signal drawn from it), taken from Goodreads reviews, BookTok comments and captions, and Reddit posts. A trope is listed when its average position in the later part of its monthly history is in the lane’s top fifth and differs from its average in the earlier part by less than 12 percentile points. Tropes need at least 12 demand signals in the lane. The ranking is by reader likes and upvotes, not by books, so it says nothing about how many books already cover a trope; check comp titles before you commit.</p>` : '';
 	return `<div class="opwrap">
-${opBlock('w', '&#9989;', 'Write into these — rising, not yet crowded', d.opportunity.rising, laneLabel(id))}
-${opBlock('c', '&#9888;&#65039;', 'Hot but crowded — enter only with a twist', d.opportunity.crowded, laneLabel(id))}
-${opBlock('k', '&#128309;', 'Cooling off — think twice', d.opportunity.cooling, laneLabel(id))}
-<h2 style="margin-top:22px">Top 5 trending in ${esc(laneLabel(id))} this month</h2>
+${near}
+<h2 style="margin-top:22px">The tropes with the most demand signals in the latest month of the trend table for ${esc(laneLabel(id))}</h2>
 ${trendList(d.tropes, laneLabel(id))}
+${how}
+<p class="note">Counts are demand signals from ${SOURCES} (Amazon reviews and Amazon Q&amp;A are not in this read) that name the trope as a main trope. ${esc(GLOSS_UNIT)} ${RECENT_MONTHS} <a href="${METHOD}">How we count</a>.</p>
 </div>`;
 }
 
@@ -166,25 +173,25 @@ function pageBody(id) {
 	const d = DATA[id];
 	const ln = laneLabel(id);
 	return `<div class="wrap">
-<div class="eyebrow">Free tool &middot; Baked nightly from live engine data &middot; No card needed</div>
+<div class="eyebrow">Free tool &middot; Rebuilt nightly from the lane trend table &middot; No card needed</div>
 <h1>Which tropes should your next ${esc(lanePhrase(ln))} lean into?</h1>
-<p class="lede">Reader-demand mentions counted this month across ${num(d.month_total_mentions)} total mentions in ${esc(ln)}. As of ${esc(d.data_as_of)}.</p>
+<p class="lede">The latest month of the ${esc(ln)} trend table holds ${num(d.month_total_mentions)} main-trope tags on demand signals. Counts and ranks are from the trend table as of ${esc(d.data_as_of)}, the date of its newest captured row.</p>
 ${lanePicker(id)}
 ${opportunityCard(id)}
 ${leadForm(id)}
 <div class="cta-row"><a class="btn" href="/intake/">Build my ${esc(ln)} Map &mdash; $15 &rarr;</a> &nbsp; <a href="/sample/">See a real sample &rarr;</a></div>
-<h2>Why &ldquo;rising&rdquo; beats &ldquo;popular&rdquo;</h2>
-<p>Most &ldquo;trending tropes&rdquo; lists tell you what's popular &mdash; which is often the same as telling you what's already saturated. This checker separates the tropes gaining momentum in ${esc(ln)} (where there's still room) from the ones that are hot-but-crowded and the ones quietly cooling off. This is a thin slice of what a full <a href="/how-it-works/">Tropesmith Map</a> does for your specific book.</p>
+<h2>What this check does not tell you</h2>
+<p>A high count says a trope is talked about at scale. It does not say how many books already cover it, or whether the angle you would write is one readers want. Check the comp titles on Amazon and in a <a href="/sample/">sample Map</a> before you commit. This is a thin slice of what a full <a href="/how-it-works/">Tropesmith Map</a> does for your specific book.</p>
 </div>`;
 }
 
 function indexBody() {
 	return `<div class="wrap">
-<div class="eyebrow">Free tool &middot; Baked nightly from live engine data &middot; No card needed</div>
+<div class="eyebrow">Free tool &middot; Rebuilt nightly from the lane trend table &middot; No card needed</div>
 <h1>Which tropes should your next romance actually lean into?</h1>
-<p class="lede">Pick your subgenre and get a free read on where the opportunity is right now &mdash; not just what's popular. For your exact lane you'll see write-into tropes, hot-but-crowded warnings, cooling-off calls and the top 5 trending this month.</p>
+<p class="lede">Pick your subgenre and get a free read: the tropes with the most demand signals in the latest month of the lane trend table, and the tropes near the top of the lane's ranking by likes and upvotes. Each lane page says which date its counts and ranks are from.</p>
 ${lanePicker('')}
-<p class="note">Pick a subgenre above to see its opportunity read.</p>
+<p class="note">Pick a subgenre above to see its read.</p>
 ${leadForm('')}
 </div>`;
 }
@@ -214,24 +221,24 @@ export async function handle(context) {
 		return notFound(url, json, 'That is not a subgenre we recognise. Subgenres are lower-case identifiers such as "romance.dark".');
 	}
 	if (id && !DATA[id]) {
-		return notFound(url, json, 'We do not publish a trending read for that subgenre yet.');
+		return notFound(url, json, 'We do not publish a read for that subgenre yet.');
 	}
 
 	if (!id) {
 		const canonical = SITE + PATH + '/';
 		if (json) return jsonResponse({ ok: true, as_of: AS_OF, subgenres: IDS.map((i) => ({ id: i, label: laneLabel(i) })) });
 		const ld = [Object.assign({ '@context': 'https://schema.org' }, datasetFor(null)), toolApp(canonical), breadcrumb('Trope Opportunity Check', canonical)];
-		return htmlOut(stageHead('Free Romance Trope Opportunity Check | Tropesmith', "Free for your subgenre: the tropes to write INTO right now, the ones too crowded to bother, and the ones cooling off — plus this month's top 5 trending.", canonical, ld, isProd) + indexBody() + foot(), { noindex });
+		return htmlOut(stageHead('Free Romance Trope Opportunity Check | Tropesmith', "Free for your subgenre: tropes with the most demand signals in the trend table's latest month, and those near the top of its likes-and-upvotes ranking.", canonical, ld, isProd) + indexBody() + foot(), { noindex });
 	}
 
 	const canonical = SITE + PATH + '/' + id;
 	const d = DATA[id];
 	if (json) {
-		return jsonResponse({ ok: true, as_of: AS_OF, subgenre_id: id, subgenre_label: laneLabel(id), data_as_of: d.data_as_of, month_total_mentions: d.month_total_mentions, tropes: d.tropes, opportunity: d.opportunity });
+		return jsonResponse({ ok: true, as_of: AS_OF, subgenre_id: id, subgenre_label: laneLabel(id), data_as_of: d.data_as_of, month_total_mentions: d.month_total_mentions, tropes: d.tropes.map((t) => ({ name: t.name, mentions: t.mentions, share_pct: t.share_pct })), opportunity: { near_top_of_ranking_by_likes_and_upvotes: d.opportunity.crowded }, note: RECENT_MONTHS });
 	}
 	const ln = laneLabel(id);
 	const ld = [Object.assign({ '@context': 'https://schema.org' }, datasetFor(id)), toolApp(canonical), breadcrumb(ln, canonical, 'Trope Opportunity Check', SITE + PATH + '/')];
-	const desc = `Free for ${ln}: the tropes to write into right now, the ones too crowded to bother, and the ones cooling off — plus this month's top 5 trending. Counted, not estimated, as of ${d.data_as_of}.`;
+	const desc = `${ln} tropes by demand signals in the trend table's latest month, plus those near the top of its likes-and-upvotes ranking. As of ${d.data_as_of}.`;
 	return htmlOut(stageHead(`${ln} trope opportunity check | Tropesmith`, desc, canonical, ld, isProd) + pageBody(id) + foot(), { noindex });
 }
 

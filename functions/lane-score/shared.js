@@ -223,7 +223,7 @@ ${ld.map((o) => '<script type="application/ld+json">' + JSON.stringify(o) + '</s
 <style>${CSS}</style></head><body>
 <div class="topnav"><div class="in">
 <a href="/"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith"></a>
-<nav><a href="/free-tools/">Free tools</a><a href="/trending/">Trending</a><a href="/reader-demand/">Reader Demand</a><a href="/pricing/">Pricing</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
+<nav><a href="/free-tools/">Free tools</a><a href="/trending/">Trope check</a><a href="/reader-demand/">Reader Demand</a><a href="/pricing/">Pricing</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
 </div></div>`;
 }
 
@@ -293,7 +293,7 @@ function tieBack(extra) {
 ${extra || ''}
 <li><a href="/free-tools/">Every free Tropesmith tool</a> &mdash; trope opportunity check, reader demand, category &amp; rank checker, lane scores, sample maps.</li>
 <li><a href="${REPORT}">The 2026 Romance Demand Report</a> &mdash; the full year&rsquo;s read on where romance demand is heading, from the same engine.</li>
-<li><a href="/trending/">Free Romance Trope Opportunity Check</a> &mdash; the tropes to write into in this lane right now.</li>
+<li><a href="/trending/">Free Romance Trope Opportunity Check</a> &mdash; the tropes with the most demand signals in this lane's latest trend-table month.</li>
 <li><a href="/reader-demand/">Reader demand by subgenre</a> &mdash; what readers are actually asking for.</li>
 <li><a href="/trope-demand/">Trope Demand Checker</a> &mdash; pick a genre and a trope, see the counted conversation volume.</li>
 </ul>`;
