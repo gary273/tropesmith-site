@@ -14,10 +14,10 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Email preferences — Tropesmith</title>
-<meta name="description" content="Tropesmith email preferences — unsubscribe confirmation." />
+<title>Trope Pulse — Tropesmith</title>
+<meta name="description" content="Trope Pulse subscription confirmation." />
 <meta name="robots" content="noindex" />
-<link rel="canonical" href="https://tropesmith.com/unsubscribed" />
+<link rel="canonical" href="https://tropesmith.com/pulse/confirmed" />
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
 <link rel="icon" type="image/png" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png" />
 <link rel="apple-touch-icon" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png" />
@@ -54,29 +54,27 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 
 <section class="section" style="padding:80px 0 64px">
   <div class="wrap" style="max-width:640px;text-align:center">
-    <span class="eyebrow" style="justify-content:center" data-eyebrow>Email preferences</span>
-    <h1 class="h-display" style="margin:18px 0 14px" data-title>You're <span class="grad-text">unsubscribed</span>.</h1>
-    <p class="lede lg" style="margin:0 auto 28px" data-copy>You won't receive any more Tropesmith product update emails. Your Maps and account are unaffected.</p>
+    <span class="eyebrow" style="justify-content:center" data-eyebrow>Trope Pulse</span>
+    <h1 class="h-display" style="margin:18px 0 14px" data-title>You're <span class="grad-text">in</span>.</h1>
+    <p class="lede lg" style="margin:0 auto 28px" data-copy>Your Trope Pulse subscription is confirmed. It lands every Monday: what romance readers asked for and praised over the last four weeks, counted trope by trope.</p>
     <div class="hero-cta" style="justify-content:center">
-      <a class="btn btn-primary btn-lg" href="/library/">Open my Library <span class="arrow">→</span></a>
-      <a class="btn btn-lg" href="mailto:support@tropesmith.com?subject=Email%20preferences">Contact support</a>
+      <a class="btn btn-primary btn-lg" href="/pulse/">See this week's Pulse <span class="arrow">→</span></a>
+      <a class="btn btn-lg" href="/intake/">Build my Map · $15</a>
     </div>
-    <p class="micro" style="margin-top:24px">Changed your mind? Reply to any of our emails or write to support and we'll switch updates back on.</p>
+    <p class="micro" style="margin-top:24px" data-micro>Every issue has a one-click unsubscribe link at the bottom.</p>
   </div>
 </section>
 <script>
 (function(){
   var s=(new URLSearchParams(location.search).get("s")||"ok").toLowerCase();
   var T={
-    ok:{eyebrow:"Email preferences",title:"You're <span class=\"grad-text\">unsubscribed</span>.",copy:"You won't receive any more Tropesmith product update emails. Your Maps and account are unaffected."},
-    invalid:{eyebrow:"Link problem",title:"This unsubscribe link is <span class=\"grad-text\">invalid</span>.",copy:"The link doesn't match our records. Use the unsubscribe link from your most recent Tropesmith email, or contact support and we'll do it for you."},
-    pulse:{eyebrow:"Trope Pulse",title:"You're <span class=\"grad-text\">unsubscribed</span> from Trope Pulse.",copy:"You won't receive any more Trope Pulse emails. Your Maps and account are unaffected, and you can sign up again any time."},
-    missing:{eyebrow:"Link problem",title:"This unsubscribe link is <span class=\"grad-text\">incomplete</span>.",copy:"The link is missing information. Use the unsubscribe link from your most recent Tropesmith email, or contact support and we'll do it for you."}
+    expired:{eyebrow:"Link problem",title:"This link has <span class=\"grad-text\">expired</span>.",copy:"That confirmation link is invalid or already used. If you already confirmed, you're subscribed and nothing more is needed. Otherwise, sign up again on the Pulse page and we'll send a fresh link.",micro:"Trouble confirming? Email support@tropesmith.com and we'll sort it out."}
   }[s]||null;
   if(!T) return;
   document.querySelector("[data-eyebrow]").textContent=T.eyebrow;
   document.querySelector("[data-title]").innerHTML=T.title;
   document.querySelector("[data-copy]").textContent=T.copy;
+  document.querySelector("[data-micro]").textContent=T.micro;
 })();
 </script>
 
