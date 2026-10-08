@@ -77,7 +77,7 @@ const PLAY_TOTAL = /(?:\s*\u00b7\s*)?\b(?:a source video|this niche) pulled [\d,
 /* The archive fn already returns a complete, styled page. We only add what makes it OURS
    and indexable: a canonical on tropesmith.com, Article schema, and a way back in. */
 function enrich(html, canonical, feedName, date) {
-	const archived = (function () { const i = issueIso(html, date); return !!i && i < RECOUNT; })();
+	const archived = (function () { const i = issueIso(html, date); return !i || i < RECOUNT; })();
 	const title = (html.match(/<title>([^<]*)<\/title>/i) || [, 'Trope Pulse'])[1].replace(/ · Trope Pulse$/, '');
 	const ld = {
 		'@context': 'https://schema.org',

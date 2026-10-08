@@ -168,7 +168,7 @@ function indexPage() {
 	return (
 		head(
 			'BookTok Hashtag Picker - measured reach per hashtag | Tropesmith',
-			META.hashtags + ' BookTok hashtags with the measured plays per video from a dated scan of their videos: pick hashtags on reach, not on guesswork. Free, no sign-up.',
+			N_SHOWN + ' ranked BookTok hashtags (of ' + N_SCANNED + ' scanned) with the measured plays per video from a dated scan of their videos: pick hashtags on reach, not on guesswork. Free, no sign-up.',
 			canonical,
 			ld
 		) +
@@ -200,11 +200,11 @@ function lanePage(lane) {
 	const canonical = SITE + '/booktok-hashtags/' + lane;
 	const rows = BY_LANE[lane];
 	const name = laneName(lane);
-	const general = GENERAL.slice(0, 15);
-	const best = rows.find(isClean) || rows[0];
+	const general = GENERAL.filter(isClean).slice(0, 15);
+	const bestClean = rows.find(isClean);
+	const best = bestClean || rows[0];
 	const desc =
-		name + ' BookTok hashtags: ' + rows.length + ' mapped to this lane, the strongest carrying ' + Number(best[AVG]).toLocaleString('en-US') +
-		' plays per video when scanned on ' + best[ON] + '. Measured, dated, free.';
+		name + ' BookTok hashtags: ' + rows.length + ' mapped to this lane' + (bestClean ? ', the strongest carrying ' + Number(best[AVG]).toLocaleString('en-US') + ' plays per video when scanned on ' + best[ON] : ', none yet with a ranked scan (scans from 6 October 2026 onwards)') + '. Measured, dated, free.';
 
 	const ld = [
 		app({
@@ -240,12 +240,12 @@ function lanePage(lane) {
 <p class="lede">${esc(desc)}</p>
 <div class="grid">
 <div class="cell"><span class="t">Hashtags in this lane</span><span class="b">${num(rows.length)}</span><span class="s">mapped to ${esc(name)}</span></div>
-<div class="cell"><span class="t">Best measured reach</span><span class="b">${num(best[AVG])}</span><span class="s">plays per video &middot; #${esc(best[H])}</span></div>
+<div class="cell"><span class="t">Best ranked reach</span><span class="b">${bestClean ? num(best[AVG]) : '&mdash;'}</span><span class="s">${bestClean ? 'plays per video &middot; #' + esc(best[H]) : 'no scan from 6 October 2026 onwards yet'}</span></div>
 <div class="cell"><span class="t">Median across ranked hashtags</span><span class="b">${num(MEDIAN_AVG)}</span><span class="s">plays per video, ${num(N_SHOWN)} ranked (scans from 6 October 2026 onwards)</span></div>
 </div>
 ${table(rows)}
 <h2>General BookTok hashtags worth pairing with these</h2>
-<p>Not tied to a subgenre, and the highest measured reach we hold.</p>
+<p>Not tied to a subgenre; ranked scans only (6 October 2026 onwards).</p>
 ${table(general)}
 ${methodBlock()}
 ${embedBlock(lane)}

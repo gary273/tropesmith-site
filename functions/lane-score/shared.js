@@ -292,7 +292,7 @@ function tieBack(extra) {
 <ul>
 ${extra || ''}
 <li><a href="/free-tools/">Every free Tropesmith tool</a> &mdash; trope opportunity check, reader demand, category &amp; rank checker, lane scores, sample maps.</li>
-<li><a href="${REPORT}">The 2026 Romance Demand Report</a> &mdash; the full year&rsquo;s read on where romance demand is heading, from the same engine.</li>
+<li><a href="${REPORT}">The 2026 Romance Demand Report</a> &mdash; the full year&rsquo;s read on what romance readers asked for, from the same engine.</li>
 <li><a href="/trending/">Free Romance Trope Opportunity Check</a> &mdash; the tropes with the most demand signals in this lane's latest trend-table month.</li>
 <li><a href="/reader-demand/">Reader demand by subgenre</a> &mdash; what readers are actually asking for.</li>
 <li><a href="/trope-demand/">Trope Demand Checker</a> &mdash; pick a genre and a trope, see the counted conversation volume.</li>
@@ -336,7 +336,7 @@ function laneScoreCollectionDataset() {
 		publisher: ORG,
 		keywords: ['lane score', 'subgenre opportunity', 'reader demand', 'Kindle Unlimited', 'book market data'],
 		measurementTechnique:
-			'Counted from the Tropesmith corpus: Goodreads reviews and shelf signals, parsed reader demand signals, BookTok video metadata and Amazon category economics, aggregated per subgenre lane. Counted rows only — nothing is modelled or estimated.',
+			'Counted from the Tropesmith corpus: Goodreads reviews and shelf signals, parsed reader demand signals, BookTok video metadata and Amazon category economics, aggregated per subgenre lane. Counted rows, except revenue, which is modelled from sales rank.',
 		/* No hasPart[]: listing each lane as a bare {'@type':'Dataset', name, url} would mint
 		   one more Dataset node per lane with no description and no creator - the very defect this
 		   fixes. The index page's ItemList already enumerates every lane. */
@@ -399,7 +399,7 @@ function indexPage(stats) {
 			ld
 		) +
 		`<div class="wrap">
-<div class="eyebrow">Free tool &middot; Engine data, refreshed twice a day &middot; No card needed</div>
+<div class="eyebrow">Free tool &middot; Engine data, refreshed daily &middot; No card needed</div>
 <h1>Lane Score &mdash; is this subgenre worth writing?</h1>
 <p class="lede">One number per lane, built from what readers are actually doing. Pick a lane below and you get its opportunity score and rank, the greenlight band, the money shape of the lane (typical price, Kindle Unlimited share, 30-day demand), the heat level readers expect, and the length and series shape that sell there.</p>
 <div class="grid">
@@ -410,7 +410,7 @@ function indexPage(stats) {
 <h2>Pick your lane</h2>
 <ul class="lanes">${covered.map((id) => `<li><a href="/lane-score/${esc(id)}">${esc(LANES[id][0])}</a></li>`).join('')}</ul>
 <h2>How the score is built</h2>
-<p>Every lane score is composed from engines that already run nightly: relative opportunity across every covered lane, the absolute greenlight board used by the Opportunity Finder, the reader heat-expectation profile, and the length/series sweet spot. Nothing here is an opinion or an estimate typed in by hand &mdash; each number is counted from the corpus below and moves when the corpus moves.</p>
+<p>Every lane score is composed from engines that already run nightly: relative opportunity across every covered lane, the absolute greenlight board used by the Opportunity Finder, the reader heat-expectation profile, and the length/series sweet spot. Nothing here is an opinion or an estimate typed in by hand &mdash; each number is counted from the corpus below (revenue is modelled from sales rank) and moves when the corpus moves.</p>
 <div class="grid">
 <div class="cell"><span class="t">Reviews read</span><span class="b">${num(s.reviews_analyzed) || '&mdash;'}</span><span class="s">Goodreads reviews held</span></div>
 <div class="cell"><span class="t">Demand-signal records</span><span class="b">${num(s.demand_signals_analyzed) || '&mdash;'}</span><span class="s">from reviews, comments and posts</span></div>
@@ -577,7 +577,7 @@ function lanePage(lane, name, d, stats, hasMarket) {
 	return (
 		head(name + ' — free lane score & market data | Tropesmith', desc, canonical, ld) +
 		`<div class="wrap">
-<div class="eyebrow">Free tool &middot; Engine data, refreshed twice a day &middot; No card needed</div>
+<div class="eyebrow">Free tool &middot; Engine data, refreshed daily &middot; No card needed</div>
 <h1>${esc(name)} &mdash; lane score</h1>
 <p class="lede">${esc(desc)}</p>
 <div class="grid">${cells.join('')}</div>
@@ -657,9 +657,10 @@ export async function handle(context) {
 	if (!wantsHtml) {
 		/* passthrough — every existing JSON consumer keeps working (the greenlight reason goes through the same sentence filter as the page) */
 		let body = up.raw != null ? up.raw : JSON.stringify({ ok: false, error: up.error || 'upstream unavailable' });
-		if (up.data && up.data.greenlight && up.data.greenlight.reason) {
+		if (up.data) {
 			const j = JSON.parse(JSON.stringify(up.data));
-			j.greenlight.reason = cleanReason(j.greenlight.reason);
+			if (j.greenlight && j.greenlight.reason) j.greenlight.reason = cleanReason(j.greenlight.reason);
+			if (j.heat && Array.isArray(j.heat.distribution)) j.heat.distribution = j.heat.distribution.filter((x) => x.heat_level != null && x.heat_level !== 'null');
 			body = JSON.stringify(j);
 		}
 		return jsonResponse(body, up.data ? 200 : 502);

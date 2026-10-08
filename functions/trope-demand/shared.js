@@ -311,7 +311,7 @@ function readoutBody(lane, trope, hit, ent, gateNote) {
 	const tn = tropeName(trope), ln = laneName(lane);
 
 	const cells = [
-		`<div class="cell"><span class="t">Conversation volume</span><span class="b">${num(mAll)}</span><span class="s">counted in ${esc(ln)}, ${esc(WFROM)} to ${esc(WIN.to)}</span></div>`,
+		`<div class="cell"><span class="t">Demand-signal mentions</span><span class="b">${num(mAll)}</span><span class="s">counted in ${esc(ln)}, ${esc(WFROM)} to ${esc(WIN.to)}</span></div>`,
 		`<div class="cell"><span class="t">Share of the lane</span><span class="b">${pct(share)}</span><span class="s">of ${num(L.tot)} trope mentions counted in this lane</span></div>`,
 		`<div class="cell"><span class="t">Rank in this lane</span><span class="b">#${hit.rank}</span><span class="s">of ${hit.of} tropes we publish for ${esc(ln)}</span></div>`,
 		`<div class="cell"><span class="t">Direction</span><span class="b">${esc(dir.label)}</span><span class="s">${esc(dir.why)}</span></div>`
@@ -454,7 +454,7 @@ ${depth}
 <h2>Check another trope</h2>
 ${picker(lane, trope)}
 ${tieBack(
-	'<li><a href="' + PATH + '/' + esc(lane) + '">Every trope we publish for ' + esc(ln) + '</a> &mdash; ranked by demand-signal mentions.</li>' +
+	'<li><a href="' + PATH + '/' + esc(lane) + '">Every trope we publish for ' + esc(ln) + '</a> &mdash; ranked by counted demand-signal mentions.</li>' +
 	(TROPE_PAGE[trope] ? '<li><a href="' + TROPE_PAGE[trope] + '">The ' + esc(tn) + ' guide</a> &mdash; what the trope is, how it is written, and the titles that own it.</li>' : '') +
 	(LANE_SCORE.has(lane) ? '<li><a href="/lane-score/' + esc(lane) + '">Lane score for ' + esc(ln) + '</a> &mdash; is the genre worth writing at all?</li>' : '')
 )}
@@ -564,7 +564,7 @@ ${top.map((m) => `<tr><td><a href="${PATH}/${esc(m[0])}/${esc(m[1])}">${esc(trop
 
 <h2>What this is, and what it is not</h2>
 <p>It is a count. Every mention figure on these pages is rows we hold, over a window we name, from sources we name &mdash; and each readout shows you the week-by-week table those mentions add up from, so you can check the arithmetic yourself. Nothing is modelled, extrapolated or rounded up for effect, and every figure carries the date it was counted.</p>
-<p>It is <b>not</b> a sales forecast. Conversation volume is not the same thing as money, and a trope readers shout about is not automatically a trope that sells &mdash; that depends on the price, the shelf and the competition in your lane, which is what a <a href="/pricing/">Tropesmith Map</a> is for. It is also not a complete census of the internet: it is our corpus, and where a genre is thin the page says so instead of filling the gap.</p>
+<p>It is <b>not</b> a sales forecast. Demand-signal mentions is not the same thing as money, and a trope readers shout about is not automatically a trope that sells &mdash; that depends on the price, the shelf and the competition in your lane, which is what a <a href="/pricing/">Tropesmith Map</a> is for. It is also not a complete census of the internet: it is our corpus, and where a genre is thin the page says so instead of filling the gap.</p>
 ${tieBack(
 	'<li><a href="/romance-tropes/">The romance trope list</a> &mdash; every romance trope we track, explained.</li>' +
 	'<li><a href="/book-tropes-list/">Book tropes across every genre</a> &mdash; the wider list this tool counts against.</li>' +
@@ -593,46 +593,46 @@ function datasetFor(lane, trope, hit) {
 	if (!lane) {
 		return Object.assign(base, {
 			'@id': SITE + PATH + '/#dataset',
-			name: 'Tropesmith conversation volume by genre',
+			name: 'Tropesmith demand-signal mentions by genre',
 			url: SITE + PATH + '/',
 			description:
-				'Counted conversation volume for ' + CORPUS.tropes_published + ' tropes across ' + CORPUS.lanes_published +
+				'Counted demand-signal mentions for ' + CORPUS.tropes_published + ' tropes across ' + CORPUS.lanes_published +
 				' fiction subgenres: mentions counted over the ' + WIN.weeks + ' weeks to ' + WIN.to +
 				', each trope’s share of its genre, the direction of that share against the previous ' +
 				WIN.band_weeks + ' weeks, and how many tagged titles already carry the trope. ' +
 				CORPUS.readouts + ' published trope-and-genre readouts.',
 			variableMeasured: [
-				pv('Trope-and-genre readouts published', CORPUS.readouts, 'readouts', 'Distinct trope-in-genre pages with a counted conversation-volume figure'),
+				pv('Trope-and-genre readouts published', CORPUS.readouts, 'readouts', 'Distinct trope-in-genre pages with a counted demand-signal figure'),
 				pv('Tropes published', CORPUS.tropes_published, 'tropes', 'Canonical tropes clearing the publication floor in at least one genre'),
-				pv('Genres covered', CORPUS.lanes_published, 'genres', 'Subgenre lanes with a published conversation-volume ranking'),
-				pv('Conversation volume counted', CORPUS.mentions_counted, 'mentions', 'Total mentions counted across every published readout in the window')
+				pv('Genres covered', CORPUS.lanes_published, 'genres', 'Subgenre lanes with a published demand-signal ranking'),
+				pv('Demand-signal mentions counted', CORPUS.mentions_counted, 'mentions', 'Total mentions counted across every published readout in the window')
 			]
 		});
 	}
 	if (!trope) {
 		return Object.assign(base, {
 			'@id': SITE + PATH + '/' + lane + '#dataset',
-			name: ln + ' — conversation volume',
+			name: ln + ' — demand-signal mentions',
 			url: SITE + PATH + '/' + lane,
 			description:
-				'Every trope Tropesmith publishes for ' + ln + ' ranked by conversation-volume mentions counted over the ' +
+				'Every trope Tropesmith publishes for ' + ln + ' ranked by demand-signal mentions counted over the ' +
 				WIN.weeks + ' weeks to ' + WIN.to + ', with each trope’s share of the genre, the direction of that share and the number of tagged titles carrying it.',
 			isPartOf: { '@id': SITE + PATH + '/#dataset' },
-			variableMeasured: [pv('Conversation volume', LANES[lane].tot, 'mentions', 'Trope mentions counted in ' + ln + ' over the window')]
+			variableMeasured: [pv('Demand-signal mentions', LANES[lane].tot, 'mentions', 'Trope mentions counted in ' + ln + ' over the window')]
 		});
 	}
 	const L = LANES[lane], row = hit.row;
 	return Object.assign(base, {
 		'@id': SITE + PATH + '/' + lane + '/' + trope + '#dataset',
-		name: tropeName(trope) + ' in ' + ln + ' — conversation volume',
+		name: tropeName(trope) + ' in ' + ln + ' — demand-signal mentions',
 		url: SITE + PATH + '/' + lane + '/' + trope,
 		description:
-			num(row[1]).replace(/&mdash;/, '') + ' conversation-volume mentions of ' + tropeName(trope) + ' counted in ' + ln +
+			num(row[1]).replace(/&mdash;/, '') + ' demand-signal mentions of ' + tropeName(trope) + ' counted in ' + ln +
 			' over the ' + WIN.weeks + ' weeks to ' + WIN.to + ', ' + pct(L.tot ? row[1] / L.tot : 0) +
 			' of all trope mentions counted in the genre, ranked #' + hit.rank + ' of ' + hit.of + '.',
 		isPartOf: { '@id': SITE + PATH + '/' + lane + '#dataset' },
 		variableMeasured: [
-			pv('Conversation volume', row[1], 'mentions', 'Counted in ' + ln + ' from ' + WFROM + ' to ' + WIN.to),
+			pv('Demand-signal mentions', row[1], 'mentions', 'Counted in ' + ln + ' from ' + WFROM + ' to ' + WIN.to),
 			pv('Share of genre', Number((L.tot ? (row[1] / L.tot) * 100 : 0).toFixed(3)), 'percent', 'Of ' + L.tot + ' trope mentions counted in the genre'),
 			pv('Rank in genre', hit.rank, 'rank', 'Of ' + hit.of + ' tropes published for this genre'),
 			pv('Weeks present', row[4], 'weeks', 'Of ' + WIN.weeks + ' weeks in the window')
@@ -645,9 +645,9 @@ function toolApp(url) {
 		url,
 		name: 'Tropesmith Trope Demand Checker',
 		description:
-			'Free tool: pick a genre and a trope and get the conversation volume Tropesmith has counted for it - mentions, share of the genre, change in share and how many tagged titles already carry it.',
+			'Free tool: pick a genre and a trope and get the demand-signal mentions Tropesmith has counted for it - mentions, share of the genre, change in share and how many tagged titles already carry it.',
 		featureList: [
-			'Counted conversation-volume mentions for a trope in a genre',
+			'Counted demand-signal mentions for a trope in a genre',
 			'That trope’s share of all trope mentions in the genre',
 			'Rank against every other trope published for the genre',
 			'Change in share, not raw counts',
@@ -693,7 +693,7 @@ export async function handle(context) {
 			'That is not a genre and trope we recognise. Genres and tropes are lower-case identifiers such as "romance.dark" and "grumpy-sunshine".');
 	}
 	if (lane && !D[lane]) {
-		return notFound(url, noindex, json, 'We do not publish a conversation-volume readout for that genre.');
+		return notFound(url, noindex, json, 'We do not publish a demand-signal readout for that genre.');
 	}
 
 	/* Canonicalise: the query-string form is an entry point, never a URL we publish. */
@@ -749,8 +749,8 @@ export async function handle(context) {
 		return htmlOut(
 			stageHead(
 				'Trope Demand Checker — how often readers mention each trope | Tropesmith',
-				'Free: pick a genre and a trope, see the conversation volume we counted for it — mentions, share of the genre and change in share, from ' +
-					num(CORPUS.signals_floor) + '+ conversation-volume signals. No card needed.',
+				'Free: pick a genre and a trope, see the demand-signal mentions we counted for it — mentions, share of the genre and change in share, from ' +
+					num(CORPUS.signals_floor) + '+ demand-signal records. No card needed.',
 				canonical, ld, isProd
 			) + indexBody() + foot(),
 			{ noindex }
@@ -781,7 +781,7 @@ export async function handle(context) {
 		return htmlOut(
 			stageHead(
 				ln + ' trope demand — how often readers mention each trope | Tropesmith',
-				'Every trope we publish for ' + ln + ', ranked by conversation-volume mentions counted over the ' + WIN.weeks +
+				'Every trope we publish for ' + ln + ', ranked by demand-signal mentions counted over the ' + WIN.weeks +
 					' weeks to ' + WIN.to + ', with share of the genre and change in share. Free.',
 				canonical, ld, isProd
 			) + laneBody(lane, nfTrope) + foot(),
@@ -832,7 +832,7 @@ export async function handle(context) {
 	];
 	const L = LANES[lane];
 	const desc =
-		num(hit.row[1]).replace(/&mdash;/, '') + ' conversation-volume mentions of ' + tropeName(trope) + ' counted in ' + laneName(lane) +
+		num(hit.row[1]).replace(/&mdash;/, '') + ' demand-signal mentions of ' + tropeName(trope) + ' counted in ' + laneName(lane) +
 		' over the ' + WIN.weeks + ' weeks to ' + WIN.to + ' — ' + pct(L.tot ? hit.row[1] / L.tot : 0) +
 		' of the genre, rank #' + hit.rank + ' of ' + hit.of + '. ' + direction(lane, hit.row).label + '. Free, counted, dated.';
 

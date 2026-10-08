@@ -200,7 +200,7 @@ export function tieBack(extra) {
 ${extra || ''}
 <li><a href="/finder/">Opportunity Finder</a> &mdash; every romance lane, ranked by one Green-Light verdict.</li>
 <li><a href="/free-tools/">Every free Tropesmith tool</a> &mdash; lane scores, trope opportunity check, reader demand, category &amp; rank checker, Hook Lab.</li>
-<li><a href="${REPORT}">The 2026 Romance Demand Report</a> &mdash; the full year&rsquo;s read on where romance demand is heading, from the same engine.</li>
+<li><a href="${REPORT}">The 2026 Romance Demand Report</a> &mdash; the full year&rsquo;s read on what romance readers asked for, from the same engine.</li>
 <li><a href="/lane-score/">Lane Score</a> &mdash; is the subgenre worth writing at all?</li>
 <li><a href="/trope-demand/">Trope Demand Checker</a> &mdash; pick a genre and a trope, see the counted conversation volume.</li>
 </ul>`;
