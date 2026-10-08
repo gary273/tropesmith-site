@@ -111,7 +111,7 @@ export function ordinal(n) {
 export function lengthTrendRow(direction) {
 	const d = String(direction == null ? '' : direction).trim();
 	if (!d || /^(unknown|null|undefined|n\/a|none)$/i.test(d)) return null;
-	return ['Length is trending', d];
+	return ['Length, by year', d];
 }
 
 function num(n) {
@@ -399,11 +399,11 @@ function indexPage(stats) {
 			ld
 		) +
 		`<div class="wrap">
-<div class="eyebrow">Free tool &middot; Live engine data &middot; No card needed</div>
+<div class="eyebrow">Free tool &middot; Engine data, refreshed twice a day &middot; No card needed</div>
 <h1>Lane Score &mdash; is this subgenre worth writing?</h1>
 <p class="lede">One number per lane, built from what readers are actually doing. Pick a lane below and you get its opportunity score and rank, the greenlight band, the money shape of the lane (typical price, Kindle Unlimited share, 30-day demand), the heat level readers expect, and the length and series shape that sell there.</p>
 <div class="grid">
-<div class="cell"><span class="t">Lanes scored</span><span class="b">${covered.length}</span><span class="s">subgenres with a live score</span></div>
+<div class="cell"><span class="t">Lanes listed</span><span class="b">${covered.length}</span><span class="s">subgenres with a score</span></div>
 <div class="cell"><span class="t">Records analyzed behind it</span><span class="b">${num(s.reader_signals_total) || '&mdash;'}</span><span class="s">reviews, shelves, BookTok and demand signals</span></div>
 <div class="cell"><span class="t">Books analysed</span><span class="b">${num(s.books_analyzed) || '&mdash;'}</span><span class="s">titles tagged trope by trope</span></div>
 </div>
@@ -463,7 +463,7 @@ function lanePage(lane, name, d, stats, hasMarket) {
 		(o.score != null ? 'opportunity ' + o.score + '/100' + (o.rank ? ' (rank ' + o.rank + ' of ' + o.of + ')' : '') : 'live opportunity read') +
 		(g.band ? ', greenlight band ' + g.band : '') +
 		(e.demand_30d != null ? ', ' + num(e.demand_30d) + ' demand signals logged in the last 30 days' : '') +
-		'. Free, live, no sign-up.';
+		'. Free, no sign-up.';
 
 	const ld = [
 		{
@@ -550,7 +550,7 @@ function lanePage(lane, name, d, stats, hasMarket) {
 			`<h2>What heat level readers expect here</h2>
 <p>Counted across ${num(h.n) || 'the'} titles in this lane${h.steamy_or_hotter_pct != null ? ' &mdash; <b>' + h.steamy_or_hotter_pct + '%</b> sit at steamy or hotter' : ''}.</p>
 <table><thead><tr><th>Heat level</th><th>Share of the lane</th></tr></thead><tbody>` +
-			h.distribution.map((x) => `<tr><td>${esc(x.heat_level)}</td><td>${x.pct}%</td></tr>`).join('') +
+			h.distribution.filter((x) => x.heat_level != null && x.heat_level !== 'null').map((x) => `<tr><td>${esc(x.heat_level)}</td><td>${x.pct}%</td></tr>`).join('') +
 			'</tbody></table>';
 	}
 
@@ -577,7 +577,7 @@ function lanePage(lane, name, d, stats, hasMarket) {
 	return (
 		head(name + ' — free lane score & market data | Tropesmith', desc, canonical, ld) +
 		`<div class="wrap">
-<div class="eyebrow">Free tool &middot; Live engine data &middot; No card needed</div>
+<div class="eyebrow">Free tool &middot; Engine data, refreshed twice a day &middot; No card needed</div>
 <h1>${esc(name)} &mdash; lane score</h1>
 <p class="lede">${esc(desc)}</p>
 <div class="grid">${cells.join('')}</div>
@@ -586,19 +586,19 @@ ${
 	o.demand_pctl != null
 		? `<h2>Where the score comes from</h2>
 <table><thead><tr><th>Component</th><th>Percentile among scored lanes</th></tr></thead><tbody>
-<tr><td>Demand signals logged (30 days)</td><td>${ordinal(o.demand_pctl * 100)}</td></tr>
-<tr><td>Revenue</td><td>${ordinal(o.revenue_pctl * 100)}</td></tr>
-<tr><td>Fewer competing titles than other lanes</td><td>${ordinal(o.scarcity_pctl * 100)}</td></tr>
-<tr><td>Top-100 chart turnover</td><td>${ordinal(o.momentum_pctl * 100)}</td></tr>
+<tr><td>Demand signals logged (all time)</td><td>${ordinal(o.demand_pctl * 100)}</td></tr>
+<tr><td>Revenue (modelled)</td><td>${ordinal(o.revenue_pctl * 100)}</td></tr>
+<tr><td>Fewer titles linked to the lane than other lanes</td><td>${ordinal(o.scarcity_pctl * 100)}</td></tr>
+<tr><td>Top-100 chart turnover (where the lane is charted)</td><td>${ordinal(o.momentum_pctl * 100)}</td></tr>
 </tbody></table>`
 		: ''
 }
 ${heatTable}
 ${lenBlock}
 <h2>How this number is measured</h2>
-<p>Counted &mdash; not estimated &mdash; from the Tropesmith corpus, and recounted as the corpus grows: ${num(s.reviews_analyzed) || 'millions of'} Goodreads reviews, ${num(s.shelf_signals_analyzed) || 'over a million'} shelf signals, ${num(s.demand_signals_analyzed) || 'over a million'} demand-signal records and ${num(s.booktok_videos_analyzed) || 'tens of thousands of'} BookTok videos, across ${num(s.books_analyzed) || 'thousands of'} trope-tagged titles and ${num(s.tropes_tracked) || 'thousands of'} distinct tropes in ${num(s.romance_lanes_tracked) || '138'} demand lanes. The raw response for this lane is available as <a href="${esc(canonical)}?format=json">JSON</a>.</p>
+<p>Counted from the Tropesmith corpus, and recounted as the corpus grows (revenue figures are modelled from sales rank): ${num(s.reviews_analyzed) || 'millions of'} Goodreads reviews, ${num(s.shelf_signals_analyzed) || 'over a million'} shelf signals, ${num(s.demand_signals_analyzed) || 'over a million'} demand-signal records and ${num(s.booktok_videos_analyzed) || 'tens of thousands of'} BookTok videos, across ${num(s.books_analyzed) || 'thousands of'} trope-tagged titles and ${num(s.tropes_tracked) || 'thousands of'} distinct tropes in ${num(s.romance_lanes_tracked) || '138'} demand lanes. The raw response for this lane is available as <a href="${esc(canonical)}?format=json">JSON</a>.</p>
 ${embedBlock(lane)}
-${tieBack(hasMarket ? `<li><a href="/market/${esc(marketSlug(lane))}/">${esc(name)} market snapshot</a> &mdash; price, Kindle Unlimited share, entrants and rising tropes for this exact lane.</li>` : '')}
+${tieBack(hasMarket ? `<li><a href="/market/${esc(marketSlug(lane))}/">${esc(name)} market snapshot</a> &mdash; price, Kindle Unlimited share, entrants and top tropes for this exact lane.</li>` : '')}
 <div class="cta-row"><a class="btn" href="/intake/">Build my ${esc(name)} Map &rarr;</a> &nbsp; <a href="/pricing/">See pricing</a> &nbsp; <a href="/lane-score/">All lane scores</a></div>
 </div>` +
 		foot()

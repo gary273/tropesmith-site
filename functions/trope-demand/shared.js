@@ -438,7 +438,7 @@ ${degradedNote}
 	return `<div class="wrap">
 <div class="eyebrow">Free tool &middot; Counted, not estimated &middot; as of ${esc(AS_OF)}</div>
 <h1>${esc(tn)} in ${esc(ln)}</h1>
-<p class="lede">Over the ${WIN.weeks} weeks to ${esc(WIN.to)} we counted <b>${num(mAll)}</b> conversation-volume mentions of ${esc(tn)} in ${esc(ln)} &mdash; ${pct(share)} of every trope mention we counted in the lane, ranking it <b>#${hit.rank} of ${hit.of}</b>. ${esc(dir.label)}.</p>
+<p class="lede">Over the ${WIN.weeks} weeks to ${esc(WIN.to)} we counted <b>${num(mAll)}</b> demand-signal mentions of ${esc(tn)} in ${esc(ln)} &mdash; ${pct(share)} of every trope mention we counted in the lane, ranking it <b>#${hit.rank} of ${hit.of}</b>. ${esc(dir.label)}.</p>
 <div class="grid">${cells}</div>
 <div class="note"><b>How much evidence is behind that?</b> ${evidence(row)}</div>
 ${caveat ? '<div class="note"><b>About this lane:</b> ' + caveat + '</div>' : ''}
@@ -449,12 +449,12 @@ ${depth}
 <p>Only tropes from our <b>canonical taxonomy</b> of ${num(CORPUS.tropes_taxonomy)} appear here, and only the ${num(CORPUS.tropes_published)} of them that clear our publication floor somewhere. Raw scrape labels are excluded on purpose: publish those and the same trope ends up listed twice under two spellings and the ranking becomes fiction.</p>
 <p>Direction is a change in <b>share</b>, never a raw weekly move, because a genre that simply gets busier would otherwise make every trope in it look like it is rising. We state no direction at all unless each ${WIN.band_weeks}-week band holds at least ${DIR_BAND_MIN} mentions and the two hold ${FLOORS.dir_mentions} between them &mdash; a trope that went from two mentions to forty is a small number moving, not a trend.</p>
 <p>Reviews and posts are read some time after they are written, so the latest weeks are under-counted. Because direction compares shares it is less exposed than raw counts, but treat it as a hint, not a trend.</p>
-<p>Figures restate each time the corpus is recounted. This page: <b>${esc(AS_OF)}</b>.</p>
+<p>Last counted <b>${esc(AS_OF)}</b>. Counts are restated when this page is next rebuilt.</p>
 
 <h2>Check another trope</h2>
 ${picker(lane, trope)}
 ${tieBack(
-	'<li><a href="' + PATH + '/' + esc(lane) + '">Every trope we publish for ' + esc(ln) + '</a> &mdash; ranked by counted conversation volume.</li>' +
+	'<li><a href="' + PATH + '/' + esc(lane) + '">Every trope we publish for ' + esc(ln) + '</a> &mdash; ranked by demand-signal mentions.</li>' +
 	(TROPE_PAGE[trope] ? '<li><a href="' + TROPE_PAGE[trope] + '">The ' + esc(tn) + ' guide</a> &mdash; what the trope is, how it is written, and the titles that own it.</li>' : '') +
 	(LANE_SCORE.has(lane) ? '<li><a href="/lane-score/' + esc(lane) + '">Lane score for ' + esc(ln) + '</a> &mdash; is the genre worth writing at all?</li>' : '')
 )}
@@ -480,7 +480,7 @@ ${rows.length
 </select></label>
 <button type="submit" class="btn" style="border:0;cursor:pointer;flex:0 0 auto">Check demand</button>
 </form>
-<p style="font-size:13px;color:#a39395;margin-top:-4px">Changing the genre and pressing <i>Check demand</i> reloads the trope list for that lane. ${num(CORPUS.readouts)} trope-and-lane readouts are published today.</p>`;
+<p style="font-size:13px;color:#a39395;margin-top:-4px">Changing the genre and pressing <i>Check demand</i> reloads the trope list for that lane. ${num(CORPUS.readouts)} trope-and-lane readouts, last counted ${esc(AS_OF)}.</p>`;
 }
 
 /* ------------------------------------------------------------------- page: lane ----- */
@@ -507,7 +507,7 @@ function laneBody(lane, notFoundTrope) {
 	return `<div class="wrap">
 <div class="eyebrow">Free tool &middot; Counted, not estimated &middot; as of ${esc(AS_OF)}</div>
 <h1>${esc(ln)} &mdash; how often readers mention each trope</h1>
-<p class="lede">Every trope we publish for ${esc(ln)}, ranked by conversation-volume mentions counted over the ${WIN.weeks} weeks to ${esc(WIN.to)}. ${num(L.tot)} trope mentions counted in the lane in that window. Pick one for the full readout.</p>
+<p class="lede">Every trope we publish for ${esc(ln)}, ranked by demand-signal mentions counted over the ${WIN.weeks} weeks to ${esc(WIN.to)}. ${num(L.tot)} trope mentions counted in the lane in that window. Pick one for the full readout.</p>
 ${miss}
 ${picker(lane, rows.length ? rows[0][0] : '')}
 ${caveat ? '<div class="note"><b>About this lane:</b> ' + caveat + '</div>' : ''}

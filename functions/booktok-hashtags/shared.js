@@ -18,6 +18,14 @@ import { SITE, ORG, esc, num, big, head, foot, breadcrumb, app, pv, tieBack, jso
 /* [hashtag, lane, scanned_on, videos, total_plays, total_likes, avg_plays] */
 const H = 0, LANE = 1, ON = 2, VIDS = 3, PLAYS = 4, LIKES = 5, AVG = 6;
 
+/* TS-1095 / TS-1088: scans before 2026-10-06 came from a tag-page scraper that did not filter for book content, so off-topic viral videos sit inside them (the top rows of the old
+   ranking were such scans). They stay on the page with their scan date, labelled, but are NOT ranked and NOT used for the median; only scans from the on-tag filter are. */
+const CLEAN_FROM = '2026-10-06';
+const isClean = (t) => t[ON] >= CLEAN_FROM;
+const CLEAN = TAGS.filter(isClean);
+const N_SCANNED = META['hashtags'];
+const N_SHOWN = CLEAN.length;
+
 /* A lane page needs its own reason to exist. 39 of the mapped lanes carry a single
    hashtag and 52 carry two; publishing those as pages would have been 91 near-duplicates
    of the same general-hashtag table — the thin-page problem the 2026-08-21 crawl audit
@@ -30,14 +38,14 @@ const BY_LANE = (function () {
 	for (const t of TAGS) if (t[LANE]) (m[t[LANE]] = m[t[LANE]] || []).push(t);
 	for (const k of Object.keys(m)) {
 		if (m[k].length < MIN_TAGS) delete m[k];
-		else m[k].sort((a, b) => b[AVG] - a[AVG]);
+		else m[k].sort((a, b) => (isClean(b) - isClean(a)) || b[AVG] - a[AVG]);
 	}
 	return m;
 })();
 const LANES = Object.keys(BY_LANE).sort((a, b) => (LANE_NAMES[a] || a).localeCompare(LANE_NAMES[b] || b));
-const GENERAL = TAGS.filter((t) => !t[LANE]).sort((a, b) => b[AVG] - a[AVG]);
+const GENERAL = TAGS.filter((t) => !t[LANE]).sort((a, b) => (isClean(b) - isClean(a)) || b[AVG] - a[AVG]);
 const MEDIAN_AVG = (function () {
-	const v = TAGS.map((t) => t[AVG]).filter((x) => x > 0).sort((a, b) => a - b);
+	const v = CLEAN.map((t) => t[AVG]).filter((x) => x > 0).sort((a, b) => a - b);
 	return v.length ? v[Math.floor(v.length / 2)] : 0;
 })();
 
@@ -47,7 +55,8 @@ function laneName(id) {
 
 /* Reach is compared against the median of every hashtag we track, and the comparison is
    stated. No tuned thresholds, no per-lane fudge. */
-function reachPill(avg) {
+function reachPill(avg, on) {
+	if (on < CLEAN_FROM) return ['tight', 'Older scan, not ranked'];
 	if (!avg) return ['crowded', 'Not measured'];
 	if (avg >= MEDIAN_AVG * 3) return ['open', 'High reach'];
 	if (avg >= MEDIAN_AVG) return ['tight', 'Above median'];
@@ -55,7 +64,7 @@ function reachPill(avg) {
 }
 
 function row(t) {
-	const p = reachPill(t[AVG]);
+	const p = reachPill(t[AVG], t[ON]);
 	return `<tr><td><b>#${esc(t[H])}</b>${t[LANE] ? `<br><span style="font-size:12.5px;color:#a39395">${esc(laneName(t[LANE]))}</span>` : ''}</td><td class="n">${num(
 		t[VIDS]
 	)}</td><td class="n">${big(t[PLAYS])}</td><td class="n">${num(t[AVG])}</td><td><span class="pill ${p[0]}">${esc(p[1])}</span><br><span style="font-size:12px;color:#a39395">scanned ${esc(
@@ -64,7 +73,7 @@ function row(t) {
 }
 
 function table(rows) {
-	return `<div class="scroll"><table><thead><tr><th>Hashtag</th><th class="n">Videos scanned</th><th class="n">Plays in those videos</th><th class="n">Plays per video</th><th>Reach vs median</th></tr></thead><tbody>${rows
+	return `<div class="scroll"><table><thead><tr><th>Hashtag</th><th class="n">Videos read (sample)</th><th class="n">Plays in those videos</th><th class="n">Plays per video</th><th>Reach vs median</th></tr></thead><tbody>${rows
 		.map(row)
 		.join('')}</tbody></table></div>`;
 }
@@ -72,10 +81,10 @@ function table(rows) {
 function methodBlock() {
 	return `<h2>What these numbers are &mdash; and what they are not</h2>
 <p>Every row is a <b>dated snapshot</b>, not a live counter and not a lifetime total. For each hashtag we read a sample of its videos on the date shown and counted the plays those videos carried. &ldquo;Plays per video&rdquo; is that total divided by that sample. TikTok counters move by the hour; a figure scanned in May is a May figure and is labelled as one.</p>
-<p><b>Reach vs median</b> compares a hashtag&rsquo;s plays per video against the median across all ${num(
-		META.hashtags
-	)} hashtags we track, which is <b>${num(MEDIAN_AVG)}</b> plays per video. Three times the median or better is called high reach; at or above the median, above median; below it, below median. That is the whole rule.</p>
-<p>Use it the way it is built: a hashtag with high plays per video and few videos is reach you can still get into; high plays and very many videos is a hashtag you will be shouting under. It is a measurement, not a promise &mdash; nothing here predicts what your video will do.</p>
+<p><b>Reach vs median</b> compares a hashtag&rsquo;s plays per video against the median across the ${num(
+		N_SHOWN
+	)} hashtags ranked here (scans from 6 October 2026 onwards), which is <b>${num(MEDIAN_AVG)}</b> plays per video. Three times the median or better is called high reach; at or above the median, above median; below it, below median. That is the whole rule.</p>
+<p>The sample is the videos TikTok lists first on the hashtag's page, capped at about sixty, so &ldquo;videos read&rdquo; is the size of the sample and says nothing about how many videos use the hashtag, and plays per video leans towards the more popular videos. Scans dated before 6 October 2026 came from a scraper that did not filter for book content, so they are shown with their date and are not ranked. It is a measurement, not a promise &mdash; nothing here predicts what your video will do.</p>
 <p>${num(META.snapshot_rows)} scans across ${num(META.hashtags)} hashtags and ${num(
 		META.lanes
 	)} subgenre lanes, first scan ${esc(META.first_scrape)}, most recent ${esc(META.last_scrape)}. The same figures are available as JSON with <code>?format=json</code>.</p>`;
@@ -119,7 +128,7 @@ function datasetNode(id, name, description, url, rows) {
 
 function indexPage() {
 	const canonical = SITE + '/booktok-hashtags/';
-	const top = TAGS.slice().sort((a, b) => b[AVG] - a[AVG]).slice(0, 40);
+	const top = CLEAN.slice().sort((a, b) => b[AVG] - a[AVG]).slice(0, 40);
 	const ld = [
 		app({
 			name: 'BookTok Hashtag Picker',
@@ -128,7 +137,7 @@ function indexPage() {
 				'Free tool: ' + META.hashtags + ' BookTok hashtags with the measured plays per video from a dated scan, so you can pick hashtags on reach instead of on guesswork.',
 			featureList: [
 				'Measured plays per video for every tracked BookTok hashtag',
-				'Videos scanned, so you can see how crowded a hashtag is',
+				'Videos read in the scan (a sample of the tag page, not a count of videos using the hashtag)',
 				'Reach compared against the median of all tracked hashtags',
 				'Per-subgenre hashtag sets',
 				'Every figure carries its own scan date',
@@ -159,20 +168,18 @@ function indexPage() {
 	return (
 		head(
 			'BookTok Hashtag Picker - measured reach per hashtag | Tropesmith',
-			META.hashtags + ' BookTok hashtags with the measured plays per video from a dated scan of their videos: pick hashtags on reach and crowding, not on guesswork. Free, no sign-up.',
+			META.hashtags + ' BookTok hashtags with the measured plays per video from a dated scan of their videos: pick hashtags on reach, not on guesswork. Free, no sign-up.',
 			canonical,
 			ld
 		) +
 		`<div class="wrap">
 <div class="eyebrow">Free tool &middot; Dated snapshot &middot; No account</div>
 <h1>BookTok Hashtag Picker</h1>
-<p class="lede">Everyone tells authors to &ldquo;use BookTok hashtags&rdquo;. Nobody tells them which ones carry anything. We scan ${num(
-			META.hashtags
-		)} book hashtags and record, for each one, how many videos we read and how many plays those videos carried &mdash; so you can see reach and crowding as measured numbers instead of folklore. Every figure below is a snapshot with its own scan date.</p>
+<p class="lede">Everyone tells authors to &ldquo;use BookTok hashtags&rdquo;. Nobody tells them which ones carry anything. We scan book hashtags and record, for each one, how many videos we read and how many plays those videos carried &mdash; so you can see reach as a measured number instead of folklore. ${num(N_SCANNED)} hashtags have been scanned; the ${num(N_SHOWN)} ranked below have a scan from the on-tag filter that began on 6 October 2026, and older scans are shown with their date but not ranked. Every figure below is a snapshot with its own scan date.</p>
 <div class="grid">
-<div class="cell"><span class="t">Hashtags tracked</span><span class="b">${num(META.hashtags)}</span><span class="s">book hashtags under scan</span></div>
+<div class="cell"><span class="t">Hashtags ranked</span><span class="b">${num(N_SHOWN)}</span><span class="s">of ${num(N_SCANNED)} scanned (scans from 6 October 2026 onwards)</span></div>
 <div class="cell"><span class="t">Dated scans held</span><span class="b">${num(META.snapshot_rows)}</span><span class="s">since ${esc(META.first_scrape)}</span></div>
-<div class="cell"><span class="t">Median reach</span><span class="b">${num(MEDIAN_AVG)}</span><span class="s">plays per video, across all tracked hashtags</span></div>
+<div class="cell"><span class="t">Median reach</span><span class="b">${num(MEDIAN_AVG)}</span><span class="s">plays per video, across the ranked hashtags</span></div>
 </div>
 <h2>Highest measured reach per video</h2>
 <p>The forty hashtags whose scanned videos carried the most plays each. Counted from the scan dates shown.</p>
@@ -194,7 +201,7 @@ function lanePage(lane) {
 	const rows = BY_LANE[lane];
 	const name = laneName(lane);
 	const general = GENERAL.slice(0, 15);
-	const best = rows[0];
+	const best = rows.find(isClean) || rows[0];
 	const desc =
 		name + ' BookTok hashtags: ' + rows.length + ' mapped to this lane, the strongest carrying ' + Number(best[AVG]).toLocaleString('en-US') +
 		' plays per video when scanned on ' + best[ON] + '. Measured, dated, free.';
@@ -207,7 +214,7 @@ function lanePage(lane) {
 			featureList: [
 				'BookTok hashtags mapped to ' + name,
 				'Measured plays per video per hashtag',
-				'Videos scanned, showing how crowded each hashtag is',
+				'Videos read in the scan (a sample of the tag page, not a count of videos using the hashtag)',
 				'General high-reach BookTok hashtags alongside',
 				'Every figure carries its scan date',
 				'JSON output'
@@ -234,7 +241,7 @@ function lanePage(lane) {
 <div class="grid">
 <div class="cell"><span class="t">Hashtags in this lane</span><span class="b">${num(rows.length)}</span><span class="s">mapped to ${esc(name)}</span></div>
 <div class="cell"><span class="t">Best measured reach</span><span class="b">${num(best[AVG])}</span><span class="s">plays per video &middot; #${esc(best[H])}</span></div>
-<div class="cell"><span class="t">Median across all hashtags</span><span class="b">${num(MEDIAN_AVG)}</span><span class="s">plays per video, ${num(META.hashtags)} tracked</span></div>
+<div class="cell"><span class="t">Median across ranked hashtags</span><span class="b">${num(MEDIAN_AVG)}</span><span class="s">plays per video, ${num(N_SHOWN)} ranked (scans from 6 October 2026 onwards)</span></div>
 </div>
 ${table(rows)}
 <h2>General BookTok hashtags worth pairing with these</h2>

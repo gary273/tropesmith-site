@@ -63,11 +63,21 @@ const ARCHIVE_NOTICE =
 	'are not comparable with current demand-signal counts; the trend and supply labels in it are classifier output over dated windows, not evidence of growth or of anything missing from the shelf; recent windows read low because reviews are read some time after they are posted. ' +
 	'Current counts: <a href="/romance-tropes/" style="color:#6D28D9">romance tropes, ranked by demand signals</a>.</div>';
 const ARCHIVE_HEAD = '<meta name="robots" content="noindex,follow">';
+const RECOUNT = '2026-10-07';
+const MONTHS = { january: '01', february: '02', march: '03', april: '04', may: '05', june: '06', july: '07', august: '08', september: '09', october: '10', november: '11', december: '12' };
+/* the issue's own date: the dated URL segment, else the "July 27, 2026" line the archive page prints; unknown = treat as an old issue only if it names a date before the recount */
+function issueIso(html, date) {
+	if (date) return date;
+	const m = String(html).match(/\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s+(20\d\d)\b/);
+	return m ? m[3] + '-' + MONTHS[m[1].toLowerCase()] + '-' + ('0' + m[2]).slice(-2) : null;
+}
+
 const PLAY_TOTAL = /(?:\s*\u00b7\s*)?\b(?:a source video|this niche) pulled [\d,.]+[KMB]? views[^<.]*\.?/gi;
 
 /* The archive fn already returns a complete, styled page. We only add what makes it OURS
    and indexable: a canonical on tropesmith.com, Article schema, and a way back in. */
 function enrich(html, canonical, feedName, date) {
+	const archived = (function () { const i = issueIso(html, date); return !!i && i < RECOUNT; })();
 	const title = (html.match(/<title>([^<]*)<\/title>/i) || [, 'Trope Pulse'])[1].replace(/ · Trope Pulse$/, '');
 	const ld = {
 		'@context': 'https://schema.org',
@@ -88,7 +98,7 @@ function enrich(html, canonical, feedName, date) {
 	const head =
 		`<link rel="canonical" href="${esc(canonical)}">` +
 		`<meta property="og:url" content="${esc(canonical)}"><meta property="og:type" content="article">` +
-		`<meta property="og:site_name" content="Tropesmith">` + ARCHIVE_HEAD +
+		`<meta property="og:site_name" content="Tropesmith">` + (archived ? ARCHIVE_HEAD : '') +
 		'<script type="application/ld+json">' + JSON.stringify(ld) + '</script>';
 	const foot = `<div style="max-width:640px;margin:28px auto 60px;padding:16px 20px;background:#FFFEFB;border:1px solid rgba(16,18,47,.1);border-radius:16px;font:400 14.5px/1.7 Inter,system-ui,sans-serif;color:#3a3450">
 <b>Keep going &mdash; free.</b><br>
@@ -97,8 +107,8 @@ function enrich(html, canonical, feedName, date) {
 <a href="/free-tools/" style="color:#6D28D9">Every free Tropesmith tool</a> &middot;
 <a href="${REPORT}" style="color:#6D28D9">The 2026 Romance Demand Report</a></div>`;
 
-	let out = html.replace(PLAY_TOTAL, '');
-	out = /<body[^>]*>/i.test(out) ? out.replace(/(<body[^>]*>)/i, '$1' + ARCHIVE_NOTICE) : ARCHIVE_NOTICE + out;
+	let out = archived ? html.replace(PLAY_TOTAL, '') : html;
+	if (archived) out = /<body[^>]*>/i.test(out) ? out.replace(/(<body[^>]*>)/i, '$1' + ARCHIVE_NOTICE) : ARCHIVE_NOTICE + out;
 	out = out.includes('</head>') ? out.replace('</head>', head + '</head>') : head + out;
 	out = out.includes('</body>') ? out.replace('</body>', foot + '</body>') : out + foot;
 	return out;

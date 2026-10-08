@@ -57,7 +57,7 @@ export function isLaneSelfLabel(name, laneLabelText) {
 }
 
 const SOURCES = 'Goodreads reviews, BookTok comments and captions, and Reddit posts';
-const RECENT_MONTHS = 'Recent months read low: reviews and posts are read in some time after they are written, so compare tropes with each other, not one month with another.';
+const LAG_NOTE = 'The table’s latest month is the last month with rows and is usually only partly read in (reviews and posts are read some time after they are written), so its counts read low next to earlier months; compare tropes with each other, not with earlier months.';
 const GLOSS_UNIT = "A demand signal is one specific thing a reader asked for or praised in a review, comment or post, picked out by Tropesmith's classifier. One review can give several.";
 const METHOD = '/how-to-read-trope-demand-data/';
 
@@ -89,7 +89,7 @@ function datasetFor(id) {
 		creator: ORG,
 		publisher: ORG,
 		measurementTechnique: 'Demand signals that name the trope as a main trope, counted per lane and calendar month in the Tropesmith lane trend table; ranks are percentile ranks within each month by the likes and upvotes attached to the signals.',
-		dateModified: d ? d.data_as_of : AS_OF
+		dateModified: AS_OF
 	};
 }
 
@@ -165,7 +165,7 @@ ${near}
 <h2 style="margin-top:22px">The tropes with the most demand signals in the latest month of the trend table for ${esc(laneLabel(id))}</h2>
 ${trendList(d.tropes, laneLabel(id))}
 ${how}
-<p class="note">Counts are demand signals from ${SOURCES} (Amazon reviews and Amazon Q&amp;A are not in this read) that name the trope as a main trope. ${esc(GLOSS_UNIT)} ${RECENT_MONTHS} <a href="${METHOD}">How we count</a>.</p>
+<p class="note">Counts are demand signals from ${SOURCES} (Amazon reviews and Amazon Q&amp;A are not in this read) that name the trope as a main trope. ${esc(GLOSS_UNIT)} <a href="${METHOD}">How we count</a>.</p>
 </div>`;
 }
 
@@ -175,7 +175,7 @@ function pageBody(id) {
 	return `<div class="wrap">
 <div class="eyebrow">Free tool &middot; Rebuilt nightly from the lane trend table &middot; No card needed</div>
 <h1>Which tropes should your next ${esc(lanePhrase(ln))} lean into?</h1>
-<p class="lede">The latest month of the ${esc(ln)} trend table holds ${num(d.month_total_mentions)} main-trope tags on demand signals. Counts and ranks are from the trend table as of ${esc(d.data_as_of)}, the date of its newest captured row.</p>
+<p class="lede">The latest month of the ${esc(ln)} trend table holds ${num(d.month_total_mentions)} main-trope tags on demand signals. Baked from the lane trend table on ${esc(AS_OF)}. ${LAG_NOTE}</p>
 ${lanePicker(id)}
 ${opportunityCard(id)}
 ${leadForm(id)}
@@ -234,11 +234,11 @@ export async function handle(context) {
 	const canonical = SITE + PATH + '/' + id;
 	const d = DATA[id];
 	if (json) {
-		return jsonResponse({ ok: true, as_of: AS_OF, subgenre_id: id, subgenre_label: laneLabel(id), data_as_of: d.data_as_of, month_total_mentions: d.month_total_mentions, tropes: d.tropes.map((t) => ({ name: t.name, mentions: t.mentions, share_pct: t.share_pct })), opportunity: { near_top_of_ranking_by_likes_and_upvotes: d.opportunity.crowded }, note: RECENT_MONTHS });
+		return jsonResponse({ ok: true, as_of: AS_OF, subgenre_id: id, subgenre_label: laneLabel(id), newest_captured_row: d.data_as_of, month_total_mentions: d.month_total_mentions, tropes: d.tropes.map((t) => ({ name: t.name, mentions: t.mentions, share_pct: t.share_pct })), opportunity: { near_top_of_ranking_by_likes_and_upvotes: d.opportunity.crowded }, note: LAG_NOTE });
 	}
 	const ln = laneLabel(id);
 	const ld = [Object.assign({ '@context': 'https://schema.org' }, datasetFor(id)), toolApp(canonical), breadcrumb(ln, canonical, 'Trope Opportunity Check', SITE + PATH + '/')];
-	const desc = `${ln} tropes by demand signals in the trend table's latest month, plus those near the top of its likes-and-upvotes ranking. As of ${d.data_as_of}.`;
+	const desc = `${ln} tropes by demand signals in the trend table's latest month, plus those near the top of its likes-and-upvotes ranking. Baked ${AS_OF}.`;
 	return htmlOut(stageHead(`${ln} trope opportunity check | Tropesmith`, desc, canonical, ld, isProd) + pageBody(id) + foot(), { noindex });
 }
 

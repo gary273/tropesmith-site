@@ -212,7 +212,7 @@ table{width:100%;border-collapse:collapse;font-size:14.5px}th,td{text-align:left
 <div class="wrap">
 <div class="eyebrow">Free widget &middot; No card, no key, no account</div>
 <h1>Put the Live Board on your own site</h1>
-<p>One script tag. It renders a live card for any lane we score &mdash; opportunity score and rank, greenlight band, demand signals logged in 30 days and the heat level readers expect &mdash; and it updates itself as the market moves. No libraries, no build step, nothing to maintain.</p>
+<p>One script tag. It renders a live card for any lane we score &mdash; opportunity score and rank, greenlight band, demand signals logged in 30 days and the heat level readers expect &mdash; and it refreshes nightly. No libraries, no build step, nothing to maintain.</p>
 <h2>The snippet</h2>
 <pre>${esc(snip)}</pre>
 <h2>Options</h2>

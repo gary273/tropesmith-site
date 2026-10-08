@@ -37,7 +37,7 @@ function tropeName(id) {
 /* The verdict is a RULE applied to two counted numbers, and the rule is printed on the
    page. It is not a score, not a model, and nothing about it is tuned by hand per lane. */
 function verdict(asks, books) {
-	if (books === 0) return ['open', 'No tagged title carries both', 'both tropes have tagged titles; none of them carries both'];
+	if (books === 0) return ['open', 'No title found carrying both', 'both tropes have tagged titles; none of them carries both (exact tag spelling)'];
 	const r = asks / books;
 	if (r >= 10) return ['open', '10+ signals per tagged title', r.toFixed(1) + ' demand signals per tagged title'];
 	if (r >= 3) return ['tight', '3-10 signals per tagged title', r.toFixed(1) + ' demand signals per tagged title'];
@@ -107,6 +107,7 @@ function methodBlock() {
 	)} demand-signal records are in the corpus the counts are drawn from. <b>Titles carrying both</b> is counted the same way over published titles tagged trope by trope: ${num(
 		CORPUS.tagged_titles
 	)} distinct titles, ${num(CORPUS.tag_rows)} trope tags. Neither number is modelled, sampled or estimated.</p>
+<p><b>Exact tag spelling.</b> Title counts use each trope's tag exactly as written: titles tagged with a differently written version of the same trope (for example &ldquo;Found Family&rdquo; against &ldquo;found-family&rdquo;) are not included, so every title count here is a lower bound and a &ldquo;none found&rdquo; may be a spelling gap, not an absence.</p>
 <p>Two things to be straight about. The supply count is <b>registry-wide, not lane-scoped</b> &mdash; our demand data and our title tagging use different subgenre vocabularies, and rather than fake a join we count titles carrying both tropes anywhere in the tagged registry. And a pairing is only listed when <b>both of its tropes carry at least five tagged titles on their own</b> (the two figures are printed under each pairing), so a zero in the &ldquo;carrying both&rdquo; column means no title in our tagged registry carries the pairing &mdash; not that no book on the shelf does, since the registry holds only the titles Tropesmith has tagged.</p>
 <p>The verdict column is a <b>rule</b>, printed here so you can apply it yourself: ten or more demand signals per tagged title is the top band, three to ten the middle band and below three the bottom band; and a pairing that no tagged title carries at all is called out as such. It describes the ratio of two counts, not the market. Pairings with fewer than three signals are not listed &mdash; too few to mean anything.</p>
 <p><b>What it is not.</b> It is not a sales forecast and it is not advice to write anything. A low count of tagged titles can mean few books deliver the pairing, that few titles have been tagged, or that the pairing does not work. That judgement is yours; the counting is ours. Counted ${esc(
@@ -223,7 +224,7 @@ function indexPage() {
 </div>
 <h2>Pairings with many demand signals and few tagged titles</h2>
 <p>One pairing per lane, ranked by demand signals divided by (tagged titles + 1). Every row is two counted numbers and the rule below applied to them. Counted ${esc(AS_OF)}.</p>
-<div class="scroll"><table><thead><tr><th>Lane</th><th>Pairing named together</th><th class="n">Demand signals</th><th class="n">Tagged titles carrying both</th><th>Verdict</th></tr></thead><tbody>${rows}</tbody></table></div>
+<div class="scroll"><table><thead><tr><th>Lane</th><th>Pairing named together</th><th class="n">Demand signals</th><th class="n">Tagged titles carrying both (exact tag spelling)</th><th>Verdict</th></tr></thead><tbody>${rows}</tbody></table></div>
 <h2>Pick your lane</h2>
 <ul class="lanes">${LANES.map((l) => `<li><a href="/trope-pairs/${esc(l)}">${esc(laneName(l))}</a> <span style="color:#a39395">&middot; ${PAIRS[l].length}</span></li>`).join('')}</ul>
 ${methodBlock()}
@@ -287,7 +288,7 @@ function lanePage(lane) {
 <div class="grid">
 <div class="cell"><span class="t">Pairings counted</span><span class="b">${num(rows.length)}</span><span class="s">in this lane, three demand signals or more</span></div>
 <div class="cell"><span class="t">10+ signals per tagged title</span><span class="b">${num(openCount)}</span><span class="s">pairings in this lane</span></div>
-<div class="cell"><span class="t">No tagged title carries both</span><span class="b">${num(unwritten)}</span><span class="s">both tropes have tagged titles, none carries both</span></div>
+<div class="cell"><span class="t">No title found carrying both</span><span class="b">${num(unwritten)}</span><span class="s">both tropes have tagged titles, none carries both</span></div>
 </div>
 <div class="scroll"><table><thead><tr><th>Pairing named together</th><th class="n">Demand signals<br>in this lane</th><th class="n">Tagged titles<br>carrying both</th><th>Verdict</th></tr></thead><tbody>${body}</tbody></table></div>
 ${methodBlock()}
