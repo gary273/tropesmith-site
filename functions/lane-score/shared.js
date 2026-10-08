@@ -86,6 +86,15 @@ function marketSlug(id) {
 	return id.replace(/[._]/g, '-');
 }
 
+/* TS-1095: the greenlight engine words its reason as "Strong unmet demand. Surging right now. ..."; neither claim is something the counts support. Drop those sentences, keep the rest. */
+function cleanReason(r) {
+	return String(r == null ? '' : r)
+		.split(/(?<=[.)])\s+/)
+		.filter((s) => !/unmet|\bsurg(?:e|es|ing)\b|\brising\b|trending|right now|momentum/i.test(s))
+		.join(' ')
+		.trim();
+}
+
 function esc(s) {
 	return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
@@ -572,7 +581,7 @@ function lanePage(lane, name, d, stats, hasMarket) {
 <h1>${esc(name)} &mdash; lane score</h1>
 <p class="lede">${esc(desc)}</p>
 <div class="grid">${cells.join('')}</div>
-${g.reason ? '<div class="note"><b>Why this band:</b> ' + esc(g.reason) + '</div>' : ''}
+${cleanReason(g.reason) ? '<div class="note"><b>Why this band:</b> ' + esc(cleanReason(g.reason)) + '</div>' : ''}
 ${
 	o.demand_pctl != null
 		? `<h2>Where the score comes from</h2>

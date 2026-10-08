@@ -55,6 +55,15 @@ function notFound(slug) {
 	);
 }
 
+/* TS-1095: these issues were sent in July-August 2026 under metric definitions that were retired on 7 October 2026. They stay (history is not deleted) but say so, and the
+   one play total they quote is cut: BookTok play totals are not published. */
+const ARCHIVE_NOTICE =
+	'<div style="max-width:600px;margin:0 auto;padding:12px 16px;background:#FFF3E3;border:1px solid #E5DACD;color:#3a3450;font:400 14px/1.6 Inter,system-ui,sans-serif">' +
+	'<b>Archived issue.</b> Written before TropeSmith&rsquo;s 7 October 2026 recount, using metric definitions that have since been retired. Its counts and labels are shown as sent and ' +
+	'are not comparable with current demand-signal counts; recent windows read low because reviews are read some time after they are posted. ' +
+	'Current counts: <a href="/romance-tropes/" style="color:#6D28D9">romance tropes, ranked by demand signals</a>.</div>';
+const PLAY_TOTAL = /(?:\s*\u00b7\s*)?\b(?:a source video|this niche) pulled [\d,.]+[KMB]? views[^<.]*\.?/gi;
+
 /* The archive fn already returns a complete, styled page. We only add what makes it OURS
    and indexable: a canonical on tropesmith.com, Article schema, and a way back in. */
 function enrich(html, canonical, feedName, date) {
@@ -87,7 +96,8 @@ function enrich(html, canonical, feedName, date) {
 <a href="/free-tools/" style="color:#6D28D9">Every free Tropesmith tool</a> &middot;
 <a href="${REPORT}" style="color:#6D28D9">The 2026 Romance Demand Report</a></div>`;
 
-	let out = html;
+	let out = html.replace(PLAY_TOTAL, '');
+	out = /<body[^>]*>/i.test(out) ? out.replace(/(<body[^>]*>)/i, '$1' + ARCHIVE_NOTICE) : ARCHIVE_NOTICE + out;
 	out = out.includes('</head>') ? out.replace('</head>', head + '</head>') : head + out;
 	out = out.includes('</body>') ? out.replace('</body>', foot + '</body>') : out + foot;
 	return out;
