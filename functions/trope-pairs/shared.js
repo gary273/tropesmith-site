@@ -84,7 +84,7 @@ function laneDataset(lane, rows) {
 			pv('Trope pairings listed', rows.length, 'pairings', 'Pairings shown for this lane'),
 			pv('Demand signals behind the top pairing', rows[0][2], 'signals', 'Signals naming ' + tropeName(rows[0][0]) + ' and ' + tropeName(rows[0][1]) + ' together'),
 			pv('Published titles carrying the top pairing', rows[0][3], 'titles', 'Trope-tagged titles carrying both, counted across the whole registry'),
-			pv('Demand signals in the corpus', CORPUS.signals, 'signals', 'Total demand signals the pairing counts are drawn from'),
+			pv('Demand-signal records in the corpus', CORPUS.signals, 'records', 'Rows of the demand-signal table the pairing counts are drawn from'),
 			pv('Trope-tagged titles in the corpus', CORPUS.tagged_titles, 'titles', 'Distinct published titles tagged trope by trope')
 		],
 		distribution: [{ '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: url + '?format=json' }],
@@ -104,7 +104,7 @@ function methodBlock() {
 	return `<h2>How these numbers are made</h2>
 <p><b>Demand signals</b> is a counted number: specific things readers asked for or praised &mdash; picked out of Goodreads and Amazon reviews and Q&amp;A, Reddit posts and BookTok comments &mdash; in which a reader writing about <em>this lane</em> named <em>both</em> tropes. Most come from reviews, not from readers asking for a book. ${num(
 		CORPUS.signals
-	)} demand signals sit behind it. <b>Titles carrying both</b> is counted the same way over published titles tagged trope by trope: ${num(
+	)} demand-signal records are in the corpus the counts are drawn from. <b>Titles carrying both</b> is counted the same way over published titles tagged trope by trope: ${num(
 		CORPUS.tagged_titles
 	)} distinct titles, ${num(CORPUS.tag_rows)} trope tags. Neither number is modelled, sampled or estimated.</p>
 <p>Two things to be straight about. The supply count is <b>registry-wide, not lane-scoped</b> &mdash; our demand data and our title tagging use different subgenre vocabularies, and rather than fake a join we count titles carrying both tropes anywhere in the tagged registry. And a pairing is only listed when <b>both of its tropes carry at least five tagged titles on their own</b> (the two figures are printed under each pairing), so a zero in the &ldquo;carrying both&rdquo; column means no title in our tagged registry carries the pairing &mdash; not that no book on the shelf does, since the registry holds only the titles Tropesmith has tagged.</p>
@@ -178,7 +178,7 @@ function indexPage() {
 			variableMeasured: [
 				pv('Trope pairings published', totalPairs, 'pairings', 'Pairings listed across all covered lanes'),
 				pv('Subgenre lanes covered', LANES.length, 'lanes', 'Lanes with enough pairings to publish'),
-				pv('Demand signals in the corpus', CORPUS.signals, 'signals', 'Demand signals the demand side is counted from'),
+				pv('Demand-signal records in the corpus', CORPUS.signals, 'records', 'Rows of the demand-signal table the demand side is counted from'),
 				pv('Named tropes in the taxonomy', CORPUS.tropes_taxonomy, 'tropes', 'Canonical tropes a pairing can be built from'),
 				pv('Trope-tagged titles in the corpus', CORPUS.tagged_titles, 'titles', 'Published titles the supply side is counted from'),
 				pv('Distinct pairings counted on the demand side', CORPUS.pair_demand_rows, 'pairings', 'Lane-and-pair combinations with at least one demand signal')
@@ -218,11 +218,11 @@ function indexPage() {
 <p class="lede">Readers rarely write about one trope at a time. This puts two counts side by side: how many demand signals in a lane name both tropes together, and how many titles in our trope-tagged registry carry both. A demand signal is one specific thing a reader asked for or praised in a review, comment or post.</p>
 <div class="grid">
 <div class="cell"><span class="t">Pairings published</span><span class="b">${num(totalPairs)}</span><span class="s">across ${LANES.length} subgenre lanes</span></div>
-<div class="cell"><span class="t">Demand signals behind them</span><span class="b">${num(CORPUS.signals)}</span><span class="s">from reviews, comments and posts</span></div>
+<div class="cell"><span class="t">Demand-signal records in the corpus</span><span class="b">${num(CORPUS.signals)}</span><span class="s">rows of the demand-signal table, from reviews, comments and posts</span></div>
 <div class="cell"><span class="t">Titles on the supply side</span><span class="b">${num(CORPUS.tagged_titles)}</span><span class="s">tagged trope by trope</span></div>
 </div>
-<h2>Pairings with the most demand signals per tagged title</h2>
-<p>One pairing per lane, ranked by demand signals against tagged titles. Every row is two counted numbers and the rule below applied to them. Counted ${esc(AS_OF)}.</p>
+<h2>Pairings with many demand signals and few tagged titles</h2>
+<p>One pairing per lane, ranked by demand signals divided by (tagged titles + 1). Every row is two counted numbers and the rule below applied to them. Counted ${esc(AS_OF)}.</p>
 <div class="scroll"><table><thead><tr><th>Lane</th><th>Pairing named together</th><th class="n">Demand signals</th><th class="n">Tagged titles carrying both</th><th>Verdict</th></tr></thead><tbody>${rows}</tbody></table></div>
 <h2>Pick your lane</h2>
 <ul class="lanes">${LANES.map((l) => `<li><a href="/trope-pairs/${esc(l)}">${esc(laneName(l))}</a> <span style="color:#a39395">&middot; ${PAIRS[l].length}</span></li>`).join('')}</ul>

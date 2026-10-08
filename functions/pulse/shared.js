@@ -60,8 +60,9 @@ function notFound(slug) {
 const ARCHIVE_NOTICE =
 	'<div style="max-width:600px;margin:0 auto;padding:12px 16px;background:#FFF3E3;border:1px solid #E5DACD;color:#3a3450;font:400 14px/1.6 Inter,system-ui,sans-serif">' +
 	'<b>Archived issue.</b> Written before TropeSmith&rsquo;s 7 October 2026 recount, using metric definitions that have since been retired. Its counts and labels are shown as sent and ' +
-	'are not comparable with current demand-signal counts; recent windows read low because reviews are read some time after they are posted. ' +
+	'are not comparable with current demand-signal counts; the trend and supply labels in it are classifier output over dated windows, not evidence of growth or of anything missing from the shelf; recent windows read low because reviews are read some time after they are posted. ' +
 	'Current counts: <a href="/romance-tropes/" style="color:#6D28D9">romance tropes, ranked by demand signals</a>.</div>';
+const ARCHIVE_HEAD = '<meta name="robots" content="noindex,follow">';
 const PLAY_TOTAL = /(?:\s*\u00b7\s*)?\b(?:a source video|this niche) pulled [\d,.]+[KMB]? views[^<.]*\.?/gi;
 
 /* The archive fn already returns a complete, styled page. We only add what makes it OURS
@@ -87,7 +88,7 @@ function enrich(html, canonical, feedName, date) {
 	const head =
 		`<link rel="canonical" href="${esc(canonical)}">` +
 		`<meta property="og:url" content="${esc(canonical)}"><meta property="og:type" content="article">` +
-		`<meta property="og:site_name" content="Tropesmith">` +
+		`<meta property="og:site_name" content="Tropesmith">` + ARCHIVE_HEAD +
 		'<script type="application/ld+json">' + JSON.stringify(ld) + '</script>';
 	const foot = `<div style="max-width:640px;margin:28px auto 60px;padding:16px 20px;background:#FFFEFB;border:1px solid rgba(16,18,47,.1);border-radius:16px;font:400 14.5px/1.7 Inter,system-ui,sans-serif;color:#3a3450">
 <b>Keep going &mdash; free.</b><br>

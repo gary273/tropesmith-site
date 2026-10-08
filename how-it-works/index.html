@@ -35,47 +35,6 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
 <link rel="icon" type="image/png" href="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-icon-512.png" />
 
-<!-- Structured data: FAQ pulled from existing page sections -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How does Tropesmith build a Map?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Every Map is built from three independent data layers: supply (Amazon bestsellers in your subgenre and what's already winning), demand (Reddit, Goodreads, and BookTok captions where readers describe what they want), and vocabulary (the Goodreads shelves real readers create). An editorial pass combines them into one verdict — ranked tropes, comps, archetypes, gaps, risks, and next actions."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How long does it take to get a Map?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "About five minutes from brief to finished Map. You spend about sixty seconds telling Tropesmith your subgenre, heat level, format, and any comp titles. The Map is then built and emailed to you."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Who is Tropesmith for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Indie romance authors planning their next book or series who want market evidence — current tropes, comp titles, reader vocabulary, and gaps — without spending weeks on Goodreads, Reddit, and Amazon."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Who is Tropesmith not for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Authors who already know exactly what they want to write and don't want market input, or writers outside the romance category. Tropesmith is built specifically on romance reader signals."
-      }
-    }
-  ]
-}
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -230,18 +189,18 @@ border-bottom:1px solid rgba(128,128,128,.4);padding-bottom:1px}
 
       <div class="tsm-corpus-card tsm-corpus-card--booktok">
         <div class="tsm-corpus-card-label">Layer 1 · BookTok</div>
-        <div class="tsm-corpus-card-stat" data-floor="1" data-format="comma" data-moat="booktok_signals">105,600+</div>
+        <div class="tsm-corpus-card-stat" data-floor="1" data-format="comma" data-moat="booktok_signals">105,400+</div>
         <div class="tsm-corpus-card-unit">demand signals from BookTok</div>
         <div class="tsm-corpus-card-meta">
-          <span>730+ hashtags tracked</span>
+          <span>710+ hashtags tracked</span>
           <span aria-hidden="true">·</span>
-          <span>135,000+ videos logged</span>
+          <span>122,000+ videos logged</span>
         </div>
       </div>
 
       <div class="tsm-corpus-card tsm-corpus-card--reddit">
         <div class="tsm-corpus-card-label">Layer 2 · Demand signals</div>
-        <div class="tsm-corpus-card-stat" data-format="comma" data-moat="demand_signals">2,610,000+</div>
+        <div class="tsm-corpus-card-stat" data-format="comma" data-moat="demand_signals">2,590,000+</div>
         <div class="tsm-corpus-card-unit">demand signals analyzed</div>
         <div class="tsm-corpus-card-meta">
           <span>Goodreads + Amazon reviews, BookTok, Reddit</span>
@@ -252,10 +211,10 @@ border-bottom:1px solid rgba(128,128,128,.4);padding-bottom:1px}
 
       <div class="tsm-corpus-card tsm-corpus-card--goodreads">
         <div class="tsm-corpus-card-label">Layer 3 · Reader praise</div>
-        <div class="tsm-corpus-card-stat" data-target="1564365" data-stat="shelf_signals_analyzed" data-format="comma">3,240,000+</div>
+        <div class="tsm-corpus-card-stat" data-target="2810000" data-stat="shelf_signals_analyzed" data-floor="1" data-format="comma">2,810,000+</div>
         <div class="tsm-corpus-card-unit">Goodreads shelf signals</div>
         <div class="tsm-corpus-card-meta">
-          <span>4,290,000+ reviews mined</span>
+          <span>3,950,000+ reviews mined</span>
           <span aria-hidden="true">·</span>
           <span>What individual readers shelve and recommend</span>
         </div>
@@ -263,10 +222,10 @@ border-bottom:1px solid rgba(128,128,128,.4);padding-bottom:1px}
 
       <div class="tsm-corpus-card tsm-corpus-card--amazon">
         <div class="tsm-corpus-card-label">Layer 4 · Supply scan</div>
-        <div class="tsm-corpus-card-stat" data-target="11575" data-stat="books_analyzed" data-format="comma">115,000+</div>
-        <div class="tsm-corpus-card-unit">bestsellers analyzed</div>
+        <div class="tsm-corpus-card-stat" data-target="105000" data-stat="books_analyzed" data-floor="1" data-format="comma">105,000+</div>
+        <div class="tsm-corpus-card-unit">titles tagged with tropes</div>
         <div class="tsm-corpus-card-meta">
-          <span>964,000+ book-trope mappings</span>
+          <span>881,000+ book-trope mappings</span>
           <span aria-hidden="true">·</span>
           <span>To find the gap between demand and what's published</span>
         </div>
@@ -277,18 +236,18 @@ border-bottom:1px solid rgba(128,128,128,.4);padding-bottom:1px}
     <div class="tsm-corpus-mechanism">
       <div class="tsm-corpus-mechanism-tag">Where the signals come from</div>
       <p>
-        Demand signals come from Goodreads reviews, Amazon reviews, BookTok comments and captions, Reddit posts and Amazon Q&amp;A. 95.6% come from Goodreads and Amazon reviews, 4.1% from BookTok comments and captions and 0.3% from Reddit posts. Amazon tells us where the market is over-supplied &mdash; that's the gap your Map points you toward.
+        Demand signals come from Goodreads reviews, Amazon reviews, BookTok comments and captions, Reddit posts and Amazon Q&amp;A. 95.6% come from Goodreads and Amazon reviews, 4.1% from BookTok comments and captions and 0.3% from Reddit posts (source shares counted 7 October 2026). Amazon tells us where the market is over-supplied &mdash; that's the gap your Map points you toward.
       </p>
     </div>
 
     <p class="tsm-corpus-footnote">
-      The demand signals figure was counted <span data-stamp-for="demand_signals">2026-10-08 06:21</span>&nbsp;UTC. A demand signal is one specific thing a reader asked for or praised in a review, comment or post, picked out by Tropesmith's classifier. One review can give several. <a href="/how-to-read-trope-demand-data/">How we count</a>
+      The demand signals figure was counted <span data-stamp-for="demand_signals">2026-10-07 17:24</span>&nbsp;UTC. A demand signal is one specific thing a reader asked for or praised in a review, comment or post, picked out by Tropesmith's classifier. One review can give several. <a href="/how-to-read-trope-demand-data/">How we count</a>
     </p>
 
   </div>
 </section>
 <!-- IN-0778 moat disclosure -->
-<div id="ts-moat" style="background:#FFFDF7;color:#fff;border-radius:18px;padding:24px 26px 20px;margin:30px auto;max-width:760px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#C23A5B;font-weight:700">By the numbers</div><h2 style="font-family:Fraunces,Georgia,serif;font-size:21px;color:#fff;margin:6px 0 4px">What Tropesmith has actually read</h2><p style="color:#5E5872;max-width:none;font-size:14.5px;margin:0 0 14px">Every figure on this page is a row count against our own corpus, not an estimate. The counters above animate for visitors but ship their final values in the page source, so a search engine or an AI assistant reads exactly the same numbers you do. Here is the whole set in one place.</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:10px"><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">520,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">titles in the book registry</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">964,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">book&ndash;trope tags extracted</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">115,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">titles tagged with tropes</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">5,100+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">tropes in the book-tag set</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">4,290,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">Goodreads reviews read</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">3,240,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">Goodreads shelf signals held</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="demand_signals">2,610,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">demand signals analyzed</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">39%</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">of demand signals tagged underserved or novel by Tropesmith's classifier (counted 7 October 2026)</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="booktok_signals">105,600+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">demand signals from BookTok comments and captions</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="demand_lanes">140+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">demand lanes scored</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="booktok_hashtags_tracked">730+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">BookTok hashtags tracked</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">135,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">BookTok videos parsed</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">10,300,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">records analyzed: reviews, shelf signals, demand signals, BookTok videos</span></div></div><p style="font-size:12px;color:#5E5872;margin:14px 0 0">Counted by direct query against the Tropesmith corpus. Each demand signals figure was counted <span data-stamp-for="demand_signals,booktok_signals">2026-10-08 06:21</span>&nbsp;UTC. Every other figure was counted <span data-stamp-for="registry_titles,trope_tag_rows,trope_tagged_titles,tropes_tracked,goodreads_reviews,goodreads_shelf_signals,demand_lanes,booktok_hashtags_tracked,booktok_videos_logged,reader_signals_total">2026-10-08 06:21</span>&nbsp;UTC. A demand signal is one specific thing a reader asked for or praised in a review, comment or post, picked out by Tropesmith's classifier. One review can give several. Each signal gets a rarity tag (common, underserved or novel) from the text of that review or post alone; the classifier is never shown what is on the shelf. A tag points at where to look. It does not prove that no book answers the signal. Shares are the tagged signals divided by all signals in the same scope. Method: <a style="color:#C23A5B" href="/how-to-read-trope-demand-data/">How we count</a> &middot; <a style="color:#C23A5B" href="/reader-demand/">how we read reader demand</a> &middot; <a style="color:#C23A5B" href="/how-it-works/">how a Map is built</a>.</p></div>
+<div id="ts-moat" style="background:#FFFDF7;color:#fff;border-radius:18px;padding:24px 26px 20px;margin:30px auto;max-width:760px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#C23A5B;font-weight:700">By the numbers</div><h2 style="font-family:Fraunces,Georgia,serif;font-size:21px;color:#fff;margin:6px 0 4px">What Tropesmith has actually read</h2><p style="color:#5E5872;max-width:none;font-size:14.5px;margin:0 0 14px">Every figure on this page is a row count against our own corpus, not an estimate. The counters above animate for visitors but ship their final values in the page source, so a search engine or an AI assistant reads exactly the same numbers you do. Here is the whole set in one place.</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:10px"><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">450,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">titles in the book registry</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">881,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">book&ndash;trope tags extracted</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">105,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">titles tagged with tropes</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">5,070+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">tropes in the book-tag set</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">3,950,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">Goodreads reviews read</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">2,810,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">Goodreads shelf signals held</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="demand_signals">2,590,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">demand signals analyzed</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">39%</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">of demand signals tagged underserved or novel by Tropesmith's classifier (as of 7 October 2026)</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="booktok_signals">105,400+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">demand signals from BookTok comments and captions</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="demand_lanes">140+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">demand lanes scored</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700" data-moat="booktok_hashtags_tracked">710+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">BookTok hashtags tracked</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">122,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">BookTok videos parsed</span></div><div style="background:rgba(255,255,255,.06);border-radius:11px;padding:12px 13px"><b style="display:block;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:19px;color:#fff;line-height:1.15;font-weight:700">9,290,000+</b><span style="display:block;font-size:11.5px;color:#C23A5B;margin-top:4px;line-height:1.35">rows across the review, shelf, demand-signal and BookTok-video tables (demand signals are extracted from the reviews, so the rows overlap)</span></div></div><p style="font-size:12px;color:#5E5872;margin:14px 0 0">Counted by direct query against the Tropesmith corpus. Each of the 2,590,000+ and 105,400+ floors was counted <span data-stamp-for="demand_signals,booktok_signals">2026-10-07 17:24</span>&nbsp;UTC; the 39% share is as of 2026-10-07 17:24 UTC. Each other floor above was counted <span data-stamp-for="registry_titles,trope_tag_rows,trope_tagged_titles,tropes_tracked,goodreads_reviews,goodreads_shelf_signals,demand_lanes,booktok_hashtags_tracked,booktok_videos_logged,reader_signals_total">2026-09-25 09:42</span>&nbsp;UTC. A demand signal is one specific thing a reader asked for or praised in a review, comment or post, picked out by Tropesmith's classifier. One review can give several. Each signal gets a rarity tag (common, underserved or novel) from the text of that review or post alone; the classifier is never shown what is on the shelf. A tag points at where to look. It does not prove that no book answers the signal. Shares are the tagged signals divided by all signals in the same scope. Method: <a style="color:#C23A5B" href="/how-to-read-trope-demand-data/">How we count</a> &middot; <a style="color:#C23A5B" href="/reader-demand/">how we read reader demand</a> &middot; <a style="color:#C23A5B" href="/how-it-works/">how a Map is built</a>.</p></div>
 
 <style>
   .tsm-corpus { background: linear-gradient(180deg, #10122F 0%, #FFFDF7 100%); color: #FFF9F3; padding: 96px 24px; position: relative; overflow: hidden; font-family: 'Fraunces', Georgia, serif; }
@@ -396,17 +355,26 @@ border-bottom:1px solid rgba(128,128,128,.4);padding-bottom:1px}
   </div>
   <div class="wrap foot-bar" style="padding-left:0;padding-right:0">
     <span>© <span data-year>2026</span> Tropesmith. All rights reserved.</span>
-    <span>Data updated weekly · For indie romance</span>
+    <span>For indie romance</span>
   </div>
 </div></footer>
 <script src="../assets/page-event-tracker.js?v=20260514-9" defer></script>
 <script>
-/* hiw-live-stats: override frozen corpus fallbacks with real public-stats. */
+/* hiw-live-stats: override frozen corpus fallbacks with real public-stats. Live values are floored to 3 significant figures and printed with a plus,
+   exactly as the baked HTML prints them (a floor never rounds up). */
 (function(){
   var URL='https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/public-stats';
+  function ctkFloorSf(n, sf) {
+    n = Math.floor(n);
+    if (!(n > 0)) return n;
+    if (n < Math.pow(10, sf)) return n;
+    var step = Math.pow(10, Math.floor(Math.log(n) / Math.LN10) - (sf - 1));
+    return Math.floor(n / step) * step;
+  }
+  function ctkFloorText(n) { return ctkFloorSf(n, 3).toLocaleString('en-US') + '+'; }
   function apply(d){ if(!d||typeof d!=='object')return;
-    document.querySelectorAll('.tsm-corpus-card-stat[data-stat]').forEach(function(el){ var v=d[el.dataset.stat]; if(typeof v==='number'&&v>0){ el.dataset.target=String(v); if(el.dataset.animated) el.textContent=v.toLocaleString('en-US'); } });
-    document.querySelectorAll('[data-stat-text]').forEach(function(el){ var v=d[el.dataset.statText]; if(typeof v==='number'&&v>0) el.textContent=v.toLocaleString('en-US'); });
+    document.querySelectorAll('.tsm-corpus-card-stat[data-stat]').forEach(function(el){ var v=d[el.dataset.stat]; if(typeof v==='number'&&v>0){ el.dataset.target=String(el.dataset.floor?ctkFloorSf(v,3):v); if(el.dataset.animated) el.textContent=el.dataset.floor?ctkFloorText(v):v.toLocaleString('en-US'); } });
+    document.querySelectorAll('[data-stat-text]').forEach(function(el){ var v=d[el.dataset.statText]; if(typeof v==='number'&&v>0) el.textContent=ctkFloorText(v); });
   }
   try{ fetch(URL,{mode:'cors'}).then(function(r){return r.ok?r.json():null;}).then(apply).catch(function(){}); }catch(e){}
 })();

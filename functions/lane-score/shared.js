@@ -370,7 +370,7 @@ function indexPage(stats) {
 			featureList: [
 				'Opportunity score and rank for a subgenre lane',
 				'Greenlight band with confidence',
-				'Lane economics: typical price, Kindle Unlimited share, 30-day demand',
+				'Lane economics: typical price, Kindle Unlimited share, demand signals logged in 30 days',
 				'Reader heat-level expectation mix',
 				'Length and series-shape sweet spot'
 			],
@@ -394,7 +394,7 @@ function indexPage(stats) {
 	return (
 		head(
 			'Free Lane Score — is your subgenre worth writing? | Tropesmith',
-			'Free lane score for ' + covered.length + ' fiction subgenres: opportunity rank, greenlight band, typical price, Kindle Unlimited share and 30-day demand — live from the Tropesmith engine.',
+			'Free lane score for ' + covered.length + ' fiction subgenres: opportunity rank, greenlight band, typical price, Kindle Unlimited share and demand signals logged in 30 days — from the Tropesmith engine.',
 			canonical,
 			ld
 		) +
@@ -450,7 +450,7 @@ function lanePage(lane, name, d, stats, hasMarket) {
 	pv('Opportunity score', o.score, 'score 0-100', 'Relative opportunity across every scored lane');
 	pv('Opportunity rank', o.rank, 'rank', 'Rank of ' + (o.of || '') + ' scored lanes');
 	pv('Greenlight score', g.score, 'score 0-100', 'Absolute greenlight score, band: ' + (g.band || 'n/a'));
-	pv('30-day reader demand', e.demand_30d, 'signals', 'Demand signals counted for this lane in the trailing 30 days');
+	pv('Demand signals logged, last 30 days', e.demand_30d, 'signals', 'Demand signals Tropesmith logged for this lane in the last 30 days (counted when read, not when posted)');
 	pv('Top-title monthly revenue', e.top_title_monthly_usd, 'USD/month', 'Modelled ceiling for a chart-topping title in this lane');
 	pv('Typical list price', e.typical_price_usd, 'USD', 'Median list price of titles in this lane');
 	pv('Kindle Unlimited share', e.kindle_unlimited_pct, 'percent', 'Share of titles in this lane enrolled in Kindle Unlimited');
@@ -462,7 +462,7 @@ function lanePage(lane, name, d, stats, hasMarket) {
 		' lane score: ' +
 		(o.score != null ? 'opportunity ' + o.score + '/100' + (o.rank ? ' (rank ' + o.rank + ' of ' + o.of + ')' : '') : 'live opportunity read') +
 		(g.band ? ', greenlight band ' + g.band : '') +
-		(e.demand_30d != null ? ', ' + num(e.demand_30d) + ' reader demand signals in 30 days' : '') +
+		(e.demand_30d != null ? ', ' + num(e.demand_30d) + ' demand signals logged in the last 30 days' : '') +
 		'. Free, live, no sign-up.';
 
 	const ld = [
@@ -505,7 +505,7 @@ function lanePage(lane, name, d, stats, hasMarket) {
 			featureList: [
 				'Opportunity score and rank for a subgenre lane',
 				'Greenlight band with confidence',
-				'Lane economics: typical price, Kindle Unlimited share, 30-day demand',
+				'Lane economics: typical price, Kindle Unlimited share, demand signals logged in 30 days',
 				'Reader heat-level expectation mix',
 				'Length and series-shape sweet spot',
 				'Embeddable widget with attribution'
@@ -534,7 +534,7 @@ function lanePage(lane, name, d, stats, hasMarket) {
 			`<div class="cell"><span class="t">Greenlight</span><span class="b">${esc(g.band || g.score)}</span><span class="s">score ${g.score}/100${g.confidence ? ' &middot; ' + esc(g.confidence) : ''}</span></div>`
 		);
 	if (e.demand_30d != null)
-		cells.push(`<div class="cell"><span class="t">Reader demand, 30 days</span><span class="b">${num(e.demand_30d)}</span><span class="s">signals counted in this lane</span></div>`);
+		cells.push(`<div class="cell"><span class="t">Demand signals logged, 30 days</span><span class="b">${num(e.demand_30d)}</span><span class="s">read in this lane in the last 30 days (when read, not when posted)</span></div>`);
 	if (e.typical_price_usd != null)
 		cells.push(
 			`<div class="cell"><span class="t">Typical list price</span><span class="b">${usd(e.typical_price_usd)}</span><span class="s">${e.kindle_unlimited_pct != null ? e.kindle_unlimited_pct + '% of the lane is in Kindle Unlimited' : 'median across the lane'}</span></div>`
@@ -581,15 +581,15 @@ function lanePage(lane, name, d, stats, hasMarket) {
 <h1>${esc(name)} &mdash; lane score</h1>
 <p class="lede">${esc(desc)}</p>
 <div class="grid">${cells.join('')}</div>
-${cleanReason(g.reason) ? '<div class="note"><b>Why this band:</b> ' + esc(cleanReason(g.reason)) + '</div>' : ''}
+${cleanReason(g.reason) ? '<div class="note"><b>Note:</b> ' + esc(cleanReason(g.reason)) + '</div>' : ''}
 ${
 	o.demand_pctl != null
 		? `<h2>Where the score comes from</h2>
-<table><thead><tr><th>Component</th><th>Percentile in this lane</th></tr></thead><tbody>
-<tr><td>Reader demand</td><td>${ordinal(o.demand_pctl * 100)}</td></tr>
+<table><thead><tr><th>Component</th><th>Percentile among scored lanes</th></tr></thead><tbody>
+<tr><td>Demand signals logged (30 days)</td><td>${ordinal(o.demand_pctl * 100)}</td></tr>
 <tr><td>Revenue</td><td>${ordinal(o.revenue_pctl * 100)}</td></tr>
-<tr><td>Scarcity (how little is published against that demand)</td><td>${ordinal(o.scarcity_pctl * 100)}</td></tr>
-<tr><td>Momentum</td><td>${ordinal(o.momentum_pctl * 100)}</td></tr>
+<tr><td>Fewer competing titles than other lanes</td><td>${ordinal(o.scarcity_pctl * 100)}</td></tr>
+<tr><td>Top-100 chart turnover</td><td>${ordinal(o.momentum_pctl * 100)}</td></tr>
 </tbody></table>`
 		: ''
 }
@@ -655,8 +655,14 @@ export async function handle(context) {
 	const up = await cachedJson(EDGE + '/' + encodeURIComponent(raw), 'ls-' + raw, 900);
 
 	if (!wantsHtml) {
-		/* verbatim passthrough — every existing JSON consumer keeps working */
-		return jsonResponse(up.raw != null ? up.raw : JSON.stringify({ ok: false, error: up.error || 'upstream unavailable' }), up.data ? 200 : 502);
+		/* passthrough — every existing JSON consumer keeps working (the greenlight reason goes through the same sentence filter as the page) */
+		let body = up.raw != null ? up.raw : JSON.stringify({ ok: false, error: up.error || 'upstream unavailable' });
+		if (up.data && up.data.greenlight && up.data.greenlight.reason) {
+			const j = JSON.parse(JSON.stringify(up.data));
+			j.greenlight.reason = cleanReason(j.greenlight.reason);
+			body = JSON.stringify(j);
+		}
+		return jsonResponse(body, up.data ? 200 : 502);
 	}
 
 	const d = up.data;

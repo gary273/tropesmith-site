@@ -164,7 +164,7 @@ function direction(lane, row) {
 	}
 	const sR = mR / L.totR, sP = mP / L.totP;
 	const delta = sP === 0 ? null : (sR - sP) / sP;
-	let state = 'steady', label = 'Holding steady';
+	let state = 'steady', label = 'Share change under 15%';
 	if (delta != null && delta >= 0.15) { state = 'up'; label = 'Share up'; }
 	else if (delta != null && delta <= -0.15) { state = 'down'; label = 'Share down'; }
 	return {
@@ -445,7 +445,7 @@ ${caveat ? '<div class="note"><b>About this lane:</b> ' + caveat + '</div>' : ''
 ${depth}
 
 <h2>Where these numbers come from</h2>
-<p>Mentions are counted rows, not estimates and not a model. We read reader conversation volume from Goodreads reviews and shelves, parsed demand signals (specific things readers asked for or praised), BookTok video metadata and Reddit, resolve each one to a subgenre lane and to tropes in our published taxonomy, and total them by week. This page shows the ${WIN.weeks} weeks from ${esc(WFROM)} to ${esc(WIN.to)}; ${esc(tn)} appeared in ${weeksSeen} of the ${WIN.weeks}.</p>
+<p>Mentions are counted rows, not estimates and not a model. Mentions are demand signals (specific things readers asked for or praised) from Goodreads reviews, BookTok comments and captions and Reddit posts, assigned to a subgenre lane, counted by the signal's main trope tag in our published taxonomy, and totalled by week of posting. This page shows the ${WIN.weeks} weeks from ${esc(WFROM)} to ${esc(WIN.to)}; ${esc(tn)} appeared in ${weeksSeen} of the ${WIN.weeks}.</p>
 <p>Only tropes from our <b>canonical taxonomy</b> of ${num(CORPUS.tropes_taxonomy)} appear here, and only the ${num(CORPUS.tropes_published)} of them that clear our publication floor somewhere. Raw scrape labels are excluded on purpose: publish those and the same trope ends up listed twice under two spellings and the ranking becomes fiction.</p>
 <p>Direction is a change in <b>share</b>, never a raw weekly move, because a genre that simply gets busier would otherwise make every trope in it look like it is rising. We state no direction at all unless each ${WIN.band_weeks}-week band holds at least ${DIR_BAND_MIN} mentions and the two hold ${FLOORS.dir_mentions} between them &mdash; a trope that went from two mentions to forty is a small number moving, not a trend.</p>
 <p>Reviews and posts are read some time after they are written, so the latest weeks are under-counted. Because direction compares shares it is less exposed than raw counts, but treat it as a hint, not a trend.</p>
@@ -506,7 +506,7 @@ function laneBody(lane, notFoundTrope) {
 		.join('');
 	return `<div class="wrap">
 <div class="eyebrow">Free tool &middot; Counted, not estimated &middot; as of ${esc(AS_OF)}</div>
-<h1>${esc(ln)} &mdash; what readers are actually asking for</h1>
+<h1>${esc(ln)} &mdash; how often readers mention each trope</h1>
 <p class="lede">Every trope we publish for ${esc(ln)}, ranked by conversation-volume mentions counted over the ${WIN.weeks} weeks to ${esc(WIN.to)}. ${num(L.tot)} trope mentions counted in the lane in that window. Pick one for the full readout.</p>
 ${miss}
 ${picker(lane, rows.length ? rows[0][0] : '')}
@@ -588,7 +588,7 @@ function datasetFor(lane, trope, hit) {
 		dateModified: AS_OF,
 		temporalCoverage: WFROM + '/' + WIN.to,
 		measurementTechnique:
-			'Conversation-volume signals (Goodreads reviews and shelves, parsed demand signals, BookTok video metadata, Reddit) resolved to a subgenre lane and to tropes in the published Tropesmith taxonomy, then totalled by week. Counted rows only - nothing modelled or estimated.'
+			'Demand signals from Goodreads reviews, BookTok comments and captions and Reddit posts, assigned to a subgenre lane, counted by the signal main trope tag in the published Tropesmith taxonomy, then totalled by week of posting. Counted rows only - nothing modelled or estimated.'
 	};
 	if (!lane) {
 		return Object.assign(base, {
@@ -780,7 +780,7 @@ export async function handle(context) {
 		];
 		return htmlOut(
 			stageHead(
-				ln + ' trope demand — what readers are asking for | Tropesmith',
+				ln + ' trope demand — how often readers mention each trope | Tropesmith',
 				'Every trope we publish for ' + ln + ', ranked by conversation-volume mentions counted over the ' + WIN.weeks +
 					' weeks to ' + WIN.to + ', with share of the genre and change in share. Free.',
 				canonical, ld, isProd

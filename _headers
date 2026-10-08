@@ -34,3 +34,7 @@
 
 /*.js
   Cache-Control: public, max-age=3600, must-revalidate
+
+# Fragments of the corpus section are reusable templates, not pages (TS-1095).
+/partials/*
+  X-Robots-Tag: noindex
