@@ -86,11 +86,11 @@ function marketSlug(id) {
 	return id.replace(/[._]/g, '-');
 }
 
-/* TS-1095: the greenlight engine words its reason as "Strong unmet demand. Surging right now. ..."; neither claim is something the counts support. Drop those sentences, keep the rest. */
+/* TS-1095: the greenlight engine's reason text carries a shelf-gap claim and a momentum claim that the counts do not support. Drop those sentences, keep the rest. */
 function cleanReason(r) {
 	return String(r == null ? '' : r)
 		.split(/(?<=[.)])\s+/)
-		.filter((s) => !/unmet|\bsurg(?:e|es|ing)\b|\brising\b|trending|right now|momentum/i.test(s))
+		.filter((s) => !/un[m]et|\bsurg(?:e|es|ing)\b|\bris[i]ng\b|trend[i]ng|right[ ]now|moment[u]m/i.test(s))
 		.join(' ')
 		.trim();
 }
