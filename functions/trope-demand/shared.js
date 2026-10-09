@@ -748,9 +748,8 @@ export async function handle(context) {
 		];
 		return htmlOut(
 			stageHead(
-				'Trope Demand Checker — how often readers mention each trope | Tropesmith',
-				'Free: pick a genre and a trope, see the demand-signal mentions we counted for it — mentions, share of the genre and change in share, from ' +
-					num(CORPUS.signals_floor) + '+ demand-signal records. No card needed.',
+				'Free Trope Demand Checker: Mentions by Genre | Tropesmith',
+				'Free tool: pick a genre and a trope and see how many demand signals mention it, its share of the genre and how that share is changing. No card needed.',
 				canonical, ld, isProd
 			) + indexBody() + foot(),
 			{ noindex }
