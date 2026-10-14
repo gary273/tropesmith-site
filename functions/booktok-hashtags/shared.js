@@ -13,6 +13,7 @@
  * it shows a single number. Data baked at build time by /root/in0790-gen/export_gen_data.py.
  */
 import { AS_OF, META, LANE_NAMES, TAGS } from './data.js';
+import { PAIRS } from '../trope-pairs/data.js';
 import { SITE, ORG, esc, num, big, head, foot, breadcrumb, app, pv, tieBack, jsonResponse, htmlResponse, wantsJson } from '../_gen/chrome.js';
 
 /* [hashtag, lane, scanned_on, videos, total_plays, total_likes, avg_plays] */
@@ -33,7 +34,7 @@ const N_SHOWN = CLEAN.length;
    hashtags is the floor; below it the lane is not a page, and the index says so. */
 const MIN_TAGS = 3;
 
-const BY_LANE = (function () {
+export const BY_LANE = (function () {
 	const m = {};
 	for (const t of TAGS) if (t[LANE]) (m[t[LANE]] = m[t[LANE]] || []).push(t);
 	for (const k of Object.keys(m)) {
@@ -250,7 +251,7 @@ ${table(general)}
 ${methodBlock()}
 ${embedBlock(lane)}
 ${tieBack(
-	`<li><a href="/trope-pairs/${esc(lane)}">${esc(name)} trope pairings</a> &mdash; the trope pairings named together in reader reviews and posts in this lane, set against the tagged titles that carry both.</li>` +
+	(PAIRS[lane] ? `<li><a href="/trope-pairs/${esc(lane)}">${esc(name)} trope pairings</a> &mdash; the trope pairings named together in reader reviews and posts in this lane, set against the tagged titles that carry both.</li>` : '') +
 		`<li><a href="/lane-score/${esc(lane)}">${esc(name)} lane score</a> &mdash; is the lane worth writing at all.</li>`
 )}
 <div class="cta-row"><a class="btn" href="/intake/">Build my ${esc(name)} Map &rarr;</a> &nbsp; <a href="/booktok-hashtags/">All hashtags</a></div>

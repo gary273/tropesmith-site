@@ -108,6 +108,7 @@ function enrich(html, canonical, feedName, date) {
 <a href="${REPORT}" style="color:#6D28D9">The 2026 Romance Demand Report</a></div>`;
 
 	let out = archived ? html.replace(PLAY_TOTAL, '') : html;
+	out = out.replace(/<a\b[^>]*href="__[A-Z_]+__"[^>]*>([\s\S]*?)<\/a>/g, '$1');
 	if (archived) out = /<body[^>]*>/i.test(out) ? out.replace(/(<body[^>]*>)/i, '$1' + ARCHIVE_NOTICE) : ARCHIVE_NOTICE + out;
 	out = out.includes('</head>') ? out.replace('</head>', head + '</head>') : head + out;
 	out = out.includes('</body>') ? out.replace('</body>', foot + '</body>') : out + foot;

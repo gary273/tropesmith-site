@@ -23,6 +23,7 @@
  * comment at the head of that file for why baked and not live.
  */
 import { AS_OF, CORPUS, TROPES, LANE_NAMES, PAIRS } from './data.js';
+import { BY_LANE as HASHTAG_LANES } from '../booktok-hashtags/shared.js';
 import { SITE, ORG, esc, num, head, foot, breadcrumb, app, pv, tieBack, jsonResponse, htmlResponse, wantsJson } from '../_gen/chrome.js';
 
 const LANES = Object.keys(PAIRS).sort((a, b) => (LANE_NAMES[a] || a).localeCompare(LANE_NAMES[b] || b));
@@ -295,7 +296,7 @@ ${methodBlock()}
 ${embedBlock(lane)}
 ${tieBack(
 	`<li><a href="/lane-score/${esc(lane)}">${esc(name)} lane score</a> &mdash; is the lane itself worth writing: opportunity rank, typical price, Kindle Unlimited share.</li>` +
-		`<li><a href="/booktok-hashtags/${esc(lane)}">${esc(name)} BookTok hashtags</a> &mdash; measured reach per hashtag in this lane.</li>`
+		(HASHTAG_LANES[lane] ? `<li><a href="/booktok-hashtags/${esc(lane)}">${esc(name)} BookTok hashtags</a> &mdash; measured reach per hashtag in this lane.</li>` : '')
 )}
 <h2>Other lanes</h2>
 <ul class="lanes">${others.map((l) => `<li><a href="/trope-pairs/${esc(l)}">${esc(laneName(l))}</a></li>`).join('')}</ul>
