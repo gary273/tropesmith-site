@@ -25,3 +25,9 @@ https://tropesmith-site.pages.dev/*  https://tropesmith.com/:splat  301
 # Renamed/removed lane (GSC 404 IN-0699)
 /market/mystery-cozy-tropes/  /market/mystery-cozy/  301
 /market-report   /market/   301
+
+# SEO plan 2026-10-16 (branch seo-tropes-1016): one hub, one romantasy page. 301 = permanent. Both old pages were deleted from the tree in the same change.
+/romance-tropes-list/   /romance-tropes/   301
+/romance-tropes-list    /romance-tropes/   301
+/romance-romantasy/     /romantasy/        301
+/romance-romantasy      /romantasy/        301
