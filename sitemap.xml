@@ -247,6 +247,7 @@
   <url><loc>https://tropesmith.com/booktok-hashtags/romance.small_town</loc><lastmod>2026-08-22</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/booktok-hashtags/romance.suspense.police</loc><lastmod>2026-08-22</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/booktok-hashtags/scifi.general</loc><lastmod>2026-08-31</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/finder/</loc><lastmod>2026-10-17</lastmod><changefreq>monthly</changefreq></url>
   <url><loc>https://tropesmith.com/lane-score/</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/lane-score/fantasy.epic</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/lane-score/fantasy.urban</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
@@ -295,7 +296,6 @@
   <url><loc>https://tropesmith.com/pulse/dark-romance/2026-07-09</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/pulse/dark-romance/2026-07-13</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/pulse/dark-romance/2026-07-20</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://tropesmith.com/pulse/dark-romance/2026-07-27</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/pulse/romance</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/pulse/romance/2026-07-20</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/pulse/romance/2026-07-21</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
@@ -304,6 +304,133 @@
   <url><loc>https://tropesmith.com/pulse/romance/2026-08-03</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/pulse/romance/2026-08-10</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/pulse/romance/2026-08-17</loc><lastmod>2026-08-24</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.clean_wholesome</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.contemporary</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.contemporary.billionaire</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.contemporary.single_parent</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.contemporary.small_town</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.contemporary.sports.hockey</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.contemporary.workplace</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.dark</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.historical.regency</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.historical.scottish</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.lgbtq.mm</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.lgbtq.sapphic</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.paranormal</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.romantasy</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.romcom</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.scifi</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.suspense</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trending/romance.western</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/fantasy.action_adventure</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/fantasy.dragons_mythical</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/fantasy.epic</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/fantasy.fairy_tales_folklore</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/fantasy.general</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/fantasy.historical</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/fantasy.humorous</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/fantasy.litrpg</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/fantasy.mens_adventure</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/fantasy.sword_sorcery</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/fantasy.urban</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/historical_fiction.family_life</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/historical_fiction.family_saga</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/historical_fiction.general</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/historical_fiction.nineteenth_century</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/historical_fiction.twentieth_century</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/historical_fiction.us</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/horror.comedy</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/horror.cosmic_eldritch</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/horror.folk_horror</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/horror.general</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/horror.monsters_creatures</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/horror.occult_supernatural</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/mystery.cozy</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/mystery.cozy.crafts</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/mystery.cozy.culinary</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/mystery.cozy.paranormal</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/mystery.cozy_spy</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/mystery.female_detective</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/mystery.general</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/mystery.hard_boiled</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/mystery.historical</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/mystery.international</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/mystery.private_investigator</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/mystery.serial_killers</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.action_adventure</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.amish</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.black_african_american</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.british_humorous_womens_fiction</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.christian_historical</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.christmas</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.clean_wholesome</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.alpha_male</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.billionaire</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.enemies_to_lovers</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.fake_dating</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.friends_to_lovers</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.later_in_life</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.love_triangle</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.medical</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.military</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.polyamory</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.rockstar</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.second_chance</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.small_town</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.sports</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.sports.hockey</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.contemporary.workplace</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.cozy_fantasy</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.dark</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.dark.mafia</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.divorce_fiction</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.firefighters</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.hispanic_latino</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.historical</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.historical.gothic</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.historical.regency</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.historical.scottish</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.lgbtq</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.lgbtq.bi</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.lgbtq.mm</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.lgbtq.nonbinary</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.lgbtq.sapphic</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.lgbtq.trans</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.multicultural_interracial</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.new_adult_college</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.paranormal</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.paranormal.demons_devils</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.paranormal.time_travel</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.paranormal_fantasy</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.romantasy</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.romantasy.romantic_fantasy</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.romcom</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.scifi</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.suspense</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.suspense.police</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.vampire_romance</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/romance.western</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/scifi.cyberpunk</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/scifi.dystopian</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/scifi.first_contact</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/scifi.general</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/scifi.hard</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/scifi.military</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/scifi.post_apocalyptic</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/scifi.space_opera</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/thriller.conspiracy</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/thriller.crime</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/thriller.domestic</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/thriller.historical</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/thriller.legal</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/thriller.medical</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/thriller.military</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/thriller.mystery_suspense_crime</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/thriller.police_procedural</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
+  <url><loc>https://tropesmith.com/trope-demand/thriller.psychological_domestic</loc><lastmod>2026-10-17</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/trope-pairs/</loc><lastmod>2026-08-22</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/trope-pairs/fantasy.epic</loc><lastmod>2026-08-22</lastmod><changefreq>weekly</changefreq></url>
   <url><loc>https://tropesmith.com/trope-pairs/fantasy.urban</loc><lastmod>2026-08-22</lastmod><changefreq>weekly</changefreq></url>
