@@ -302,7 +302,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
       try { window.sessionStorage.removeItem('tsm_nav_anon_until'); } catch (e) { /* storage unavailable */ }
       var name = nameFromEmail(data.email);
       greetH.innerHTML = 'Hi <span class="grad-text">' + name + '.</span>';
-      if (data.subscription && data.subscription.status === 'active' && data.subscription.product_id === 'live_board_monthly') {
+      if (data.subscription && (data.subscription.status === 'active' || data.subscription.status === 'past_due') && data.subscription.product_id === 'live_board_monthly') {
         manageSubLink.style.display = '';
       }
       var mapCount = data.delivered_map_count || 0;
