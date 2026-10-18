@@ -200,6 +200,18 @@ fbq('init','1319927140123427');fbq('track','PageView');};
         // After paying, the header button spends the credit instead of selling another one.
         var hb = document.querySelector('.desk-header .desk-btn');
         if (hb && credits > 0) { hb.textContent = 'Use my credit \u2192'; hb.href = document.getElementById('oc-build-now').href; }
+        // TS-0343F: a Live Board buyer returns with product_kind=live_board; they bought no credit, so do not tell them to build a Map.
+        if (new URLSearchParams(location.search).get('product_kind') === 'live_board') {
+          document.getElementById('oc-signed-in-body').textContent = 'Your Live Board is being switched on for your Map; it takes a moment after payment. Open the Map from your library and it shows a Live Board active tag, with the lane\u2019s counts kept up to date. It renews monthly until you cancel; cancel any time from your library with Manage subscription.';
+          var lbPrimary = document.getElementById('oc-build-now');
+          lbPrimary.href = '../library/';
+          lbPrimary.innerHTML = 'Open my library <span class="arrow">\u2192</span>';
+          var lbEta = signedInEl.querySelector('.oc-eta');
+          if (lbEta) lbEta.parentNode.removeChild(lbEta);
+          var lbSecondary = signedInEl.querySelector('.oc-secondary');
+          lbSecondary.href = '../intake/';
+          lbSecondary.innerHTML = 'Build another Map &rarr;';
+        }
         // Update nav to show "Sign out" + "My library"
         navCta.innerHTML = '<a class="btn btn-link" href="../library/" style="margin-right:12px">My library</a>';
       } else {
