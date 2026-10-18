@@ -47,6 +47,18 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 .ts-focus input{margin:0;accent-color:var(--ts-violet,#C23A5B)}
 .ts-focus:has(input:checked){border-color:var(--ts-violet,#C23A5B);background:rgba(124,92,255,.06)}
 .ts-focus span{color:var(--ts-ink,#241f2e)}
+/* TS-0343: optional Live Board offer. Recommended-looking, but never pre-ticked. */
+.ts-lb{position:relative;margin:0 0 22px;border:2px solid var(--ts-violet,#C23A5B);border-radius:14px;background:rgba(194,58,91,.06);padding:20px 18px 16px}
+.ts-lb-badge{position:absolute;top:-11px;left:16px;background:var(--ts-violet,#C23A5B);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:3px 10px;border-radius:999px}
+.ts-lb-label{display:flex;align-items:flex-start;gap:12px;cursor:pointer;margin:0}
+.ts-lb-label input{flex:0 0 auto;width:22px;height:22px;margin:2px 0 0;accent-color:var(--ts-violet,#C23A5B)}
+.ts-lb-body{display:block;min-width:0}
+.ts-lb-title{display:block;font-weight:700;font-size:1.02rem;line-height:1.3;color:var(--ts-ink,#241f2e)}
+.ts-lb-title b{color:var(--ts-violet,#C23A5B);white-space:nowrap}
+.ts-lb-line{display:block;margin-top:5px;font-size:.93rem;line-height:1.45;color:var(--ts-ink,#241f2e)}
+.ts-lb-fine{display:block;margin-top:8px;font-size:.8rem;line-height:1.45;color:var(--ts-mauve,#5b4a59)}
+.ts-lb:has(input:checked){background:rgba(194,58,91,.11)}
+.ts-lb:has(input:focus-visible){outline:3px solid rgba(194,58,91,.35);outline-offset:2px}
 </style>
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "url": "https://tropesmith.com/intake/", "name": "Build Your Trope Map: $15 Romance Research | Tropesmith", "publisher": {"@id": "https://tropesmith.com/#organization","@type": "Organization", "name": "Tropesmith", "url": "https://tropesmith.com"}, "description": "Tell us your subgenre, heat level and format. Get a Map of ranked tropes, comp titles and risks for your book, usually within the hour. $15 a Map."}</script>
@@ -247,6 +259,18 @@ fbq('init','1319927140123427');fbq('track','PageView');};
         </label>
       </fieldset>
 
+      <div class="ts-lb" id="live-board-offer">
+        <span class="ts-lb-badge">Recommended</span>
+        <label class="ts-lb-label" for="live_board_opt_in">
+          <input type="checkbox" id="live_board_opt_in" name="live_board_opt_in" value="1" autocomplete="off"/>
+          <span class="ts-lb-body">
+            <span class="ts-lb-title">Add the Live Board to this Map <b>$7 / month</b></span>
+            <span class="ts-lb-line">The Live Board keeps the counts for your Map&#39;s exact lane updated as new reviews, comments and posts are read.</span>
+            <span class="ts-lb-fine">Optional. Leave it unticked and nothing changes. If you tick it, the $7 monthly checkout opens once your Map has started building, and nothing is charged unless you complete it. It renews monthly until you cancel; cancel any time from your library.</span>
+          </span>
+        </label>
+      </div>
+
       <div class="form-foot">
         <p class="form-msg" id="form-msg">$15 a Map · paid at build · we never sell your brief</p>
         <button class="btn btn-primary btn-lg" type="submit" id="submit-btn">Build my Map <span class="arrow">→</span></button>
@@ -352,6 +376,52 @@ fbq('init','1319927140123427');fbq('track','PageView');};
     msg.style.color = 'var(--ts-violet-dk)';
   }
 
+  // TS-0343: optional Live Board second step. The Map already exists by now (credit spent, tier=paid), so this reuses
+  // the existing per-Map Live Board checkout (tropesmith-checkout-session: live_board_monthly + map_id). Nothing here
+  // runs unless the visitor ticked the box; Stripe.js is only loaded in that case.
+  function startLiveBoard(mapId) {
+    var statusUrl = '/status/?map_id=' + encodeURIComponent(mapId);
+    var navigated = false;
+    var failed = false;
+    var poll = null;
+    function toStatus() { if (navigated) return; navigated = true; if (poll) clearInterval(poll); location.href = statusUrl; }
+    // Never leave the buyer on a silent redirect: say what happened, give them time to read it, then go to the Map.
+    function fail() {
+      if (failed || navigated) return;
+      failed = true;
+      if (poll) { clearInterval(poll); poll = null; }
+      msg.textContent = 'We couldn\'t open the Live Board checkout. Your Map is building; you can add the Live Board any time from your library.';
+      msg.classList.add('err');
+      setTimeout(toStatus, 5000);
+    }
+    function launch() {
+      var started = Date.now();
+      var shown = false;
+      var goneSince = 0;
+      Tropesmith.buyProduct('live_board_monthly', { mapId: mapId, onError: fail });
+      // Watch the checkout window itself. It only counts as open once it is visible (buyProduct shows it after the
+      // Stripe form has mounted); only after that does closing it (X, backdrop or Esc) send the buyer to the Map.
+      // If it never opens within 15 s, or disappears before it opened, they get the message above, never a silent redirect.
+      poll = setInterval(function () {
+        if (failed || navigated) return;
+        var m = document.querySelector('.ts-checkout-modal');
+        if (m && getComputedStyle(m).display !== 'none') { shown = true; goneSince = 0; return; }
+        if (shown) { if (!m) toStatus(); return; }
+        if (!m) { goneSince = goneSince || Date.now(); if (Date.now() - goneSince > 1500) fail(); return; }
+        if (Date.now() - started > 15000) fail();
+      }, 250);
+    }
+    btn.disabled = true; btn.innerHTML = 'Map started';
+    msg.classList.remove('err');
+    msg.textContent = 'Your Map has started building. Opening the Live Board checkout…';
+    if (window.Stripe) { launch(); return; }
+    var sc = document.createElement('script');
+    sc.src = 'https://js.stripe.com/v3/';
+    sc.onload = launch;
+    sc.onerror = fail;
+    document.head.appendChild(sc);
+  }
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
     if (!(window.Tropesmith && typeof Tropesmith.submitIntake === 'function')) {
@@ -381,6 +451,9 @@ fbq('init','1319927140123427');fbq('track','PageView');};
       focus_panels: Array.from(form.querySelectorAll('input[name="focus"]:checked')).map(function(c){return c.value;})
     };
     if (fromSession) payload.from_session = fromSession;
+    // TS-0343: the Live Board choice is NOT part of the intake payload; it only drives the step after the Map starts.
+    var wantLB = !!(form.live_board_opt_in && form.live_board_opt_in.checked);
+    try { localStorage.removeItem('tsm_pending_live_board'); } catch (e) {}
     if (!payload.email || !payload.genre_id || !payload.subgenre_id || !payload.heat_level || !payload.format || !payload.work_length) {
       msg.textContent = 'Please fill in the required fields.'; msg.classList.add('err'); return;
     }
@@ -389,6 +462,12 @@ fbq('init','1319927140123427');fbq('track','PageView');};
     Tropesmith.submitIntake(payload).then(function(res){
       if (res && res.ok && res.needs_credits) {
         // No credits available — send them to buy credits, then come back and build.
+        if (wantLB) {
+          // TS-0343: they ticked the Live Board; tell them it was not added (it is never carried over, so it cannot come back pre-ticked).
+          msg.textContent = 'You need a credit first, so the Live Board was not added. Taking you to add credits; once your Map has started you can add the Live Board from your library.';
+          setTimeout(function () { location.href = '/pricing/?need=1'; }, 4500);
+          return;
+        }
         msg.textContent = 'Out of credits — taking you to add some…';
         location.href = '/pricing/?need=1';
         return;
@@ -396,6 +475,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
       if (res && res.ok && res.needs_verification) {
         // Verify-before-build: stash the brief, magic link already sent by the backend.
         try { localStorage.setItem('tsm_pending_intake', JSON.stringify(payload)); } catch (e) {}
+        try { if (wantLB) localStorage.setItem('tsm_pending_live_board', '1'); } catch (e) {}
         msg.textContent = 'Almost there — check your inbox and click the link to confirm ' + (res.email || payload.email) + '. Your Map builds automatically once you confirm.';
         msg.classList.remove('err');
         btn.disabled = false; btn.innerHTML = origLabel;
@@ -408,6 +488,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
         return;
       }
       if (res && res.ok && res.map_id) {
+        if (wantLB) { startLiveBoard(res.map_id); return; }
         location.href = '/status/?map_id=' + encodeURIComponent(res.map_id);
       } else {
         throw new Error((res && res.error) || 'Submit failed');
@@ -436,9 +517,11 @@ fbq('init','1319927140123427');fbq('track','PageView');};
           var pend = JSON.parse(localStorage.getItem('tsm_pending_intake') || 'null');
           if (pend && window.Tropesmith && Tropesmith.submitIntake) {
             localStorage.removeItem('tsm_pending_intake');
+            var pendLB = localStorage.getItem('tsm_pending_live_board') === '1';
+            localStorage.removeItem('tsm_pending_live_board');
             if (msg) { msg.textContent = 'Email confirmed — building your Map…'; msg.classList.remove('err'); }
             Tropesmith.submitIntake(pend).then(function(r){
-              if (r && r.ok && r.map_id) location.href = '/status/?map_id=' + encodeURIComponent(r.map_id);
+              if (r && r.ok && r.map_id) { if (pendLB) startLiveBoard(r.map_id); else location.href = '/status/?map_id=' + encodeURIComponent(r.map_id); }
               else if (r && r.ok && r.needs_credits) location.href = '/pricing/?need=1';
             }).catch(function(){});
           }
