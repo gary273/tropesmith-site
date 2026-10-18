@@ -12,8 +12,8 @@
  * uses canonical lane ids and app_book_tropes.primary_subgenre is a different free-text
  * vocabulary, so the two do not join. Faking that join would have printed "nobody has
  * written it" about pairings that are written. A pairing is also only published when both
- * of its tropes carry at least 5 tagged titles on their own, so a zero in the "carry both"
- * column is a pairing absent from the TAGGED registry, not proof that no book on the shelf has it.
+ * of its tropes carry at least 5 tagged titles on their own, and (TS-1101) only when at least one
+ * tagged title carries both: a zero usually meant the two tags were never applied to the same title.
  *
  * TS-1095: the old labels (asks, reader asks, gap verdicts) were wrong words for what is counted (rows are signals from
  * reviews and posts, 95% reviews; the supply side is a registry of tagged titles). The verdicts now name the ratio they apply.
@@ -108,9 +108,9 @@ function methodBlock() {
 	)} demand-signal records are in the corpus the counts are drawn from. <b>Titles carrying both</b> is counted the same way over published titles tagged trope by trope: ${num(
 		CORPUS.tagged_titles
 	)} distinct titles, ${num(CORPUS.tag_rows)} trope tags. Neither number is modelled, sampled or estimated.</p>
-<p><b>Exact tag spelling.</b> Title counts use each trope's tag exactly as written: titles tagged with a differently written version of the same trope (for example &ldquo;Found Family&rdquo; against &ldquo;found-family&rdquo;) are not included, so every title count here is a lower bound and a &ldquo;none found&rdquo; may be a spelling gap, not an absence.</p>
-<p>Two things to be straight about. The supply count is <b>registry-wide, not lane-scoped</b> &mdash; our demand data and our title tagging use different subgenre vocabularies, and rather than fake a join we count titles carrying both tropes anywhere in the tagged registry. And a pairing is only listed when <b>both of its tropes carry at least five tagged titles on their own</b> (the two figures are printed under each pairing), so a zero in the &ldquo;carrying both&rdquo; column means no title in our tagged registry carries the pairing &mdash; not that no book on the shelf does, since the registry holds only the titles Tropesmith has tagged.</p>
-<p>The verdict column is a <b>rule</b>, printed here so you can apply it yourself: ten or more demand signals per tagged title is the top band, three to ten the middle band and below three the bottom band; and a pairing that no tagged title carries at all is called out as such. It describes the ratio of two counts, not the market. Pairings with fewer than three signals are not listed &mdash; too few to mean anything.</p>
+<p><b>Exact tag spelling.</b> Title counts use each trope's tag exactly as written: titles tagged with a differently written version of the same trope (for example &ldquo;Found Family&rdquo; against &ldquo;found-family&rdquo;) are not included, so every title count here is a lower bound. Pairings that no tagged title carries are <b>not listed</b>: a zero there usually means the two tags were never applied to the same title, not that nobody has written the pairing.</p>
+<p>Two things to be straight about. The supply count is <b>registry-wide, not lane-scoped</b> &mdash; our demand data and our title tagging use different subgenre vocabularies, and rather than fake a join we count titles carrying both tropes anywhere in the tagged registry. And a pairing is only listed when <b>both of its tropes carry at least five tagged titles on their own</b> (the two figures are printed under each pairing). The registry holds only the titles Tropesmith has tagged, so every title count is a count of tagged titles, not of every book on the shelf.</p>
+<p>The verdict column is a <b>rule</b>, printed here so you can apply it yourself: ten or more demand signals per tagged title is the top band, three to ten the middle band and below three the bottom band. It describes the ratio of two counts, not the market. Pairings with fewer than three signals are not listed &mdash; too few to mean anything.</p>
 <p><b>What it is not.</b> It is not a sales forecast and it is not advice to write anything. A low count of tagged titles can mean few books deliver the pairing, that few titles have been tagged, or that the pairing does not work. That judgement is yours; the counting is ours. Counted ${esc(
 		AS_OF
 	)} and restated whenever the corpus is recounted &mdash; the raw JSON behind any lane is one query string away.</p>`;
@@ -241,7 +241,6 @@ function lanePage(lane) {
 	const rows = PAIRS[lane].slice().sort(sortByGap);
 	const name = laneName(lane);
 	const openCount = rows.filter((p) => ratio(p) >= 10).length;
-	const unwritten = rows.filter((p) => p[3] === 0).length;
 
 	const desc =
 		name + ': ' + rows.length + ' trope pairings named together in reader reviews, comments and posts, each with the counted demand signals in this lane naming both tropes and the counted trope-tagged titles carrying both. ' +
@@ -289,7 +288,6 @@ function lanePage(lane) {
 <div class="grid">
 <div class="cell"><span class="t">Pairings counted</span><span class="b">${num(rows.length)}</span><span class="s">in this lane, three demand signals or more</span></div>
 <div class="cell"><span class="t">10+ signals per tagged title</span><span class="b">${num(openCount)}</span><span class="s">pairings in this lane</span></div>
-<div class="cell"><span class="t">No title found carrying both</span><span class="b">${num(unwritten)}</span><span class="s">both tropes have tagged titles, none carries both</span></div>
 </div>
 <div class="scroll"><table><thead><tr><th>Pairing named together</th><th class="n">Demand signals<br>in this lane</th><th class="n">Tagged titles<br>carrying both</th><th>Verdict</th></tr></thead><tbody>${body}</tbody></table></div>
 ${methodBlock()}
