@@ -1,2 +1,3 @@
 import { handle } from './shared.js';
-export const onRequest = handle;
+import { withIndexPolicy } from '../_gen/indexpolicy.js';
+export const onRequest = withIndexPolicy(handle, 'trope-pairs');
