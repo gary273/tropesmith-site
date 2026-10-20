@@ -13,6 +13,7 @@
 These are our own measurements from our own collection. They are not licensed from a third party.
 
 ## Start here
+- https://tropesmith.com/trope-research-tool/ : Trope research tool for romance authors — what Tropesmith counts, what it costs, and how it compares with other research tools
 - https://tropesmith.com/romance-tropes/ : Romance tropes pillar — every major trope with its demand-signal counts
 - https://tropesmith.com/reader-demand/ : Demand signals by subgenre lane (free)
 - https://tropesmith.com/trope-demand/ : Trope Demand Checker — pick a genre and a trope, see demand-signal counts, rank and change in share (free)
