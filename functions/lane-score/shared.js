@@ -223,7 +223,7 @@ ${ld.map((o) => '<script type="application/ld+json">' + JSON.stringify(o) + '</s
 <style>${CSS}</style></head><body>
 <div class="topnav"><div class="in">
 <a href="/"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith"></a>
-<nav><a href="/free-tools/">Free tools</a><a href="/trending/">Trope check</a><a href="/reader-demand/">Reader Demand</a><a href="/pricing/">Pricing</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
+<nav><a href="/free-tools/">Free tools</a><a href="/trending/">Trope check</a><a href="/reader-demand/">Demand Signals</a><a href="/pricing/">Pricing</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
 </div></div>`;
 }
 
@@ -300,10 +300,10 @@ function tieBack(extra) {
 <ul>
 ${extra || ''}
 <li><a href="/romance-tropes/">Romance tropes list</a> &mdash; every romance trope, ranked by demand signals, each with its own page.</li>
-<li><a href="/free-tools/">Every free Tropesmith tool</a> &mdash; trope opportunity check, reader demand, category &amp; rank checker, lane scores, sample maps.</li>
-<li><a href="${REPORT}">The 2026 Romance Demand Report</a> &mdash; the full year&rsquo;s read on what romance readers asked for, from the same engine.</li>
+<li><a href="/free-tools/">Every free Tropesmith tool</a> &mdash; trope opportunity check, demand signals, category &amp; rank checker, lane scores, sample maps.</li>
+<li><a href="${REPORT}">The 2026 Romance Demand Report</a> &mdash; the full year&rsquo;s read on which tropes romance readers named, from the same engine.</li>
 <li><a href="/trending/">Free Romance Trope Opportunity Check</a> &mdash; the tropes with the most demand signals in this lane's latest trend-table month.</li>
-<li><a href="/reader-demand/">Reader demand by subgenre</a> &mdash; what readers are actually asking for.</li>
+<li><a href="/reader-demand/">Demand signals by subgenre</a> &mdash; which tropes readers actually name.</li>
 <li><a href="/trope-demand/">Trope Demand Checker</a> &mdash; pick a genre and a trope, see the counted conversation volume.</li>
 </ul>`;
 }
@@ -336,16 +336,16 @@ function laneScoreCollectionDataset() {
 		name: 'Tropesmith lane scores',
 		description:
 			'Lane score and market economics for each of the ' + published +
-			' fiction subgenre lanes Tropesmith publishes a lane score for: opportunity score and rank across every scored lane, greenlight band with confidence, typical list price, Kindle Unlimited share, reader demand counted over the trailing 30 days, the reader heat-expectation mix and the length and series shape that sell in the lane. Every figure is counted from the Tropesmith corpus — Goodreads reviews and shelf signals, parsed reader demand signals, BookTok video metadata and Amazon category economics — and is restated when the corpus is recounted.',
+			' fiction subgenre lanes Tropesmith publishes a lane score for: opportunity score and rank across every scored lane, greenlight band with confidence, typical list price, Kindle Unlimited share, demand signals counted over the trailing 30 days, the reader heat-expectation mix and the length and series shape that sell in the lane. Every figure is counted from the Tropesmith corpus — Goodreads reviews and shelf signals, parsed demand signals, BookTok video metadata and Amazon category economics — and is restated when the corpus is recounted.',
 		url: SITE + '/lane-score/',
 		isAccessibleForFree: true,
 		inLanguage: 'en',
 		license: 'https://tropesmith.com/terms/',
 		creator: ORG,
 		publisher: ORG,
-		keywords: ['lane score', 'subgenre opportunity', 'reader demand', 'Kindle Unlimited', 'book market data'],
+		keywords: ['lane score', 'subgenre opportunity', 'demand signals', 'Kindle Unlimited', 'book market data'],
 		measurementTechnique:
-			'Counted from the Tropesmith corpus: Goodreads reviews and shelf signals, parsed reader demand signals, BookTok video metadata and Amazon category economics, aggregated per subgenre lane. Counted rows, except revenue, which is modelled from sales rank.',
+			'Counted from the Tropesmith corpus: Goodreads reviews and shelf signals, parsed demand signals, BookTok video metadata and Amazon category economics, aggregated per subgenre lane. Counted rows, except revenue, which is modelled from sales rank.',
 		/* No hasPart[]: listing each lane as a bare {'@type':'Dataset', name, url} would mint
 		   one more Dataset node per lane with no description and no creator - the very defect this
 		   fixes. The index page's ItemList already enumerates every lane. */
@@ -487,9 +487,9 @@ function lanePage(lane, name, d, stats, hasMarket) {
 			publisher: ORG,
 			temporalCoverage: iso(from) + '/' + iso(now),
 			dateModified: now.toISOString(),
-			keywords: [name, 'reader demand', 'subgenre opportunity', 'Kindle Unlimited', 'book market data'],
+			keywords: [name, 'demand signals', 'subgenre opportunity', 'Kindle Unlimited', 'book market data'],
 			measurementTechnique:
-				'Counted from the Tropesmith corpus: Goodreads reviews and shelf signals, parsed reader demand signals, BookTok video metadata and Amazon category economics, aggregated per subgenre lane.',
+				'Counted from the Tropesmith corpus: Goodreads reviews and shelf signals, parsed demand signals, BookTok video metadata and Amazon category economics, aggregated per subgenre lane.',
 			variableMeasured: vars,
 			distribution: [
 				{ '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: canonical + '?format=json' }

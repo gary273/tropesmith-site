@@ -26,7 +26,7 @@ on the exact lane you're considering.
 ## Mid-career authors
 
 **How far ahead can it actually see?**
-Measured, not promised: search interest leads reader demand by a median of 8 to 14 weeks across
+Measured, not promised: search interest leads demand signals by a median of 8 to 14 weeks across
 the tropes we've tested. Some signals resolve in a week or two; the radar states the specific
 lead time per forecast, it never gives one number for everything.
 
@@ -49,7 +49,7 @@ which trope to lean into for a launch dated a couple of months out.
 
 **What does "+44pp lift" mean, exactly?**
 Percentage points, not percent. When a search-interest spike fires for a trope, that trope goes
-on to actually rise in reader demand about 44 percentage points more often than the base rate
+on to actually rise in demand signals about 44 percentage points more often than the base rate
 for tropes with no spike — the event-by-event read of whether the signal means anything.
 
 **Why is the walk-forward number (+12pp) lower than the event-test number (+44pp)?**

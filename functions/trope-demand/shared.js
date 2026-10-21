@@ -1,7 +1,7 @@
 /**
  * TS-0587 — THE TROPE DEMAND CHECKER.
  *
- * Pick a genre lane and a trope; get the measured reader demand for that trope in that
+ * Pick a genre lane and a trope; get the measured demand signals for that trope in that
  * lane out of the Tropesmith corpus. Free. The link-bait play of IN-0913 campaign 1:
  * Reedsy's ONE character-name generator holds 3,322 referring domains, more than the whole
  * Coral Hart estate. The difference here is that a name generator runs over a word list and
@@ -488,8 +488,8 @@ ${rows.length
 function laneBody(lane, notFoundTrope) {
 	const L = LANES[lane], rows = laneRows(lane), caveat = laneCaveat(lane);
 	const ln = laneName(lane);
-	/* The picker cannot repopulate its trope list without JavaScript, so a reader can ask
-	   for a trope this genre does not publish. Silently showing the genre page instead
+	/* The picker cannot repopulate its trope list without JavaScript, so a reader can look
+	   up a trope this genre does not publish. Silently showing the genre page instead
 	   would answer a question they did not ask; we say what happened. */
 	const miss = notFoundTrope
 		? '<div class="note"><b>We do not publish ' + esc(tropeName(notFoundTrope)) + ' for ' + esc(ln) +
@@ -836,7 +836,7 @@ export async function handle(context) {
 		' of the genre, rank #' + hit.rank + ' of ' + hit.of + '. ' + direction(lane, hit.row).label + '. Free, counted, dated.';
 
 	return htmlOut(
-		stageHead(tropeName(trope) + ' in ' + laneName(lane) + ' — reader demand | Tropesmith', desc, canonical, ld, isProd) +
+		stageHead(tropeName(trope) + ' in ' + laneName(lane) + ' — demand signals | Tropesmith', desc, canonical, ld, isProd) +
 			readoutBody(lane, trope, hit, ent, gateNote) +
 			foot(),
 		{ noindex, private: ent.signedIn }

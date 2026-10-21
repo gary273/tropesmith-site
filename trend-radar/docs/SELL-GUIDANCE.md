@@ -57,7 +57,7 @@ scheduling input, never a pivot command mid-contract.
   today.
 - Never claims a lane-level read — `lane_display` is null on every forecast measured
   2026-09-10; don't sell a capability that isn't populated yet.
-- Never a guarantee of "will sell" — the radar forecasts search interest leading reader demand,
+- Never a guarantee of "will sell" — the radar forecasts search interest leading demand signals,
   not sales.
 
 ## Cost floor (reported, not priced)

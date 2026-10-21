@@ -13,7 +13,7 @@ confident are we?*
 trend_signals (google_trends / gdelt / tmdb, daily collectors)
   -> trend_lag_library (cross-correlation: does this signal type lead this trope's demand,
      and by how many weeks? per trope/lane/source/event_type)
-  -> trend_demand_weekly (the trope's own weekly reader-demand series, the thing being predicted)
+  -> trend_demand_weekly (the trope's own weekly demand-signal series, the thing being predicted)
   -> forecast.py: for each trope with a proven lag, project forward using the latest signal
      strength; gate out anything below MIN_STRENGTH; label horizon_weeks (0 = "rising now",
      >0 = "rises in ~N weeks"); write status/label/lift/confidence to trend_forecasts

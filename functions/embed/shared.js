@@ -231,7 +231,7 @@ table{width:100%;border-collapse:collapse;font-size:14.5px}th,td{text-align:left
 <h2>The licence</h2>
 <p>Free to use on any site, blog or newsletter template, commercial or not. The one condition: keep the visible <b>&ldquo;Data: Tropesmith&rdquo;</b> credit link back to tropesmith.com. Do not strip it, hide it or <code>nofollow</code> it &mdash; that link is what pays for the data.</p>
 <h2>Where the numbers come from</h2>
-<p>Counted from the Tropesmith corpus &mdash; Goodreads reviews and shelf signals, parsed reader demand signals, BookTok video metadata and Amazon category economics &mdash; and recounted as the corpus grows. See <a href="/free-tools/">every free Tropesmith tool</a>, the full <a href="/lane-score/">lane score list</a>, or the <a href="${REPORT}">2026 Romance Demand Report</a>.</p>
+<p>Counted from the Tropesmith corpus &mdash; Goodreads reviews and shelf signals, parsed demand signals, BookTok video metadata and Amazon category economics &mdash; and recounted as the corpus grows. See <a href="/free-tools/">every free Tropesmith tool</a>, the full <a href="/lane-score/">lane score list</a>, or the <a href="${REPORT}">2026 Romance Demand Report</a>.</p>
 </div></body></html>`;
 }
 

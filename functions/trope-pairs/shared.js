@@ -103,7 +103,7 @@ function embedBlock(lane) {
 
 function methodBlock() {
 	return `<h2>How these numbers are made</h2>
-<p><b>Demand signals</b> is a counted number: specific things readers asked for or praised &mdash; picked out of Goodreads and Amazon reviews and Q&amp;A, Reddit posts and BookTok comments &mdash; in which a reader writing about <em>this lane</em> named <em>both</em> tropes. Most come from reviews, not from readers asking for a book. ${num(
+<p><b>Demand signals</b> is a counted number: specific things readers asked for or praised &mdash; picked out of Goodreads and Amazon reviews and Q&amp;A, Reddit posts and BookTok comments &mdash; in which a reader writing about <em>this lane</em> named <em>both</em> tropes. Most come from reviews, not from readers calling for a book. ${num(
 		CORPUS.signals
 	)} demand-signal records are in the corpus the counts are drawn from. <b>Titles carrying both</b> is counted the same way over published titles tagged trope by trope: ${num(
 		CORPUS.tagged_titles

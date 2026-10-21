@@ -17,7 +17,7 @@ headline.
 1. Daily collectors write `trend_signals` from Google Trends (search interest), GDELT (news
    volume/shocks) and TMDB (screen-adaptation calendar).
 2. `trend_lag_library` measures, per trope and signal source, whether that signal type actually
-   leads that trope's reader-demand rise, and by how many weeks — cross-correlation over
+   leads that trope's demand-signal rise, and by how many weeks — cross-correlation over
    historical weeks, not assumed.
 3. A minimum-strength gate excludes noise-level spikes before a forecast is ever written.
 4. `trend_forecasts` carries a status (active/weak), a plain-English label ("rising now" /
