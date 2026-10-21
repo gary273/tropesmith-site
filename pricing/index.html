@@ -386,7 +386,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
         <h3>Keep your lane alive with the Live Board.</h3>
         <p>Your Map is a snapshot of the market today. The Live Board keeps that exact lane's counts updated as new reviews, comments and posts are read. Add it to any Map you own, and email us once per book to swap the lane.</p>
         <ul>
-          <li>Your bought lane, refreshed daily</li>
+          <li>Your bought lane, refreshed weekly</li>
           <li>One lane swap per book — just email us</li>
           <li>View-only — added right from your Map or library</li>
         </ul>
@@ -850,7 +850,7 @@ window.TSM_SESSION_EMAIL = null;
     document.querySelectorAll('.tsm-corpus-card-stat[data-stat]').forEach(function(el){ var v=d[el.dataset.stat]; if(typeof v==='number'&&v>0){ el.dataset.target=String(el.dataset.floor?ctkFloorSf(v,3):v); if(el.dataset.animated) el.textContent=el.dataset.floor?ctkFloorText(v):fmt(v, el.dataset.format||'comma'); } });
     document.querySelectorAll('[data-stat-text]').forEach(function(el){ var v=d[el.dataset.statText]; if(typeof v==='number'&&v>0) el.textContent=ctkFloorText(v); });
   }
-  try{ fetch(URL,{mode:'cors'}).then(function(r){return r.ok?r.json():null;}).then(apply).catch(function(){}); }catch(e){}
+  /* TS-UX-07: no live override. Every page prints the weekly re-bake (IN-0806, stamped 'counted <date> UTC'); a live feed here made this page disagree with the rest of the site and with its own stamp. */
 })();
 </script>
 <script src="/assets/session-nav.js?v=20260922" defer></script>

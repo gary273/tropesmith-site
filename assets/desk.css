@@ -97,8 +97,8 @@ html body table{background:var(--desk-card);border-collapse:collapse;box-shadow:
 html body th{background:#F3EAD9 !important;color:var(--desk-ink) !important;font-family:var(--desk-sans);font-weight:600;}
 html body td,html body th{border-bottom:1px solid var(--desk-rule) !important;}
 /* dark sections on site pages -> chalkboard (stays readable: light chalk on green) */
-html body .section.ink,html body section.ink,html body .dark,html body .tsm-corpus{background:radial-gradient(ellipse at 25% 15%,#3D5C4E 0%,var(--desk-chalk) 55%,#283F35 100%) !important;color:var(--desk-chalk-ink) !important;}
-html body .section.ink h1,html body .section.ink h2,html body .section.ink h3,html body .tsm-corpus h2{color:var(--desk-chalk-ink) !important;}
+html body .section.ink,html body section.ink,html body .dark{background:radial-gradient(ellipse at 25% 15%,#3D5C4E 0%,var(--desk-chalk) 55%,#283F35 100%) !important;color:var(--desk-chalk-ink) !important;}
+html body .section.ink h1,html body .section.ink h2,html body .section.ink h3{color:var(--desk-chalk-ink) !important;}
 html body .section.ink a{color:#FFE58F !important;}
 /* forms */
 html body input[type=text],html body input[type=email],html body select,html body textarea{border:1.5px solid #8A7FA3 !important;border-radius:10px !important;background:#fff !important;color:var(--desk-ink) !important;font-family:var(--desk-sans) !important;min-height:48px;}
@@ -126,9 +126,23 @@ html body pre{background:var(--desk-card) !important;color:var(--desk-ink) !impo
 html body .callout *:not(a),html body .note-box *:not(a),html body .tip *:not(a){color:var(--desk-ink) !important;-webkit-text-fill-color:currentColor !important;}
 html body .callout .l,html body .callout strong:first-child{color:#8A1F3A !important;}
 /* the chalkboard band is a framed board on the desk, not a full-bleed dark section */
-html body .tsm-corpus{max-width:1240px;margin:48px auto !important;border:14px solid #9A6A3E !important;border-radius:16px !important;box-shadow:inset 0 0 40px rgba(0,0,0,.25),0 18px 30px -18px rgba(60,40,10,.45) !important;}
-html body .tsm-corpus .tsm-corpus-eyebrow,html body .tsm-corpus [class*=-label],html body .tsm-corpus [class*=-tag],html body .tsm-corpus .tsm-hashtag-name,html body .tsm-corpus em{color:#FFE58F !important;-webkit-text-fill-color:#FFE58F !important;background:none !important;}
-@media (max-width:760px){html body .tsm-corpus{margin:28px 10px !important;border-width:8px !important;}}
+/* TS-UX-11b: the corpus band is a cream index card, not a dark board (light-only brand) */
+html body .tsm-corpus{background:var(--desk-card) !important;background-image:none !important;color:var(--desk-ink) !important;max-width:1240px;margin:48px auto !important;border:1px solid var(--desk-rule) !important;border-top:5px solid var(--desk-chalk) !important;border-radius:8px !important;box-shadow:var(--desk-shadow) !important;}
+html body .tsm-corpus::before,html body .tsm-corpus::after{display:none !important;}
+html body .tsm-corpus .tsm-corpus-heading,html body .tsm-corpus h2{color:var(--desk-ink) !important;}
+html body .tsm-corpus .tsm-corpus-eyebrow,html body .tsm-corpus [class*=-label],html body .tsm-corpus [class*=-tag],html body .tsm-corpus .tsm-hashtag-name,html body .tsm-corpus em{color:var(--desk-rose) !important;-webkit-text-fill-color:var(--desk-rose) !important;background:none !important;}
+html body .tsm-corpus .tsm-corpus-sub{color:var(--desk-ink-2) !important;}
+html body .tsm-corpus .tsm-corpus-card{background:#fff !important;border:1px solid var(--desk-rule) !important;backdrop-filter:none !important;}
+html body .tsm-corpus .tsm-corpus-card-unit{color:var(--desk-ink-2) !important;}
+html body .tsm-corpus .tsm-corpus-card-meta,html body .tsm-corpus .tsm-hashtag-plays,html body .tsm-corpus .tsm-corpus-hashtag-label,html body .tsm-corpus .tsm-corpus-footnote{color:var(--desk-mute) !important;}
+html body .tsm-corpus .tsm-hashtag{background:var(--desk-paper) !important;border-color:var(--desk-rule) !important;}
+html body .tsm-corpus .tsm-corpus-mechanism{background:#FBF6EC !important;}
+html body .tsm-corpus .tsm-corpus-mechanism p{color:var(--desk-ink-2) !important;}
+html body .tsm-corpus .tsm-corpus-mechanism strong{color:var(--desk-ink) !important;}
+/* TS-UX-10: the big counters must always show their "+": size the number to its card (container query), no clipping */
+html body .tsm-corpus .tsm-corpus-card{container-type:inline-size;}
+html body .tsm-corpus .tsm-corpus-card-stat{color:var(--desk-ink) !important;white-space:nowrap;font-size:clamp(26px,2.8vw,36px);font-size:min(48px,15cqw);}
+@media (max-width:760px){html body .tsm-corpus{margin:28px 10px !important;}}
 /* estate strips on home -> paper */
 html body #estate-nav,html body .family-strip{background:#EFE6D6 !important;color:var(--desk-ink) !important;border-bottom:1px solid var(--desk-rule) !important;}
 html body #estate-nav *,html body .family-strip *{color:var(--desk-ink) !important;}

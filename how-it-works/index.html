@@ -376,7 +376,7 @@ border-bottom:1px solid rgba(128,128,128,.4);padding-bottom:1px}
     document.querySelectorAll('.tsm-corpus-card-stat[data-stat]').forEach(function(el){ var v=d[el.dataset.stat]; if(typeof v==='number'&&v>0){ el.dataset.target=String(el.dataset.floor?ctkFloorSf(v,3):v); if(el.dataset.animated) el.textContent=el.dataset.floor?ctkFloorText(v):v.toLocaleString('en-US'); } });
     document.querySelectorAll('[data-stat-text]').forEach(function(el){ var v=d[el.dataset.statText]; if(typeof v==='number'&&v>0) el.textContent=ctkFloorText(v); });
   }
-  try{ fetch(URL,{mode:'cors'}).then(function(r){return r.ok?r.json():null;}).then(apply).catch(function(){}); }catch(e){}
+  /* TS-UX-07: no live override. Every page prints the weekly re-bake (IN-0806, stamped 'counted <date> UTC'); a live feed here made this page disagree with the rest of the site and with its own stamp. */
 })();
 </script>
 <script src="/assets/session-nav.js?v=20260922" defer></script>

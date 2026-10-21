@@ -229,7 +229,7 @@ function indexPage() {
 <h2>Pick your lane</h2>
 <ul class="lanes">${LANES.map((l) => `<li><a href="/trope-pairs/${esc(l)}">${esc(laneName(l))}</a> <span style="color:#a39395">&middot; ${PAIRS[l].length}</span></li>`).join('')}</ul>
 ${methodBlock()}
-${tieBack('<li><a href="/trending/">Free Romance Trope Opportunity Check</a> &mdash; single tropes in your lane.</li><li><a href="/booktok-hashtags/">BookTok Hashtag Picker</a> &mdash; measured reach per book hashtag.</li>')}
+${tieBack('<li><a href="/trending/">Free Romance Trope Opportunity Check</a> &mdash; single tropes in your lane.</li><li><a href="/booktok-hashtags/">BookTok Hashtag Picker</a> &mdash; book hashtags ranked by share of on-tag BookTok videos.</li>')}
 <div class="cta-row"><a class="btn" href="/intake/">Build my Map &rarr;</a> &nbsp; <a href="/pricing/">See pricing</a></div>
 </div>` +
 		foot()
@@ -294,7 +294,7 @@ ${methodBlock()}
 ${embedBlock(lane)}
 ${tieBack(
 	`<li><a href="/lane-score/${esc(lane)}">${esc(name)} lane score</a> &mdash; is the lane itself worth writing: opportunity rank, typical price, Kindle Unlimited share.</li>` +
-		(HASHTAG_LANES[lane] ? `<li><a href="/booktok-hashtags/${esc(lane)}">${esc(name)} BookTok hashtags</a> &mdash; measured reach per hashtag in this lane.</li>` : '')
+		(HASHTAG_LANES[lane] ? `<li><a href="/booktok-hashtags/${esc(lane)}">${esc(name)} BookTok hashtags</a> &mdash; hashtags in this lane ranked by share of on-tag BookTok videos.</li>` : '')
 )}
 <h2>Other lanes</h2>
 <ul class="lanes">${others.map((l) => `<li><a href="/trope-pairs/${esc(l)}">${esc(laneName(l))}</a></li>`).join('')}</ul>

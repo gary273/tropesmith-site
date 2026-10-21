@@ -40,10 +40,10 @@ export function big(n) {
 
 export const CSS = `*{box-sizing:border-box}body{margin:0;background:#FFF9F3;color:#10122F;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7}
 a{color:#6D28D9}
-.topnav{background:linear-gradient(180deg,#141636,#1b1d40);padding:14px 0}
+.topnav{background:#FFFDF7;border-bottom:1px solid #E6DCCB;padding:14px 0}
 .topnav .in{max-width:900px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .topnav img{height:34px;width:auto}
-.topnav nav a{color:#e8e5ff;text-decoration:none;font-size:14px;font-weight:600;margin-left:18px}
+.topnav nav a{color:#1B1633;text-decoration:none;font-size:14px;font-weight:600;margin-left:18px}
 .topnav .cta{background:linear-gradient(135deg,#8B5CF6,#FF6B7A);color:#fff;padding:9px 16px;border-radius:999px}
 .wrap{max-width:860px;margin:0 auto;padding:36px 22px 30px}
 .eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#8B5CF6;font-weight:700}
