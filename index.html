@@ -171,6 +171,22 @@ fbq('init','1319927140123427');fbq('track','PageView');};
   .desk-home span[aria-hidden="true"][style*="height: 10px"]{display:none !important;}
   .desk-home a[style*="height"],.desk-home button{min-height:48px;}
 }
+/* hero desk art: no overlap or clipping; stacked below 1100px */
+@media (min-width:1101px){
+html .desk-home figure[style*="height: 600px"] > div:nth-child(1){left:22px !important;top:26px !important;width:292px !important;}
+html .desk-home figure[style*="height: 600px"] > div:nth-child(1) > div > span:first-child{font-size:26px !important;}
+html .desk-home figure[style*="height: 600px"] > div:nth-child(2){right:18px !important;top:auto !important;bottom:20px !important;width:210px !important;transform:rotate(2deg) !important;z-index:2;}
+html .desk-home figure[style*="height: 600px"] > div:nth-child(3){left:30px !important;bottom:40px !important;}
+html .desk-home figure[style*="height: 600px"] > div:nth-child(4){width:150px !important;height:150px !important;right:30px !important;bottom:auto !important;top:150px !important;border-width:8px !important;}
+}
+@media (max-width:1100px){
+html .desk-home figure[style*="height: 600px"]{height:auto !important;display:flex !important;flex-direction:column !important;align-items:center !important;gap:14px !important;padding:22px 14px 24px !important;box-sizing:border-box;}
+html .desk-home figure[style*="height: 600px"] > div:nth-child(1){position:relative !important;left:auto !important;top:auto !important;width:100% !important;max-width:340px;box-sizing:border-box;transform:rotate(-1.5deg) !important;}
+html .desk-home figure[style*="height: 600px"] > div:nth-child(1) > div > span:first-child{font-size:24px !important;}
+html .desk-home figure[style*="height: 600px"] > div:nth-child(2){position:relative !important;right:auto !important;bottom:auto !important;top:auto !important;width:100% !important;max-width:300px;box-sizing:border-box;transform:rotate(1.5deg) !important;}
+html .desk-home figure[style*="height: 600px"] > div:nth-child(3){display:none !important;}
+html .desk-home figure[style*="height: 600px"] > div:nth-child(4){position:relative !important;left:auto !important;right:auto !important;bottom:auto !important;top:auto !important;width:118px !important;height:118px !important;}
+}
 </style>
 <div class="desk-home" data-screen-label="01 Home · Writer's Desk (TS-1073)">
 <section style="padding: 56px 72px 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 32px; align-items: center;">

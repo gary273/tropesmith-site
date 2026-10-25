@@ -147,7 +147,7 @@
       '.ts-consent-decline:hover{background:rgba(0,0,0,.04)}' +
       '.ts-consent-accept{background:#e0518d;color:#fff}' +
       '.ts-consent-accept:hover{background:#cc417c}' +
-      '@media(max-width:560px){.ts-consent-btns{width:100%}.ts-consent-btn{flex:1}}';
+      '@media(max-width:560px){.ts-consent-inner{padding:10px 14px;gap:8px}.ts-consent-text{font-size:12.5px;line-height:1.4;flex-basis:100%}.ts-consent-btns{width:100%;gap:8px}.ts-consent-btn{flex:1;padding:8px 14px;font-size:13.5px}}';
     document.head.appendChild(css);
 
     function close() { if (bar.parentNode) bar.parentNode.removeChild(bar); }
