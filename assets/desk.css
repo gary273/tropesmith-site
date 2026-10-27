@@ -237,3 +237,5 @@ body.desk-on .ts-partners,body.desk-on .family-strip{display:none !important;}
 .desk-footer .desk-brand img.desk-logo-foot{height:72px}
 @media (max-width:480px){.desk-header .desk-brand img.desk-logo{height:50px}}
 @media (max-width:374px){.desk-header .desk-brand img.desk-logo{height:44px}}
+/* TS-1200 (27 Oct 2026): the inline-styled "By the numbers" counter cards (grid of minmax(132px,1fr)) clipped 7-8 digit values; keep each counter on one line inside its card */
+div[style*="minmax(132px,1fr)"]>div>b{font-size:clamp(13px,1.4vw,15.5px) !important;white-space:nowrap}
