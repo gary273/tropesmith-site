@@ -298,7 +298,7 @@ h1 em{font-style:normal;background:var(--tr-grad);-webkit-background-clip:text;b
         return cardHtml(f, i) + '<div class="evrow"><b>' + lift + '</b> &middot; ' + ev + tmdb + '</div>';
       }).join("");
       var bt = d.backtest_headline;
-      var btLine = bt ? ('Backtest: ' + Math.round(bt.precision*100) + '% precision vs. ' + Math.round((bt.precision-bt.lift_vs_base)*100) + '% base, ' + bt.n_forecasts + ' forecasts, ' + esc(bt.window) + '.') : '';
+      var btLine = ''; // TS-1255 hotfix (1 Nov): no precision line until the rise-rule re-run; was: bt ? ('Backtest: ' + Math.round(bt.precision*100) + '% precision ...') : ''
       document.getElementById("memberPreview").parentElement.style.display = "none";
       var unlocked = document.getElementById("memberUnlocked");
       unlocked.style.display = "block";
