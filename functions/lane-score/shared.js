@@ -124,7 +124,7 @@ function usd(n) {
 	return '$' + Number(n).toLocaleString('en-US', { maximumFractionDigits: Number(n) < 100 ? 2 : 0 });
 }
 
-async function cachedJson(url, key, ttl) {
+async function cachedJson(url, key, ttl, keepTtl) {
 	const cache = caches.default;
 	const ck = new Request(SITE + '/__cache/' + key, { method: 'GET' });
 	const hit = await cache.match(ck);
@@ -153,7 +153,10 @@ async function cachedJson(url, key, ttl) {
 		data = JSON.parse(text);
 	} catch (_e) {}
 	if (r.ok && data) {
-		const store = new Response(text, { headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=' + ttl } });
+		/* Lane data refreshes daily, so a COMPLETE answer is kept keepTtl; a partial one (a block missed its
+		   4 s deadline upstream) keeps the short ttl so it is not pinned for hours. */
+		const whole = keepTtl && data.ok === true && data.opportunity && data.greenlight && data.heat && data.length;
+		const store = new Response(text, { headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=' + (whole ? keepTtl : ttl) } });
 		try {
 			await cache.put(ck, store);
 		} catch (_e) {}
@@ -661,7 +664,7 @@ export async function handle(context) {
 	/* Fire both upstreams together: serialising them added the public-stats latency on
 	   top of the lane-score cold start (25s measured on the first UAT run). */
 	const stP = wantsHtml ? cachedJson(STATS, 'stats', 1800) : null;
-	const up = await cachedJson(EDGE + '/' + encodeURIComponent(raw), 'ls-' + raw, 900);
+	const up = await cachedJson(EDGE + '/' + encodeURIComponent(raw), 'ls-' + raw, 900, 21600);
 
 	if (!wantsHtml) {
 		/* passthrough — every existing JSON consumer keeps working (the greenlight reason goes through the same sentence filter as the page) */
