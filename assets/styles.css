@@ -1084,3 +1084,7 @@ html.chg-system .chg-cta{animation:ts-ring 4.5s ease-in-out infinite}
 /* IN-1144 Phase 3 AC-6 type scale (ts-board, 4 Nov): desk.css forces h1 font/weight/size with !important, which the shared kit's html.chg-system h1 cannot beat.
    Same values as the kit, higher specificity (the home page has exactly one h1). Undo = delete this block (or remove class chg-system from <html>). */
 html.chg-system body h1{font-family:var(--chg-font-display)!important;font-weight:var(--chg-h1-weight)!important;font-size:var(--chg-h1-size)!important;line-height:var(--chg-h1-line)!important;letter-spacing:-0.01em}
+
+/* IN-1144 Phase 3 (ts-board): baseline for the hero CTA whose inline colours moved out of the markup, so removing class chg-system from <html> still leaves the old pink button.
+   Lower specificity than html.chg-system .chg-cta, so the shared kit wins when it is on. */
+a.chg-cta{background:#C23A5B;color:#FFFFFF}
