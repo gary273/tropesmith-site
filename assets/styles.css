@@ -1071,3 +1071,16 @@ html body{
     transition-duration: revert !important;
   }
 }
+
+/* IN-1144 Phase 3 AC-2 (ts-board, 4 Nov): quiet at-rest motion on the repeated tiles. Slow brightness breathing, staggered; off under reduced motion. */
+@keyframes ts-breathe{0%,100%{filter:brightness(1)}50%{filter:brightness(1.035)}}
+@keyframes ts-ring{0%,100%{box-shadow:0 0 0 0 rgba(201,56,31,.0)}50%{box-shadow:0 0 0 6px rgba(201,56,31,.16)}}
+.ctk-item,.dw-tile{animation:ts-breathe 7s ease-in-out infinite}
+.ctk-item:nth-child(3n+2),.dw-tile:nth-child(3n+2){animation-delay:-2.3s}
+.ctk-item:nth-child(3n),.dw-tile:nth-child(3n){animation-delay:-4.6s}
+html.chg-system .chg-cta{animation:ts-ring 4.5s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.ctk-item,.dw-tile,html.chg-system .chg-cta{animation:none!important}}
+
+/* IN-1144 Phase 3 AC-6 type scale (ts-board, 4 Nov): desk.css forces h1 font/weight/size with !important, which the shared kit's html.chg-system h1 cannot beat.
+   Same values as the kit, higher specificity (the home page has exactly one h1). Undo = delete this block (or remove class chg-system from <html>). */
+html.chg-system body h1{font-family:var(--chg-font-display)!important;font-weight:var(--chg-h1-weight)!important;font-size:var(--chg-h1-size)!important;line-height:var(--chg-h1-line)!important;letter-spacing:-0.01em}

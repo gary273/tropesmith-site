@@ -1,0 +1,83 @@
+/* chg-tokens.css — Coral Hart Group shared type scale + accent ramp (IN-3490 / IN-1144 Phase 3 AC-6).
+ * ONE file for all six surfaces. Source of every value: coralhart.com's live "On the record" design,
+ * /root/coralhart-group/src/record.js (REC_TOKENS / REC_CSS), confirmed by the AC harness measurement
+ * (phase3/SCOREBOARD.md: coralhart h1 106.56px@1440 = 7.4vw, 42.9px@390 = 11vw, CTA rgb(201,56,31)).
+ *
+ * Part 1 (:root tokens) is inert: defining variables changes nothing on a page.
+ * Part 2 is OPT-IN: it only applies under <html class="chg-system">, and only to the page's h1 and
+ * the ONE element the site marks .chg-cta. Undo = remove the class (or the <link>). Nothing else is touched.
+ *
+ * Font: h1 uses Newsreader 500. Load it with (one request, latin subset 23,624 B woff2, CSS ~1.3 KB):
+ *   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ *   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500&display=swap">
+ * (The opsz-axis request coralhart.com itself uses is 60,724 B; the static 500 cut is enough for sister h1s.)
+ * display=swap + Georgia fallback: the h1 renders at once in Georgia and swaps; only the h1 can reflow.
+ */
+
+:root {
+	/* type — record.js: --r-serif / --r-sans */
+	--chg-font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+	--chg-font-body: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+	/* h1 for product homes — record.js page-h1 tier clamp(36px,5vw,66px), lh 1.02.
+	   = 66px @1440, 36px @390 (small enough that the hero, guide card and CTA fit the first viewport at 390). */
+	--chg-h1-size: clamp(36px, 5vw, 66px);
+	--chg-h1-line: 1.02;
+	--chg-h1-weight: 500;
+	/* reference only: coralhart.com's own group-home hero h1 (record.js), not for sister sites */
+	--chg-h1-size-hero: clamp(46px, 7.4vw, 108px);
+	/* h2 — record.js clamp(30px,3.2vw,44px) */
+	--chg-h2-size: clamp(30px, 3.2vw, 44px);
+	/* body — record.js `body p{font-size:17px;line-height:1.6}` */
+	--chg-body-size: 17px;
+	--chg-body-line: 1.6;
+
+	/* accent ramp — base + dark from record.js (--r-coral #C9381F, --r-coral-dk #8F2412).
+	   Tints are DERIVED (not in record.js): linear sRGB mix of #C9381F toward paper #F7F5F0 at 35% / 65% / 88%. */
+	--chg-accent: #c9381f;
+	--chg-accent-dk: #8f2412;
+	--chg-accent-1: #d97a68;
+	--chg-accent-2: #e7b3a7;
+	--chg-accent-3: #f1ded7;
+	--chg-on-accent: #ffffff;
+	/* grounds — record.js --r-paper / --r-ink / --r-rule (cream, never dark: Gary's film-on-cream rule) */
+	--chg-paper: #f7f5f0;
+	--chg-ink: #17181c;
+	--chg-rule: #d9d3c7;
+
+	/* WCAG 2.x contrast, computed (relative luminance, sRGB):
+	   #FFFFFF on --chg-accent  #C9381F  5.16:1  AA normal text  PASS  (CTA label)
+	   #FFFFFF on --chg-accent-dk #8F2412 8.65:1  AAA              PASS  (CTA hover)
+	   --chg-accent on --chg-paper       4.74:1  AA normal text  PASS
+	   --chg-accent-dk on --chg-paper    7.93:1  AAA              PASS  (band hover/focus ring)
+	   --chg-ink on --chg-paper         16.28:1                  PASS  (band text)
+	   --chg-ink on --chg-accent-3      13.66:1 / -2 9.63:1 / -1 5.86:1  PASS
+	   Do NOT put white text on -1/-2/-3 (white on -1 = 3.03:1 FAIL) and do not put ink on the base accent (3.44:1). */
+}
+
+/* ---- opt-in override: <html class="chg-system"> ---- */
+html.chg-system h1 {
+	font-family: var(--chg-font-display);
+	font-size: var(--chg-h1-size);
+	line-height: var(--chg-h1-line);
+	font-weight: var(--chg-h1-weight);
+	letter-spacing: -0.01em;
+}
+
+html.chg-system .chg-cta {
+	background: var(--chg-accent);
+	background-image: none;
+	color: var(--chg-on-accent);
+	border-color: var(--chg-accent);
+	min-height: 44px;
+}
+
+html.chg-system .chg-cta:hover {
+	background: var(--chg-accent-dk);
+	border-color: var(--chg-accent-dk);
+	color: var(--chg-on-accent);
+}
+
+html.chg-system .chg-cta:focus-visible {
+	outline: 3px solid var(--chg-accent-dk);
+	outline-offset: 3px;
+}

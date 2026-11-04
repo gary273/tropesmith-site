@@ -1,0 +1,96 @@
+/* chg-band.css — Coral Hart Group cross-link band (IN-3490 / IN-1144 AC-6). Every rule is scoped to nav.chg-band so host CSS
+ * (`nav a`, `ul li`, `a:hover`) cannot win and this cannot leak out. Cream ground (film-on-cream rule), no animation or transition
+ * (AC-3), 44px targets, visible focus. Colours = chg-tokens.css values, with literal fallbacks so the band works without the tokens. */
+nav.chg-band {
+	display: block;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 20px 16px;
+	background: var(--chg-paper, #f7f5f0);
+	color: var(--chg-ink, #17181c);
+	border: 0;
+	border-top: 1px solid var(--chg-rule, #d9d3c7);
+	font: 15px/1.4 'Helvetica Neue', Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	text-align: left;
+	letter-spacing: normal;
+	text-transform: none;
+	animation: none;
+	transition: none;
+	overflow-wrap: anywhere;
+}
+nav.chg-band *,
+nav.chg-band *::before,
+nav.chg-band *::after {
+	box-sizing: border-box;
+	animation: none;
+	transition: none;
+}
+nav.chg-band .chg-band__in {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 24px;
+}
+nav.chg-band .chg-band__k {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--chg-accent-dk, #8f2412);
+}
+nav.chg-band ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	min-width: 0;
+}
+nav.chg-band li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	min-width: 0;
+}
+nav.chg-band li::before {
+	content: none;
+}
+nav.chg-band a {
+	display: inline-flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 44px;
+	min-width: 44px;
+	padding: 4px 2px;
+	color: var(--chg-ink, #17181c);
+	background: none;
+	border: 0;
+	text-decoration: none;
+	font-weight: 600;
+}
+nav.chg-band a span {
+	font-weight: 400;
+	font-size: 13px;
+	color: #5c5850; /* record.js --r-slate, 6.38:1 on paper */
+}
+nav.chg-band a:hover {
+	color: var(--chg-accent-dk, #8f2412);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+nav.chg-band a:focus-visible {
+	outline: 3px solid var(--chg-accent-dk, #8f2412);
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+@media (max-width: 600px) {
+	nav.chg-band ul {
+		flex-direction: column;
+		gap: 0;
+	}
+}
