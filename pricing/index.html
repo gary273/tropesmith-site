@@ -272,6 +272,16 @@ fbq('init','1319927140123427');fbq('track','PageView');};
           <div class="ts-credits-rate" id="ts-credits-rate">1 credit · $15.00 each</div>
         </div>
         <button class="btn btn-primary btn-lg" id="ts-buy-credits" type="button">Buy <span id="ts-buy-qty-label">1 credit</span> <span class="arrow">→</span></button>
+        <div id="ts-buyfirst" hidden style="flex-basis:100%;margin-top:14px;padding:14px 16px;background:#fff;border:1px solid rgba(194,58,91,0.25);border-radius:10px">
+          <p style="margin:0 0 8px;font-size:14px;color:#10122F"><b>Where should we send your credits?</b> We create your account after you pay and email you a sign-in link, no password needed.</p>
+          <label for="ts-bf-email" style="display:block;font-size:13px;color:#5b4a59">Email</label>
+          <input id="ts-bf-email" type="email" autocomplete="email" inputmode="email" style="width:100%;max-width:340px;padding:9px 10px;border:1px solid #cbbfc8;border-radius:8px;font-size:16px">
+          <label for="ts-bf-email2" style="display:block;font-size:13px;color:#5b4a59;margin-top:8px">Type it again</label>
+          <input id="ts-bf-email2" type="email" autocomplete="off" inputmode="email" style="width:100%;max-width:340px;padding:9px 10px;border:1px solid #cbbfc8;border-radius:8px;font-size:16px">
+          <p id="ts-bf-err" role="alert" style="color:#b3261e;font-size:13px;margin:8px 0 0" hidden></p>
+          <button class="btn btn-primary" id="ts-bf-go" type="button" style="margin-top:12px">Continue to payment <span class="arrow">→</span></button>
+          <p style="margin:10px 0 0;font-size:12px;color:#5b4a59">Already have an account? <a href="../login/?next=/pricing/">Sign in first</a>.</p>
+        </div>
       </div>
       <div class="ts-credits-ladder" aria-label="Volume pricing">
         <span style="font-weight:700;color:#10122F">Volume plan:</span>
@@ -336,6 +346,12 @@ fbq('init','1319927140123427');fbq('track','PageView');};
       input.addEventListener('blur', function () { input.value = clampQty(); render(); });
       render();
       try { if (new URLSearchParams(window.location.search).get('need') === '1') { var nb = document.getElementById('tsm-need-credits'); if (nb) nb.style.display = 'block'; } } catch (e) {}
+      function goBuy(q, email) {
+        Tropesmith.buyProduct('credit_topup', { email: email || undefined, quantity: q, onError: function (err) { alert('Sorry \u2014 we could not start checkout. Please try again, or email support@tropesmith.com.'); console.error(err); } });
+      }
+      // TS-BUYFIRST: a signed-out visitor types an email twice and goes straight to payment (the account is created after payment, the sign-in link is e-mailed).
+      // The server only accepts this for credit packs; if it answers 401 the existing code redirects to /login/ exactly as before.
+      var EMAIL_RE = /^[^\s@<>"',;()]+@[^\s@<>"',;()]+\.[^\s@<>"',;()]{2,}$/;
       document.getElementById('ts-buy-credits').addEventListener('click', function () {
         if (!(window.Tropesmith && typeof Tropesmith.buyProduct === 'function')) { alert('Checkout is temporarily unavailable. Please try again in a moment.'); return; }
         var q = clampQty();
@@ -345,9 +361,22 @@ fbq('init','1319927140123427');fbq('track','PageView');};
           if (qp.has('test_code') || qp.has('promo')) {
             email = (window.prompt('Enter your email to apply your code and continue checkout:') || '').trim();
             if (!email) return;
+          } else {
+            var box = document.getElementById('ts-buyfirst');
+            if (box) { box.hidden = false; var f = document.getElementById('ts-bf-email'); if (f) f.focus(); return; }
           }
         }
-        Tropesmith.buyProduct('credit_topup', { email: email || undefined, quantity: q, onError: function (err) { alert('Sorry — we could not start checkout. Please try again, or email support@tropesmith.com.'); console.error(err); } });
+        goBuy(q, email);
+      });
+      var bfGo = document.getElementById('ts-bf-go');
+      if (bfGo) bfGo.addEventListener('click', function () {
+        var e1 = (document.getElementById('ts-bf-email').value || '').trim().toLowerCase();
+        var e2 = (document.getElementById('ts-bf-email2').value || '').trim().toLowerCase();
+        var err = document.getElementById('ts-bf-err');
+        var msg = !EMAIL_RE.test(e1) ? 'Please enter a valid email address.' : (e1 !== e2 ? 'The two emails do not match.' : '');
+        if (msg) { err.textContent = msg; err.hidden = false; return; }
+        err.hidden = true;
+        goBuy(clampQty(), e1);
       });
     })();
     </script>
