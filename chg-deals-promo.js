@@ -18,7 +18,7 @@
   var me = document.currentScript; if (!me) return;
   var d = me.dataset || {};
   var OPEN = Date.parse('2026-11-13T00:30:00Z'), END = Date.parse('2026-12-03T23:59:59Z');
-  var FROM = d.from ? Date.parse(d.from) : OPEN;
+  var FROM = d.from ? Date.parse(d.from) : Date.parse('2026-11-12T18:00:00Z');   // v4: teaser shows before the opening (Gary 12 Nov: the sale must be seen coming)
   var now = Date.now();
   // test hook: only when the tag itself says data-test="1" (never set in production)
   if (d.test === '1') { var m = /[?&]chgd_now=([^&]+)/.exec(location.search); if (m) now = Date.parse(decodeURIComponent(m[1])); }
