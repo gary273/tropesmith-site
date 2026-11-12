@@ -1,0 +1,137 @@
+{
+  "communities": {
+    "0": [
+      "assets_analytics",
+      "assets_analytics_grantconsent",
+      "assets_analytics_gtag",
+      "assets_analytics_loadga",
+      "assets_analytics_readconsent",
+      "assets_analytics_showbanner",
+      "assets_analytics_track",
+      "assets_analytics_wireconversions",
+      "assets_analytics_writeconsent"
+    ],
+    "1": [
+      "assets_page_event_tracker",
+      "assets_page_event_tracker_bindsections",
+      "assets_page_event_tracker_checkscroll",
+      "assets_page_event_tracker_enqueue",
+      "assets_page_event_tracker_flush",
+      "assets_page_event_tracker_getorcreate",
+      "assets_page_event_tracker_scheduleflush",
+      "assets_page_event_tracker_uuid",
+      "docref_rfc_4122"
+    ],
+    "2": [
+      "assets_tropesmith",
+      "assets_tropesmith_capturediscountcodes",
+      "assets_tropesmith_captureutm",
+      "assets_tropesmith_getutmforintake",
+      "assets_tropesmith_pollmapstatus",
+      "assets_tropesmith_redeemcredit",
+      "assets_tropesmith_submitintake"
+    ],
+    "3": [
+      "assets_tropesmith_buyproduct",
+      "assets_tropesmith_getdiscountcode",
+      "assets_tropesmith_getstripe"
+    ],
+    "4": [
+      "assets_hero_map_carousel",
+      "assets_hero_map_carousel_init"
+    ],
+    "5": [
+      "assets_tropesmith_closecheckout",
+      "assets_tropesmith_createcheckoutmodal"
+    ],
+    "6": [
+      "assets_site"
+    ]
+  },
+  "cohesion": {
+    "0": 0.4722222222222222,
+    "1": 0.3333333333333333,
+    "2": 0.3333333333333333,
+    "3": 0.6666666666666666,
+    "4": 1.0,
+    "5": 1.0,
+    "6": 1.0
+  },
+  "gods": [
+    {
+      "id": "assets_analytics_grantconsent",
+      "label": "grantConsent()",
+      "degree": 5
+    },
+    {
+      "id": "assets_analytics_gtag",
+      "label": "gtag()",
+      "degree": 4
+    },
+    {
+      "id": "assets_analytics_track",
+      "label": "track()",
+      "degree": 4
+    },
+    {
+      "id": "assets_tropesmith_buyproduct",
+      "label": "buyProduct()",
+      "degree": 4
+    },
+    {
+      "id": "assets_analytics_loadga",
+      "label": "loadGA()",
+      "degree": 3
+    },
+    {
+      "id": "assets_analytics_wireconversions",
+      "label": "wireConversions()",
+      "degree": 3
+    },
+    {
+      "id": "assets_analytics_showbanner",
+      "label": "showBanner()",
+      "degree": 3
+    },
+    {
+      "id": "assets_page_event_tracker_enqueue",
+      "label": "enqueue()",
+      "degree": 3
+    },
+    {
+      "id": "assets_page_event_tracker_scheduleflush",
+      "label": "scheduleFlush()",
+      "degree": 3
+    },
+    {
+      "id": "assets_tropesmith_createcheckoutmodal",
+      "label": "createCheckoutModal()",
+      "degree": 3
+    }
+  ],
+  "surprises": [
+    {
+      "source": "buyProduct()",
+      "target": "createCheckoutModal()",
+      "source_files": [
+        "assets/tropesmith.js",
+        "assets/tropesmith.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "note": "Bridges community 3 → community 5"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `buyProduct()` connect `buyProduct` to `tropesmith.js`, `createCheckoutModal`?",
+      "why": "High betweenness centrality (0.003) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `RFC-4122` to the rest of the system?",
+      "why": "1 weakly-connected nodes found - possible documentation gaps or missing edges."
+    }
+  ]
+}
