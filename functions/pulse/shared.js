@@ -105,7 +105,7 @@ function enrich(html, canonical, feedName, date) {
 <a href="/pulse/" style="color:#6D28D9">Every Trope Pulse issue</a> &middot;
 <a href="/lane-score/" style="color:#6D28D9">Is your subgenre worth writing?</a> &middot;
 <a href="/free-tools/" style="color:#6D28D9">Every free Tropesmith tool</a> &middot;
-<a href="${REPORT}" style="color:#6D28D9">The 2026 Romance Demand Report</a></div>`;
+<a href="${REPORT}" style="color:#6D28D9">The 2026 Romance Demand Report</a></div><script src="/chg-deals-promo.js" defer data-site="tropesmith" data-popup="on" data-nav="header.desk-header nav.desk-nav, .topnav nav" data-push="#desk-header" data-no-popup="(checkout|[/]cart|[/]basket|[/]pay(ment)?s?(?![a-z0-9_])|order|login|log-in|sign-?in|account|[/]hq(?![a-z0-9_])|[/]app(?![a-z0-9_])|classroom|[/]tools?(?![a-z0-9_])|dashboard|[/]studio(?![a-z0-9_])|^[/](pricing|find-your-lane|intake)(?![a-z0-9_-]))"></script>`;
 
 	let out = archived ? html.replace(PLAY_TOTAL, '') : html;
 	out = out.replace(/<a\b[^>]*href="__[A-Z_]+__"[^>]*>([\s\S]*?)<\/a>/g, '$1');
