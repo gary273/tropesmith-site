@@ -29,15 +29,15 @@ fbq('init','1319927140123427');fbq('track','PageView');};
 {"@type":"Question","name":"What is the Trend Radar, in plain terms?","acceptedAnswer":{"@type":"Answer","text":"A weekly-refreshed list of tropes whose reader search interest is rising right now, or measured to rise within the next few weeks, ranked by how strong and how reliable each signal has been historically. It's built to answer one question for an author choosing a next project: what will readers be searching for by the time this book is ready?"}},
 {"@type":"Question","name":"I've never written a data-driven book before — do I need to understand the math?","acceptedAnswer":{"@type":"Answer","text":"No. Every forecast reduces to one line you can act on: a trope name, whether it's rising now or rising in N weeks, and a confidence word (low, medium or high). The free board shows exactly that, nothing else, for up to 10 of the strongest rising tropes each week."}},
 {"@type":"Question","name":"How far ahead can it actually see?","acceptedAnswer":{"@type":"Answer","text":"It varies by trope — the radar states the specific lead time per forecast rather than one number for everything. We're in beta and widening the data behind these estimates before we publish a lead-time figure we'd stand behind."}},
-{"@type":"Question","name":"How is the lift or confidence on a forecast calculated?","acceptedAnswer":{"@type":"Answer","text":"Each forecast tracks how often a search-interest spike for a trope has been followed by that trope actually rising in demand signals, versus tropes with no spike. We're still widening the data this rests on, so today the radar shows direction and a confidence word, not a lift figure."}},
+{"@type":"Question","name":"How is the confidence on a forecast worked out?","acceptedAnswer":{"@type":"Answer","text":"Each forecast tracks how often a search-interest spike for a trope has been followed by that trope actually rising in demand signals, versus tropes with no spike. We're still widening the data this rests on, so today the radar shows direction and a confidence word, not a lift figure."}},
 {"@type":"Question","name":"What can the radar predict, and what can't it?","acceptedAnswer":{"@type":"Answer","text":"We forecast seasonal repeats: tropes that rise at the same time every year. We cannot predict brand-new surges. In a three-year test on our own review history, neither reader-review speed nor search spikes picked first-time surges better than chance. We are now testing Reddit, BookTok, shelf and chart signals going forward and will say so here when we know."}},
-{"@type":"Question","name":"Why doesn't the radar publish an accuracy number right now?","acceptedAnswer":{"@type":"Answer","text":"The radar is in calibration. Our current backtest runs on a thin, mostly search-only signal history, and we'd rather widen that data than publish a precision number that doesn't hold up as more signal types mature. When it does, we'll show our work."}},
+{"@type":"Question","name":"Why doesn't the radar publish a track-record number right now?","acceptedAnswer":{"@type":"Answer","text":"The radar is in calibration. It runs on a thin, mostly search-only signal history, and we'd rather widen that data than put a number on it that doesn't hold up as more signal types mature. When it does, we'll show our work."}},
 {"@type":"Question","name":"Are the news and adaptation signals as reliable as the search signal?","acceptedAnswer":{"@type":"Answer","text":"Not yet, and the radar says so. The Google Trends signal showed a modest edge in tests on past data; those results are being re-checked, and we do not claim it predicts brand-new surges. News-shock signals (GDELT) and screen-adaptation signals (TMDB) are shown as evidence lines on a forecast when present, but neither has enough resolved history yet to carry its own measured lift — treat them as color on a forecast, not the reason to trust it."}},
 {"@type":"Question","name":"I write under a big, established pen name and publish on a schedule — how do I use this?","acceptedAnswer":{"@type":"Answer","text":"Treat the radar as a scheduling input, not a pivot command. Check it when you're choosing which of your next few contracted books to write first, or which trope to lean into for a launch dated a couple of months out — it's most useful for sequencing work you were already going to do."}},
 {"@type":"Question","name":"I'm a mid-list author juggling a few series — what's the read for me?","acceptedAnswer":{"@type":"Answer","text":"Watch your own lanes specifically. If a trope you already write is showing 'rising now' or a short lead time, that's a signal to bring forward a book you were planning anyway, or to lean into that trope in your next release's marketing, rather than chase an unrelated lane cold."}},
 {"@type":"Question","name":"I'm just starting out — should I write straight off the radar?","acceptedAnswer":{"@type":"Answer","text":"Use it to shortlist, not to decide alone. A rising trope with high confidence is a reasonable tiebreaker between two ideas you're already excited about; it is not a substitute for writing a book you can finish and defend. Pair it with a Tropesmith Map for the full demand-vs-supply read on the exact lane you're considering."}},
 {"@type":"Question","name":"How is this different from the Trope Pulse or a Tropesmith Map?","acceptedAnswer":{"@type":"Answer","text":"The Trope Pulse reports what's already moving this week. A Map reads today's demand-vs-supply for a lane you specify. The Trend Radar is the leading-indicator layer underneath both: it exists to catch a rise before it shows up in either of those, using signals measured to lead demand by weeks, not to describe the present."}},
-{"@type":"Question","name":"What do I get free versus as a member?","acceptedAnswer":{"@type":"Answer","text":"Free: up to 10 of the strongest active forecasts, refreshed continuously — trope, rise label, lead time and confidence, no signup required. Members (any active Live Board subscription, or a Map credit balance) get the full active radar, the measured lift for every forecast, the underlying evidence line (what fired, when, how strong) and the current backtest headline."}}
+{"@type":"Question","name":"What do I get free versus as a member?","acceptedAnswer":{"@type":"Answer","text":"Free: up to 10 of the strongest active forecasts, refreshed continuously — trope, rise label, lead time and confidence, no signup required. Members (any active Live Board subscription, or a Map credit balance) get the full active radar and the underlying evidence line behind each forecast (what fired, when, how strong)."}}
 ]}</script>
 <script src="/assets/analytics.js?v=20260925" defer></script><script src="https://analytics.ahrefs.com/analytics.js" data-key="e0CW9Mz0/iGEuBhmfBv0oA" async></script>
 <style>
@@ -122,7 +122,6 @@ h1 em{font-style:normal;background:var(--tr-grad);-webkit-background-clip:text;b
 .evrow{border-top:1px solid var(--tr-line);padding-top:10px;margin-top:10px;font-size:13.5px;color:var(--tr-muted)}
 .evrow b{color:var(--tr-ink)}
 .liftbadge{font-family:var(--tr-mono);font-weight:700;color:var(--tr-teal)}
-.backtestline{text-align:center;color:var(--tr-muted2);font-size:13px;margin-top:16px}
 .upsellcta{display:inline-block;margin-top:14px;background:var(--tr-grad);color:#fff;font-weight:700;padding:12px 24px;border-radius:999px;text-decoration:none;font-size:14.5px}
 
 .faq-item{background:var(--tr-card);border:1px solid var(--tr-line);border-radius:14px;padding:4px 22px 14px;margin:12px 0}
@@ -169,8 +168,8 @@ h1 em{font-style:normal;background:var(--tr-grad);-webkit-background-clip:text;b
   <section class="section" id="member">
     <div class="sectionhead reveal">
       <span class="k">Full radar &middot; members</span>
-      <h2>Every active forecast, with the evidence and the lift</h2>
-      <p>The free board tells you what's rising. The full radar tells you why, how strong the signal was, and the measured lift for that specific forecast.</p>
+      <h2>Every active forecast, with the evidence behind it</h2>
+      <p>The free board tells you what's rising. The full radar tells you why, and what fired, when and how strong the signal was for that specific forecast.</p>
     </div>
     <div class="memberwrap reveal">
       <div class="memberpreview" id="memberPreview" aria-hidden="true">
@@ -180,7 +179,7 @@ h1 em{font-style:normal;background:var(--tr-grad);-webkit-background-clip:text;b
         <div class="locktxt">
           <span class="k">Unlock with membership</span>
           <h3>See the evidence behind every call</h3>
-          <p>Members (any active Live Board subscription, or a Map credit balance) get the full active radar &mdash; every forecast's lift, its evidence line, and the current backtest headline.</p>
+          <p>Members (any active Live Board subscription, or a Map credit balance) get the full active radar &mdash; every active forecast and its evidence line.</p>
           <div class="memberform">
             <input id="memberEmail" type="email" placeholder="you@email.com" autocomplete="email">
             <button id="memberCheck">Check my access</button>
@@ -210,10 +209,10 @@ h1 em{font-style:normal;background:var(--tr-grad);-webkit-background-clip:text;b
       <div class="faq-item"><h3>How is this different from the Trope Pulse or a Tropesmith Map?</h3><p>The <a href="/pulse/">Trope Pulse</a> reports what's already moving this week. A Map reads today's demand-vs-supply for a lane you specify. The Trend Radar is the leading-indicator layer underneath both: it exists to catch a rise before it shows up in either of those.</p></div>
       <span class="faqtier">Big pen-name builders</span>
       <div class="faq-item"><h3>I write under an established pen name on a release schedule &mdash; how do I use this?</h3><p>Treat the radar as a scheduling input, not a pivot command. Check it when choosing which of your next contracted books to write first, or which trope to lean into for a launch dated a couple of months out.</p></div>
-      <div class="faq-item"><h3>How is the lift or confidence on a forecast worked out?</h3><p>Each forecast tracks how often a search-interest spike for a trope has been followed by that trope actually rising in demand signals, versus tropes with no spike. We're still widening the data this rests on, so today the radar shows direction and a confidence word, not a lift figure.</p></div>
+      <div class="faq-item"><h3>How is the confidence on a forecast worked out?</h3><p>Each forecast tracks how often a search-interest spike for a trope has been followed by that trope actually rising in demand signals, versus tropes with no spike. We're still widening the data this rests on, so today the radar shows direction and a confidence word, not a lift figure.</p></div>
       <div class="faq-item"><h3>What can the radar predict, and what can't it?</h3><p>We forecast seasonal repeats: tropes that rise at the same time every year. We cannot predict brand-new surges. In a three-year test on our own review history, neither reader-review speed nor search spikes picked first-time surges better than chance. We are now testing Reddit, BookTok, shelf and chart signals going forward and will say so here when we know.</p></div>
-      <div class="faq-item"><h3>Why doesn't the radar publish an accuracy number right now?</h3><p>The radar is in calibration. Our current backtest runs on a thin, mostly search-only signal history, and we'd rather widen that data than publish a precision number that doesn't hold up as more signal types mature. When it does, we'll show our work.</p></div>
-      <div class="faq-item"><h3>What do I get free versus as a member?</h3><p>Free: up to 10 of the strongest active forecasts, refreshed continuously &mdash; trope, rise label, lead time and confidence, no signup required. Members (any active Live Board subscription, or a Map credit balance) get the full active radar, the measured lift for every forecast, the evidence line behind it, and the current backtest headline.</p></div>
+      <div class="faq-item"><h3>Why doesn't the radar publish a track-record number right now?</h3><p>The radar is in calibration. It runs on a thin, mostly search-only signal history, and we'd rather widen that data than put a number on it that doesn't hold up as more signal types mature. When it does, we'll show our work.</p></div>
+      <div class="faq-item"><h3>What do I get free versus as a member?</h3><p>Free: up to 10 of the strongest active forecasts, refreshed continuously &mdash; trope, rise label, lead time and confidence, no signup required. Members (any active Live Board subscription, or a Map credit balance) get the full active radar and the evidence line behind each forecast.</p></div>
     </div>
   </section>
 
@@ -246,6 +245,15 @@ h1 em{font-style:normal;background:var(--tr-grad);-webkit-background-clip:text;b
   // pluralisation fix, not a backend change.
   function fixLabel(label){ return (label||"").replace(/\b1 weeks\b/, "1 week"); }
 
+  // Seasonal past-years list (TS-1255 follow-up, 10 Nov 2026): shown ONLY when no forecast is active and the API sent a non-empty `seasonal` board.
+  // Names and 'years' only: no index, lift, confidence or score of any kind, and the API's own note says it is a pattern from earlier years, not a prediction.
+  function seasonalCards(sz){
+    return sz.items.map(function(it,i){
+      return '<div class="card"><span class="rank">'+(i+1)+'</span><span class="trope">'+esc(it.trope_display)+'<span class="lane">strong in '+esc(sz.month_name)+' in '+esc(it.years)+' past years</span></span></div>';
+    }).join("");
+  }
+  function hasSeasonal(d){ return !!(d && !d.error && Array.isArray(d.forecasts) && !d.forecasts.length && d.seasonal && Array.isArray(d.seasonal.items) && d.seasonal.items.length); }
+
   function cardHtml(f, i){
     var label = fixLabel(f.label);
     var lane = f.lane_display ? '<span class="lane">'+esc(f.lane_display)+'</span>' : "";
@@ -260,6 +268,13 @@ h1 em{font-style:normal;background:var(--tr-grad);-webkit-background-clip:text;b
   // or shows a figure that wasn't actually live at render time) ──
   post({ action: "trend-radar" }).then(function(d){
     var board = document.getElementById("board"), meta = document.getElementById("boardmeta"), prevRows = document.getElementById("memberPreviewRows");
+    if(hasSeasonal(d)){
+      var bt0 = document.getElementById("boardtitle"); if(bt0) bt0.textContent = d.seasonal.heading;
+      board.innerHTML = '<p class="boardmeta" style="margin:0 0 12px">'+esc(d.seasonal.note)+'</p>' + seasonalCards(d.seasonal);
+      meta.textContent = "Seasonal pattern, built " + d.seasonal.as_of + ". Forecasts replace this list when one is active.";
+      if(prevRows) prevRows.innerHTML = '<div class="boardstate">No forecast is active right now. Members see each forecast\'s evidence here once one is active.</div>';
+      return;
+    }
     if(!d || d.error || !Array.isArray(d.forecasts) || !d.forecasts.length){
       board.innerHTML = '<div class="boardstate">The radar is refreshing &mdash; check back shortly.</div>';
       if(prevRows) prevRows.innerHTML = '<div class="boardstate">Refreshing&hellip;</div>';
@@ -271,7 +286,7 @@ h1 em{font-style:normal;background:var(--tr-grad);-webkit-background-clip:text;b
     meta.textContent = "Generated " + new Date(d.generated_at).toLocaleString() + " · refreshes continuously as new forecasts clear the strength gate.";
     if(prevRows){
       prevRows.innerHTML = d.forecasts.slice(0,2).map(function(f,i){
-        return cardHtml(f,i) + '<div class="evrow">Lift, evidence date/strength and TMDB attribution &mdash; unlock to see</div>';
+        return cardHtml(f,i) + '<div class="evrow">Evidence date/strength and TMDB attribution &mdash; unlock to see</div>';
       }).join("");
     }
   }).catch(function(){
@@ -296,15 +311,13 @@ h1 em{font-style:normal;background:var(--tr-grad);-webkit-background-clip:text;b
           return esc(e.type||"signal") + (e.date?(" · " + esc(e.date)):"") + (e.strength!=null?(" · strength " + esc(e.strength)):"") + entityBit;
         }).join(" &middot; ") || "no resolved evidence line yet";
         var tmdb = f.tmdb_attribution ? ' &middot; includes a TMDB adaptation signal' : '';
-        var lift = f.lift != null ? '<span class="liftbadge">+' + Math.round(f.lift*100) + 'pp</span> lift over base' : 'lift not yet available';
-        return cardHtml(f, i) + '<div class="evrow"><b>' + lift + '</b> &middot; ' + ev + tmdb + '</div>';
+        return cardHtml(f, i) + '<div class="evrow">' + ev + tmdb + '</div>';
       }).join("");
-      var bt = d.backtest_headline;
-      var btLine = ''; // TS-1255 hotfix (1 Nov): no precision line until the rise-rule re-run; was: bt ? ('Backtest: ' + Math.round(bt.precision*100) + '% precision ...') : ''
+      if(hasSeasonal(d)) rows = '<p class="boardmeta" style="margin:0 0 12px">'+esc(d.seasonal.note)+'</p>' + seasonalCards(d.seasonal);
       document.getElementById("memberPreview").parentElement.style.display = "none";
       var unlocked = document.getElementById("memberUnlocked");
       unlocked.style.display = "block";
-      unlocked.innerHTML = '<div class="memberunlocked">' + rows + (btLine ? '<p class="backtestline">' + btLine + '</p>' : '') + '</div>';
+      unlocked.innerHTML = '<div class="memberunlocked">' + rows + '</div>';
     }).catch(function(){ memberMsg.textContent = "Network error — please try again."; });
   });
 
