@@ -130,10 +130,10 @@ function leadForm(subgenreId) {
 	return `<div class="leadform-wrap">
 <form class="leadform" id="lp-f" data-subgenre="${esc(subgenreId || '')}">
 <input type="email" id="lp-em" placeholder="you@email.com" required autocomplete="email">
-<button type="submit">Send me the weekly Trope Pulse &rarr;</button>
+<button type="submit">Show me the Pulse &rarr;</button>
 </form>
-<div class="leadnote">Free. One email a week: the Trope Pulse. Unsubscribe anytime. <span id="lp-err" style="color:#C2334A"></span></div>
-<div class="leadok" id="lp-ok">&#10003; You're in — check your inbox.</div>
+<div class="leadnote">We'll keep your address for the Trope Pulse. <span id="lp-err" style="color:#C2334A"></span></div>
+<div class="leadok" id="lp-ok">&#10003; You're in. We'll keep your address for the Trope Pulse.</div>
 </div>
 <script>(function(){
 var f=document.getElementById('lp-f');if(!f)return;
@@ -147,7 +147,7 @@ var btn=f.querySelector('button');btn.disabled=true;btn.textContent='Sending…'
    rendered server-side before this script ran, so this call never gates or blocks it. */
 fetch('https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/trope-trend-tool',{method:'POST',headers:{'content-type':'application/json','apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzYnl0ZG9uYnV3cnJsbXd0ZWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODg5MDksImV4cCI6MjA5MjM2NDkwOX0.EGgGUQfCcQ3tul-LKuAQR3-hALTZOOo3cEeq5Ha2aM0','authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzYnl0ZG9uYnV3cnJsbXd0ZWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODg5MDksImV4cCI6MjA5MjM2NDkwOX0.EGgGUQfCcQ3tul-LKuAQR3-hALTZOOo3cEeq5Ha2aM0'},body:JSON.stringify({email:em,subgenre_id:f.dataset.subgenre||'romance.contemporary',source:'trending_bake'})})
 .then(function(){document.getElementById('lp-ok').style.display='block';f.style.display='none';})
-.catch(function(){btn.disabled=false;btn.textContent='Send me the weekly Trope Pulse →';err.textContent='Network error — please try again.';});
+.catch(function(){btn.disabled=false;btn.textContent='Show me the Pulse →';err.textContent='Network error — please try again.';});
 });
 })();</script>`;
 }
