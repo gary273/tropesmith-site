@@ -82,7 +82,7 @@
       nav.appendChild(item); } }
     // 3. the one-time pop-up
     var seen = false; try { seen = localStorage.getItem('chgd-abf-2026') === '1'; } catch (e) {}
-    if (d.popup === 'off' || seen || NO_POP.test(path)) return;
+    if (d.popup === 'off' || seen || NO_POP.test(path) || (window.matchMedia && window.matchMedia('(max-width: 639.98px)').matches)) return;
     setTimeout(pop, 6000);
   }
   function pop() {
