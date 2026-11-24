@@ -256,7 +256,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
         <legend>One more thing</legend>
         <label class="chk">
           <input type="checkbox" id="newsletter_opt_in" name="newsletter_opt_in"/>
-          <span>Email me when <b>Trope Pulse</b> launches — the free weekly state-of-the-genre brief. No other newsletter, no spam.</span>
+          <span>Send me the weekly <b>Trope Pulse</b> — a short state-of-the-genre brief. We'll email one confirmation link first. No other newsletter, no spam.</span>
         </label>
       </fieldset>
 
@@ -461,6 +461,15 @@ fbq('init','1319927140123427');fbq('track','PageView');};
     btn.disabled = true; const origLabel = btn.innerHTML; btn.innerHTML = 'Submitting…';
     msg.textContent = 'Sending your brief…'; msg.classList.remove('err');
     Tropesmith.submitIntake(payload).then(function(res){
+      // Weekly Trope Pulse (double opt-in): only after a successful submit with the box ticked; one best-effort attempt, its outcome never changes the intake result.
+      if (res && res.ok && payload.marketing_opt_in) {
+        try {
+          fetch('https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-subscribe', {
+            method: 'POST', headers: { 'content-type': 'application/json' }, keepalive: true,
+            body: JSON.stringify({ email: payload.email, site: 'tropesmith-intake' })
+          }).catch(function () {});
+        } catch (e) {}
+      }
       if (res && res.ok && res.needs_credits) {
         // No credits available — send them to buy credits, then come back and build.
         if (wantLB) {
