@@ -80,12 +80,13 @@ a{color:var(--teal)}
 <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
 <button id="go">Show this week's pulse</button>
 </div>
-<p class="quiet" style="margin-top:10px">No charge to see this pulse. You'll also join the TropeSmith early-access list — first in when we open, unsubscribe anytime.</p>
+<p class="quiet" style="margin-top:10px">We'll email you a confirmation link; after you confirm you get the weekly Trope Pulse. Unsubscribe anytime.</p>
 <p class="msg" id="formMsg"></p>
 </div>
 
 <div id="result" class="hidden">
 <div class="card" style="border-top:3px solid var(--teal)">
+<p class="msg" id="subMsg" style="color:var(--green);margin:0 0 10px"></p>
 <h2 style="margin:0 0 4px;font-size:19px" id="laneTitle"></h2>
 <p class="quiet" id="laneMeta"></p>
 <table><thead><tr><th>Trope</th><th>Share of lane buzz</th><th>vs last week</th></tr></thead><tbody id="rows"></tbody></table>
@@ -93,9 +94,9 @@ a{color:var(--teal)}
 </div>
 
 <div class="cta">
-<span class="pill">EARLY ACCESS</span>
+<span class="pill">WEEKLY</span>
 <h2>This is one lane, one week. TropeSmith is all of them, always.</h2>
-<p>Trope shares, lane maps and market snapshots across every romance lane. You're on the early-access list: you'll be first in the door when we open.</p>
+<p id="ctaText">Trope shares, lane maps and market snapshots across every romance lane. Check your inbox and confirm to get the Trope Pulse every week.</p>
 </div>
 </div>
 
@@ -105,11 +106,14 @@ a{color:var(--teal)}
 <script>
 (function () {
 	var EP = "https://kzkehpgnqofhyskyftas.supabase.co/functions/v1/ts-trope-pulse";
+	var SUB = "https://vsbytdonbuwrrlmwteaw.supabase.co/functions/v1/pulse-subscribe";
+	var subscribed = null;
 	function $(id) { return document.getElementById(id); }
-	function post(body) {
-		return fetch(EP, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) })
+	function postTo(url, body) {
+		return fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) })
 			.then(function (r) { return r.json(); });
 	}
+	function post(body) { return postTo(EP, body); }
 	function esc(s) { var d = document.createElement("div"); d.textContent = String(s); return d.innerHTML; }
 	function tropeName(t) { return String(t).replace(/-/g, " "); }
 
@@ -132,10 +136,20 @@ a{color:var(--teal)}
 		if (!lane) { $("formMsg").textContent = "Pick your lane first."; return; }
 		if (!email || email.indexOf("@") < 0) { $("formMsg").textContent = "Enter a valid email address."; return; }
 		$("go").disabled = true; $("formMsg").textContent = "";
-		post({ action: "pulse", email: email, lane: lane }).then(function (r) {
-			$("go").disabled = false;
-			if (!r.ok) { $("formMsg").textContent = r.reason === "rate_limited" ? "Easy there — try again in an hour." : "Something went wrong — please try again."; return; }
-			render(r.pulse);
+		// The email goes to pulse-subscribe only (double opt-in); ts-trope-pulse `view` receives the lane alone. The pulse shows once the sign-up call answered ok.
+		var signUp = subscribed && subscribed.email === email && subscribed.lane === lane
+			? Promise.resolve(subscribed.res)
+			: postTo(SUB, { email: email, subgenre: lane, site: "tropesmith-pulse" });
+		signUp.then(function (s) {
+			if (!s || !s.ok) { $("go").disabled = false; $("formMsg").textContent = "Something went wrong — please try again."; return; }
+			subscribed = { email: email, lane: lane, res: s };
+			return post({ action: "view", lane: lane }).then(function (r) {
+				$("go").disabled = false;
+				if (!r.ok) { $("formMsg").textContent = "Your sign-up went through, but this lane's pulse didn't load — please try again."; return; }
+				$("subMsg").textContent = s.already ? "You're already subscribed." : "Check your email to confirm your weekly Trope Pulse.";
+				if (s.already) $("ctaText").textContent = "You're subscribed to the weekly Trope Pulse.";
+				render(r.pulse);
+			});
 		}).catch(function () { $("go").disabled = false; $("formMsg").textContent = "Network error — please try again."; });
 	};
 
