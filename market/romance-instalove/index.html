@@ -38,7 +38,69 @@ h1{font-size:30px;line-height:1.15;margin:8px 0 10px}.sub{color:#5b4a59;font-siz
 a.back{color:#6D28D9;text-decoration:none;font-size:13px;font-weight:600}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
 .card{background:#FFFEFB;border:1px solid rgba(16,18,47,.08);border-radius:12px;padding:14px 16px;text-decoration:none;color:#10122F}
-.card b{font-family:Fraunces,serif}.card .m{font-size:12px;color:#5b4a59;margin-top:4px}</style></head><body><div class="wrap">
+.card b{font-family:Fraunces,serif}.card .m{font-size:12px;color:#5b4a59;margin-top:4px}</style><script>window.CH_PH_CONSENT=function(){try{return localStorage.getItem('ts_analytics_consent')==='granted';}catch(e){return false;}};</script>
+<script>/* Coral Hart Group shared PostHog snippet v3 (24 Nov 2026, Studio Quality; Head RULINGS 1707). PAGE VIEWS ONLY.
+ * Same public project key and loader as coralhart.com. No autocapture, no session recording, no surveys, no heatmaps, no feature flags, no identify/alias calls, person_profiles identified_only,
+ * respects Do Not Track and Global Privacy Control. Every URL property sent has its query string and fragment removed (no token, email or key can leave the page in a URL).
+ * It does NOT LOAD AT ALL on sign-in, HQ, study, account, checkout, cart, order, unsubscribe, token and intake pages (by path), nor on any URL whose query carries a token-like key or whose path holds a long token segment.
+ * v3: persistence is 'memory' (no cookie, no localStorage, no id kept between pages). A site with a consent manager sets window.CH_PH_CONSENT=function(){return true/false} BEFORE this tag: nothing loads until it returns exactly true (if CH_PH_CONSENT exists but is not a function, that counts as NO consent),
+ * events are sent one by one with no batching queue (so nothing queued can outlive a withdrawn consent); it is re-checked every 2 s for up to 3 minutes, and when the site dispatches window.dispatchEvent(new Event('ch-ph-consent-changed')), and events are dropped while it returns anything but true.
+ * A site may add path prefixes BEFORE this tag: window.CH_PH_BLOCK=['/members','/portal']. Remove the tag to undo. Release/review notes: README.md. */
+(function(){
+  try{
+    var L=window.location,P=L.pathname||'/',Q=L.search||'',N=navigator;
+    if(N.doNotTrack==='1'||window.doNotTrack==='1'||N.msDoNotTrack==='1'||N.globalPrivacyControl===true)return;
+    if(/PY-UAT-E2E/i.test(N.userAgent||''))return;
+    var BLOCK=/^\/(?:sign-?in|log-?in|log-?out|sign-?up|register|my-account|account|hq|study|checkout|cart|order|orders|unsub(?:scribe)?|pp-unsub|reset|recover|magic|token|auth|intake|class-choice|thank-you|invite|invites|invitation|share|shared|redeem|claim|verify|confirm|activate|accept|join|password|billing|invoice|receipt|payment|pay|download|view-order|portal-login)(?:[\/?#.-]|$)/i;
+    if(BLOCK.test(P))return;
+    var X=window.CH_PH_BLOCK;if(X&&X.length){for(var i=0;i<X.length;i++){var x=String(X[i]).toLowerCase();if(x&&(P.toLowerCase()===x||P.toLowerCase().indexOf(x.replace(/\/$/,'')+'/')===0))return;}}
+    if(/[?&](?:token|tok|t|key|k|e|email|mail|order|session_id|sid|code|auth|nonce|sig|hq|pyhq|ticket|invite|reset)=/i.test(Q))return;
+    if(/\/[A-Za-z0-9]{24,}(?:[\/?#]|$)/.test(P)||/\/(?:pyhq|hq|tok|token|pp|inv)-[A-Za-z0-9]{10,}/i.test(P))return;
+    var PD=P;try{PD=decodeURIComponent(P);}catch(e){}
+    if(/@/.test(PD)||/%40/i.test(P))return;
+    if(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i.test(P))return;
+    var segs=P.split('/');for(var j=0;j<segs.length;j++){var g=segs[j];if(g.length>=10&&/^[A-Za-z0-9]+$/.test(g)&&/[0-9]/.test(g)&&/[A-Za-z]/.test(g)&&((g.replace(/[^0-9]/g,'').length/g.length>=0.2)||(/[A-Z]/.test(g)&&/[a-z]/.test(g))))return;if(g.length>=20&&/^[A-Za-z0-9_-]+$/.test(g)&&/[0-9]/.test(g)&&/[A-Za-z]/.test(g)&&((g.replace(/[^0-9]/g,'').length/g.length>=0.2)||(/[A-Z]/.test(g)&&/[a-z]/.test(g))))return;}
+    var POLL_MS=2000,POLL_MAX_MS=180000;
+    var gated=function(){return Object.prototype.hasOwnProperty.call(window,'CH_PH_CONSENT')||window.CH_PH_CONSENT!==undefined;};
+    var REF0=document.referrer||'$direct',PN0=L.pathname||'/',PATH0=L.protocol+'//'+L.host+PN0,U0={};
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){var m=Q.match(new RegExp('[?&]'+k+'=([^&#]*)'));if(m){try{U0[k]=decodeURIComponent(m[1].replace(/\+/g,' '));}catch(e){U0[k]=m[1];}}});
+    var ok=function(){if(!gated())return true;var c=window.CH_PH_CONSENT;if(typeof c!=='function')return false;try{return c()===true;}catch(e){return false;}};
+    var started=false;
+    var start=function(){if(started||!ok())return;started=true;
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag identify alias people.set set_config".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    var strip=function(v){if(typeof v!=='string')return v;var a=v.search(/[?#]/);return a<0?v:v.slice(0,a);};
+    var origin=function(v){if(typeof v!=='string')return v;var m=v.match(/^([a-z][a-z0-9+.-]*:\/\/[^\/?#]+)/i);return m?m[1]:v;};
+    var CLICKIDS=/^(?:\$initial_|\$session_entry_)?(?:gclid|gbraid|wbraid|fbclid|msclkid|ttclid|dclid|twclid|li_fat_id|igshid|mc_cid|mc_eid|_hsenc|_hsmi|ph_keyword)$/i;
+    var UTM=/^(?:\$initial_|\$session_entry_)?utm_/i;
+    var campaign=function(v){if(v&&typeof v==='object')return '[redacted]';if(typeof v!=='string')return v;var d=v;try{d=decodeURIComponent(v);}catch(e){}if(v.length>100||/@/.test(d)||/[A-Za-z0-9_-]{32,}/.test(d)||/^[0-9a-f-]{20,}$/i.test(d))return '[redacted]';return v;};
+    var EMAIL=/[A-Za-z0-9._%+\-]+(?:@|%40)[A-Za-z0-9.\-]+\.[A-Za-z]{2,}/;
+    var clean=function(o,depth){if(!o||typeof o!=='object')return;if((depth||0)>6){for(var q in o)if(Object.prototype.hasOwnProperty.call(o,q))delete o[q];return;}for(var k in o){if(!Object.prototype.hasOwnProperty.call(o,k))continue;var v=o[k];if(CLICKIDS.test(k)||/^\$?(?:page_)?title$/i.test(k)){delete o[k];continue;}if(UTM.test(k)){o[k]=campaign(v);continue;}if(v&&typeof v==='object'){clean(v,(depth||0)+1);continue;}if(typeof v==='string'&&k.indexOf('referring_domain')<0){if(/referrer/i.test(k))v=origin(v);else if(/url/i.test(k))v=strip(v);var dv=v;try{dv=decodeURIComponent(v);}catch(e){}if(EMAIL.test(v)||EMAIL.test(dv))v='[redacted]';o[k]=v;}}};
+    posthog.init("phc_o4czvFKYyo9fUA5SVBaux5MF2uGftiigq7kpos3XJdhZ",{
+      api_host:"https://us.i.posthog.com",
+      person_profiles:"identified_only",
+      persistence:"memory",
+      request_batching:false,
+      autocapture:false,
+      capture_pageview:false,
+      capture_pageleave:true,
+      disable_session_recording:true,
+      disable_surveys:true,
+      capture_dead_clicks:false,
+      capture_heatmaps:false,
+      disable_web_experiments:true,
+      advanced_disable_decide:true,
+      advanced_disable_flags:true,
+      respect_dnt:true,
+      before_send:function(cr){if(!cr||!ok())return null;clean(cr,0);return cr;},
+      loaded:function(ph){ph.identify=function(){};ph.alias=function(){};ph.setPersonProperties=function(){};var p={$current_url:PATH0,$pathname:PN0,$referrer:REF0};for(var k in U0)p[k]=U0[k];ph.capture('$pageview',p);}
+    });
+  
+    };
+    start();
+    if(gated()){window.addEventListener('ch-ph-consent-changed',start);if(!started){var t0=Date.now(),iv=setInterval(function(){if(started||Date.now()-t0>=POLL_MAX_MS){clearInterval(iv);return;}start();if(started)clearInterval(iv);},POLL_MS);}}
+  }catch(e){}
+})();</script>
+</head><body><div class="wrap">
 <a class="back" href="/market/">&larr; All market snapshots</a>
 <div style="margin-top:18px" class="eyebrow">Market snapshot &middot; updated 23 November 2026</div>
 <h1>Best Love &amp; Romance &mdash; what the market is doing right now</h1>
