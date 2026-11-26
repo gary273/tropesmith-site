@@ -81,7 +81,7 @@ function card(lane, d, stats, theme) {
 
 	const rows = [];
 	if (o.score != null) rows.push(['Opportunity', o.score + '/100', (o.label || '') + (o.rank ? ' · rank ' + o.rank + ' of ' + o.of : '')]);
-	if (g.band) rows.push(['Greenlight', String(g.band), g.score != null ? 'score ' + g.score + '/100' : '']);
+	if (g.band) rows.push(['Greenlight', String(g.band), g.score != null ? 'finder rating ' + g.score + '/100, a different scale from Opportunity' : '']);
 	if (e.demand_30d != null) rows.push(['Signals logged · 30d', num(e.demand_30d), 'demand signals read in this lane (when read, not when posted)']);
 	if (h.steamy_or_hotter_pct != null) rows.push(['Heat readers expect', h.steamy_or_hotter_pct + '% steamy+', num(h.n) ? 'across ' + num(h.n) + ' titles' : '']);
 
@@ -100,7 +100,7 @@ function card(lane, d, stats, theme) {
 
 	return `<div class="ts-lb" style="max-width:420px;background:${bg};border:1px solid ${line};border-radius:16px;overflow:hidden;box-shadow:0 12px 30px -20px rgba(20,22,54,.5)">
 <div style="padding:12px 12px 10px;background:linear-gradient(135deg,${accent},#FF6B7A)">
-<div style="font:700 10px/1.4 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85)">Live Board · refreshed nightly</div>
+<div style="font:700 10px/1.4 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85)">Live Board · updated automatically</div>
 <div style="font:700 17px/1.3 system-ui,sans-serif;color:#fff;margin-top:2px">${esc(name)}</div>
 </div>
 ${cells || `<div style="padding:14px 12px;font:400 13px/1.6 system-ui,sans-serif;color:${dim}">This lane has no score yet.</div>`}
@@ -212,7 +212,7 @@ table{width:100%;border-collapse:collapse;font-size:14.5px}th,td{text-align:left
 <div class="wrap">
 <div class="eyebrow">Free widget &middot; No card, no key, no account</div>
 <h1>Put the Live Board on your own site</h1>
-<p>One script tag. It renders a live card for any lane we score &mdash; opportunity score and rank, greenlight band, demand signals logged in 30 days and the heat level readers expect &mdash; and it refreshes nightly. No libraries, no build step, nothing to maintain.</p>
+<p>One script tag. It renders a live card for any lane we score &mdash; opportunity score and rank, greenlight band, demand signals logged in 30 days and the heat level readers expect &mdash; and it updates itself. No libraries, no build step, nothing to maintain.</p>
 <h2>The snippet</h2>
 <pre>${esc(snip)}</pre>
 <h2>Options</h2>
