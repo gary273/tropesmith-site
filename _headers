@@ -38,3 +38,7 @@
 # Fragments of the corpus section are reusable templates, not pages (TS-1095).
 /partials/*
   X-Robots-Tag: noindex
+
+# RULINGS 2172 (26 Nov 2026): the pages.dev copy of the site must not rank. Host-scoped rule; tropesmith.com is not matched.
+https://tropesmith-site.pages.dev/*
+  X-Robots-Tag: noindex
