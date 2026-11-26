@@ -1,5 +1,8 @@
 # Force apex domain (SEO: one canonical host)
 https://www.tropesmith.com/*  https://tropesmith.com/:splat  301
+# RULINGS 2172 (26 Nov 2026): the old Trope Pulse address
+/trope-pulse  /trend-radar/  301
+/trope-pulse/  /trend-radar/  301
 https://tropesmith-site.pages.dev/*  https://tropesmith.com/:splat  301
 /one-bed-trope/  /forced-proximity-trope/  301
 

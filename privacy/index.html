@@ -7,7 +7,7 @@
    (assets/analytics.js?v=20260925 grantConsent() calls window.tsMetaPixel()). */
 window.tsMetaPixel=function(){if(window.fbq)return;
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','1319927140123427');fbq('track','PageView');};
+fbq('init','1319927140123427');fbq('init','1834142944697507');fbq('track','PageView');};
 (function(){try{if(localStorage.getItem('ts_analytics_consent')==='granted')window.tsMetaPixel();}catch(e){}})();
 </script>
 <!-- End Meta Pixel Code -->
@@ -258,7 +258,7 @@ fbq('init','1319927140123427');fbq('track','PageView');};
           <li><b>Google Analytics cookies</b> — set by Google Analytics 4 to measure traffic and how the site is used. These load <b>only</b> after you accept analytics in our cookie banner, and you can withdraw consent at any time by clearing your cookies. We have IP anonymisation enabled.</li>
           <li><b>Meta Pixel cookies</b> — set by Meta (Facebook) to measure whether visits from our Meta ads lead to sign-ups or purchases. The Meta Pixel loads <b>only</b> after you accept in our cookie banner; if you decline, no Meta code is loaded at all.</li>
         </ul>
-        <p>The Meta Pixel above is our only advertising tag, and it loads only if you accept. We use no other advertising trackers or cross-site retargeting cookies, and we never sell your data. Our own page-event tracking is server-side, anonymous by default, and stored only in our own database.</p>
+        <p>Meta's pixel is our only advertising tag, and it loads only if you accept. We use no other advertising trackers or cross-site retargeting cookies, and we never sell your data. Our own page-event tracking is server-side, anonymous by default, and stored only in our own database.</p>
       </section>
 
       <section id="security">
