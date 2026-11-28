@@ -8,7 +8,7 @@
  * the widget without it.
  *
  * Routes
- *   /embed/                     documentation page (crawlable, links back into the free tools)
+ *   /embed/                     documentation page (crawlable, links back into the tools)
  *   /embed/live-board.js        <script> embed. Data is baked in server-side: one request,
  *                               no client-side fetch, no dependency, no CORS round trip.
  *   /embed/live-board           standalone HTML for an <iframe> (noindex).
@@ -108,7 +108,7 @@ ${cells || `<div style="padding:14px 12px;font:400 13px/1.6 system-ui,sans-serif
 		href
 	)}" rel="noopener" style="color:${accent};font-weight:700;text-decoration:none">Tropesmith</a> · built from ${esc(corpus)} · <a href="${esc(
 		SITE
-	)}/free-tools/?utm_source=embed" rel="noopener" style="color:${accent};text-decoration:none">free tools</a></div>
+	)}/free-tools/?utm_source=embed" rel="noopener" style="color:${accent};text-decoration:none">tools</a></div>
 </div>`;
 }
 
@@ -135,7 +135,7 @@ ${rowsHtml || `<div style="padding:14px 12px;font:400 13px/1.6 system-ui,sans-se
 		href
 	)}" rel="noopener" style="color:${accent};font-weight:700;text-decoration:none">Tropesmith</a> &middot; ${esc(credit)} &middot; <a href="${esc(
 		SITE
-	)}/free-tools/?utm_source=embed" rel="noopener" style="color:${accent};text-decoration:none">free tools</a></div>
+	)}/free-tools/?utm_source=embed" rel="noopener" style="color:${accent};text-decoration:none">tools</a></div>
 </div>`;
 }
 
@@ -197,8 +197,8 @@ function docsPage() {
 		}
 	];
 	return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Embed the Tropesmith Live Board — free widget | Tropesmith</title>
-<meta name="description" content="Put live romance lane data on your own site free: opportunity score, greenlight band, demand signals logged in 30 days and heat mix. One script tag, no dependencies, attribution required.">
+<title>Embed the Tropesmith Live Board — widget | Tropesmith</title>
+<meta name="description" content="Put live romance lane data on your own site: opportunity score, greenlight band, demand signals logged in 30 days and heat mix. One script tag, no dependencies, attribution required.">
 <link rel="canonical" href="${SITE}/embed/">
 <script type="application/ld+json">${JSON.stringify(ld[0])}</script>
 <style>body{margin:0;background:#FFF9F3;color:#10122F;font-family:Inter,-apple-system,sans-serif;line-height:1.7}
@@ -210,7 +210,7 @@ pre{background:#141636;color:#e8e5ff;border-radius:12px;padding:14px 16px;font-s
 .eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#8B5CF6;font-weight:700}
 table{width:100%;border-collapse:collapse;font-size:14.5px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(16,18,47,.09)}th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#a39395}</style></head><body>
 <div class="wrap">
-<div class="eyebrow">Free widget &middot; No card, no key, no account</div>
+<div class="eyebrow">Widget &middot; No card, no key, no account</div>
 <h1>Put the Live Board on your own site</h1>
 <p>One script tag. It renders a live card for any lane we score &mdash; opportunity score and rank, greenlight band, demand signals logged in 30 days and the heat level readers expect &mdash; and it updates itself. No libraries, no build step, nothing to maintain.</p>
 <h2>The snippet</h2>
@@ -220,7 +220,7 @@ table{width:100%;border-collapse:collapse;font-size:14.5px}th,td{text-align:left
 <tr><td><code>lane</code></td><td>Any lane from <a href="/lane-score/">the scored lane list</a>, e.g. <code>romance.dark</code>. Defaults to <code>${DEFAULT_LANE}</code>.</td></tr>
 <tr><td><code>theme</code></td><td><code>light</code> (default) or <code>dark</code>.</td></tr>
 </tbody></table>
-<h2>Two more free widgets</h2>
+<h2>Two more widgets</h2>
 <p><b>Trope pairings</b> &mdash; the trope pairings named together in reader reviews and posts in a lane, with how many tagged titles carry both. Counted, not estimated.</p>
 <pre>${esc('<div id="tropesmith-trope-pairs"></div>\n<script src="' + SITE + '/embed/trope-pairs.js?lane=romance.dark" async></script>')}</pre>
 <p><b>BookTok hashtags</b> &mdash; measured plays per video for the hashtags in a lane, each with its scan date. A dated snapshot, never presented as live.</p>
@@ -229,9 +229,9 @@ table{width:100%;border-collapse:collapse;font-size:14.5px}th,td{text-align:left
 <h2>Prefer an iframe?</h2>
 <pre>${esc('<iframe src="' + SITE + '/embed/live-board?lane=romance.dark" width="100%" height="320" style="border:0" loading="lazy" title="Tropesmith live lane board"></iframe>')}</pre>
 <h2>The licence</h2>
-<p>Free to use on any site, blog or newsletter template, commercial or not. The one condition: keep the visible <b>&ldquo;Data: Tropesmith&rdquo;</b> credit link back to tropesmith.com. Do not strip it, hide it or <code>nofollow</code> it &mdash; that link is what pays for the data.</p>
+<p>Use it on any site, blog or newsletter template, commercial or not. The one condition: keep the visible <b>&ldquo;Data: Tropesmith&rdquo;</b> credit link back to tropesmith.com. Do not strip it, hide it or <code>nofollow</code> it &mdash; that link is what pays for the data.</p>
 <h2>Where the numbers come from</h2>
-<p>Counted from the Tropesmith corpus &mdash; Goodreads reviews and shelf signals, parsed demand signals, BookTok video metadata and Amazon category economics &mdash; and recounted as the corpus grows. See <a href="/free-tools/">every free Tropesmith tool</a>, the full <a href="/lane-score/">lane score list</a>, or the <a href="${REPORT}">2026 Romance Demand Report</a>.</p>
+<p>Counted from the Tropesmith corpus &mdash; Goodreads reviews and shelf signals, parsed demand signals, BookTok video metadata and Amazon category economics &mdash; and recounted as the corpus grows. See <a href="/free-tools/">every Tropesmith tool</a>, the full <a href="/lane-score/">lane score list</a>, or the <a href="${REPORT}">2026 Romance Demand Report</a>.</p>
 </div></body></html>`;
 }
 

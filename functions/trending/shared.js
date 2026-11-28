@@ -66,7 +66,7 @@ function toolApp(url) {
 		url,
 		name: 'Tropesmith Trope Opportunity Check',
 		description:
-			'Free tool: for a romance subgenre, the tropes with the most demand signals in the latest month of the lane trend table, and the tropes near the top of the lane’s ranking by likes and upvotes. Counts and ranks are from the trend table; reviews are read some time after they are posted, so recent months read low.',
+			'Tool: for a romance subgenre, the tropes with the most demand signals in the latest month of the lane trend table, and the tropes near the top of the lane’s ranking by likes and upvotes. Counts and ranks are from the trend table; reviews are read some time after they are posted, so recent months read low.',
 		featureList: [
 			'The tropes with the most demand signals in the lane trend table’s latest month',
 			'Tropes near the top of the lane’s ranking by likes and upvotes, with little change from earlier months',
@@ -173,7 +173,7 @@ function pageBody(id) {
 	const d = DATA[id];
 	const ln = laneLabel(id);
 	return `<div class="wrap">
-<div class="eyebrow">Free tool &middot; Rebuilt nightly from the lane trend table &middot; No card needed</div>
+<div class="eyebrow">Tool &middot; Rebuilt nightly from the lane trend table &middot; No card needed</div>
 <h1>Which tropes should your next ${esc(lanePhrase(ln))} lean into?</h1>
 <p class="lede">The latest month of the ${esc(ln)} trend table holds ${num(d.month_total_mentions)} main-trope tags on demand signals. Baked from the lane trend table on ${esc(AS_OF)}. ${LAG_NOTE}</p>
 ${lanePicker(id)}
@@ -187,9 +187,9 @@ ${leadForm(id)}
 
 function indexBody() {
 	return `<div class="wrap">
-<div class="eyebrow">Free tool &middot; Rebuilt nightly from the lane trend table &middot; No card needed</div>
+<div class="eyebrow">Tool &middot; Rebuilt nightly from the lane trend table &middot; No card needed</div>
 <h1>Which tropes should your next romance actually lean into?</h1>
-<p class="lede">Pick your subgenre and get a free read: the tropes with the most demand signals in the latest month of the lane trend table, and the tropes near the top of the lane's ranking by likes and upvotes. Each lane page says which date its counts and ranks are from.</p>
+<p class="lede">Pick your subgenre and get a read: the tropes with the most demand signals in the latest month of the lane trend table, and the tropes near the top of the lane's ranking by likes and upvotes. Each lane page says which date its counts and ranks are from.</p>
 ${lanePicker('')}
 <p class="note">Pick a subgenre above to see its read.</p>
 ${leadForm('')}
@@ -228,7 +228,7 @@ export async function handle(context) {
 		const canonical = SITE + PATH + '/';
 		if (json) return jsonResponse({ ok: true, as_of: AS_OF, subgenres: IDS.map((i) => ({ id: i, label: laneLabel(i) })) });
 		const ld = [Object.assign({ '@context': 'https://schema.org' }, datasetFor(null)), toolApp(canonical), breadcrumb('Trope Opportunity Check', canonical)];
-		return htmlOut(stageHead('Free Romance Trope Opportunity Check | Tropesmith', "Free for your subgenre: tropes with the most demand signals in the trend table's latest month, and those near the top of its likes-and-upvotes ranking.", canonical, ld, isProd) + indexBody() + foot(), { noindex });
+		return htmlOut(stageHead('Romance Trope Opportunity Check | Tropesmith', "For your subgenre: tropes with the most demand signals in the trend table's latest month, and those near the top of its likes-and-upvotes ranking.", canonical, ld, isProd) + indexBody() + foot(), { noindex });
 	}
 
 	const canonical = SITE + PATH + '/' + id;

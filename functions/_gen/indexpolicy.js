@@ -1,6 +1,6 @@
 /* TS-1142: one place that decides whether an auto-made page may be indexed.
    Wraps a family's existing handle(); changes nothing about the page a human gets (still 200, same body,
-   so the free tools keep working) except: retired URLs carry X-Robots-Tag + a robots meta of noindex,follow.
+   so the tools keep working) except: retired URLs carry X-Robots-Tag + a robots meta of noindex,follow.
    Data comes from ./index-policy-data.js (generated from the TS-1142 classification). */
 import { POLICY } from './index-policy-data.js';
 

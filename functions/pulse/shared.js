@@ -51,7 +51,7 @@ function notFound(slug) {
 .wrap{max-width:640px;margin:0 auto;padding:60px 22px}h1{font-family:Fraunces,Georgia,serif;font-size:30px;margin:0 0 12px}a{color:#6D28D9}</style>${TS_PH_TAG}</head><body>
 <div class="wrap"><h1>No Trope Pulse issue for that lane yet</h1>
 <p>The Trope Pulse currently runs for ${lanes.map((l) => '<a href="/pulse/' + esc(l) + '">' + esc(l.replace(/-/g, ' ')) + '</a>').join(' and ')}. Nothing has been invented to fill this page.</p>
-<p><a href="/pulse/">The Trope Pulse &rarr;</a> &middot; <a href="/free-tools/">Every free Tropesmith tool &rarr;</a> &middot; <a href="/lane-score/">Lane scores &rarr;</a></p>
+<p><a href="/pulse/">The Trope Pulse &rarr;</a> &middot; <a href="/free-tools/">Every Tropesmith tool &rarr;</a> &middot; <a href="/lane-score/">Lane scores &rarr;</a></p>
 </div></body></html>`,
 		{ status: 404, headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=600' } }
 	);
@@ -103,10 +103,10 @@ function enrich(html, canonical, feedName, date) {
 		`<meta property="og:site_name" content="Tropesmith">` + (archived ? ARCHIVE_HEAD : '') +
 		'<script type="application/ld+json">' + JSON.stringify(ld) + '</script>';
 	const foot = `<div style="max-width:640px;margin:28px auto 60px;padding:16px 20px;background:#FFFEFB;border:1px solid rgba(16,18,47,.1);border-radius:16px;font:400 14.5px/1.7 Inter,system-ui,sans-serif;color:#3a3450">
-<b>Keep going &mdash; free.</b><br>
+<b>Keep going.</b><br>
 <a href="/pulse/" style="color:#6D28D9">Every Trope Pulse issue</a> &middot;
 <a href="/lane-score/" style="color:#6D28D9">Is your subgenre worth writing?</a> &middot;
-<a href="/free-tools/" style="color:#6D28D9">Every free Tropesmith tool</a> &middot;
+<a href="/free-tools/" style="color:#6D28D9">Every Tropesmith tool</a> &middot;
 <a href="${REPORT}" style="color:#6D28D9">The 2026 Romance Demand Report</a></div><script src="/chg-deals-promo.js" defer data-site="tropesmith" data-popup="on" data-nav="header.desk-header nav.desk-nav, .topnav nav" data-push="#desk-header" data-no-popup="(checkout|[/]cart|[/]basket|[/]pay(ment)?s?(?![a-z0-9_])|order|login|log-in|sign-?in|account|[/]hq(?![a-z0-9_])|[/]app(?![a-z0-9_])|classroom|[/]tools?(?![a-z0-9_])|dashboard|[/]studio(?![a-z0-9_])|^[/](pricing|find-your-lane|intake)(?![a-z0-9_-]))"></script>`;
 
 	let out = archived ? html.replace(PLAY_TOTAL, '') : html;

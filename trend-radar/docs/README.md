@@ -20,9 +20,9 @@ trend_signals (google_trends / gdelt / tmdb, daily collectors)
   -> v_trend_radar (view): trend_forecasts WHERE status='active' AND not expired, ranked by
      rank_score = p_rise * (hit_rate - base_rate), LIMIT 30
   -> labs-api action="trend-radar" (this WO): joins trope/lane ids to ref_tropes/ref_subgenres
-     display_name (never a raw id), splits free (top 10, no lift/evidence) vs member (full
+     display_name (never a raw id), splits open (top 10, no lift/evidence) vs member (full
      list + lift + evidence[] + backtest headline), 60s in-module cache
-  -> /trend-radar/ on tropesmith.com: client-side fetch, renders the free board always,
+  -> /trend-radar/ on tropesmith.com: client-side fetch, renders the open board always,
      unlocks the member panel on a verified-entitled email
 ```
 
