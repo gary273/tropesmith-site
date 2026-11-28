@@ -68,6 +68,18 @@ fbq('init','1319927140123427');fbq('init','1834142944697507');fbq('track','PageV
   .credit-banner-cta { background: #fff; color: #C23A5B; border-radius: 10px; padding: 10px 18px; font-weight: 700; white-space: nowrap; }
   @media (max-width: 640px) { .credit-banner { padding: 16px; } .credit-banner-cta { width: 100%; text-align: center; } }
 
+  .billing-section { margin-top: 36px; }
+  .billing-section h2 { font-family: var(--ts-serif); font-size: 1.5rem; font-weight: 700; color: var(--ts-ink); margin: 0 0 8px 0; }
+  .billing-lede { color: var(--ts-ink-soft); font-size: 0.95rem; margin: 0 0 16px 0; }
+  .billing-note { background: rgba(184,134,11,0.10); border: 1px solid rgba(184,134,11,0.30); border-radius: 10px; padding: 10px 16px; margin-bottom: 14px; color: var(--ts-ink); font-size: 0.92rem; }
+  .billing-actions { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-bottom: 18px; }
+  .billing-help { color: var(--ts-grad-start); font-weight: 600; text-decoration: none; font-size: 0.92rem; }
+  .order-row { gap: 14px; flex-wrap: wrap; }
+  .order-amount { font-weight: 700; color: var(--ts-ink); white-space: nowrap; }
+  .order-receipt { color: var(--ts-grad-start); font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .billing-more { margin-top: 14px; }
+  .order-side { display: flex; align-items: center; gap: 16px; }
+  @media (max-width: 640px) { .order-side { width: 100%; justify-content: space-between; } }
   .empty-state { background: #fff; border: 1px dashed rgba(26,18,8,0.15); border-radius: 12px; padding: 40px 24px; text-align: center; color: var(--ts-ink-soft); }
   .empty-state h3 { font-family: var(--ts-serif); color: var(--ts-ink); margin: 0 0 8px 0; }
 </style>
@@ -169,6 +181,22 @@ fbq('init','1319927140123427');fbq('init','1834142944697507');fbq('track','PageV
       <h3>No Maps yet</h3>
       <p>Once you build your first Map, it'll appear here.</p>
       <a href="../intake/" class="btn btn-primary btn-lg" style="margin-top:14px">Build my first Map <span class="arrow">→</span></a>
+    </div>
+
+    <div class="billing-section" id="billing-section" style="display:none">
+      <h2>Billing</h2>
+      <p class="billing-lede">Your subscription and your purchases, in one place. Need a hand? <a class="billing-help" href="/help/billing/">Read the billing guide</a>.</p>
+      <div class="billing-note" id="billing-portal-error" role="alert" style="display:none">We could not open the billing page just now. Please try again, or email <!--email_off--><a href="mailto:support@tropesmith.com">support@tropesmith.com</a><!--/email_off-->.</div>
+      <div class="billing-actions" id="billing-actions" style="display:none">
+        <a id="billing-manage-link" class="btn btn-primary btn-sm" href="/api/functions/v1/billing-portal">Manage subscription</a>
+        <span class="map-row-meta">Update your card, see your next charge and past invoices, or cancel.</span>
+      </div>
+      <div id="orders-list"></div>
+      <div class="billing-note" id="orders-more-error" role="alert" style="display:none">We could not load older orders just now. The orders above are still shown.</div>
+      <div class="billing-more" id="orders-more-wrap" style="display:none"><button type="button" class="btn btn-sm" id="orders-more">Show older orders</button></div>
+      <div class="empty-state" id="orders-empty" style="display:none">
+        <p style="margin:0">No purchases to show yet. Receipts for credit packs and Maps will appear here.</p>
+      </div>
     </div>
 
   </div>
@@ -291,6 +319,73 @@ fbq('init','1319927140123427');fbq('init','1834142944697507');fbq('track','PageV
     return { groups: groups, order: order };
   }
 
+  // TS-1128: Billing section. Built with textContent only; the link is accepted only if it is an https
+  // URL on a host Stripe really uses (pay.stripe.com receipts, invoice.stripe.com hosted invoices).
+  // The list comes from /library/billing (own paid orders, session-scoped).
+  var STRIPE_LINK_HOSTS = { 'pay.stripe.com': 'View receipt', 'invoice.stripe.com': 'View invoice' };
+  function stripeLinkLabel(v) {
+    if (typeof v !== 'string') return null;
+    try {
+      var u = new URL(v);
+      if (u.protocol !== 'https:' || u.username || u.password || u.port) return null;
+      return Object.prototype.hasOwnProperty.call(STRIPE_LINK_HOSTS, u.hostname) ? STRIPE_LINK_HOSTS[u.hostname] : null;
+    } catch (e) { return null; }
+  }
+  function fmtMoney(cents, currency) {
+    if (typeof cents !== 'number') return '';
+    try { return new Intl.NumberFormat('en-US', { style: 'currency', currency: (currency || 'usd').toUpperCase() }).format(cents / 100); }
+    catch (e) { return (cents / 100).toFixed(2); }
+  }
+  function renderOrderRow(o) {
+    var row = document.createElement('div');
+    row.className = 'map-row order-row';
+    var main = document.createElement('div'); main.className = 'map-row-main';
+    var t = document.createElement('div'); t.className = 'map-row-title'; t.textContent = o.product_name || 'Tropesmith purchase';
+    var meta = document.createElement('div'); meta.className = 'map-row-meta'; meta.textContent = fmtDate(o.date);
+    main.appendChild(t); main.appendChild(meta);
+    var side = document.createElement('div'); side.className = 'order-side';
+    var amt = document.createElement('span'); amt.className = 'order-amount'; amt.textContent = o.no_charge === true ? 'No charge' : fmtMoney(o.amount_cents, o.currency);
+    side.appendChild(amt);
+    var label = o.no_charge === true ? null : stripeLinkLabel(o.receipt_url);
+    if (label) {
+      var a = document.createElement('a'); a.className = 'order-receipt'; a.href = new URL(o.receipt_url).href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = label;
+      side.appendChild(a);
+    }
+    row.appendChild(main); row.appendChild(side);
+    return row;
+  }
+  function showBilling(hasLiveSub) {
+    document.getElementById('billing-section').style.display = 'block';
+    if (hasLiveSub) document.getElementById('billing-actions').style.display = 'flex';
+    if (new URLSearchParams(window.location.search).get('portal_error')) document.getElementById('billing-portal-error').style.display = 'block';
+    var list = document.getElementById('orders-list');
+    var moreWrap = document.getElementById('orders-more-wrap'), moreBtn = document.getElementById('orders-more'), moreErr = document.getElementById('orders-more-error');
+    var MAX_PAGE = 200; // the API treats a page above 200 as page 0, so never ask for one
+    var nextPage = 1, busy = false;
+    function loadPage(page, isFirst) {
+      busy = true; moreBtn.disabled = true; moreErr.style.display = 'none';
+      return fetch(SUPABASE_URL + '/functions/v1/library/billing?page=' + page, { credentials: 'include' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          var orders = (d && d.ok && Array.isArray(d.orders)) ? d.orders : null;
+          if (!orders) throw new Error('bad page');
+          if (isFirst && orders.length === 0) { if (!hasLiveSub) document.getElementById('orders-empty').style.display = 'block'; return; }
+          orders.forEach(function (o) { list.appendChild(renderOrderRow(o)); });
+          nextPage = page + 1;
+          moreBtn.textContent = 'Show older orders';
+          moreWrap.style.display = (d.has_more === true && nextPage <= MAX_PAGE) ? 'block' : 'none';
+        })
+        .catch(function () {
+          // keep every row already shown; first page: show nothing rather than a wrong list; later pages: offer a retry
+          if (isFirst) return;
+          moreErr.style.display = 'block'; moreBtn.textContent = 'Try again'; moreWrap.style.display = 'block';
+        })
+        .then(function () { busy = false; moreBtn.disabled = false; });
+    }
+    moreBtn.addEventListener('click', function () { if (!busy) loadPage(nextPage, false); });
+    loadPage(0, true);
+  }
+
   var creditBalance = 0;
   fetch(SUPABASE_URL + '/functions/v1/library/me', { credentials: 'include' })
     .then(resp => {
@@ -302,9 +397,12 @@ fbq('init','1319927140123427');fbq('init','1834142944697507');fbq('track','PageV
       try { window.sessionStorage.removeItem('tsm_nav_anon_until'); } catch (e) { /* storage unavailable */ }
       var name = nameFromEmail(data.email);
       greetH.innerHTML = 'Hi <span class="grad-text">' + name + '.</span>';
-      if (data.subscription && (data.subscription.status === 'active' || data.subscription.status === 'past_due') && data.subscription.product_id === 'live_board_monthly') {
+      // TS-1128: any live subscription, whatever the product (the function already prefers a live one).
+      var hasLiveSub = !!(data.subscription && (data.subscription.status === 'active' || data.subscription.status === 'past_due'));
+      if (hasLiveSub) {
         manageSubLink.style.display = '';
       }
+      showBilling(hasLiveSub);
       var mapCount = data.delivered_map_count || 0;
       var credits = data.credit_balance || 0;
       creditBalance = credits;
