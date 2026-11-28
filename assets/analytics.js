@@ -66,6 +66,17 @@
   }
   window.tsTrack = track;
 
+  // --- PostHog click/checkout events (TS-1128). Same consent as the pageviews: nothing is sent
+  // unless the visitor accepted AND the page's PostHog snippet loaded (it does not load on sign-in,
+  // intake, order or token pages). Callers pass a product id and a quantity only.
+  window.tsPh = function (name, productId, quantity) {
+    try {
+      if (readConsent() !== 'granted') return;
+      var ph = window.posthog;
+      if (ph && ph.capture) ph.capture(name, { product_id: String(productId), quantity: quantity || 1 }, { transport: 'sendBeacon' });
+    } catch (e) { /* analytics must never break a checkout */ }
+  };
+
   // --- Auto-wired conversion events (page-based, markup-agnostic) ---
   var conversionsWired = false;
   function wireConversions() {

@@ -127,6 +127,8 @@
       mountEl = modalEl.querySelector('#ts-checkout-mount');
     }
 
+    if (window.tsPh) window.tsPh('add_to_cart', productId, quantityOpt);
+
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const unlockMapId = mapIdOpt || urlParams.get('unlock') || undefined;
@@ -166,6 +168,7 @@
       if (activeCheckout) { try { activeCheckout.destroy(); } catch (_) {} }
       activeCheckout = checkout;
       checkout.mount('#ts-checkout-mount');
+      if (window.tsPh) window.tsPh('begin_checkout', productId, quantityOpt);
 
       if (modalEl) modalEl.style.display = 'flex';
     } catch (err) {
