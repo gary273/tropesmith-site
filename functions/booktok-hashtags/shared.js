@@ -146,7 +146,7 @@ function embedBlock(lane) {
 	const q = lane ? '?lane=' + encodeURIComponent(lane) : '';
 	const snip = `<div id="tropesmith-booktok-tags"></div>\n<script src="${SITE}/embed/booktok-tags.js${q}" async></script>`;
 	return `<h2>Put this on your own site</h2>
-<p class="note">Free to embed anywhere. The widget keeps a visible &ldquo;Data: Tropesmith&rdquo; credit link back to tropesmith.com &mdash; that link is the licence, and it is rendered into the payload server-side so it cannot be shipped without it.</p>
+<p class="note">Embed it anywhere. The widget keeps a visible &ldquo;Data: Tropesmith&rdquo; credit link back to tropesmith.com &mdash; that link is the licence, and it is rendered into the payload server-side so it cannot be shipped without it.</p>
 <pre class="embed">${esc(snip)}</pre>`;
 }
 
@@ -187,7 +187,7 @@ function indexPage() {
 			name: 'BookTok Hashtag Picker',
 			url: canonical,
 			description:
-				'Free tool: ' + META.hashtags + ' BookTok hashtags, ranked by their share of the on-tag BookTok videos we sampled in a dated scan, so you can pick hashtags on measured activity instead of on guesswork.',
+				'Tool: ' + META.hashtags + ' BookTok hashtags, ranked by their share of the on-tag BookTok videos we sampled in a dated scan, so you can pick hashtags on measured activity instead of on guesswork.',
 			featureList: [
 				'Share of on-tag BookTok videos sampled for every ranked hashtag',
 				'On-tag videos in the scan (a sample of the tag page, not a count of videos using the hashtag)',
@@ -221,12 +221,12 @@ function indexPage() {
 	return (
 		head(
 			'BookTok Hashtag Picker - which hashtags carry the most book activity | Tropesmith',
-			N_SHOWN + ' ranked BookTok hashtags (of ' + N_SCANNED + ' scanned), ranked by their share of the on-tag BookTok videos we sampled in a dated scan: pick hashtags on measured activity, not on guesswork. Free, no sign-up.',
+			N_SHOWN + ' ranked BookTok hashtags (of ' + N_SCANNED + ' scanned), ranked by their share of the on-tag BookTok videos we sampled in a dated scan: pick hashtags on measured activity, not on guesswork. No sign-up.',
 			canonical,
 			ld
 		) +
 		`<div class="wrap">
-<div class="eyebrow">Free tool &middot; Dated snapshot &middot; No account</div>
+<div class="eyebrow">Tool &middot; Dated snapshot &middot; No account</div>
 <h1>BookTok Hashtag Picker</h1>
 <p class="lede">Everyone tells authors to &ldquo;use BookTok hashtags&rdquo;. Nobody tells them which ones are full of actual book content. We scan book hashtags and, for each one, count the videos in our sample that are really on that hashtag &mdash; then rank each hashtag by its share of all the on-tag videos we sampled, so you can see which tags carry the most BookTok activity as a measured number instead of folklore. ${num(N_SCANNED)} hashtags have been scanned; the ${num(N_SHOWN)} ranked below have a scan from the on-tag filter that began on 6 October 2026, and older scans are shown with their date but not ranked. Every figure below is a snapshot with its own scan date.</p>
 <div class="grid">
@@ -267,7 +267,7 @@ function lanePage(lane) {
 		(bestClean
 			? ', led by #' + best[H] + (shared ? ' with ' + pct(best[LSH]) + ' of the on-tag BookTok videos we sampled for the lane' : ' (' + best[VIDS] + ' on-tag videos sampled)') + ', scanned ' + best[ON]
 			: ', none yet with a ranked scan (scans from 6 October 2026 onwards)') +
-		'. Measured, dated, free.';
+		'. Measured, dated.';
 
 	const ld = [
 		app({
@@ -298,7 +298,7 @@ function lanePage(lane) {
 	return (
 		head(name + ' BookTok hashtags - share of on-tag activity | Tropesmith', desc, canonical, ld) +
 		`<div class="wrap">
-<div class="eyebrow">Free tool &middot; Dated snapshot &middot; No account</div>
+<div class="eyebrow">Tool &middot; Dated snapshot &middot; No account</div>
 <h1>${esc(name)} &mdash; BookTok hashtags, measured</h1>
 <p class="lede">${esc(desc)}</p>
 <div class="grid">

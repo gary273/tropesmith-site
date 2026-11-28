@@ -6,7 +6,7 @@ public page — end price is Gary's (PRICING SPLIT, 08-30).
 ## What it does
 
 Forecasts which tropes reader search interest is about to move on, ahead of that demand showing
-up anywhere else in the Tropesmith corpus. Free tier: top-10 active forecasts, refreshed
+up anywhere else in the Tropesmith corpus. Open tier: top-10 active forecasts, refreshed
 continuously, trope + rise label + lead time + confidence, no signup. Member tier: the full
 active radar, the measured lift per forecast, the evidence line behind it (signal type, date,
 strength), TMDB-adaptation attribution when present, and the current whole-year backtest

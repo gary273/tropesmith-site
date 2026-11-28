@@ -228,7 +228,7 @@ ${ld.map((o) => '<script type="application/ld+json">' + JSON.stringify(o) + '</s
 <style>${CSS}</style>${TS_PH_TAG}</head><body>
 <div class="topnav"><div class="in">
 <a href="/"><img src="https://r2-media-server.plotprose-scraper.workers.dev/tropesmith-assets/logo-header.png" alt="Tropesmith"></a>
-<nav><a href="/free-tools/">Free tools</a><a href="/trending/">Trope check</a><a href="/reader-demand/">Demand Signals</a><a href="/pricing/">Pricing</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
+<nav><a href="/free-tools/">Tools</a><a href="/trending/">Trope check</a><a href="/reader-demand/">Demand Signals</a><a href="/pricing/">Pricing</a><a class="cta" href="/intake/">Build my Map &rarr;</a></nav>
 </div></div>`;
 }
 
@@ -280,7 +280,7 @@ footer.chgf .chgf-in{padding-left:18px;padding-right:18px}
 footer.chgf .chgf-top{grid-template-columns:1fr;gap:28px;padding-top:32px;padding-bottom:24px}
 footer.chgf .chgf-cols{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 18px}
 footer.chgf .chgf-legal .chgf-in{flex-direction:column}
-}footer.chgf .chgf-grp{background:var(--band);border-top:1px solid var(--rule)}footer.chgf .chgf-grp .chgf-in{padding-top:8px;padding-bottom:8px}footer.chgf .chgf-gn{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:0 18px}footer.chgf .chgf-gt{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}footer.chgf .chgf-gn ul{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:0 2px;margin:0;padding:0}footer.chgf .chgf-gn li{margin:0;padding:0}footer.chgf .chgf-gn a{display:inline-flex;align-items:center;min-height:44px;padding:0 9px;font-size:13.5px;font-weight:600;color:var(--ink)}footer.chgf .chgf-gn a[aria-current]{color:var(--acc)}@container chgf (max-width:760px){footer.chgf .chgf-gt{flex:1 0 100%;text-align:center;padding-top:6px}}</style><footer class="chgf" style="--acc:#B0305F"><div class="chgf-in chgf-top"><div class="chgf-brand"><a class="chgf-logo" href="/"><img src="https://coralhart.com/cdn/coral-group/tropesmith.png" alt="TropeSmith" style="height:56px" height="56"></a><p class="chgf-blurb">Market intelligence for romance authors. We read the readers so you can write the book.</p><div class="chgf-soc"><a href="https://www.facebook.com/1127938723743976" target="_blank" rel="noopener" aria-label="TropeSmith on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46H15.2c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/tropesmith/" target="_blank" rel="noopener" aria-label="TropeSmith on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.58 0 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58 0-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s0-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zm0 4.86a4.94 4.94 0 1 0 0 9.88 4.94 4.94 0 0 0 0-9.88zm0 8.15a3.21 3.21 0 1 1 0-6.42 3.21 3.21 0 0 1 0 6.42zm5.13-9.5a1.15 1.15 0 1 0 0 2.3 1.15 1.15 0 0 0 0-2.3z"/></svg></a></div></div><div class="chgf-cols" role="navigation" style="--n:4" aria-label="TropeSmith footer"><div class="chgf-col"><h4>Product</h4><ul><li><a href="/how-it-works/">How it works</a></li><li><a href="/sample/">Sample Maps</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/intake/">Build my Map</a></li></ul></div><div class="chgf-col"><h4>Free tools</h4><ul><li><a href="/lane-score/">Lane Score</a></li><li><a href="/trope-demand/">Trope Demand</a></li><li><a href="/trope-pairs/">Trope Pairs</a></li><li><a href="/trend-radar/">Trend Radar</a></li><li><a href="/finder/">Opportunity Finder</a></li><li><a href="/trope-research-tool/">Trope research tool</a></li><li><a href="/free-tools/">All twelve</a></li></ul></div><div class="chgf-col"><h4>Read</h4><ul><li><a href="/romance-tropes/">Romance tropes</a></li><li><a href="/booktok-books/">BookTok books</a></li><li><a href="/market/">Market snapshots</a></li><li><a href="/blog/">Blog</a></li><li><a href="/tropesmith-review/">TropeSmith review</a></li></ul></div><div class="chgf-col"><h4>Company</h4><ul><li><!--email_off--><a href="mailto:support@tropesmith.com">Contact</a><!--/email_off--></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div></div></div><div class="chgf-grp"><div class="chgf-in"><nav class="chgf-gn" aria-label="The Coral Hart Group"><span class="chgf-gt">The Coral Hart Group</span><ul><li><a href="https://coralhart.com/" target="_blank" rel="noopener">Coral Hart</a></li><li><a href="https://plotprose.com/" target="_blank" rel="noopener">PlotProse</a></li><li><a href="https://perfectyearhq.com/" target="_blank" rel="noopener">Perfect Year</a></li><li><a href="https://tropesmith.com/" aria-current="page">TropeSmith</a></li><li><a href="https://bookadpack.com/" target="_blank" rel="noopener">BookAdPack</a></li><li><a href="https://authorsstarport.com/" target="_blank" rel="noopener">Authors Starport</a></li><li><a href="https://coralwire.ai/" target="_blank" rel="noopener">Coral Wire</a></li><li><a href="https://authorythm.ai/" target="_blank" rel="noopener">Authorythm</a></li></ul></nav></div></div><div class="chgf-legal"><div class="chgf-in"><div><span>&copy; 2026 TropeSmith &middot; a Coral Hart Group company</span></div><div class="chgf-ll" role="navigation" aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div></div></div></footer><script src="/chg-deals-promo.js" defer data-site="tropesmith" data-popup="on" data-nav="header.desk-header nav.desk-nav, .topnav nav" data-push="#desk-header" data-no-popup="(checkout|[/]cart|[/]basket|[/]pay(ment)?s?(?![a-z0-9_])|order|login|log-in|sign-?in|account|[/]hq(?![a-z0-9_])|[/]app(?![a-z0-9_])|classroom|[/]tools?(?![a-z0-9_])|dashboard|[/]studio(?![a-z0-9_])|^[/](pricing|find-your-lane|intake)(?![a-z0-9_-]))"></script></body></html>`;
+}footer.chgf .chgf-grp{background:var(--band);border-top:1px solid var(--rule)}footer.chgf .chgf-grp .chgf-in{padding-top:8px;padding-bottom:8px}footer.chgf .chgf-gn{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:0 18px}footer.chgf .chgf-gt{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}footer.chgf .chgf-gn ul{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:0 2px;margin:0;padding:0}footer.chgf .chgf-gn li{margin:0;padding:0}footer.chgf .chgf-gn a{display:inline-flex;align-items:center;min-height:44px;padding:0 9px;font-size:13.5px;font-weight:600;color:var(--ink)}footer.chgf .chgf-gn a[aria-current]{color:var(--acc)}@container chgf (max-width:760px){footer.chgf .chgf-gt{flex:1 0 100%;text-align:center;padding-top:6px}}</style><footer class="chgf" style="--acc:#B0305F"><div class="chgf-in chgf-top"><div class="chgf-brand"><a class="chgf-logo" href="/"><img src="https://coralhart.com/cdn/coral-group/tropesmith.png" alt="TropeSmith" style="height:56px" height="56"></a><p class="chgf-blurb">Market intelligence for romance authors. We read the readers so you can write the book.</p><div class="chgf-soc"><a href="https://www.facebook.com/1127938723743976" target="_blank" rel="noopener" aria-label="TropeSmith on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46H15.2c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/tropesmith/" target="_blank" rel="noopener" aria-label="TropeSmith on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.58 0 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58 0-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s0-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zm0 4.86a4.94 4.94 0 1 0 0 9.88 4.94 4.94 0 0 0 0-9.88zm0 8.15a3.21 3.21 0 1 1 0-6.42 3.21 3.21 0 0 1 0 6.42zm5.13-9.5a1.15 1.15 0 1 0 0 2.3 1.15 1.15 0 0 0 0-2.3z"/></svg></a></div></div><div class="chgf-cols" role="navigation" style="--n:4" aria-label="TropeSmith footer"><div class="chgf-col"><h4>Product</h4><ul><li><a href="/how-it-works/">How it works</a></li><li><a href="/sample/">Sample Maps</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/intake/">Build my Map</a></li></ul></div><div class="chgf-col"><h4>Tools</h4><ul><li><a href="/lane-score/">Lane Score</a></li><li><a href="/trope-demand/">Trope Demand</a></li><li><a href="/trope-pairs/">Trope Pairs</a></li><li><a href="/trend-radar/">Trend Radar</a></li><li><a href="/finder/">Opportunity Finder</a></li><li><a href="/trope-research-tool/">Trope research tool</a></li><li><a href="/free-tools/">All twelve</a></li></ul></div><div class="chgf-col"><h4>Read</h4><ul><li><a href="/romance-tropes/">Romance tropes</a></li><li><a href="/booktok-books/">BookTok books</a></li><li><a href="/market/">Market snapshots</a></li><li><a href="/blog/">Blog</a></li><li><a href="/tropesmith-review/">TropeSmith review</a></li></ul></div><div class="chgf-col"><h4>Company</h4><ul><li><!--email_off--><a href="mailto:support@tropesmith.com">Contact</a><!--/email_off--></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div></div></div><div class="chgf-grp"><div class="chgf-in"><nav class="chgf-gn" aria-label="The Coral Hart Group"><span class="chgf-gt">The Coral Hart Group</span><ul><li><a href="https://coralhart.com/" target="_blank" rel="noopener">Coral Hart</a></li><li><a href="https://plotprose.com/" target="_blank" rel="noopener">PlotProse</a></li><li><a href="https://perfectyearhq.com/" target="_blank" rel="noopener">Perfect Year</a></li><li><a href="https://tropesmith.com/" aria-current="page">TropeSmith</a></li><li><a href="https://bookadpack.com/" target="_blank" rel="noopener">BookAdPack</a></li><li><a href="https://authorsstarport.com/" target="_blank" rel="noopener">Authors Starport</a></li><li><a href="https://coralwire.ai/" target="_blank" rel="noopener">Coral Wire</a></li><li><a href="https://authorythm.ai/" target="_blank" rel="noopener">Authorythm</a></li></ul></nav></div></div><div class="chgf-legal"><div class="chgf-in"><div><span>&copy; 2026 TropeSmith &middot; a Coral Hart Group company</span></div><div class="chgf-ll" role="navigation" aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div></div></div></footer><script src="/chg-deals-promo.js" defer data-site="tropesmith" data-popup="on" data-nav="header.desk-header nav.desk-nav, .topnav nav" data-push="#desk-header" data-no-popup="(checkout|[/]cart|[/]basket|[/]pay(ment)?s?(?![a-z0-9_])|order|login|log-in|sign-?in|account|[/]hq(?![a-z0-9_])|[/]app(?![a-z0-9_])|classroom|[/]tools?(?![a-z0-9_])|dashboard|[/]studio(?![a-z0-9_])|^[/](pricing|find-your-lane|intake)(?![a-z0-9_-]))"></script></body></html>`;
 }
 
 /* SEO plan 2026-10-16: lanes whose trope has its own page link up to it (the lane-score pages were orphans of the trope pages). */
@@ -301,13 +301,13 @@ function tropeLink(lane) {
 }
 
 function tieBack(extra) {
-	return `<h2>Keep going &mdash; free</h2>
+	return `<h2>Keep going</h2>
 <ul>
 ${extra || ''}
 <li><a href="/romance-tropes/">Romance tropes list</a> &mdash; every romance trope, ranked by demand signals, each with its own page.</li>
-<li><a href="/free-tools/">Every free Tropesmith tool</a> &mdash; trope opportunity check, demand signals, category &amp; rank checker, lane scores, sample maps.</li>
+<li><a href="/free-tools/">Every Tropesmith tool</a> &mdash; trope opportunity check, demand signals, category &amp; rank checker, lane scores, sample maps.</li>
 <li><a href="${REPORT}">The 2026 Romance Demand Report</a> &mdash; the full year&rsquo;s read on which tropes romance readers named, from the same engine.</li>
-<li><a href="/trending/">Free Romance Trope Opportunity Check</a> &mdash; the tropes with the most demand signals in this lane's latest trend-table month.</li>
+<li><a href="/trending/">Romance Trope Opportunity Check</a> &mdash; the tropes with the most demand signals in this lane's latest trend-table month.</li>
 <li><a href="/reader-demand/">Demand signals by subgenre</a> &mdash; which tropes readers actually name.</li>
 <li><a href="/trope-demand/">Trope Demand Checker</a> &mdash; pick a genre and a trope, see the counted conversation volume.</li>
 </ul>`;
@@ -316,7 +316,7 @@ ${extra || ''}
 function embedBlock(lane) {
 	const snip = `<div id="tropesmith-live-board"></div>\n<script src="${SITE}/embed/live-board.js?lane=${encodeURIComponent(lane)}" async></script>`;
 	return `<h2>Embed this on your site</h2>
-<p class="note">Free to use on any site, newsletter template or author blog. The widget renders live from the Tropesmith engine and must keep its visible &ldquo;Data: Tropesmith&rdquo; credit link &mdash; that attribution link back to tropesmith.com is the licence.</p>
+<p class="note">Use it on any site, newsletter template or author blog. The widget renders live from the Tropesmith engine and must keep its visible &ldquo;Data: Tropesmith&rdquo; credit link &mdash; that attribution link back to tropesmith.com is the licence.</p>
 <pre class="embed">${esc(snip)}</pre>
 <p style="font-size:14px">Prefer an iframe? <code>&lt;iframe src="${esc(SITE + '/embed/live-board?lane=' + encodeURIComponent(lane))}" width="100%" height="320" style="border:0" loading="lazy" title="Tropesmith live lane board"&gt;&lt;/iframe&gt;</code></p>`;
 }
@@ -399,7 +399,7 @@ function indexPage(stats) {
 			'@type': 'BreadcrumbList',
 			itemListElement: [
 				{ '@type': 'ListItem', position: 1, name: 'Tropesmith', item: SITE + '/' },
-				{ '@type': 'ListItem', position: 2, name: 'Free tools', item: SITE + '/free-tools/' },
+				{ '@type': 'ListItem', position: 2, name: 'Tools', item: SITE + '/free-tools/' },
 				{ '@type': 'ListItem', position: 3, name: 'Lane Score', item: canonical }
 			]
 		}
@@ -407,13 +407,13 @@ function indexPage(stats) {
 	const s = stats || {};
 	return (
 		head(
-			'Free Lane Score — is your subgenre worth writing? | Tropesmith',
-			'Free lane score for ' + covered.length + ' fiction subgenres: opportunity rank, greenlight band, typical price, Kindle Unlimited share and demand signals logged in 30 days — from the Tropesmith engine.',
+			'Lane Score — is your subgenre worth writing? | Tropesmith',
+			'Lane score for ' + covered.length + ' fiction subgenres: opportunity rank, greenlight band, typical price, Kindle Unlimited share and demand signals logged in 30 days — from the Tropesmith engine.',
 			canonical,
 			ld
 		) +
 		`<div class="wrap">
-<div class="eyebrow">Free tool &middot; Engine data, refreshed daily &middot; No card needed</div>
+<div class="eyebrow">Tool &middot; Engine data, refreshed daily &middot; No card needed</div>
 <h1>Lane Score &mdash; is this subgenre worth writing?</h1>
 <p class="lede">One number per lane, built from what readers are actually doing. Pick a lane below and you get its opportunity score and rank, the greenlight band, the money shape of the lane (typical price, Kindle Unlimited share, 30-day demand), the heat level readers expect, and the length and series shape that sell there.</p>
 <div class="grid">
@@ -477,7 +477,7 @@ function lanePage(lane, name, d, stats, hasMarket) {
 		(o.score != null ? 'opportunity ' + o.score + '/100' + (o.rank ? ' (rank ' + o.rank + ' of ' + o.of + ')' : '') : 'live opportunity read') +
 		(g.band ? ', greenlight band ' + g.band : '') +
 		(e.demand_30d != null ? ', ' + num(e.demand_30d) + ' demand signals logged in the last 30 days' : '') +
-		'. Free, no sign-up.';
+		'. No sign-up.';
 
 	const ld = [
 		{
@@ -531,7 +531,7 @@ function lanePage(lane, name, d, stats, hasMarket) {
 			'@type': 'BreadcrumbList',
 			itemListElement: [
 				{ '@type': 'ListItem', position: 1, name: 'Tropesmith', item: SITE + '/' },
-				{ '@type': 'ListItem', position: 2, name: 'Free tools', item: SITE + '/free-tools/' },
+				{ '@type': 'ListItem', position: 2, name: 'Tools', item: SITE + '/free-tools/' },
 				{ '@type': 'ListItem', position: 3, name: 'Lane Score', item: SITE + '/lane-score/' },
 				{ '@type': 'ListItem', position: 4, name: name, item: canonical }
 			]
@@ -589,9 +589,9 @@ function lanePage(lane, name, d, stats, hasMarket) {
 	}
 
 	return (
-		head(name + ' — free lane score & market data | Tropesmith', desc, canonical, ld) +
+		head(name + ' — lane score & market data | Tropesmith', desc, canonical, ld) +
 		`<div class="wrap">
-<div class="eyebrow">Free tool &middot; Engine data, refreshed daily &middot; No card needed</div>
+<div class="eyebrow">Tool &middot; Engine data, refreshed daily &middot; No card needed</div>
 <h1>${esc(name)} &mdash; lane score</h1>
 <p class="lede">${esc(desc)}</p>
 <div class="grid">${cells.join('')}</div>

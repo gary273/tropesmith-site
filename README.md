@@ -35,11 +35,11 @@ Then call:
   Tropesmith.submitIntake({email, subgenre, heat_level, format})
   Tropesmith.pollMapStatus(mapId, {onUpdate: fn})
 
-## Free tools (functions/)
+## Tools (functions/)
 
 Pages Functions, not static HTML -- server-rendered per request from data baked into the
 Function bundle at generator-refresh time (see /root/in0790-gen, `tropesmith-generators.service`).
-Each free tool lives in its own `functions/<slug>/` with `shared.js` (render), `data.js` (baked
+Each tool lives in its own `functions/<slug>/` with `shared.js` (render), `data.js` (baked
 counts) and usually `[[path]].js` (route). All of them import `functions/_gen/chrome.js` for the
 shared header/footer/`tieBack()` cross-link block -- edit that file to change a link across every
 tool at once, not each shared.js individually.
@@ -52,7 +52,7 @@ tool at once, not each shared.js individually.
                             /root/ts0576/TOOL-BUILD-DOCTRINE.md.
   functions/trope-pairs/, booktok-hashtags/, lane-score/, pulse/, reader-demand/, market/,
   hook-lab/, rejection-radar/, trending/, embed/, category-checker/
-                            The other 11 free tools (IN-0797). Same `_gen/chrome.js` pattern;
+                            The other 11 tools (IN-0797). Same `_gen/chrome.js` pattern;
                             no per-tool README entries yet -- gap, not scope for TS-0576.
 
 ## Product IDs

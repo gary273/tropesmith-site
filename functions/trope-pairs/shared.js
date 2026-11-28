@@ -96,7 +96,7 @@ function laneDataset(lane, rows) {
 function embedBlock(lane) {
 	const snip = `<div id="tropesmith-trope-pairs"></div>\n<script src="${SITE}/embed/trope-pairs.js?lane=${encodeURIComponent(lane)}" async></script>`;
 	return `<h2>Put this on your own site</h2>
-<p class="note">Free to embed on any blog, newsletter template or author site. The widget renders the pairing board for this lane and must keep its visible &ldquo;Data: Tropesmith&rdquo; credit link &mdash; that link back to tropesmith.com is the licence, and it is written into the payload server-side so it cannot be shipped without it.</p>
+<p class="note">Embed it on any blog, newsletter template or author site. The widget renders the pairing board for this lane and must keep its visible &ldquo;Data: Tropesmith&rdquo; credit link &mdash; that link back to tropesmith.com is the licence, and it is written into the payload server-side so it cannot be shipped without it.</p>
 <pre class="embed">${esc(snip)}</pre>
 <p style="font-size:14px">Prefer an iframe? <code>&lt;iframe src="${esc(SITE + '/embed/trope-pairs?lane=' + encodeURIComponent(lane))}" width="100%" height="440" style="border:0" loading="lazy" title="Tropesmith trope pairings"&gt;&lt;/iframe&gt;</code></p>`;
 }
@@ -146,7 +146,7 @@ function indexPage() {
 			name: 'Trope Pair Finder',
 			url: canonical,
 			description:
-				'Free tool: for any fiction subgenre, the trope pairings named together in reader reviews, comments and posts and how many titles in our trope-tagged registry carry both - counted demand signals against counted tagged titles.',
+				'Tool: for any fiction subgenre, the trope pairings named together in reader reviews, comments and posts and how many titles in our trope-tagged registry carry both - counted demand signals against counted tagged titles.',
 			featureList: [
 				'Trope pairings ranked by demand signals against tagged titles',
 				'Counted demand signals per pairing, not estimates',
@@ -209,13 +209,13 @@ function indexPage() {
 	return (
 		head(
 			'Trope Pair Finder - trope pairings in reader reviews vs tagged titles | Tropesmith',
-			'Free trope pairing tool: ' + totalPairs + ' trope pairings across ' + LANES.length +
+			'Trope pairing tool: ' + totalPairs + ' trope pairings across ' + LANES.length +
 				' subgenres, each with the counted demand signals naming both tropes together and the counted tagged titles that carry both.',
 			canonical,
 			ld
 		) +
 		`<div class="wrap">
-<div class="eyebrow">Free tool &middot; Counted, not estimated &middot; No account</div>
+<div class="eyebrow">Tool &middot; Counted, not estimated &middot; No account</div>
 <h1>Trope Pair Finder</h1>
 <p class="lede">Readers rarely write about one trope at a time. This puts two counts side by side: how many demand signals in a lane name both tropes together, and how many titles in our trope-tagged registry carry both. A demand signal is one specific thing a reader asked for or praised in a review, comment or post.</p>
 <div class="grid">
@@ -229,7 +229,7 @@ function indexPage() {
 <h2>Pick your lane</h2>
 <ul class="lanes">${LANES.map((l) => `<li><a href="/trope-pairs/${esc(l)}">${esc(laneName(l))}</a> <span style="color:#a39395">&middot; ${PAIRS[l].length}</span></li>`).join('')}</ul>
 ${methodBlock()}
-${tieBack('<li><a href="/trending/">Free Romance Trope Opportunity Check</a> &mdash; single tropes in your lane.</li><li><a href="/booktok-hashtags/">BookTok Hashtag Picker</a> &mdash; book hashtags ranked by share of on-tag BookTok videos.</li>')}
+${tieBack('<li><a href="/trending/">Romance Trope Opportunity Check</a> &mdash; single tropes in your lane.</li><li><a href="/booktok-hashtags/">BookTok Hashtag Picker</a> &mdash; book hashtags ranked by share of on-tag BookTok videos.</li>')}
 <div class="cta-row"><a class="btn" href="/intake/">Build my Map &rarr;</a> &nbsp; <a href="/pricing/">See pricing</a></div>
 </div>` +
 		foot()
@@ -244,7 +244,7 @@ function lanePage(lane) {
 
 	const desc =
 		name + ': ' + rows.length + ' trope pairings named together in reader reviews, comments and posts, each with the counted demand signals in this lane naming both tropes and the counted trope-tagged titles carrying both. ' +
-		(openCount ? openCount + ' have 10 or more demand signals per tagged title. ' : '') + 'Free, no sign-up.';
+		(openCount ? openCount + ' have 10 or more demand signals per tagged title. ' : '') + 'No sign-up.';
 
 	const ld = [
 		app({
@@ -282,7 +282,7 @@ function lanePage(lane) {
 	return (
 		head(name + ' trope pairings - demand signals vs tagged titles | Tropesmith', desc, canonical, ld) +
 		`<div class="wrap">
-<div class="eyebrow">Free tool &middot; Counted, not estimated &middot; No account</div>
+<div class="eyebrow">Tool &middot; Counted, not estimated &middot; No account</div>
 <h1>${esc(name)} &mdash; trope pairings in reader reviews and posts</h1>
 <p class="lede">${esc(desc)}</p>
 <div class="grid">

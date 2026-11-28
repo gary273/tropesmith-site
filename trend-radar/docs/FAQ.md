@@ -14,7 +14,7 @@ is ready?
 
 **I've never written a data-driven book before — do I need to understand the math?**
 No. Every forecast reduces to one line you can act on: a trope name, whether it's rising now or
-rising in N weeks, and a confidence word (low, medium or high). The free board shows exactly
+rising in N weeks, and a confidence word (low, medium or high). The open board shows exactly
 that, nothing else, for the top 10 tropes each week.
 
 **I'm just starting out — should I write straight off the radar?**
@@ -58,8 +58,8 @@ full year of forecasts in order, no hindsight, and checks precision against the 
 rate — a stricter, harder-won number (58% vs. 45% base, 607 forecasts), and the one we'd trust
 to size a real decision.
 
-**What do I get free versus as a member?**
-Free: the top 10 active forecasts, refreshed continuously — trope, rise label, lead time and
+**What do I get on the open board versus as a member?**
+On the open board: the top 10 active forecasts, refreshed continuously — trope, rise label, lead time and
 confidence, no signup required. Members (any active Live Board subscription, or a Map credit
 balance) get the full active radar, the measured lift for every forecast, the evidence line
 behind it, and the current backtest headline.

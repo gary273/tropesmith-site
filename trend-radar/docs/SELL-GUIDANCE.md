@@ -5,7 +5,7 @@ never claim, and the cost floor — no price is proposed here (PRICING SPLIT, Ga
 
 ## Who buys it, per tier
 
-**Beginner author (no backlist, deciding what to write next).** Buys the free tier first — the
+**Beginner author (no backlist, deciding what to write next).** Buys the open tier first — the
 top-10 board is the hook. Converts to membership when they hit the wall of "which of these
 should I actually trust" and want the evidence line + confidence band behind a specific call,
 usually paired with their first Tropesmith Map.
@@ -22,7 +22,7 @@ scheduling input, never a pivot command mid-contract.
 
 ## The pitch per tier
 
-- **Beginner:** "See what readers will be searching for before they do — free, no signup, top
+- **Beginner:** "See what readers will be searching for before they do — no signup, top
   10 refreshed continuously."
 - **Mid-career:** "Know when YOUR lane is about to move, with the actual evidence — not a
   vibe, a measured lead time and a confidence band."
@@ -82,7 +82,7 @@ purely positioning):
 
 **(a) Member-gated inside Live Board $7/mo or Trope Pulse $9/mo, as-is.** Zero new billing work
 — `checkEntitlement()` already grants access to any Live Board subscriber or credit holder. Risk:
-the radar rides for free inside an existing price with no separate signal of its value.
+the radar rides inside an existing price with no separate signal of its value.
 
 **(b) Its own add-on.** New Stripe price, new `app_products` row, new webhook wiring, new
 entitlement branch in `checkEntitlement()` (currently binary pro/not-pro — would need a

@@ -416,12 +416,12 @@ ${adjHtml}
 	const lockedAll = () => `
 <h2 id="full">The rest of this readout</h2>
 <div class="note">
-<p style="margin-top:0"><b>Two more things are free with a Tropesmith account</b>, for ${esc(tn)} in ${esc(ln)}:</p>
+<p style="margin-top:0"><b>Two more things come with a Tropesmith account</b>, for ${esc(tn)} in ${esc(ln)}:</p>
 <ul style="margin:8px 0 14px">
 <li>the tropes readers <b>name alongside it</b> in ${esc(ln)}, with the counts</li>
 <li>the <b>evidence strip for ${esc(ln)}</b>: signals held, signals this week, newest signal, tagging coverage, and when we last recomputed it</li>
 </ul>
-<p><a class="btn" href="/login/?next=${nextArg}">Create a free account</a></p>
+<p><a class="btn" href="/login/?next=${nextArg}">Create an account</a></p>
 <p style="margin-bottom:6px"><b>Two are part of what Tropesmith sells:</b></p>
 <ul style="margin:8px 0 14px">
 <li>the <b>week-by-week table</b> behind the direction above &mdash; part of the <b>Live Board</b></li>
@@ -436,7 +436,7 @@ ${degradedNote}
 		: lockedAll();
 
 	return `<div class="wrap">
-<div class="eyebrow">Free tool &middot; Counted, not estimated &middot; as of ${esc(AS_OF)}</div>
+<div class="eyebrow">Tool &middot; Counted, not estimated &middot; as of ${esc(AS_OF)}</div>
 <h1>${esc(tn)} in ${esc(ln)}</h1>
 <p class="lede">Over the ${WIN.weeks} weeks to ${esc(WIN.to)} we counted <b>${num(mAll)}</b> demand-signal mentions of ${esc(tn)} in ${esc(ln)} &mdash; ${pct(share)} of every trope mention we counted in the lane, ranking it <b>#${hit.rank} of ${hit.of}</b>. ${esc(dir.label)}.</p>
 <div class="grid">${cells}</div>
@@ -505,7 +505,7 @@ function laneBody(lane, notFoundTrope) {
 		})
 		.join('');
 	return `<div class="wrap">
-<div class="eyebrow">Free tool &middot; Counted, not estimated &middot; as of ${esc(AS_OF)}</div>
+<div class="eyebrow">Tool &middot; Counted, not estimated &middot; as of ${esc(AS_OF)}</div>
 <h1>${esc(ln)} &mdash; how often readers mention each trope</h1>
 <p class="lede">Every trope we publish for ${esc(ln)}, ranked by demand-signal mentions counted over the ${WIN.weeks} weeks to ${esc(WIN.to)}. ${num(L.tot)} trope mentions counted in the lane in that window. Pick one for the full readout.</p>
 ${miss}
@@ -539,7 +539,7 @@ function indexBody() {
 	const top = movers.slice(0, 12);
 
 	return `<div class="wrap">
-<div class="eyebrow">Free tool &middot; No card needed &middot; as of ${esc(AS_OF)}</div>
+<div class="eyebrow">Tool &middot; No card needed &middot; as of ${esc(AS_OF)}</div>
 <h1>The Trope Demand Checker</h1>
 <p class="lede">Pick your genre and a trope. We tell you how many times readers mention it, what share of the genre that is, and whether its share of the genre went up or down between the last two twelve-week bands &mdash; counted from ${floorNum(CORPUS.signals_floor)} demand-signal records, not guessed. ${num(CORPUS.readouts)} trope-and-genre readouts across ${num(CORPUS.lanes_published)} genres.</p>
 ${picker(LANE_IDS[0], (laneRows(LANE_IDS[0])[0] || [''])[0])}
@@ -645,7 +645,7 @@ function toolApp(url) {
 		url,
 		name: 'Tropesmith Trope Demand Checker',
 		description:
-			'Free tool: pick a genre and a trope and get the demand-signal mentions Tropesmith has counted for it - mentions, share of the genre, change in share and how many tagged titles already carry it.',
+			'Tool: pick a genre and a trope and get the demand-signal mentions Tropesmith has counted for it - mentions, share of the genre, change in share and how many tagged titles already carry it.',
 		featureList: [
 			'Counted demand-signal mentions for a trope in a genre',
 			'That trope’s share of all trope mentions in the genre',
@@ -748,8 +748,8 @@ export async function handle(context) {
 		];
 		return htmlOut(
 			stageHead(
-				'Free Trope Demand Checker: Mentions by Genre | Tropesmith',
-				'Free tool: pick a genre and a trope and see how many demand signals mention it, its share of the genre and how that share is changing. No card needed.',
+				'Trope Demand Checker: Mentions by Genre | Tropesmith',
+				'Tool: pick a genre and a trope and see how many demand signals mention it, its share of the genre and how that share is changing. No card needed.',
 				canonical, ld, isProd
 			) + indexBody() + foot(),
 			{ noindex }
@@ -781,7 +781,7 @@ export async function handle(context) {
 			stageHead(
 				ln + ' trope demand — how often readers mention each trope | Tropesmith',
 				'Every trope we publish for ' + ln + ', ranked by demand-signal mentions counted over the ' + WIN.weeks +
-					' weeks to ' + WIN.to + ', with share of the genre and change in share. Free.',
+					' weeks to ' + WIN.to + ', with share of the genre and change in share.',
 				canonical, ld, isProd
 			) + laneBody(lane, nfTrope) + foot(),
 			{ noindex }
@@ -816,7 +816,7 @@ export async function handle(context) {
 						gated: true,
 						free_account_required: true,
 						signup: SITE + '/login/?next=' + encodeURIComponent(PATH + '/' + lane + '/' + trope),
-						co_asked_and_lane_evidence: 'free Tropesmith account',
+						co_asked_and_lane_evidence: 'Tropesmith account',
 						week_by_week: 'Live Board subscription',
 						demand_vs_supply: 'a delivered paid Map',
 						pricing: SITE + '/pricing/'
@@ -833,7 +833,7 @@ export async function handle(context) {
 	const desc =
 		num(hit.row[1]).replace(/&mdash;/, '') + ' demand-signal mentions of ' + tropeName(trope) + ' counted in ' + laneName(lane) +
 		' over the ' + WIN.weeks + ' weeks to ' + WIN.to + ' — ' + pct(L.tot ? hit.row[1] / L.tot : 0) +
-		' of the genre, rank #' + hit.rank + ' of ' + hit.of + '. ' + direction(lane, hit.row).label + '. Free, counted, dated.';
+		' of the genre, rank #' + hit.rank + ' of ' + hit.of + '. ' + direction(lane, hit.row).label + '. Counted, dated.';
 
 	return htmlOut(
 		stageHead(tropeName(trope) + ' in ' + laneName(lane) + ' — demand signals | Tropesmith', desc, canonical, ld, isProd) +
