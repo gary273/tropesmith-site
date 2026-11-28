@@ -364,10 +364,11 @@ fbq('init','1319927140123427');fbq('init','1834142944697507');fbq('track','PageV
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ document.getElementById('err').textContent='Enter your email above first.'; return; }
     if(!LASTFIX || !LASTFIX.target){ return; }
     btn.disabled=true; btn.textContent='Taking you to secure checkout…';
+    if(window.tsPh) window.tsPh('add_to_cart','shelfsmith_fixes',1);
     fetch(FIX_CHECKOUT,{method:'POST',headers:{'Content-Type':'application/json','apikey':ANON,'Authorization':'Bearer '+ANON},
       body:JSON.stringify({target:LASTFIX.target, blurb:LASTFIX.blurb, asin:LASTFIX.asin, email:email, partner:LASTFIX.partner})})
       .then(function(r){return r.json();})
-      .then(function(d){ if(d && d.url){ window.location = d.url; } else { btn.disabled=false; btn.textContent='Get the exact fixes — $5 →'; document.getElementById('err').textContent=(d&&d.error)||'Could not start checkout — try again.'; } })
+      .then(function(d){ if(d && d.url){ if(window.tsPh) window.tsPh('begin_checkout','shelfsmith_fixes',1); window.location = d.url; } else { btn.disabled=false; btn.textContent='Get the exact fixes — $5 →'; document.getElementById('err').textContent=(d&&d.error)||'Could not start checkout — try again.'; } })
       .catch(function(){ btn.disabled=false; btn.textContent='Get the exact fixes — $5 →'; document.getElementById('err').textContent='Network error — try again.'; });
   }
 
