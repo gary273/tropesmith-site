@@ -179,3 +179,19 @@
     }
   }
 })();
+
+// TS-1128: every desk-theme page needs the signed-in menu (My library / Sign out). This file is on
+// those pages, including the rebuilt ones, so it loads session-nav.js where a page does not. Not on
+// /verify/: that page is still signing the visitor in.
+(function () {
+  'use strict';
+  function loadSessionNav() {
+    if (!document.getElementById('desk-header') || /^\/verify(\/|$)/.test(window.location.pathname)) return;
+    if (document.querySelector('script[src*="session-nav.js"]')) return;
+    var s = document.createElement('script');
+    s.src = '/assets/session-nav.js?v=20261128';
+    document.head.appendChild(s);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadSessionNav);
+  else loadSessionNav();
+})();

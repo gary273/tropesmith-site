@@ -11,6 +11,8 @@
 // exactly as it was rendered — fail silent, no console noise (site
 // convention, see pricing/index.html's own library/me call).
 (function () {
+  if (window.__tsSessionNav) return;
+  window.__tsSessionNav = true;
   var API = '/api';
 
   function isSignInAnchor(a) {
@@ -20,7 +22,8 @@
   }
 
   function swapNav() {
-    var navs = document.querySelectorAll('.nav-cta');
+    // TS-1128: desk-theme pages hide the old header (.nav-cta), so the visible menu is swapped too.
+    var navs = document.querySelectorAll('.nav-cta, .desk-header nav.desk-nav');
     for (var i = 0; i < navs.length; i++) {
       var nav = navs[i];
       var links = nav.querySelectorAll('a');
@@ -30,16 +33,19 @@
       }
       if (!signInLink) continue;
 
+      var linkClass = signInLink.className.indexOf('btn') === -1 ? '' : 'btn btn-link';
+      var gap = nav.classList.contains('desk-nav') ? '' : '12px';
+
       var myLibrary = document.createElement('a');
-      myLibrary.className = 'btn btn-link';
+      myLibrary.className = linkClass;
       myLibrary.href = '/library/';
-      myLibrary.style.marginRight = '12px';
+      myLibrary.style.marginRight = gap;
       myLibrary.textContent = 'My library';
 
       var signOut = document.createElement('a');
-      signOut.className = 'btn btn-link';
+      signOut.className = linkClass;
       signOut.href = '#';
-      signOut.style.marginRight = '12px';
+      signOut.style.marginRight = gap;
       signOut.textContent = 'Sign out';
       signOut.addEventListener('click', function (e) {
         e.preventDefault();
